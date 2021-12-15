@@ -46,7 +46,7 @@ testem.log
 Thumbs.db
 
 # ENVIRAMENT
-.env
-
+/DB_PHP/.env
 # vendor
 /DB_PHP/vendor/
+/DB_PHP/composer.lock
