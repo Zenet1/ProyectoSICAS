@@ -44,3 +44,9 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# ENVIRAMENT
+.env
+
+# vendor
+/DB_PHP/vendor/
