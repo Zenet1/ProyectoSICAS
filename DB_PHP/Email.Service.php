@@ -1,14 +1,12 @@
 <?php
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\SMTP;
+    use PHPMailer\PHPMailer\Exception;
+    require 'Utileria.php';
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-
-//Load Composer's autoloader
-require 'vendor/autoload.php';
 
 //Create an instance; passing `true` enables exceptions
-$mail = new PHPMailer(true);
+    $mail = new PHPMailer(true);
 
 try {
     //Server settings
@@ -19,7 +17,7 @@ try {
     $mail->Username   = $_ENV['EMAILACCOUNT'];                     //SMTP username
     $mail->Password   = $_ENV['EMAILACCOUNTPASSWORD'];                             //SMTP password
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-    $mail->Port       = $_ENV['EMAILPORT'];                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+    $mail->Port       = $_ENV['EMAILPORT'];                              //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
     $mail->setFrom($_ENV['EMAILACCOUNT'], 'Lince');
@@ -32,7 +30,7 @@ try {
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = 'Doxeado';
-    $mail->Body    = 'This is the HTML message body <b> como mi pichula in bold!</b>';
+    $mail->Body    = 'no se que hago <b> con mi pichula in bold!</b>';
     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
     $mail->send();
