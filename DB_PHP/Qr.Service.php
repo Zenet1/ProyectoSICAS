@@ -26,7 +26,7 @@ try {
 
   // Displaying the stored QR code if you want
   echo "<img src='".$filename."' />";
-  
+
 } catch (Exception $e) {
   echo $e->getMessage();
 }

@@ -50,3 +50,4 @@ Thumbs.db
 # vendor
 /DB_PHP/vendor/
 /DB_PHP/composer.lock
+/DB_PHP/phpqrcode/
