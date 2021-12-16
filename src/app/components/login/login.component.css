@@ -1,0 +1,46 @@
+.container-descripcion{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.wrapper-formulario, .wrapper-externo{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.container-formulario, .container-externo{
+    width: 100%;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+    padding: 1rem;
+}
+
+.container-boton{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-iniciar-sesion, .btn-externo{
+    background-color: #C68D2A;
+    color: white;
+}
+
+.container-externo{
+    text-align: center;
+    flex-direction: column;
+}
+
+@media (min-width:600px){ 
+    .container-formulario, .container-externo{
+        width: 400px;
+    }
+}
+
+
+@media (min-width:1025px) { 
+
+}
