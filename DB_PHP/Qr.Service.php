@@ -1,33 +1,23 @@
 <?php
-require 'Email.Service.php';
-include "phpqrcode/qrlib.php";
+include 'phpqrcode/qrlib.php';
+require "Email.Service.php";
+$text = "Pichulita coquetona";
 
-try {
-  //data to be stored in qr
-  $contenido = "pichula coqueta 123 xd";
-  $dir =  "images/";
+$path = 'img/';
+$file = $path.uniqid().".png";
   
+// $ecc stores error correction capability('L')
+$ecc = 'M';
+$pixel_Size = 10;
+$frame_Size = 10;
+  
+// Generates QR Code and Stores it in directory given
+QRcode::png($text, $file, $ecc, $pixel_Size, $frame_Size);
 
-  if(!file_exists($dir)){
-    mkdir("images");
-    echo "ERROR";
-  } else {
-    echo "EXISTE";
-  }
+$corre = new CorreoManejador();
+$corre->setArchivo(true);
+$corre->EnviarCorreo("eduardzenet@outlook.com","doxeo con png","pichulin pichulon", $file);
 
-  $filename = $dir."Test.png";
-
-  $level = 'H';
-  $tamaño = 10;
-  $frame_size = 5;
-
-  // Generates QR Code and Save as PNG
-  QRcode::png($contenido, $filename, $level, $tamaño, $frame_size);
-
-  // Displaying the stored QR code if you want
-  echo "<img src='".$filename."' />";
-
-} catch (Exception $e) {
-  echo $e->getMessage();
-}
-//other parameters
+// Displaying the stored QR code from directory
+echo "<center><img src='".$file."'></center>";
+?>

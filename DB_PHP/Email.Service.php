@@ -1,5 +1,4 @@
 <?php
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -28,13 +27,13 @@ class CorreoManejador
         }
     }
 
-    public function EnviarCorreo($destinatario, String $asunto,String $mensaje, $archvio = NULL){
+    public function EnviarCorreo($destinatario, String $asunto,String $mensaje, $archivo = NULL){
         try {
             $this->mail->setFrom($_ENV['EMAILACCOUNT'], 'SICAS');
             $this->mail->addAddress('eduardzenet@outlook.com');     //Add a recipient
             
             if($this->isArchivo){
-                $this->mail->addAttachment($archvio);
+                $this->mail->addAttachment($archivo);
             }
             
             //Content
@@ -46,7 +45,7 @@ class CorreoManejador
             $this->mail->send();
             echo 'Message has been sent';
         } catch (Exception $e) {
-            echo "Algun error a ocurrido al enviar el mensaje";
+            echo "Algun error ha ocurrido al enviar el mensaje";
         }
     }
 
