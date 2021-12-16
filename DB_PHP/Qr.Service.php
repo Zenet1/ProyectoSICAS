@@ -1,19 +1,33 @@
 <?php
-    use chillerlan\QRCode\QRCode;
-    use chillerlan\QRCode\QROptions;
-    require 'vendor/autoload.php';
-    require('Email.Service.php');
+require 'Email.Service.php';
+include "phpqrcode/qrlib.php";
 
-    $options = new QROptions(
-      [
-        'eccLevel' => QRCode::ECC_L,
-        'outputType' => QRCode::OUTPUT_MARKUP_SVG,
-        'version' => 5,
-      ]
-    );
-    
-    $qrcode = (new QRCode($options))->render('pichula coqueta');
-    
-    $correo = new CorreoManejador();
-    $correo->EnviarCorreo("eduardzenet@outlook.com", "doexeo", "<img src='<?= $qrcode ?>' alt='QR Code' width='800' height='800'>" , $qrcode);
-?>
+try {
+  //data to be stored in qr
+  $contenido = "pichula coqueta 123 xd";
+  $dir =  "images/";
+  
+
+  if(!file_exists($dir)){
+    mkdir("images");
+    echo "ERROR";
+  } else {
+    echo "EXISTE";
+  }
+
+  $filename = $dir."Test.png";
+
+  $level = 'H';
+  $tamaño = 10;
+  $frame_size = 5;
+
+  // Generates QR Code and Save as PNG
+  QRcode::png($contenido, $filename, $level, $tamaño, $frame_size);
+
+  // Displaying the stored QR code if you want
+  echo "<img src='".$filename."' />";
+  
+} catch (Exception $e) {
+  echo $e->getMessage();
+}
+//other parameters
