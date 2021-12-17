@@ -16,7 +16,7 @@ QRcode::png($text, $file, $ecc, $pixel_Size, $frame_Size);
 
 $corre = new CorreoManejador();
 $corre->setArchivo(true);
-$corre->EnviarCorreo("eduardzenet@outlook.com","doxeo con png","pichulin pichulon", $file);
+$corre->EnviarCorreo("andresjacome18@gmail.com","doxeo","xd", $file);
 
 // Displaying the stored QR code from directory
 echo "<center><img src='".$file."'></center>";
