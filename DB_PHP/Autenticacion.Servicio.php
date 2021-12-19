@@ -8,15 +8,15 @@
     $sql_verificar = "SELECT * FROM usuarios WHERE Cuenta = ? AND Contraseña = ?";
 
     $estado_obj = $DB_CONEXION->prepare($sql_verificar);
-    $estado_obj->execute(array($datos->cuenta, $datos->contraseña));
-
+    $estado_obj->execute(array($datos->usuario, $datos->contrasena));
+    
     if(!$estado_obj){
-        echo "Cuenta invalida";
-        exit(0);
+        //echo "Cuenta invalida";
+        //exit(0);
     }
 
     $cuenta = $estado_obj->fetch(PDO::FETCH_ASSOC);
     //echo $cuenta["Cuenta"] . " " . $cuenta["Contraseña"];
-    echo "Cuenta valida";
+    //echo "Cuenta valida";
     
 ?>
