@@ -1,0 +1,18 @@
+<div class="container-fluid">
+    <div class="container-botones row g-0 mb-3">
+        <div class="btn-group">
+            <button [disabled]="!escaneoRealizado" class="btn btn-escaneo" (click)="nuevoEscaneo()">Nuevo Escaneo</button>
+            <button class="btn" [ngClass]="escaneoRealizado? 'btn-success':'btn-secondary'" [disabled]="!escaneoRealizado" (click)="verificar()">Verificar</button>
+        </div>
+    </div>
+    <div class="wrapper-escaner  row g-0 mb-3">
+        <div class="container-escaner">
+            <zxing-scanner
+                (scanSuccess)="scanSuccessHandler($event)"
+                (scanError)="scanErrorHandler($event)"
+                (scanFailure)="scanFailureHandler($event)"
+                (scanComplete)="scanCompleteHandler($event)"
+            ></zxing-scanner>
+        </div>
+    </div>
+</div>
