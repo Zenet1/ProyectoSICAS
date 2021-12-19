@@ -5,7 +5,7 @@
             Si eres alumno de la facultad, inicia sesión para registrar tu asistencia a las clases disponibles
         </p>
     </div>
-    <div class="wrapper-formulario row g-0">
+    <div class="wrapper-formulario row g-0 mb-3">
         <div class="container-formulario">
             <h4 class="text-center">Iniciar sesión</h4>
             <form [formGroup]="formularioIniciarSesion" (onSubmit)="iniciarSesion()" ngNativeValidate>
@@ -25,14 +25,14 @@
         </div>
     </div>
 
-    <div class="wrapper-externo row g-0">
+    <div class="wrapper-externo row g-0 m-3">
         <div class="container-externo ">
             <h4>Visitante externo</h4>
             <p>
                 ¿Nos visitas de otra parte? ¡Regístrarte para asistir a la facultad!
             </p>
             <div class="container-boton">
-                <button type="button" class="btn btn-externo">Registrarse</button>
+                <button type="button" [routerLink]="['/registro-externo']" class="btn btn-externo">Registrarse</button>
             </div>
         </div>
     </div>
