@@ -1,4 +1,5 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -27,23 +28,25 @@ class CorreoManejador
         }
     }
 
-    public function EnviarCorreo($destinatario, String $asunto,String $mensaje, $archivo = NULL){
+    public function EnviarCorreo($destinatario, String $asunto,String $mensaje, $archvio = NULL){
         try {
             $this->mail->setFrom($_ENV['EMAILACCOUNT'], 'SICAS');
-            $this->mail->addAddress($destinatario);
+            $this->mail->addAddress('eduardzenet@outlook.com');     //Add a recipient
             
             if($this->isArchivo){
-                $this->mail->addAttachment($archivo);
+                $this->mail->addAttachment($archvio);
             }
             
-            $this->mail->isHTML(true);
+            //Content
+            $this->mail->isHTML(true);                                  //Set email format to HTML
             $this->mail->Subject = $asunto;
             $this->mail->Body = $mensaje;
+            //$this->mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $this->mail->send();
             echo 'Message has been sent';
         } catch (Exception $e) {
-            echo "Algun error ha ocurrido al enviar el mensaje";
+            echo "Algun error a ocurrido al enviar el mensaje";
         }
     }
 
