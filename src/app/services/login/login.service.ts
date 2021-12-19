@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class LoginService {
-  API: string = '/SICAS/DB_PHP/Autenticacion.Servicio.php';
+  API: string = '/ProyectoSICAS/DB_PHP/Autenticacion.Servicio.php';
   redirectUrl: string;
  
   @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();

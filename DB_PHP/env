@@ -1,7 +1,0 @@
-DSN="mysql:dbname=sicasbs;host=localhost:3306"
-USERNAME="root"
-PASSWORD=""
-HOSTEMAIL="smtp.gmail.com"
-EMAILACCOUNT="miguelhumberto522@gmail.com"
-EMAILACCOUNTPASSWORD=
-EMAILPORT=465

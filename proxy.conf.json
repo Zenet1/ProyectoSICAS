@@ -1,6 +1,6 @@
 {
-    "/SICAS/*": {
-        "target": "http://localhost:8080",
+    "/ProyectoSICAS/*": {
+        "target": "http://localhost:80",
         "secure": false,
         "logLevel": "debug"
     }
