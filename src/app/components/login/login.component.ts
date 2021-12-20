@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Form, FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class LoginComponent implements OnInit {
   estaLogueado: Boolean = this.servicioLogin.isLoggedIn();
   formularioIniciarSesion:FormGroup;
 
-  constructor(private servicioLogin:LoginService, private formBuilder:FormBuilder) { }
+  constructor(private servicioLogin:LoginService, private formBuilder:FormBuilder, private router:Router) { }
 
   ngOnInit(): void {
     this.formularioIniciarSesion = this.formBuilder.group({
@@ -25,10 +26,11 @@ export class LoginComponent implements OnInit {
     console.log(this.formularioIniciarSesion.value);
     this.servicioLogin.iniciarSesion(this.formularioIniciarSesion.value).subscribe(
       respuesta => {
-        window.location.href = window.location.href;
+        //window.location.href = window.location.href;
+        this.router.navigateByUrl('cuestionario');
       },
       error => {
-        alert("Usuario o contraseña incorrectos")
+        alert("Usuario o contraseña incorrectos");
       }
     );
   }
