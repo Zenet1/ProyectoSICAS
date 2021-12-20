@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
 import { ScannerComponent } from './components/scanner/scanner.component';
+import { RegistroExternoComponent } from './components/registro-externo/registro-externo.component';
+import { CuestionarioComponent } from './components/cuestionario/cuestionario.component';
 
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
@@ -20,6 +22,8 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     NavbarComponent,
     LoginComponent,
     ScannerComponent,
+    RegistroExternoComponent,
+    CuestionarioComponent
   ],
   imports: [
     BrowserModule,
