@@ -21,11 +21,10 @@ export class CuestionarioComponent implements OnInit {
     this.servicioCuestionario.obtenerPreguntas().subscribe(
       respuesta=>{
         this.preguntasBD=respuesta;
+        this.agregarPreguntas();
       }
     );
-  }
 
-  obtenerPreguntas(){
     
   }
 
