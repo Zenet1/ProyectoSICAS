@@ -55,6 +55,7 @@ export class CuestionarioComponent implements OnInit {
     if(cantidadSi > 1){
       this.cuestionario.controls["accion"].setValue("rechazado");
       console.log(this.cuestionario.value);
+      this.servicioCuestionario.rechazado(this.cuestionario.value);
     } else {
       if(this.estaLogueado){
         //this.router.navigateByUrl('asistenciaAlumno');
