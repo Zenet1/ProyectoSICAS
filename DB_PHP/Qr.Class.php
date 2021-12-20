@@ -5,19 +5,32 @@ $text = "Pichulita coquetona";
 
 $path = 'img/';
 $file = $path.uniqid().".png";
-  
-// $ecc stores error correction capability('L')
-$ecc = 'M';
-$pixel_Size = 10;
-$frame_Size = 10;
-  
+
 // Generates QR Code and Stores it in directory given
-QRcode::png($text, $file, $ecc, $pixel_Size, $frame_Size);
+    QRcode::png($text, $file, $ecc, $pixel_Size, $frame_Size);
 
-$corre = new CorreoManejador();
-$corre->setArchivo(true);
-$corre->EnviarCorreo("andresjacome18@gmail.com","doxeo","xd", $file);
+    class GeneradorQr{
+        private $ecc;
+        private $pixel_Size;
+        private $frame_Size;
+        private $path;
+        private $file;
 
-// Displaying the stored QR code from directory
-echo "<center><img src='".$file."'></center>";
+        public function __construct() {
+            $this->ecc = 'Q';
+            $this->pixel_Size = 10;
+            $this->frame_Size = 3;
+            $this->path = 'img/';
+        }
+
+
+        public function Generar($contenido) : void{
+            QRcode::png($contenido,  $this->file, $this->ecc, $this->pixel_Size, $this->frame_Size);
+        }
+
+        public function setNombrePng($nombre){
+            $this->file = $this->path . $nombre . ".png";
+        }
+    }
+
 ?>

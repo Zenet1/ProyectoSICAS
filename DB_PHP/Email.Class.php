@@ -27,10 +27,15 @@ class CorreoManejador
         }
     }
 
-    public function EnviarCorreo($destinatario, String $asunto,String $mensaje, $archivo = NULL){
+    public function EnviarCorreo(array $destinatarios, String $asunto,String $mensaje, $archivo = NULL){
         try {
             $this->mail->setFrom($_ENV['EMAILACCOUNT'], 'SICAS');
-            $this->mail->addAddress($destinatario);
+            $this->mail->addAddress($_ENV['EMAILACCOUNT'], 'SICAS');
+            
+
+            foreach($destinatarios as $correo => $nombre){
+                $this->mail->addCC($correo, $nombre);
+            }
             
             if($this->isArchivo){
                 $this->mail->addAttachment($archivo);

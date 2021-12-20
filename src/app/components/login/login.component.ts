@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   }
 
   iniciarSesion(){
+    console.log(this.formularioIniciarSesion.value);
     this.servicioLogin.iniciarSesion(this.formularioIniciarSesion.value).subscribe(
       respuesta => {
         window.location.href = window.location.href;

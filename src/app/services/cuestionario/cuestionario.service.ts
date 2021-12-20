@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class CuestionarioService {
 
-  API: string = '';
+  API: string = '/ProyectoSICAS/DB_PHP/Preguntas.Servicio.php';
 
   constructor(private clienteHttp: HttpClient) { }
 
