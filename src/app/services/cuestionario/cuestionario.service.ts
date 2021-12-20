@@ -18,6 +18,6 @@ export class CuestionarioService {
   }
 
   rechazado(datos:FormGroup):Observable<any>{
-    return this.clienteHttp.post(this.API2,datos);
+    return this.clienteHttp.post<any>(this.API2, datos);
   }
 }
