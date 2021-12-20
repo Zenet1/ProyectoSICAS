@@ -13,4 +13,8 @@ export class CuestionarioService {
   obtenerPreguntas(){
     return this.clienteHttp.get(this.API);
   }
+
+  rechazado(){
+    
+  }
 }

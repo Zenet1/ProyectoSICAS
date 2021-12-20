@@ -10,7 +10,7 @@ const app_routes: Routes = [
     { path: 'escaneo', component: ScannerComponent},
     { path: 'registro-externo', component: RegistroExternoComponent},
     { path: 'cuestionario', component: CuestionarioComponent},
-    { path: '**', pathMatch: 'full', redirectTo: 'cuestionario' },
+    { path: '**', pathMatch: 'full', redirectTo: 'login' },
 ]
 
 export const app_routing = RouterModule.forRoot(app_routes);
