@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CuestionarioService } from 'src/app/services/cuestionario/cuestionario.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class CuestionarioComponent implements OnInit {
   cuestionario:FormGroup;
   preguntasBD:any;
   
-  constructor(private servicioCuestionario:CuestionarioService, private formBuilder: FormBuilder) {
+  constructor(private servicioCuestionario:CuestionarioService, private formBuilder: FormBuilder, private router:Router) {
     this.cuestionario = this.formBuilder.group({
       preguntas: this.formBuilder.array([])    
     });
@@ -39,6 +40,14 @@ export class CuestionarioComponent implements OnInit {
 
   get preguntas(){
     return this.cuestionario.get('preguntas') as FormArray;
+  }
+
+  enviar(){
+    console.log(this.cuestionario.value);
+  }
+
+  cancelar(){
+    this.router.navigateByUrl('login');
   }
 
 }
