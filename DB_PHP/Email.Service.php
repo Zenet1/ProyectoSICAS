@@ -8,4 +8,12 @@
 
     $json = file_get_contents('php://input');
     $datos = json_decode($json);
+
+    function EnviarQR($datosDestinatario){
+
+    }
+
+    function Rechazo(array $datosDestinatario, string $msg){
+        
+    }
 ?>

@@ -31,12 +31,13 @@
     }
 
     function Estudiantes($Conexion, $IDusuario){
-        $sql_estudiante = "SELECT * FROM alumnos WHERE IDUsuario = ?";
+        $sql_estudiante = "SELECT NombreAlumno,IDAlumno,Matricula,CorreoAlumno FROM alumnos WHERE IDUsuario = ?";
         $estado_obj = $Conexion->prepare($sql_estudiante);
         $estado_obj->execute(array("$IDusuario"));
 
         $datos = $estado_obj->fetch(PDO::FETCH_ASSOC);
         if(esValido($datos)){
+            $_SESSION["NombreAlumno"] = $datos["NombreAlumno"];
             $_SESSION["IDAlumno"] = $datos["IDAlumno"];
             $_SESSION["Matricula"] = $datos["Matricula"];
             $_SESSION["CorreoAlumno"] = $datos["CorreoAlumno"];
