@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class RegistroExternoService {
 
-  API: string = '/';
+  API: string = '/ProyectoSICAS/DB_PHP/RegistroExternos.Servicio.php';
   
   constructor(private clienteHttp: HttpClient) {}
 
