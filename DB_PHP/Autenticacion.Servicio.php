@@ -37,10 +37,10 @@
 
         $datos = $estado_obj->fetch(PDO::FETCH_ASSOC);
         if(esValido($datos)){
-            $_SESSION["NombreAlumno"] = $datos["NombreAlumno"];
+            $_SESSION["Nombre"] = $datos["NombreAlumno"];
             $_SESSION["IDAlumno"] = $datos["IDAlumno"];
             $_SESSION["Matricula"] = $datos["Matricula"];
-            $_SESSION["CorreoAlumno"] = $datos["CorreoAlumno"];
+            $_SESSION["Correo"] = $datos["CorreoAlumno"];
         }
     }
 
