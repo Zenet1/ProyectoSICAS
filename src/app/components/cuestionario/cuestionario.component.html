@@ -1,17 +1,18 @@
 <div class="container-fluid">
-    <div class="descripcion row g-0">
-        <h3>Cuestionario</h3>
-        
+    <div class="wrapper-descripcion">
+        <div class="container-descripcion row g-0">
+            <h3 class="text-center">Cuestionario</h3>
+            <p>Por favor responda el siguiente cuestionario con total honestidad para verficar si es posible tu asistencia</p>
+        </div>
     </div>
-    <div class="wrapper-cuestionario">
+    <div class="wrapper-cuestionario row g-0">
         <div class="container-cuestionario">
             <form [formGroup]="cuestionario" (ngSubmit)="enviar()" ngNativeValidate>
-                <p>Por favor responda el siguiente cuestionario con total honestidad</p>
-                <div formArrayName="preguntas" class="form-group" *ngFor="let question of preguntasBD, let i = index">
+                <div formArrayName="preguntas" class="form-group" *ngFor="let question of preguntasBD; let i = index">
                     <div [formGroupName]="i">
                         <div class="mb-3">
-                            <label for="respuesta" class="form-label">{{question.Pregunta}}</label>
-                            <select id="respuesta" class="form-select" formControlName="respuesta" required>
+                            <label for="pregunta_{{i+1}}" class="form-label">{{question.Pregunta}}</label>
+                            <select id="pregunta_{{i+1}}" formControlName="respuesta" class="form-select" required>
                                 <option value="si">Si</option>
                                 <option value="no">No</option>
                             </select>

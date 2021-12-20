@@ -27,7 +27,7 @@ export class RegistroExternoComponent implements OnInit {
   registrarse(){
     this.servicioExterno.guardarExterno(this.formularioRegistro.value).subscribe(
       respuesta=>{
-        //this.router.navigateByUrl('cuestionario');
+        this.router.navigateByUrl('cuestionario');
       }
     );
   }
