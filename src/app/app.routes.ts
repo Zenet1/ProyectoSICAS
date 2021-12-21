@@ -5,9 +5,11 @@ import { RegistroExternoComponent } from "./components/registro-externo/registro
 import { ScannerComponent } from './components/scanner/scanner.component';
 import { CuestionarioComponent } from "./components/cuestionario/cuestionario.component";
 
+import { AuthguardGuard } from "./services/login/authguard.guard";
+
 const app_routes: Routes = [
-    { path: 'login', component: LoginComponent },
-    { path: 'escaneo', component: ScannerComponent},
+    { path: 'login', component: LoginComponent},
+    { path: 'escaneo', component: ScannerComponent, canActivate: [AuthguardGuard]},
     { path: 'registro-externo', component: RegistroExternoComponent},
     { path: 'cuestionario', component: CuestionarioComponent},
     { path: '**', pathMatch: 'full', redirectTo: 'login' },

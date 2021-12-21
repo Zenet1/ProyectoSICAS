@@ -16,8 +16,8 @@ export class LoginService {
 
   public iniciarSesion(datos:FormGroup) {
     return this.httpClient.post<any>(this.API, datos).pipe(map(Users => {
-      console.log(Users);
-      this.setToken(Users[0].name);
+      //console.log(Users["Rol"]);
+      this.setToken(Users.name);
       this.getLoggedInName.emit(true);
       return Users
     }));

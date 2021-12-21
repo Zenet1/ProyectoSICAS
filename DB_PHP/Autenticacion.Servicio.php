@@ -27,8 +27,8 @@
         }
 
         $datos_alumnos = array("Cuenta"=>$datos["Cuenta"] , "Rol"=>$datos["Rol"]);
-        //echo json_encode($datos_alumnos);
-        echo json_encode("hola");
+        echo json_encode($datos_alumnos);
+        //echo json_encode("hola");
     }
 
     function Estudiantes($Conexion, $IDusuario){
