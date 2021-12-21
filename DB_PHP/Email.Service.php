@@ -8,14 +8,11 @@
     
     $json = file_get_contents('php://input');
     $datos = json_decode($json);
-
-    var_dump($datos);
-    echo $_SESSION["Correo"];
     
-    switch($datos["accion"]){   
+    switch($datos->accion){   
         case "EnviarQR":
             break;
-        case "Rechazado":+
+        case "rechazado":+
             Rechazo(Array($_SESSION["Correo"]=>$_SESSION["Nombre"]), "Debido a las metricas que se manejan para la sanidad de la institucion, no cumples con parametros de seguridad sanitaria");
             break;
     }
