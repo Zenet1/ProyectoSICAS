@@ -4,7 +4,7 @@
     header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
     include 'BD_Conexion.php';
     include 'Email.Class.php';
-    include 'Qr.Class.php';
+    //include 'Qr.Class.php';
     
     $json = file_get_contents('php://input');
     $datos = json_decode($json);
