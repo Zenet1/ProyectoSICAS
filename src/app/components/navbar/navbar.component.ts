@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { LoginService } from 'src/app/services/login/login.service';
 })
 export class NavbarComponent implements OnInit {
   estaLogueado:boolean;
-  constructor(private servicioLogin:LoginService) { }
+  constructor(private servicioLogin:LoginService, private router:Router) { }
 
   ngOnInit(): void {
     this.estaLogueado = this.servicioLogin.isLoggedIn();
@@ -16,6 +17,6 @@ export class NavbarComponent implements OnInit {
 
   cerrarSesion(){
     this.servicioLogin.deleteToken();
-    window.location.href = window.location.href;
+    location.href = '/login';
   }
 }
