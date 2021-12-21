@@ -1,5 +1,5 @@
 <?php
-session_start();
+    session_start();
     if(isset($_SESSION['nombreExterno']) && isset($_SESSION['apellidosExterno']) && isset($_SESSION['empresa']) && isset($_SESSION['correoExterno'])){
         $idExterno = (int) random_int(0, 99);
         $nombreExterno = $_SESSION['nombreExterno'];
