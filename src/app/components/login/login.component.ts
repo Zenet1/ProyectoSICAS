@@ -23,21 +23,15 @@ export class LoginComponent implements OnInit {
   }
 
   iniciarSesion(){
-    console.log(this.formularioIniciarSesion.value);
+    //console.log(this.formularioIniciarSesion.value);
     this.servicioLogin.iniciarSesion(this.formularioIniciarSesion.value).subscribe(
       respuesta => {
-        //window.location.href = window.location.href;
-        this.router.navigateByUrl('cuestionario');
+        //console.log(respuesta);
+        location.href = '/cuestionario';
       },
       error => {
         alert("Usuario o contraseña incorrectos");
       }
     );
   }
-
-  cerrarSesion(){
-    this.servicioLogin.deleteToken();
-    window.location.href = window.location.href;
-  }
-
 }

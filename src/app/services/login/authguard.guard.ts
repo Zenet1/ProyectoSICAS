@@ -20,7 +20,7 @@ export class AuthguardGuard implements CanActivate  {
     if (this.servicioLogin.isLoggedIn()) {
       return true;
     } else {
-      return this.router.navigate(['inicio']);
+      return this.router.navigate(['cuestionario']);
     }
   }
 }

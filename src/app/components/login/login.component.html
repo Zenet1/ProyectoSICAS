@@ -36,7 +36,20 @@
             </div>
         </div>
     </div>
+
     <div>
         <button type="button" [routerLink]="['/escaneo']" class="btn btn-externo">Escanear</button>
+    </div>
+    
+</div>
+
+<div class="container-fluid" *ngIf="estaLogueado"> 
+    <div class="container-descripcion row g-0">
+        <h3>¡Bienvenido!</h3>
+        <p>
+            Inicia el proceso de registro de asistencia
+        </p>
+
+        <button type="button" [routerLink]="['/cuestionario']" class="btn btn-externo">Iniciar</button>
     </div>
 </div>

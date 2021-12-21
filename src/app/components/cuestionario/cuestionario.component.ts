@@ -29,6 +29,8 @@ export class CuestionarioComponent implements OnInit {
         this.agregarPreguntas();
       }
     );
+
+    console.log(this.servicioLogin.getUsuario());
   }
 
   agregarPreguntas(){
@@ -54,13 +56,12 @@ export class CuestionarioComponent implements OnInit {
 
     if(cantidadSi > 1){
       this.cuestionario.controls["accion"].setValue("rechazado");
-      console.log(this.cuestionario.value);
-      this.servicioCuestionario.rechazado(this.cuestionario.value);
+      this.servicioCuestionario.rechazado(this.cuestionario.value).subscribe();
     } else {
       if(this.estaLogueado){
-        //this.router.navigateByUrl('asistenciaAlumno');
+        this.router.navigateByUrl('asistencia-alumno');
       } else {
-        this.router.navigateByUrl('registro-externo');
+        //this.router.navigateByUrl('asistencia-externo');
       }
       
     }

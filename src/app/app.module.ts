@@ -14,6 +14,7 @@ import { RegistroExternoComponent } from './components/registro-externo/registro
 import { CuestionarioComponent } from './components/cuestionario/cuestionario.component';
 
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { AsistenciaAlumnoComponent } from './components/asistencia-alumno/asistencia-alumno.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     LoginComponent,
     ScannerComponent,
     RegistroExternoComponent,
-    CuestionarioComponent
+    CuestionarioComponent,
+    AsistenciaAlumnoComponent
   ],
   imports: [
     BrowserModule,

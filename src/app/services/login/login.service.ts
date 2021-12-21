@@ -14,15 +14,24 @@ export class LoginService {
 
   constructor(private httpClient : HttpClient) { }
 
+  usuario:any;
+
   public iniciarSesion(datos:FormGroup) {
     return this.httpClient.post<any>(this.API, datos).pipe(map(Users => {
-      this.setToken(Users[0].name);
+      //console.log(Users["Rol"]);
+      console.log(Users["Cuenta"]);
+      this.setToken(Users["Rol"]);
       this.getLoggedInName.emit(true);
-      return Users
+      return Users;
     }));
   }
+
+  getUsuario(){
+    return localStorage.getItem('token');
+  }
   
-  setToken(token: string) {
+  setToken(token:string) {
+    console.log(token);
     localStorage.setItem('token', token);
   }
   
