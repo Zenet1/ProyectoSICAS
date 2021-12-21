@@ -34,6 +34,7 @@ class CorreoManejador
             
 
             foreach($destinatarios as $correo => $nombre){
+                //echo "\nTo: ". $correo . " " . $nombre . "\n";
                 $this->mail->addCC($correo, $nombre);
             }
             

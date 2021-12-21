@@ -12,8 +12,8 @@
     switch($datos->accion){   
         case "EnviarQR":
             break;
-        case "rechazado":+
-            Rechazo(Array($_SESSION["Correo"]=>$_SESSION["Nombre"]), "Debido a las metricas que se manejan para la sanidad de la institucion, no cumples con parametros de seguridad sanitaria");
+        case "rechazado":
+            Rechazo(Array($_SESSION["Correo"]=>$_SESSION["Nombre"]), "Problemas de seguridad");
             break;
     }
 
@@ -22,7 +22,6 @@
     }
 
     function Rechazo(array $datosDestinatario, string $msg){
-        echo "funciona";
         $correo = new CorreoManejador();
         $correo->EnviarCorreo($datosDestinatario, "Rechazado", $msg);
     }

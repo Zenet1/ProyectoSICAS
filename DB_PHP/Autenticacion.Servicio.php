@@ -13,7 +13,7 @@
 
     if(esValido($datos)){
         session_start();
-
+        
         switch($datos["Rol"]){
             case "Alumno":
                 Estudiantes($DB_CONEXION, $datos["IDUsuario"]);
@@ -28,7 +28,6 @@
 
         $datos_alumnos = array("Cuenta"=>$datos["Cuenta"] , "Rol"=>$datos["Rol"]);
         echo json_encode($datos_alumnos);
-        //echo json_encode("hola");
     }
 
     function Estudiantes($Conexion, $IDusuario){
