@@ -1,0 +1,6 @@
+ClavePlan|VersionPlan|NombrePlan|SiglasPlan
+21133|2|Maestria en Ciencias Matemáticas|MCM
+75722|3|Maestria en Ciencias Matemáticas|MCM
+18317|1|Maestría en Ciencias de la Computación|MCC
+18318|1|Especialidad en Estadística|EE
+62482|1|Doctorado en Ciencias Matemáticas|DCM

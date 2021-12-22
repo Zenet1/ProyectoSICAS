@@ -1,0 +1,43 @@
+Matricula|NombreAlumno|ApellidoPaterno|ApellidoMaterno|Genero|Semestre|ClavePlan|VersionPlan|Correo
+17016293|CARLOS FELIPE|AVILA|CRUZ|Masculino|Segundo semestre|75722|3|cfac27@gmail.com
+12001195|MARIA DOLORES|MATUS|BASTO|Femenino|Segundo semestre|75722|3|matus.97dm@gmail.com
+11001313|SAUL ANDRES|BURGOS|RODRIGUEZ|Masculino|Cuarto Semestre|75722|3|saulburgos.96@gmail.com
+13003252|GUSTAVO|NAVARRETE|NOVELO|Masculino|Cuarto Semestre|75722|3|gusnavas14@gmail.com
+12216410|DIANA BEATRIZ|CHI|COUOH|Femenino|Cuarto Semestre|75722|3|dianachi181@gmail.com
+12000891|KAREN VIANEY|ZACARIAS|CANUL|Femenino|Cuarto Semestre|75722|3|karen.aqua@hotmail.com
+09003803|JOSE ANTONIO|VALDEZ|LOPEZ|Masculino|Cuarto Semestre|75722|3|jose.antonio211294@gmail.com
+14016361|EDGAR|MOSQUEDA|CAMACHO|Masculino|Cuarto Semestre|75722|3|neji117@live.com.mx
+12001296|ALDO|CRUZ|BALAM|Masculino|Cuarto Semestre|75722|3|aldo.om97@gmail.com
+06001068|LAURA LETICIA|PACHECO|BASTO|Femenino|Cuarto Semestre|75722|3|uadaura@hotmail.com
+21216410|MARIANA INES|TORRES|POZOS|Femenino|Primer Semestre|18317|1|martorres612@gmail.com
+21216411|ISMEL|RIZO|BLANCO|Masculino|Primer Semestre|18317|1|ismelrizo@gmail.com
+21216412|JOSE JAVIER|ALEMAN|ALVAREZ|Masculino|Primer Semestre|18317|1|jjaleman90@gmail.com
+12111444|ITALO ULISES|MONTALVO|COUOH|Masculino|Primer Semestre|18317|1|italomontalvo@gmail.com
+12001601|ALAN DANIEL|VILLANUEVA|PAREDES|Masculino|Cuarto Semestre|18317|1|alanvp97@hotmail.com
+20216413|LAURA|ALVAREZ|GONZALEZ|Femenino|Cuarto Semestre|18317|1|laura.alvargonza@gmail.com
+20216412|VICTOR MANUEL|DELEON|CHI|Masculino|Cuarto Semestre|18317|1|victor941@gmail.com
+12014880|EDUARDO|PEREZ|DAWN|Masculino|Cuarto Semestre|18317|1|eduperdawn@gmail.com
+11001499|ADRIAN FERNANDO|LOYA|SABIDO|Masculino|Cuarto Semestre|18317|1|loya_sabido@hotmail.es
+88002728|EDWIN ANTONIO|MOO|BALAM|Masculino|Segundo Semestre|18317|1|edwin_moo@hotmail.com
+11003982|RODRIGO EMMANUEL|CHI|OZALDE|Masculino|Cuarto Semestre|18317|1|rodrigochiozalde@gmail.com
+15216773|LUIS ANGEL|TUN|REYES|Masculino|Cuarto Semestre|18317|1|luis.angel.tun.reyes@homtail.com
+10216401|GASPAR EDUARDO|CAAMAL|EUAN|Masculino|Segundo Semestre|18318|1|gece_roln@hotmail.com
+10216323|CRISTY GUADALUPE|ARELLANO|AVILES|Femenino|Primer Semestre|18318|1|cristy.arellano@outlook.com
+20216251|FRANCISCO JAVIER|VAZQUEZ|GOMEZ|Masculino|Segundo Semestre|18318|1|franvazgom@gmail.com
+15216378|FERNANDO MANUEL|PECH|BRICEÑO|Masculino|Segundo Semestre|18318|1|fpech96@gmail.com
+08003244|JOSE OMAR|MOGUEL|CONRRADO|Masculino|Segundo Semestre|18318|1|o.moguel@outlook.com
+10216325|ELSY MARIEL|MAGAÑA|HUCHIM|Femenino|Segundo Semestre|18318|1|elsymariel.mh@gmail.com
+12008093|CARLOS ANDRES|RIVERA|TOBILLA|Masculino|Segundo Semestre|18318|1|carlosriveratobilla@gmail.com
+99003055|MEXTLI DANIELA|HERNANDEZ|SANCHEZ|Femenino|Segundo Semestre|18318|1|danifoto84@gmail.com
+20216253|CESAR ANTONIO|GOMEZ|VIVES|Masculino|Segundo Semestre|18318|1|antonio.gomez@outlook.com
+87000478|FLORENCIO|RUEDA|GORDILLO|Masculino|Segundo Semestre|18318|1|gordillo@correo.uady.mx
+94001134|RICARDO JAVIER|PEON|ESCALANTE|Masculino|SEGUNDO SEMESTRE|62482|1|rpeon@correo.uady.mx
+07003231|LUIS MAURICIO|MONTES DE OCA|MENA|Masculino|FUERA DE RANGO|62482|1|mau19248@hotmail.com
+08206732|ANDRES EDUARDO|SOLIS|CUEVAS|Masculino|CUARTO SEMESTRE|62482|1|dream.andres@gmail.com
+09000942|ANGEL GUSTAVO|CERVANTES|PEREZ|Masculino|CUARTO SEMESTRE|62482|1|agcp26@hotmail.com
+06200435|LUIS ELI|PECH|MORENO|Masculino|FUERA DE RANGO|62482|1|evocatto@gmail.com
+93001600|PEDRO DAVID|SANCHEZ|SALAZAR|Masculino|FUERA DE RANGO|62482|1|pedro.sanchez@correo.uady.mx
+14016354|ARTURO JAVIER|NIC|MAY|Masculino|CUARTO SEMESTRE|62482|1|arturo_javier_1559@hotmail.com
+98003062|ROXANA|GONGORA|HERNANDEZ|Femenino|TERCER SEMESTRE|62482|1|tary83@gmail.com
+02200360|IVAN DE JESUS|MAY|CEN|Masculino|FUERA DE RANGO|62482|1|imaycen@hotmail.com
+09000958|SAMUEL ENRIQUE|CHABLE|NAAL|Masculino|TERCER SEMESTRE|62482|1|secn182@gmail.com

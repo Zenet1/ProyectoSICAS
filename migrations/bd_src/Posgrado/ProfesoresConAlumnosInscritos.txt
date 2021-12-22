@@ -1,0 +1,37 @@
+ClaveProfesor|NombreProfesor|ApellidoPaterno|ApellidoMaterno|GradoAcademico|Correo
+89753|AARÓN ABRAHAM|AGUAYO|GONZÁLEZ|DR.|aguayo@uady.mx
+89760|JORGE ARMANDO|ARGÁEZ|SOSA|M. en Est.|argasosa@correo.uady.mx
+89761|ERIC JOSÉ|ÁVILA|VALES|DR.|avila@uady.mx
+89763|WALDEMAR|BARRERA|VARGAS|DR.|bvargas@correo.uady.mx
+89765|JOSÉ LUIS|BATÚN|CUTZ|DR.|jbatun@correo.uady.mx
+89773|LUIS FERNANDO|CURI|QUINTAL|DR.|cquintal@correo.uady.mx
+89799|JAVIER ARTURO|DÍAZ|VARGAS|DR.|jdvargas@correo.uady.mx
+89804|ARTURO|ESPINOSA|ROMERO|DR.|eromero@correo.uady.mx
+89809|LUCÍA BELÉN|GAMBOA|SALAZAR|DRA.|lgamboa@correo.uady.mx
+89810|GERARDO EMILIO|GARCÍA|ALMEIDA|DR.|galmeida@correo.uady.mx
+89816|CARLOS HUMBERTO|HERRERA|HOYOS|M. en C.|carlos.herrera@correo.uady.mx
+89825|RICARDO|LEGARDA|SÁENZ|DR.|rlegarda@correo.uady.mx
+89828|FRANCISCO ALEJANDRO|MADERA|RAMÍREZ|DR.|mramirez@correo.uady.mx
+89830|SALVADOR|MEDINA|PERALTA|M. en C.|mperalta@correo.uady.mx
+89834|FRANCISCO|MOO|MENA|DR.|mmena@correo.uady.mx
+89838|JOSÉ MATÍAS|NAVARRO|SOZA|DR.|matias.navarro@correo.uady.mx
+89849|JESÚS EFRÉN|PÉREZ|TERRAZAS|DR.|jperezt@correo.uady.mx
+89862|DIDIER ADÁN|SOLÍS|GAMBOA|DR.|didier.solis@correo.uady.mx
+89866|VÍCTOR EMANUEL |UC|CETINA|DR.|uccetina@correo.uady.mx
+94534|LUIS|COLORADO|MARTÍNEZ|M. en C.|luis.colorado@correo.uady.mx
+95420|CARLOS|BRITO|LOEZA|DR.|carlos.brito@correo.uady.mx
+109891|VÍCTOR MANUEL|BAUTISTA|ANCONA|DR.|vbancona@gmail.com
+121436|JOSÉ LUIS|LÓPEZ|MARTÍNEZ|DR.|jose.lopez@correo.uady.mx
+128086|HENRY GASPAR|PANTÍ|TREJO|DR.|henry.panti@correo.uady.mx
+128656|JORGE RICARDO|GÓMEZ|MONTALVO|DR.|jgomez@correo.uady.mx
+131554|ANABEL|MARTÍN|GONZÁLEZ|DRA.|anabel.martin@hotmail.com
+131650|JOSÉ ALEJANDRO|LARA|RODRÍGUEZ|DR.|alex.lara@correo.uady.mx
+151622|JORGE ALBERTO|RÍOS|MARTÍNEZ|DR.|jorge.rios@correo.uady.mx
+157507|JOEL HUMBERTO|SÁNCHEZ|PAZ|M. en C.|joelsanchezpaz@gmail.com
+168856|JOSÉ MARÍA|CANTARERO|LÓPEZ|DR.|cantarero@cimat.mx
+180803|JESÚS ROGELIO|PÉREZ|BUENDÍA|DR.|null
+180808|JOEL ANTONIO|TREJO|SÁNCHEZ|DR.|joel.trejo@correo.uady.mx
+181745|LUIS ALBERTO|AKE|HAU|DR.|luis.ake@correo.uady.mx
+181805|HUMBERTO|PÉREZ|ESPINOSA|DR.|edwin.dzul@correo.uady.mx
+181807|ALEJANDRO|TÉLLEZ|QUIÑONES|DR.|atellez@centrogeo.edu.mx
+181968|ROBERTO|CABAL|LÓPEZ|M.C.|roberto.cabal@correo.uady.mx
