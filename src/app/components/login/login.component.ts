@@ -9,12 +9,33 @@ import { LoginService } from 'src/app/services/login/login.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  estaLogueado: Boolean = this.servicioLogin.isLoggedIn();
+  estaLogueado: Boolean;
   formularioIniciarSesion:FormGroup;
 
   constructor(private servicioLogin:LoginService, private formBuilder:FormBuilder, private router:Router) { }
 
   ngOnInit(): void {
+    this.estaLogueado = this.servicioLogin.isLoggedIn();
+
+    if(this.estaLogueado){
+      switch(this.servicioLogin.getRol()) { 
+        case "Alumno": { 
+          this.router.navigateByUrl('inicio-alumno');
+          break; 
+        } 
+        case "Administrador": { 
+          //this.router.navigateByUrl('inicio-administrador');
+          break; 
+        }
+        case "Capturador":{
+          //this.router.navigateByUrl('inicio-capturador');
+        }
+        default:{
+          this.router.navigateByUrl('login');
+        }
+      } 
+    }
+
     this.formularioIniciarSesion = this.formBuilder.group({
         usuario: [""],
         contrasena: [""],
@@ -23,11 +44,25 @@ export class LoginComponent implements OnInit {
   }
 
   iniciarSesion(){
-    //console.log(this.formularioIniciarSesion.value);
     this.servicioLogin.iniciarSesion(this.formularioIniciarSesion.value).subscribe(
       respuesta => {
-        //console.log(respuesta);
-        location.href = '/cuestionario';
+        if(respuesta!=null){
+          switch(respuesta["Rol"]) { 
+            case "Alumno": { 
+              location.href = '/inicio-alumno';
+              break; 
+            } 
+            case "Administrador": { 
+              //statements; 
+              break; 
+            }
+            case "Capturador":{
+
+            }
+          } 
+        } else {
+          alert("Usuario o contraseña incorrectos");
+        }
       },
       error => {
         alert("Usuario o contraseña incorrectos");

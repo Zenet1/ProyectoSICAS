@@ -19,28 +19,34 @@ export class LoginService {
   public iniciarSesion(datos:FormGroup) {
     return this.httpClient.post<any>(this.API, datos).pipe(map(Users => {
       //console.log(Users["Rol"]);
-      console.log(Users["Cuenta"]);
-      this.setToken(Users["Rol"]);
-      this.getLoggedInName.emit(true);
-      return Users;
+      
+      let token = JSON.stringify(Users);
+      console.log(Users);
+      if(Users!=null){
+        this.setToken(token);
+        this.getLoggedInName.emit(true);
+        return Users;
+      }
     }));
   }
 
   getUsuario(){
-    return localStorage.getItem('token');
+    return JSON.parse(localStorage.getItem('usuario')).Cuenta;
   }
-  
+
+  getRol(){
+    return JSON.parse(localStorage.getItem('usuario')).Rol;
+  }  
   setToken(token:string) {
-    console.log(token);
-    localStorage.setItem('token', token);
+    localStorage.setItem('usuario', token);
   }
   
   getToken() {
-    return localStorage.getItem('token');
+    return localStorage.getItem('usuario');
   }
   
   deleteToken() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
   }
   
   isLoggedIn() {

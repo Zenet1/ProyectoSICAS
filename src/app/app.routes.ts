@@ -7,13 +7,17 @@ import { CuestionarioComponent } from "./components/cuestionario/cuestionario.co
 import { AsistenciaAlumnoComponent } from "./components/asistencia-alumno/asistencia-alumno.component";
 
 import { AuthguardGuard } from "./services/login/authguard.guard";
+import { AuthguardGuardAdmin } from "./services/login/authguardAdmin.guard";
+import { AuthguardGuardCapturador } from "./services/login/authguardCapturador.guard";
+import { InicioAlumnoComponent } from "./components/inicio-alumno/inicio-alumno.component";
 
 const app_routes: Routes = [
     { path: 'login', component: LoginComponent},
-    { path: 'escaneo', component: ScannerComponent}, //canActivate: [AuthguardGuard]},
+    { path: 'escaneo', component: ScannerComponent, canActivate: [AuthguardGuardCapturador]},
     { path: 'registro-externo', component: RegistroExternoComponent},
     { path: 'cuestionario', component: CuestionarioComponent},
-    { path: 'asistencia-alumno', component: AsistenciaAlumnoComponent},
+    { path: 'asistencia-alumno', component: AsistenciaAlumnoComponent, canActivate: [AuthguardGuard]},
+    { path: 'inicio-alumno', component: InicioAlumnoComponent, canActivate: [AuthguardGuard]}, 
     { path: '**', pathMatch: 'full', redirectTo: 'login' },
 ]
 

@@ -6,7 +6,7 @@ import { LoginService } from './login.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthguardGuard implements CanActivate  {
+export class AuthguardGuardCapturador implements CanActivate  {
  
   constructor(private servicioLogin:LoginService, private router:Router) {}
  
@@ -17,17 +17,16 @@ export class AuthguardGuard implements CanActivate  {
     return this.isLogin(routeurl);
   }
   isLogin(routeurl: string) {
-    if (this.servicioLogin.isLoggedIn() && (this.servicioLogin.getRol() == "Alumno")) {
+    if (this.servicioLogin.isLoggedIn() && (this.servicioLogin.getRol() == "Capturador")) {
       return true;
     } else {
       if(this.servicioLogin.isLoggedIn()){
         switch(this.servicioLogin.getRol()) { 
-          case "Administrador": { 
-            //return vista admin
-            break; 
+          case "Alumno": { 
+            return this.router.navigateByUrl('inicio-alumno');
           }
-          case "Capturador":{
-            //return vista capturador
+          case "Administrador":{
+            //return vista admin
           }
         } 
       } else {

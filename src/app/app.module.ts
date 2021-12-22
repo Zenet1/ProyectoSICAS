@@ -15,6 +15,7 @@ import { CuestionarioComponent } from './components/cuestionario/cuestionario.co
 
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { AsistenciaAlumnoComponent } from './components/asistencia-alumno/asistencia-alumno.component';
+import { InicioAlumnoComponent } from './components/inicio-alumno/inicio-alumno.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { AsistenciaAlumnoComponent } from './components/asistencia-alumno/asiste
     ScannerComponent,
     RegistroExternoComponent,
     CuestionarioComponent,
-    AsistenciaAlumnoComponent
+    AsistenciaAlumnoComponent,
+    InicioAlumnoComponent
   ],
   imports: [
     BrowserModule,

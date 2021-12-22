@@ -12,7 +12,7 @@ export class AsistenciaAlumnoComponent implements OnInit {
   constructor(private servicioAsistenciaAlum:AsistenciaAlumnoService, private router:Router) { }
 
   ngOnInit(): void {
-
+    
   }
 
   enviarAsistencia(){
@@ -24,7 +24,6 @@ export class AsistenciaAlumnoComponent implements OnInit {
   }
 
   cancelar(){
-    //this.router.navigateByUrl('inicio-alumno');
     this.router.navigateByUrl('login');
   }
 }
