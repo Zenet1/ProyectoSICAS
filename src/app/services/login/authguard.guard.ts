@@ -27,7 +27,7 @@ export class AuthguardGuard implements CanActivate  {
             break; 
           }
           case "Capturador":{
-            //return vista capturador
+            return this.router.navigateByUrl('inicio-capturador');
           }
         } 
       } else {

@@ -26,7 +26,7 @@ export class AuthguardGuardAdmin implements CanActivate  {
             return this.router.navigateByUrl('inicio-alumno');
           }
           case "Capturador":{
-            //return vista capturador
+            return this.router.navigateByUrl('inicio-capturador');
           }
         } 
       } else {

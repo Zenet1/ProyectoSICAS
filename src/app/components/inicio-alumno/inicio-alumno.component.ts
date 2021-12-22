@@ -14,7 +14,6 @@ export class InicioAlumnoComponent implements OnInit {
   constructor(private servicioLogin:LoginService, private router: Router) { }
 
   ngOnInit(): void {
-    //console.log(JSON.parse(this.servicioLogin.getUsuario()).Cuenta);
     this.estaLogueado = this.servicioLogin.isLoggedIn();
     if(this.estaLogueado){
       this.usuario = this.servicioLogin.getUsuario();

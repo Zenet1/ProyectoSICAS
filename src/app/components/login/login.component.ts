@@ -28,7 +28,8 @@ export class LoginComponent implements OnInit {
           break; 
         }
         case "Capturador":{
-          //this.router.navigateByUrl('inicio-capturador');
+          this.router.navigateByUrl('inicio-capturador');
+          break;
         }
         default:{
           this.router.navigateByUrl('login');
@@ -57,7 +58,8 @@ export class LoginComponent implements OnInit {
               break; 
             }
             case "Capturador":{
-
+              location.href = '/inicio-capturador';
+              break;
             }
           } 
         } else {

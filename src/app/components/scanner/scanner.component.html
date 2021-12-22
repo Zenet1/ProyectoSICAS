@@ -1,11 +1,11 @@
 <div class="container-fluid">
     <div class="container-botones row g-0 mb-3">
         <div class="btn-group">
-            <button [disabled]="!escaneoRealizado" class="btn btn-escaneo" (click)="nuevoEscaneo()">Nuevo Escaneo</button>
-            <button class="btn" [ngClass]="escaneoRealizado? 'btn-success':'btn-secondary'" [disabled]="!escaneoRealizado" (click)="verificar()">Verificar</button>
+            <button type="button" [disabled]="!escaneoRealizado" class="btn btn-escaneo" (click)="nuevoEscaneo()">Nuevo Escaneo</button>
+            <button type="button" class="btn" [ngClass]="escaneoRealizado? 'btn-success':'btn-secondary'" [disabled]="!escaneoRealizado" (click)="verificar()">Verificar</button>
         </div>
     </div>
-    <div class="wrapper-escaner  row g-0 mb-3">
+    <div *ngIf="!escaneoRealizado" class="wrapper-escaner row g-0 mb-3">
         <div class="container-escaner">
             <zxing-scanner
                 (scanSuccess)="scanSuccessHandler($event)"
@@ -13,6 +13,32 @@
                 (scanFailure)="scanFailureHandler($event)"
                 (scanComplete)="scanCompleteHandler($event)"
             ></zxing-scanner>
+        </div>
+    </div>
+
+    <div *ngIf="resultadoValidacion != null" class="wrapper-resultado row g-0 mb-3">
+        <div *ngIf="resultadoValidacion" class="container-resultado">
+            <div class="container-icono row g-0">
+                <img class="icono-validacion" src="../../../assets/img/Icon_Valido.png" alt="valido">
+            </div>
+            <div class="row g-0">
+                <p class="text-center">Verificación exitosa</p> 
+            </div>
+        </div>
+
+        <div *ngIf="!resultadoValidacion" class="container-resultado">
+            <div class="container-icono row g-0">
+                <img class="icono-validacion" src="../../../assets/img/Icon_NoValido.png" alt="no-valido">
+            </div>
+            <div class="row g-0">
+                <p class="text-center">Verificación fallida</p> 
+            </div>
+        </div>
+    </div>
+
+    <div class="container-boton">
+        <div class="btn-group">
+            <button type="button" (click)="cancelar()" class="btn btn-regresar">Regresar a inicio</button>
         </div>
     </div>
 </div>

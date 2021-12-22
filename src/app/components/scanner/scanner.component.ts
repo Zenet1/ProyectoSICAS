@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { ZXingScannerComponent } from '@zxing/ngx-scanner';
+import { CapturadorService } from 'src/app/services/capturador/capturador.service';
 
 @Component({
   selector: 'app-scanner',
@@ -9,16 +11,18 @@ import { ZXingScannerComponent } from '@zxing/ngx-scanner';
 export class ScannerComponent implements OnInit {
   @ViewChild(ZXingScannerComponent) scanner: ZXingScannerComponent;
   resultadoEscaneo: any;
-  escaneoRealizado:boolean =false;
-  constructor() { }
+  escaneoRealizado:boolean = false;
+  resultadoValidacion:boolean;
+  constructor(private servicioCapturador:CapturadorService, private router:Router) { }
 
   ngOnInit(): void {
-
+    console.log(this.resultadoValidacion);
   }
 
   nuevoEscaneo(){
     this.scanner.enable = true;
     this.escaneoRealizado = false;
+    this.resultadoValidacion = null;
   }
 
   scanSuccessHandler(event){
@@ -28,10 +32,24 @@ export class ScannerComponent implements OnInit {
   }
 
   verificar(){
+    //this.resultadoValidacion = false;
     if(this.resultadoEscaneo != null){
-        alert(this.resultadoEscaneo);
-        
+      //alert(this.resultadoEscaneo);
+      this.servicioCapturador.verficar(this.resultadoEscaneo).subscribe(
+        respuesta =>{
+          if(respuesta = "valido"){
+            this.resultadoValidacion = true;
+          } else {
+            this. resultadoValidacion = false;
+          }
+        }
+      );
     }
+  }
+
+  cancelar(){
+    location.href = '/inicio-capturador';
+    //this.router.navigateByUrl('inicio-capturador');
   }
 
   scanErrorHandler(event){
