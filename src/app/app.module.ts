@@ -17,6 +17,7 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { AsistenciaAlumnoComponent } from './components/asistencia-alumno/asistencia-alumno.component';
 import { InicioAlumnoComponent } from './components/inicio-alumno/inicio-alumno.component';
 import { InicioCapturadorComponent } from './components/inicio-capturador/inicio-capturador.component';
+import { InicioAdministradorComponent } from './components/inicio-administrador/inicio-administrador.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { InicioCapturadorComponent } from './components/inicio-capturador/inicio
     CuestionarioComponent,
     AsistenciaAlumnoComponent,
     InicioAlumnoComponent,
-    InicioCapturadorComponent
+    InicioCapturadorComponent,
+    InicioAdministradorComponent
   ],
   imports: [
     BrowserModule,
