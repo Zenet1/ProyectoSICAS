@@ -45,25 +45,39 @@ export class CuestionarioComponent implements OnInit {
   }
 
   enviar(){
-    let cantidadSi:number = 0;
-    for (let index = 0; index < this.preguntas.length; index++) {
-      if(this.preguntas.controls[index].get("respuesta").value  == 'si'){
-        cantidadSi++; 
+
+    if (window.confirm("Si está seguro de su respuestas, confirme para continuar")) {
+
+      let cantidadSi:number = 0;
+      for (let index = 0; index < this.preguntas.length; index++) {
+        if(this.preguntas.controls[index].get("respuesta").value  == 'si'){
+          cantidadSi++; 
+        }
       }
+  
+      if(cantidadSi > 0){
+        this.cuestionario.controls["accion"].setValue("rechazado");
+        this.servicioCuestionario.rechazado(this.cuestionario.value).subscribe();
+      } else {
+        if(this.estaLogueado){
+          switch(this.servicioLogin.getRol()) { 
+            case "Alumno": { 
+              document.cookie = "alumnoAceptado=Si";
+              console.log(document.cookie);
+              this.router.navigateByUrl('asistencia-alumno');
+            }
+          }
+          
+        } else {
+          //this.router.navigateByUrl('asistencia-externo');
+        }
+      }
+
     }
 
-    if(cantidadSi > 0){
-      this.cuestionario.controls["accion"].setValue("rechazado");
-      this.servicioCuestionario.rechazado(this.cuestionario.value).subscribe();
-    } else {
-      if(this.estaLogueado){
-        this.router.navigateByUrl('asistencia-alumno');
-        document.cookie = "cuestionarioAceptado=Si";
-        console.log(document.cookie);
-      } else {
-        //this.router.navigateByUrl('asistencia-externo');
-      }
-    }
+
+
+    
   }
 
   cancelar(){

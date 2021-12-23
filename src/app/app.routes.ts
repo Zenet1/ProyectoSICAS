@@ -11,6 +11,7 @@ import { AuthguardGuardAdmin } from "./services/login/authguardAdmin.guard";
 import { AuthguardGuardCapturador } from "./services/login/authguardCapturador.guard";
 import { InicioAlumnoComponent } from "./components/inicio-alumno/inicio-alumno.component";
 import { InicioCapturadorComponent } from "./components/inicio-capturador/inicio-capturador.component";
+import { AuthguardGuardCuestionario } from "./services/cuestionario/authguardCuestionario.guard";
 
 const app_routes: Routes = [
     { path: 'login', component: LoginComponent},

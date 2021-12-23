@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -10,7 +11,7 @@ export class AsistenciaAlumnoService {
   API:string = "/";
   constructor(private clienteHttp: HttpClient) { }
 
-  enviarAsistencia(clases:any):Observable<any>{
-    return this.clienteHttp.post<any>(this.API, clases);
+  enviarAsistencia(datos:FormGroup):Observable<any>{
+    return this.clienteHttp.post<any>(this.API, datos);
   }
 }

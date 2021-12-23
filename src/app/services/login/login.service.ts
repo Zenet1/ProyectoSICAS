@@ -17,6 +17,7 @@ export class LoginService {
   usuario:any;
 
   public iniciarSesion(datos:FormGroup) {
+    console.log("hola");
     return this.httpClient.post<any>(this.API, datos).pipe(map(Users => {
       //console.log(Users["Rol"]);
       
