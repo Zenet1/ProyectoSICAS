@@ -18,6 +18,7 @@ import { AsistenciaAlumnoComponent } from './components/asistencia-alumno/asiste
 import { InicioAlumnoComponent } from './components/inicio-alumno/inicio-alumno.component';
 import { InicioCapturadorComponent } from './components/inicio-capturador/inicio-capturador.component';
 import { InicioAdministradorComponent } from './components/inicio-administrador/inicio-administrador.component';
+import { AsistenciaExternoComponent } from './components/asistencia-externo/asistencia-externo.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { InicioAdministradorComponent } from './components/inicio-administrador/
     AsistenciaAlumnoComponent,
     InicioAlumnoComponent,
     InicioCapturadorComponent,
-    InicioAdministradorComponent
+    InicioAdministradorComponent,
+    AsistenciaExternoComponent
   ],
   imports: [
     BrowserModule,

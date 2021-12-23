@@ -13,6 +13,7 @@ import { InicioAlumnoComponent } from "./components/inicio-alumno/inicio-alumno.
 import { InicioCapturadorComponent } from "./components/inicio-capturador/inicio-capturador.component";
 import { AuthguardGuardCuestionario } from "./services/cuestionario/authguardCuestionario.guard";
 import { InicioAdministradorComponent } from "./components/inicio-administrador/inicio-administrador.component";
+import { AsistenciaExternoComponent } from "./components/asistencia-externo/asistencia-externo.component";
 
 const app_routes: Routes = [
     { path: 'login', component: LoginComponent},
@@ -20,6 +21,7 @@ const app_routes: Routes = [
     { path: 'registro-externo', component: RegistroExternoComponent},
     { path: 'cuestionario', component: CuestionarioComponent},
     { path: 'asistencia-alumno', component: AsistenciaAlumnoComponent, canActivate: [AuthguardGuard]},
+    { path: 'asistencia-externo', component: AsistenciaExternoComponent},
     { path: 'inicio-alumno', component: InicioAlumnoComponent, canActivate: [AuthguardGuard]},
     { path: 'inicio-capturador', component: InicioCapturadorComponent},
     { path: 'inicio-administrador', component: InicioAdministradorComponent},//, canActivate:[AuthguardGuardAdmin]},

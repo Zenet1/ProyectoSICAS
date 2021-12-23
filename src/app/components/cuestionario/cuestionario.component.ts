@@ -45,9 +45,8 @@ export class CuestionarioComponent implements OnInit {
   }
 
   enviar(){
-
     if (window.confirm("Si está seguro de su respuestas, confirme para continuar")) {
-
+      //recoleccion de respuestas
       let cantidadSi:number = 0;
       for (let index = 0; index < this.preguntas.length; index++) {
         if(this.preguntas.controls[index].get("respuesta").value  == 'si'){
@@ -69,15 +68,11 @@ export class CuestionarioComponent implements OnInit {
           }
           
         } else {
-          //this.router.navigateByUrl('asistencia-externo');
+          document.cookie = "externoAceptado=Si";
+          this.router.navigateByUrl('asistencia-externo');
         }
       }
-
     }
-
-
-
-    
   }
 
   cancelar(){
