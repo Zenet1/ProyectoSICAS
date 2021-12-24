@@ -12,7 +12,16 @@ export class AsistenciaAlumnoComponent implements OnInit {
   constructor(private servicioAsistenciaAlum:AsistenciaAlumnoService, private router:Router) { }
 
   ngOnInit(): void {
+    this.obtenerClases();
+    console.log(this.clases);
+  }
 
+  obtenerClases(){
+    this.servicioAsistenciaAlum.obtenerClases(JSON.stringify({ accion:"obtenerMaterias"})).subscribe(
+      respuesta=>{
+        this.clases = respuesta;
+      }
+    )
   }
 
   enviarAsistencia(){

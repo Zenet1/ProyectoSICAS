@@ -13,4 +13,8 @@ export class AsistenciaAlumnoService {
   enviarAsistencia(clases:any):Observable<any>{
     return this.clienteHttp.post<any>(this.API, clases);
   }
+
+  obtenerClases(accion:any){
+    return this.clienteHttp.post<any>(this.API, accion);
+  }
 }
