@@ -5,9 +5,23 @@
             <button type="button" class="btn" [ngClass]="escaneoRealizado? 'btn-success':'btn-secondary'" [disabled]="!escaneoRealizado" (click)="verificar()">Verificar</button>
         </div>
     </div>
-    <div *ngIf="!escaneoRealizado" class="wrapper-escaner row g-0 mb-3">
+
+    <div>
+        <div class="mb-3">
+            <label for="camaras" class="form-label">Seleccione la cámara que quiere utilizar</label>
+            <select id="camaras" class="form-select" required>
+                <option value="" selected disabled hidden>Seleccionar</option>
+                <option *ngFor="let camara of camaras" value="si">{{camara.label}}</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="wrapper-escaner row g-0 mb-3">
         <div class="container-escaner">
             <zxing-scanner
+                [autostart]="false"
+                (camerasFound)="camerasFoundHandler($event)"
                 (scanSuccess)="scanSuccessHandler($event)"
                 (scanError)="scanErrorHandler($event)"
                 (scanFailure)="scanFailureHandler($event)"

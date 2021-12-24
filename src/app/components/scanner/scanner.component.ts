@@ -13,22 +13,26 @@ export class ScannerComponent implements OnInit {
   resultadoEscaneo: any;
   escaneoRealizado:boolean = false;
   resultadoValidacion:boolean;
+  camaras:any;
   constructor(private servicioCapturador:CapturadorService, private router:Router) { }
 
   ngOnInit(): void {
-    console.log(this.resultadoValidacion);
+    //console.log(this.resultadoValidacion);
   }
 
   nuevoEscaneo(){
-    this.scanner.enable = true;
+    //this.scanner.enable = true;
+    this.scanner.scanStart();
     this.escaneoRealizado = false;
     this.resultadoValidacion = null;
   }
 
   scanSuccessHandler(event){
-    this.scanner.enable = false;
+    //this.scanner.enable = false;
+    this.scanner.scanStop();
     this.escaneoRealizado = true;
     this.resultadoEscaneo = event;
+    alert(this.resultadoEscaneo);
   }
 
   verificar(){
@@ -48,19 +52,19 @@ export class ScannerComponent implements OnInit {
   }
 
   cancelar(){
-    location.href = '/inicio-capturador';
+    this.scanner.askForPermission();
+    //location.href = '/inicio-capturador';
     //this.router.navigateByUrl('inicio-capturador');
   }
 
-  scanErrorHandler(event){
-      
+  camerasFoundHandler(event){
+    this.camaras = event;
+    console.log(this.camaras);
   }
 
-  scanFailureHandler(event){
+  scanErrorHandler(event){ }
 
-  }
+  scanFailureHandler(event){ }
 
-  scanCompleteHandler(event){
-
-  }
+  scanCompleteHandler(event){ }
 }

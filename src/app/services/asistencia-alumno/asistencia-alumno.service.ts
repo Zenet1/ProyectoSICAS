@@ -14,4 +14,8 @@ export class AsistenciaAlumnoService {
   enviarAsistencia(datos:FormGroup):Observable<any>{
     return this.clienteHttp.post<any>(this.API, datos);
   }
+
+  obtenerClases(accion:any){
+    return this.clienteHttp.post<any>(this.API, accion);
+  }
 }

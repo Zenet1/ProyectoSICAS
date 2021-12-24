@@ -11,19 +11,32 @@ import { AsistenciaAlumnoService } from 'src/app/services/asistencia-alumno/asis
 export class AsistenciaAlumnoComponent implements OnInit {
   clases:any;
   formularioAsistenciaAlumno:FormGroup;
+  datos:string;
 
   constructor(private servicioAsistenciaAlum:AsistenciaAlumnoService, private formBuilder:FormBuilder, private router:Router) { }
 
   ngOnInit(): void {
-    this.formularioAsistenciaAlumno = this.formBuilder.group({
-      clases: [""],
-      accion: [""],
-    }
-  );
+    this.obtenerClases();
+    /*this.formularioAsistenciaAlumno = this.formBuilder.group({
+        clases: [""],
+        accion: [""],
+      }
+    );*/
+  }
+
+  obtenerClases(){
+    this.servicioAsistenciaAlum.obtenerClases(JSON.stringify({ accion: "obtenerMaterias"})).subscribe(respuesta=>{
+      
+      }
+    );
   }
 
   enviarAsistencia(){
+    if (window.confirm("Si está seguro que desea asistir, confirme para finalizar")) {
+      this.datos = JSON.stringify({ accion: 5, y: 6 });
+    }
 
+    /*
     if (window.confirm("Si está seguro que desea asistir, confirme para finalizar")) {
       this.formularioAsistenciaAlumno.controls["clases"].setValue(this.clases);
       this.formularioAsistenciaAlumno.controls["accion"].setValue("aceptado");
@@ -33,6 +46,7 @@ export class AsistenciaAlumnoComponent implements OnInit {
         }
       );
     }
+    */
   }
 
   cancelar(){
