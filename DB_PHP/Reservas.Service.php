@@ -11,12 +11,13 @@ $datos = json_decode($json);
 $Global_datosReservaAlumno = array();
 $accion = "";
 
-switch ($accion) {
-    case "ObtenerMaterias":
+switch ($datos->accion) {
+    case "obtenerMaterias":
         ObtenerMateriasDisponibles($DB_CONEXION);
         echo $Global_datosReservaAlumno;
         break;
     default:
+        echo "Accion no conocida";
         break;
 }
 
