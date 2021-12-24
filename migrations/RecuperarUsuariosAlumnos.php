@@ -2,11 +2,12 @@
     header('Access-Control-Allow-Origin: *'); 
     header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
     header('Content-Type: text/html; charset=UTF-8');
-    include "../BD_Conexion.php";
+    header('Content-Type: text/html; charset=UTF-8');
+    include "../DB_PHP/BD_Conexion_migrations.php";
 
     $archivo = file("bd_src/Licenciatura/AlumnosInscripcionEnPeriodoCurso.txt");
     $saltado = false;
-    $sql_introducir_cuenta = "INSERT INTO usuarios (Cuenta, Contraseña, IDRol) VALUES (?,?,?)";
+    $sql_introducir_cuenta = "INSERT INTO sicas_test.usuarios (Cuenta, Contraseña, IDRol) VALUES (?,?,?)";
 
     foreach($archivo as $linea){
         if(!$saltado){

@@ -2,12 +2,12 @@
     header('Access-Control-Allow-Origin: *'); 
     header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
     header('Content-Type: text/html; charset=UTF-8');
-    include "../BD_Conexion.php";
+    include "../DB_PHP/BD_Conexion_migrations.php";
 
-    $archivo = file("ProfesoresConAlumnosInscritos.txt");
+    $archivo = file("bd_src/Licenciatura/ProfesoresConAlumnosInscritos.txt");
     $saltado = false;
 
-    $sqlInsert = "INSERT INTO sicasbd.academicos (ClaveProfesor, NombreProfesor, ApellidoPaternoProfesor, ApellidoMaternoProfesor, GradoAcademico, CorreoProfesor) VALUES (?,?,?,?,?,?)";
+    $sqlInsert = "INSERT INTO sicas_test.academicos (ClaveProfesor, NombreProfesor, ApellidoPaternoProfesor, ApellidoMaternoProfesor, GradoAcademico, CorreoProfesor) VALUES (?,?,?,?,?,?)";
 
 
     $obj_insert = $DB_CONEXION->prepare($sqlInsert);
