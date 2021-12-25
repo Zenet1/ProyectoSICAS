@@ -10,8 +10,8 @@ export class AsistenciaAlumnoService {
   API:string = "/ProyectoSICAS/DB_PHP/Reservas.Service.php";
   constructor(private clienteHttp: HttpClient) { }
 
-  enviarAsistencia(clases:any):Observable<any>{
-    return this.clienteHttp.post<any>(this.API, clases);
+  enviarAsistencia(datos:any):Observable<any>{
+    return this.clienteHttp.post<any>(this.API, datos);
   }
 
   obtenerClases(accion:any){

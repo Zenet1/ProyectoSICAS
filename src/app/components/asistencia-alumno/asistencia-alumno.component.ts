@@ -12,11 +12,12 @@ export class AsistenciaAlumnoComponent implements OnInit {
   constructor(private servicioAsistenciaAlum:AsistenciaAlumnoService, private router:Router) { }
 
   ngOnInit(): void {
+
     this.obtenerClases();
   }
 
   obtenerClases(){
-    this.servicioAsistenciaAlum.obtenerClases(JSON.stringify({ accion:"obtenerMaterias"})).subscribe(
+    this.servicioAsistenciaAlum.obtenerClases(JSON.stringify({accion:"obtenerMaterias"})).subscribe(
       respuesta=>{
         this.clases = respuesta;
         console.log(this.clases);
@@ -25,9 +26,10 @@ export class AsistenciaAlumnoComponent implements OnInit {
   }
 
   enviarAsistencia(){
-    this.servicioAsistenciaAlum.enviarAsistencia(this.clases).subscribe(
+    //console.log(JSON.stringify({carga: this.clases, accion:"asignarReservaAlumno"}));
+    this.servicioAsistenciaAlum.enviarAsistencia(JSON.stringify({carga:this.clases, accion:"asignarReservaAlumno"})).subscribe(
       respuesta=>{
-        //asignarReservaAlumno
+        alert('Se ha registrado tu reserva sastisfactoriamente');
         //this.router.navigateByUrl('inicio-alumno');
       }
     );
