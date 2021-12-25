@@ -13,13 +13,13 @@ export class AsistenciaAlumnoComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerClases();
-    console.log(this.clases);
   }
 
   obtenerClases(){
     this.servicioAsistenciaAlum.obtenerClases(JSON.stringify({ accion:"obtenerMaterias"})).subscribe(
       respuesta=>{
         this.clases = respuesta;
+        console.log(this.clases);
       }
     )
   }
@@ -27,6 +27,7 @@ export class AsistenciaAlumnoComponent implements OnInit {
   enviarAsistencia(){
     this.servicioAsistenciaAlum.enviarAsistencia(this.clases).subscribe(
       respuesta=>{
+        //asignarReservaAlumno
         //this.router.navigateByUrl('inicio-alumno');
       }
     );

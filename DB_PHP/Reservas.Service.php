@@ -9,22 +9,22 @@ $json = file_get_contents('php://input');
 $datos = json_decode($json);
 
 $Global_datosReservaAlumno = array();
-$accion = "";
 
 switch ($datos->accion) {
     case "obtenerMaterias":
         ObtenerMateriasDisponibles($DB_CONEXION);
-        echo $Global_datosReservaAlumno;
+        echo json_encode($Global_datosReservaAlumno);
+        break;
+    case "asignarReservaAlumno":
         break;
     default:
-        echo "Accion no conocida";
         break;
 }
 
 function ObtenerMateriasDisponibles(PDO $Conexion)
 {
     $FechateDiaSiguiente = date('Y-m-d', strtotime('+' . obtenerDiaSiguienteHabil()[1] . ' day'));
-    $sql_obtenerMateriasAlumnoPorDia = "SELECT CGAC.IDCarga, CGAC.IDGrupo,GPS.IDAsignatura,ASIG.NombreAsignatura, HRS.Dia, HRS.HoraInicioHorario, HRS.HoraFinHorario, SLS.Capacidad
+    $sql_obtenerMateriasAlumnoPorDia = "SELECT CGAC.IDCarga, CGAC.IDGrupo,GPS.IDAsignatura,ASIG.NombreAsignatura, HRS.Dia, HRS.HoraInicioHorario, HRS.HoraFinHorario, SLS.Capacidad,SLS.NombreSalon
     FROM cargaacademica AS CGAC
     INNER JOIN grupos AS GPS
     ON GPS.IDGrupo=CGAC.IDGrupo

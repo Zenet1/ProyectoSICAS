@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AsistenciaAlumnoService {
 
-  API:string = "/";
+  API:string = "/ProyectoSICAS/DB_PHP/Reservas.Service.php";
   constructor(private clienteHttp: HttpClient) { }
 
   enviarAsistencia(clases:any):Observable<any>{
