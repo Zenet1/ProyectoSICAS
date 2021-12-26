@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CookieService } from 'src/app/services/cookie/cookie.service';
 import { RegistroExternoService } from 'src/app/services/registro-externo/registro-externo.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class RegistroExternoComponent implements OnInit {
 
   formularioRegistro:FormGroup;
 
-  constructor(private servicioExterno:RegistroExternoService, private formBuilder:FormBuilder, private router:Router) { }
+  constructor(private servicioExterno:RegistroExternoService, private servicioCookie:CookieService, private formBuilder:FormBuilder, private router:Router) { }
 
   ngOnInit(): void {
     this.formularioRegistro = this.formBuilder.group({
@@ -38,5 +39,4 @@ export class RegistroExternoComponent implements OnInit {
   cancelar(){
     this.router.navigateByUrl('login');
   }
-
 }

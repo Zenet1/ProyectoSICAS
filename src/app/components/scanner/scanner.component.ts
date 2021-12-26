@@ -31,6 +31,7 @@ export class ScannerComponent implements OnInit {
   nuevoEscaneo(){
     this.resultadoEscaneo = null;
     this.escaneoRealizado = false;
+    this.resultadoValidacion = null;
     this.scanner.scanStart();
   }
 
