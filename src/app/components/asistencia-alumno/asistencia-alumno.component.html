@@ -11,7 +11,11 @@
 
             <div class="clases">
                 <ul>
-                    <li *ngFor="let clase of clases"  class="">{{clase}}</li>
+                    <li *ngFor="let clase of clases"  class="">
+                        {{clase.NombreAsignatura}}-
+                        Aula: {{clase.NombreSalon}}- Dia: {{clase.Dia}}- 
+                        Horario: {{clase.HoraInicioHorario}}-{{clase.HoraFinHorario}}
+                    </li>
                 </ul>
             </div>
         </div>
@@ -26,7 +30,7 @@
             </p>
             <div class="container-boton">
                 <div class="btn-group">
-                    <button (click)="enviarAsistencia()" class="btn btn-enviar">Enviar</button>
+                    <button (click)="enviarAsistencia()" (click)="enviarQR()" class="btn btn-enviar">Enviar</button>
                     <button (click)="cancelar()" class="btn btn-danger">Cancelar</button>
                 </div>
             </div>

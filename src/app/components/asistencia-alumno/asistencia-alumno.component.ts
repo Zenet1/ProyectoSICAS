@@ -15,24 +15,31 @@ export class AsistenciaAlumnoComponent implements OnInit {
   constructor(private servicioAsistenciaAlum:AsistenciaAlumnoService, private formBuilder:FormBuilder, private router:Router) { }
 
   ngOnInit(): void {
-    this.formularioAsistenciaAlumno = this.formBuilder.group({
-      clases: [""],
-      accion: [""],
-    }
-  );
+
+    this.obtenerClases();
+  }
+
+  obtenerClases(){
+    this.servicioAsistenciaAlum.obtenerClases(JSON.stringify({accion:"obtenerMaterias"})).subscribe(
+      respuesta=>{
+        this.clases = respuesta;
+        console.log(this.clases);
+      }
+    )
   }
 
   enviarAsistencia(){
+    //console.log(JSON.stringify({carga: this.clases, accion:"asignarReservaAlumno"}));
+    this.servicioAsistenciaAlum.enviarAsistencia(JSON.stringify({carga:this.clases, accion:"asignarReservaAlumno"})).subscribe(
+      respuesta=>{
+        alert('Se ha registrado tu reserva sastisfactoriamente');
+        //this.router.navigateByUrl('inicio-alumno');
+      }
+    );
+  }
 
-    if (window.confirm("Si está seguro que desea asistir, confirme para finalizar")) {
-      this.formularioAsistenciaAlumno.controls["clases"].setValue(this.clases);
-      this.formularioAsistenciaAlumno.controls["accion"].setValue("aceptado");
-      this.servicioAsistenciaAlum.enviarAsistencia(this.formularioAsistenciaAlumno.value).subscribe(
-        respuesta=>{
-          this.router.navigateByUrl('inicio-alumno');
-        }
-      );
-    }
+  enviarQR(){
+    this.servicioAsistenciaAlum.enviarCorreo(JSON.stringify({accion:"EnviarQRAlumno"})).subscribe();
   }
 
   cancelar(){
