@@ -16,7 +16,6 @@ export class AsistenciaAlumnoComponent implements OnInit {
   constructor(private servicioAsistenciaAlum:AsistenciaAlumnoService, private formBuilder:FormBuilder, private router:Router) { }
 
   ngOnInit(): void {
-
     this.obtenerClases();
   }
 
@@ -24,23 +23,30 @@ export class AsistenciaAlumnoComponent implements OnInit {
     this.servicioAsistenciaAlum.obtenerClases(JSON.stringify({accion:"obtenerMaterias"})).subscribe(
       respuesta=>{
         this.clases = respuesta;
-        console.log(this.clases);
-      }
-    )
-  }
-
-  enviarAsistencia(){
-    //console.log(JSON.stringify({carga: this.clases, accion:"asignarReservaAlumno"}));
-    this.servicioAsistenciaAlum.enviarAsistencia(JSON.stringify({carga:this.clases, accion:"asignarReservaAlumno"})).subscribe(
-      respuesta=>{
-        alert('Se ha registrado tu reserva sastisfactoriamente');
-        //this.router.navigateByUrl('inicio-alumno');
+        //console.log(this.clases);
       }
     );
   }
 
+  enviarAsistencia(){
+    if (window.confirm("Si está seguro que desea asistir, confirme para finalizar")){
+      this.servicioAsistenciaAlum.enviarAsistencia(JSON.stringify({carga:this.clases, accion:"asignarReservaAlumno"})).subscribe(
+        respuesta=>{
+          alert('Se ha registrado tu reserva sastisfactoriamente');
+          //this.enviarQR();
+          //this.router.navigateByUrl('inicio-alumno');
+        }
+      );
+    }
+  }
+
   enviarQR(){
-    this.servicioAsistenciaAlum.enviarCorreo(JSON.stringify({accion:"EnviarQRAlumno"})).subscribe();
+    this.servicioAsistenciaAlum.enviarCorreo(JSON.stringify({accion:"EnviarQRAlumno"})).subscribe(
+      respuesta=>{
+        alert('Se ha enviado un código QR a tu correo, que deberás presentar para entrar a la facultad');
+        this.router.navigateByUrl('inicio-alumno');
+      }
+    );
   }
 
   cancelar(){

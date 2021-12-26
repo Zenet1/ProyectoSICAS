@@ -74,14 +74,10 @@ export class CuestionarioComponent implements OnInit {
         this.servicioCuestionario.rechazado(this.cuestionario.value).subscribe();
       } else {
         if(this.estaLogueado){
-          switch(this.servicioLogin.getRol()) {
-            case "Alumno": { 
+          switch(this.servicioLogin.getRol()){
+            case "Alumno": {
               this.router.navigateByUrl('asistencia-alumno');
             }
-            default: { 
-              this.router.navigateByUrl('login');
-              break; 
-           } 
           }
         } else {
           this.router.navigateByUrl('asistencia-externo');
