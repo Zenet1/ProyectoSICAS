@@ -23,6 +23,21 @@ export class CuestionarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.estaLogueado = this.servicioLogin.isLoggedIn();
+
+    if(this.estaLogueado){
+      switch(this.servicioLogin.getRol()) {
+        case "Administrador": { 
+          this.router.navigateByUrl('login');
+        }
+        case "Capturador":{
+          this.router.navigateByUrl('login');
+        }
+        default:{
+
+        }
+      }
+    }
+
     this.servicioCuestionario.obtenerPreguntas().subscribe(
       respuesta=>{
         this.preguntasBD=respuesta;
@@ -45,9 +60,8 @@ export class CuestionarioComponent implements OnInit {
   }
 
   enviar(){
-
     if (window.confirm("Si está seguro de su respuestas, confirme para continuar")) {
-
+      //recoleccion de respuestas
       let cantidadSi:number = 0;
       for (let index = 0; index < this.preguntas.length; index++) {
         if(this.preguntas.controls[index].get("respuesta").value  == 'si'){
@@ -60,24 +74,20 @@ export class CuestionarioComponent implements OnInit {
         this.servicioCuestionario.rechazado(this.cuestionario.value).subscribe();
       } else {
         if(this.estaLogueado){
-          switch(this.servicioLogin.getRol()) { 
+          switch(this.servicioLogin.getRol()) {
             case "Alumno": { 
-              document.cookie = "alumnoAceptado=Si";
-              console.log(document.cookie);
               this.router.navigateByUrl('asistencia-alumno');
             }
+            default: { 
+              this.router.navigateByUrl('login');
+              break; 
+           } 
           }
-          
         } else {
-          //this.router.navigateByUrl('asistencia-externo');
+          this.router.navigateByUrl('asistencia-externo');
         }
       }
-
     }
-
-
-
-    
   }
 
   cancelar(){

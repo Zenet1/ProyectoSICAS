@@ -11,6 +11,7 @@ import { AsistenciaAlumnoService } from 'src/app/services/asistencia-alumno/asis
 export class AsistenciaAlumnoComponent implements OnInit {
   clases:any;
   formularioAsistenciaAlumno:FormGroup;
+  datos:string;
 
   constructor(private servicioAsistenciaAlum:AsistenciaAlumnoService, private formBuilder:FormBuilder, private router:Router) { }
 

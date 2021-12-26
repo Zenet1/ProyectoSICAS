@@ -1,0 +1,35 @@
+<div class="container-fluid">
+    <div class="wrapper-descripcion mb-3">
+        <div class="container-descripcion">
+            <h3 class="text-center">Registro de asistencia</h3>
+        </div>
+    </div>
+
+    <div class="wrapper-oficinas row g-0 mb-3">
+        <div class="container-oficinas">
+            <p>Estas son las oficinas disponibles para asistir el día de mañana:</p>
+
+            <div class="oficinas">
+                <ul>
+                    <li *ngFor="let oficina of oficinas"  class="">{{oficina}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrapper-enviar">
+        <div class="container-enviar">
+            <p>
+                Al seleccionar "Enviar" se registrará su asistencia a las oficinas seleccionadas
+                y se le enviará un código QR a su correo institucional que deberá presentar en la facultad
+                para que se admita su entrada.
+            </p>
+            <div class="container-boton">
+                <div class="btn-group">
+                    <button (click)="enviarAsistencia()" class="btn btn-enviar">Enviar</button>
+                    <button (click)="cancelar()" class="btn btn-danger">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
