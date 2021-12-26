@@ -9,34 +9,39 @@ import { CapturadorService } from 'src/app/services/capturador/capturador.servic
   styleUrls: ['./scanner.component.css']
 })
 export class ScannerComponent implements OnInit {
-  @ViewChild(ZXingScannerComponent) scanner: ZXingScannerComponent;
-  resultadoEscaneo: any;
+  @ViewChild('escaner', {static: false})
+  scanner: ZXingScannerComponent;
+
+  tieneCamaras = false;
+  tienePermisos: boolean;
+  camarasDisponibles: MediaDeviceInfo[];
+  camaraSeleccionada: MediaDeviceInfo = null;
+
   escaneoRealizado:boolean = false;
+  resultadoEscaneo: any;
+
   resultadoValidacion:boolean;
-  camaras:any;
+
   constructor(private servicioCapturador:CapturadorService, private router:Router) { }
 
   ngOnInit(): void {
-    //console.log(this.resultadoValidacion);
+    
   }
 
   nuevoEscaneo(){
-    //this.scanner.enable = true;
-    this.scanner.scanStart();
+    this.resultadoEscaneo = null;
     this.escaneoRealizado = false;
-    this.resultadoValidacion = null;
+    this.scanner.scanStart();
   }
 
-  scanSuccessHandler(event){
-    //this.scanner.enable = false;
-    this.scanner.scanStop();
-    this.escaneoRealizado = true;
-    this.resultadoEscaneo = event;
-    alert(this.resultadoEscaneo);
+  enSeleccionCamara(selected){
+    const device = this.camarasDisponibles.find(x => x.deviceId === selected);
+    this.camaraSeleccionada = device || null;
   }
 
   verificar(){
-    //this.resultadoValidacion = false;
+    this.resultadoValidacion = false;
+    /*
     if(this.resultadoEscaneo != null){
       //alert(this.resultadoEscaneo);
       this.servicioCapturador.verficar(this.resultadoEscaneo).subscribe(
@@ -49,22 +54,35 @@ export class ScannerComponent implements OnInit {
         }
       );
     }
+    */
   }
 
   cancelar(){
-    this.scanner.askForPermission();
-    //location.href = '/inicio-capturador';
+    location.href = '/inicio-capturador';
     //this.router.navigateByUrl('inicio-capturador');
   }
 
-  camerasFoundHandler(event){
-    this.camaras = event;
-    console.log(this.camaras);
+  scanSuccessHandler(event){
+    this.scanner.scanStop();
+    this.escaneoRealizado = true;
+    this.resultadoEscaneo = event;
+    console.log(this.resultadoEscaneo);
   }
 
-  scanErrorHandler(event){ }
+  onHasPermission(siTiene:boolean){
+    this.tienePermisos = siTiene;
+  }
 
-  scanFailureHandler(event){ }
+  camerasFoundHandler(event){
+    this.camarasDisponibles = event;
+    this.tieneCamaras = true;
+  }
 
-  scanCompleteHandler(event){ }
+  camerasNotFoundHandler(event){
+    alert("No se han detectado cámaras disponibles en este dispositivo");
+  }
+
+  scanErrorHandler(event){
+    alert("Ocurrió un error, asegúrese que ha proporcionado los permisos necesarios");
+  }
 }

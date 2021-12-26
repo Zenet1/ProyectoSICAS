@@ -1,4 +1,16 @@
 <div class="container-fluid">
+    <div *ngIf="!escaneoRealizado" class="wrapper-menu row g-0">
+        <div class="container-menu mb-3">
+            <label for="camaras" class="form-label">Seleccione la cámara que quiere utilizar</label>
+            <select id="camaras" class="form-select" (change)="enSeleccionCamara($event.target.value)">
+                <option value="null" [selected]="!camaraSeleccionada">No se ha seleccionado una cámara</option>
+                <ng-container *ngFor="let camara of camarasDisponibles">
+                    <option [value]="camara.deviceId" [selected]="camaraSeleccionada && camara.deviceId === camaraSeleccionada.deviceId">{{camara.label}}</option>
+                </ng-container>
+            </select>
+        </div>
+    </div>
+
     <div class="container-botones row g-0 mb-3">
         <div class="btn-group">
             <button type="button" [disabled]="!escaneoRealizado" class="btn btn-escaneo" (click)="nuevoEscaneo()">Nuevo Escaneo</button>
@@ -6,26 +18,16 @@
         </div>
     </div>
 
-    <div>
-        <div class="mb-3">
-            <label for="camaras" class="form-label">Seleccione la cámara que quiere utilizar</label>
-            <select id="camaras" class="form-select" required>
-                <option value="" selected disabled hidden>Seleccionar</option>
-                <option *ngFor="let camara of camaras" value="si">{{camara.label}}</option>
-            </select>
-        </div>
-    </div>
-
-
     <div class="wrapper-escaner row g-0 mb-3">
         <div class="container-escaner">
             <zxing-scanner
-                [autostart]="false"
+                #escaner
+                [(device)]="camaraSeleccionada"
+                (permissionResponse)="onHasPermission($event)"
                 (camerasFound)="camerasFoundHandler($event)"
+                (camerasNotFound)="camerasNotFoundHandler($event)"
                 (scanSuccess)="scanSuccessHandler($event)"
                 (scanError)="scanErrorHandler($event)"
-                (scanFailure)="scanFailureHandler($event)"
-                (scanComplete)="scanCompleteHandler($event)"
             ></zxing-scanner>
         </div>
     </div>
@@ -45,7 +47,7 @@
                 <img class="icono-validacion" src="../../../assets/img/Icon_NoValido.png" alt="no-valido">
             </div>
             <div class="row g-0">
-                <p class="text-center">Verificación fallida</p> 
+                <p class="text-center">Verificación fallida</p>
             </div>
         </div>
     </div>

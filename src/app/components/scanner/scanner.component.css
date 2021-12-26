@@ -16,6 +16,12 @@
     justify-content: center;
 }
 
+.wrapper-menu{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .container-texto, .container-icono{
     display: flex;
     justify-content: center;
@@ -43,6 +49,10 @@
     .container-escaner{
         max-width: 500px;
         max-height: 500px;
+    }
+
+    .container-menu{
+        width: 500px;
     }
 
     .icono-validacion{
