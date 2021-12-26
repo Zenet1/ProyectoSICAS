@@ -35,6 +35,10 @@ export class AsistenciaAlumnoComponent implements OnInit {
     );
   }
 
+  enviarQR(){
+    this.servicioAsistenciaAlum.enviarCorreo(JSON.stringify({accion:"EnviarQRAlumno"})).subscribe();
+  }
+
   cancelar(){
     //this.router.navigateByUrl('inicio-alumno');
     this.router.navigateByUrl('login');

@@ -4,11 +4,14 @@ date_default_timezone_set("America/Mexico_City");
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 include "BD_Conexion.php";
+include "Qr.Class.php";
 
 $json = file_get_contents('php://input');
 $datos = json_decode($json);
-
 $Global_datosReservaAlumno = array();
+$_SESSION["FechaSig"] = date('Y-m-d', strtotime('+' . obtenerDiaSiguienteHabil()[1] . ' day'));
+$dia_siguiente = date('Y-m-d', strtotime('+' . obtenerDiaSiguienteHabil()[1] . ' day'));
+$ContenidoQR = "";
 
 switch ($datos->accion) {
     case "obtenerMaterias":
@@ -16,14 +19,16 @@ switch ($datos->accion) {
         echo json_encode($Global_datosReservaAlumno);
         break;
     case "asignarReservaAlumno":
+        InsertarNuevaReservacionAlumno($datos->carga,$DB_CONEXION);
+        $QR = new GeneradorQr();
+        $QR->setNombrePng($_SESSION["IDAlumno"]);
+        $QR->Generar($ContenidoQR);
         break;
     default:
         break;
 }
 
-function ObtenerMateriasDisponibles(PDO $Conexion)
-{
-    $FechateDiaSiguiente = date('Y-m-d', strtotime('+' . obtenerDiaSiguienteHabil()[1] . ' day'));
+function ObtenerMateriasDisponibles(PDO $Conexion) {
     $sql_obtenerMateriasAlumnoPorDia = "SELECT CGAC.IDCarga, CGAC.IDGrupo,GPS.IDAsignatura,ASIG.NombreAsignatura, HRS.Dia, HRS.HoraInicioHorario, HRS.HoraFinHorario, SLS.Capacidad,SLS.NombreSalon
     FROM cargaacademica AS CGAC
     INNER JOIN grupos AS GPS
@@ -39,7 +44,7 @@ function ObtenerMateriasDisponibles(PDO $Conexion)
     $obj_obtenerMateriasAlumnoPorDia = $Conexion->prepare($sql_obtenerMateriasAlumnoPorDia);
 
     $diaABuscar = obtenerDiaSiguienteHabil()[0];
-    $obj_obtenerMateriasAlumnoPorDia->execute(array(1, $diaABuscar));
+    $obj_obtenerMateriasAlumnoPorDia->execute(array($_SESSION["IDAlumno"], $diaABuscar));
 
     $asignaturasHorario = $obj_obtenerMateriasAlumnoPorDia->fetchAll(PDO::FETCH_ASSOC);
 
@@ -50,19 +55,34 @@ function ObtenerMateriasDisponibles(PDO $Conexion)
     }
 }
 
-function InsertarNuevaReservacionAlumno(PDO $Conexion): void
-{
+function InsertarNuevaReservacionAlumno(array $asignaturas, PDO $Conexion): void {
     $FechaActual = date('Y-m-d');
     $horaAlumno = date("H:i:s");
-
+    $FechateDiaSiguiente = $GLOBALS["dia_siguiente"];
     $sql_insertar = "INSERT INTO `sicasbd`.`reservacionesalumnos` (`IDCarga`, `FechaReservaAl`, `HoraInicioReservaAl`, `HoraFinReservaAl`, `FechaAlumno`, `HoraAlumno`) VALUES (?,?,?,?,?,?)";
 
+    $sql_recuperarIDCarga = "SELECT IDReservaAlumno FROM reservacionesalumnos WHERE IDCarga=? AND FechaReservaAl=?";
+
     $obj_insertar = $Conexion->prepare($sql_insertar);
-    $obj_insertar->execute(array());
+    $obj_recuperarID = $Conexion->prepare($sql_recuperarIDCarga);
+
+    $QRContenido = $_SESSION["IDAlumno"];
+
+    foreach($asignaturas as $asignatura){
+        $asignaturaArray = (array)$asignatura;
+        if(ValidadorGrupoDisponible($asignaturaArray, $Conexion)){
+            $obj_insertar->execute(array($asignaturaArray["IDCarga"], $FechateDiaSiguiente, $asignaturaArray["HoraInicioHorario"], $asignaturaArray["HoraFinHorario"], $FechaActual, $horaAlumno));
+
+            $obj_recuperarID->execute(array($asignaturaArray["IDCarga"], $FechateDiaSiguiente));
+            $IDReserva = $obj_recuperarID->fetch(PDO::FETCH_ASSOC);
+            
+            $QRContenido .= "," . $IDReserva["IDReservaAlumno"];
+        }
+    }
+    $GLOBALS["ContenidoQR"] = $QRContenido;
 }
 
-function obtenerDiaSiguienteHabil(): array
-{
+function obtenerDiaSiguienteHabil(): array {
     $datos_fecha = array();
     $dia_siguiente_nombre = "";
     $dia_siguiente_desplasamiento = 0;
@@ -104,7 +124,7 @@ function obtenerDiaSiguienteHabil(): array
 
 function ValidadorGrupoDisponible(array $asignatura, PDO $Conexion): bool
 {
-    $FechateDiaSiguiente = date('Y-m-d', strtotime('+' . obtenerDiaSiguienteHabil()[1] . ' day'));
+    $FechateDiaSiguiente = $GLOBALS["dia_siguiente"];
     $sql_obtenerCantidadReservacionesPorGrupo = "SELECT COUNT(RSAL.IDReservaAlumno) AS CR FROM cargaacademica AS CGAC 
     INNER JOIN reservacionesalumnos AS RSAL 
     ON RSAL.IDCarga=CGAC.IDCarga 
