@@ -23,7 +23,6 @@ export class AsistenciaAlumnoComponent implements OnInit {
     this.servicioAsistenciaAlum.obtenerClases(JSON.stringify({accion:"obtenerMaterias"})).subscribe(
       respuesta=>{
         this.clases = respuesta;
-        //console.log(this.clases);
       }
     );
   }
@@ -33,8 +32,10 @@ export class AsistenciaAlumnoComponent implements OnInit {
       this.servicioAsistenciaAlum.enviarAsistencia(JSON.stringify({carga:this.clases, accion:"asignarReservaAlumno"})).subscribe(
         respuesta=>{
           alert('Se ha registrado tu reserva sastisfactoriamente');
-          //this.enviarQR();
-          //this.router.navigateByUrl('inicio-alumno');
+          this.enviarQR();
+        },
+        error=>{
+          alert('Ha ocurrido un error al registrar su asistencia');
         }
       );
     }
@@ -45,6 +46,9 @@ export class AsistenciaAlumnoComponent implements OnInit {
       respuesta=>{
         alert('Se ha enviado un código QR a tu correo, que deberás presentar para entrar a la facultad');
         this.router.navigateByUrl('inicio-alumno');
+      },
+      error=>{
+        alert('Ha ocurrido un error al enviar el QR');
       }
     );
   }

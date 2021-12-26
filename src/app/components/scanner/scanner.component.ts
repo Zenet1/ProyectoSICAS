@@ -41,8 +41,8 @@ export class ScannerComponent implements OnInit {
   }
 
   verificar(){
-    this.resultadoValidacion = false;
-    /*
+    //this.resultadoValidacion = true;
+    
     if(this.resultadoEscaneo != null){
       //alert(this.resultadoEscaneo);
       this.servicioCapturador.verficar(this.resultadoEscaneo).subscribe(
@@ -55,7 +55,7 @@ export class ScannerComponent implements OnInit {
         }
       );
     }
-    */
+    
   }
 
   cancelar(){
