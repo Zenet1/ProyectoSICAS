@@ -1,0 +1,66 @@
+<div class="container-fluid">
+    <div class="wrapper-descripcion">
+        <div class="container-descripcion">
+            <p>Gestión de las oficinas para usuarios externos</p>
+        </div>
+    </div>
+
+    <div class="contenido row">
+        <div class="wrapper-formulario col-lg-4">
+            <div class="container-formulario">
+                <p class="text-center">Agregar oficina</p>
+                <form [formGroup]="formularioOficina" (ngSubmit)="guardarOficina()" class="formulario" ngNativeValidate>
+                    <div class="container-campo">
+                        <label class="form-label" for="oficina">Nombre de la oficina:</label>
+                        <input id="oficina" formControlName="oficina" type="text" class="form-control" placeholder="Ingresa el nombre" required>
+                    </div>
+                    <div class="container-campo">
+                        <label class="form-label" for="capacidad">Capacidad (%):</label>
+                        <input id="capacidad" formControlName="capacidad" type="number" class="form-control" placeholder="Ingresa la capacidad" required>
+                    </div>
+                    <div class="container-botones">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-success">Agregar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="wrapper-tabla col-lg-8">
+            <div id="tabla" class="cont-tabla">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Oficinas</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Capacidad</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let oficina of oficinas; let iControl=index">
+                                        <td>{{oficina.Nombre}}</td>
+                                        <td>{{oficina.Capacidad}}</td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button (click)="eliminarOficina(oficina.idOficina, iControl)" class="btn btn-danger">Eliminar</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>

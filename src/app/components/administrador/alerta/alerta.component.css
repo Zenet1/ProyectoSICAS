@@ -1,0 +1,36 @@
+.wrapper-descripcion{
+    display: flex;
+    justify-content: center;
+}
+
+.wrapper-formulario{
+    display: flex;
+    justify-content: center;
+}
+
+.container-campo{
+    margin-bottom: 1rem;
+}
+
+@media (min-width:600px){ 
+    .formulario{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container-campo{
+        width: 300px;
+        margin: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .form-control, .form-label{
+        margin-right: 0.5rem;
+    }
+}
+
+@media (min-width:1024px) { 
+
+}
