@@ -1,1 +1,46 @@
-<p>inicio-administrador works!</p>
+<div class="container-fluid"> 
+
+    <div class="container-contenido row g-0">
+        <div class="col-lg-2 mb-3 shadow-sm shadow-inset">
+            <div class="wrapper-menu">
+                <div class="container-menu">
+                    <button [routerLink]="['alerta']" class="btn btn-menu">Alertar posible contagio</button>
+                    <button class="btn btn-menu">Capturar capacidad de la facultad</button>
+                    <button [routerLink]="['oficinas-externo']" class="btn btn-menu">Oficinas para usuarios externos</button>
+                    <button class="btn btn-menu">Gestionar datos de SICEI</button>
+                    <button class="btn btn-menu">Gestionar datos de asistencia por periodo</button>
+                    <button class="btn btn-menu">Restaurar registros</button>
+                    <button class="btn btn-menu">Generar estadísticas</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-10">
+            <div class="wrapper-descripcion">
+                <div class="container-descripcion">
+                    <h3 class="text-center">¡Bienvenido!</h3>
+                    <p class="text-center">
+                        Sesión iniciada como administrador con el usuario <strong>{{usuario}}</strong>.
+                    </p>
+                </div>
+            </div>
+            <router-outlet></router-outlet>
+        </div>
+        
+    </div>
+
+
+
+
+
+
+
+
+
+    
+
+    <div class="wrapper-contenido mb-3">
+        <div class="container-contenido">
+
+        </div>
+    </div>
+</div>

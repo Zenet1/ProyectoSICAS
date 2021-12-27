@@ -1,0 +1,38 @@
+.wrapper-descripcion{
+    display: flex;
+    justify-content: center;
+}
+
+.wrapper-menu{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.btn-menu{
+    margin-bottom: 0.5rem;
+    background-color: #2D2558;
+    color: white;
+    width: 100%;
+}
+
+@media (min-width:600px){ 
+    .container-descripcion{
+        width: 500px;
+    }
+
+    .container-menu{
+        width: 500px;
+    }
+
+    .form-select{
+        width: 450px;
+    }
+}
+
+@media (min-width:1024px) { 
+    .container-descripcion{
+        width: 700px;
+    }
+}
