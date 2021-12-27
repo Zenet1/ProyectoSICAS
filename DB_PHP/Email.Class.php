@@ -23,7 +23,7 @@ class CorreoManejador
             $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
             $this->mail->Port = $_ENV['EMAILPORT'];                              //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
         } catch (Exception $e) {
-            echo "Error al configurar el EMAIl" . $e->getMessage();
+
         }
     }
 
@@ -34,7 +34,6 @@ class CorreoManejador
             
 
             foreach($destinatarios as $correo => $nombre){
-                //echo "\nTo: ". $correo . " " . $nombre . "\n";
                 $this->mail->addCC($correo, $nombre);
             }
             
@@ -47,9 +46,8 @@ class CorreoManejador
             $this->mail->Body = $mensaje;
 
             $this->mail->send();
-           
         } catch (Exception $e) {
-            
+
         }
     }
 

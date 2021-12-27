@@ -23,12 +23,16 @@ export class AsistenciaAlumnoComponent implements OnInit {
     this.servicioAsistenciaAlum.obtenerClases(JSON.stringify({accion:"obtenerMaterias"})).subscribe(
       respuesta=>{
         this.clases = respuesta;
+<<<<<<< HEAD
         console.log(this.clases);
+=======
+>>>>>>> 670e958982b25b4def55e9214b822891322ea262
       }
     )
   }
 
   enviarAsistencia(){
+<<<<<<< HEAD
     //console.log(JSON.stringify({carga: this.clases, accion:"asignarReservaAlumno"}));
     this.servicioAsistenciaAlum.enviarAsistencia(JSON.stringify({carga:this.clases, accion:"asignarReservaAlumno"})).subscribe(
       respuesta=>{
@@ -40,6 +44,31 @@ export class AsistenciaAlumnoComponent implements OnInit {
 
   enviarQR(){
     this.servicioAsistenciaAlum.enviarCorreo(JSON.stringify({accion:"EnviarQRAlumno"})).subscribe();
+=======
+    if (window.confirm("Si está seguro que desea asistir, confirme para finalizar")){
+      this.servicioAsistenciaAlum.enviarAsistencia(JSON.stringify({carga:this.clases, accion:"asignarReservaAlumno"})).subscribe(
+        respuesta=>{
+          alert('Se ha registrado tu reserva sastisfactoriamente');
+          this.enviarQR();
+        },
+        error=>{
+          alert('Ha ocurrido un error al registrar su asistencia');
+        }
+      );
+    }
+  }
+
+  enviarQR(){
+    this.servicioAsistenciaAlum.enviarCorreo(JSON.stringify({accion:"EnviarQRAlumno"})).subscribe(
+      respuesta=>{
+        alert('Se ha enviado un código QR a tu correo, que deberás presentar para entrar a la facultad');
+        this.router.navigateByUrl('inicio-alumno');
+      },
+      error=>{
+        alert('Ha ocurrido un error al enviar el QR');
+      }
+    );
+>>>>>>> 670e958982b25b4def55e9214b822891322ea262
   }
 
   cancelar(){
