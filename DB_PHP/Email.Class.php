@@ -14,7 +14,7 @@ class CorreoManejador
         $this->mail = new PHPMailer(true);
 
         try {
-            $this->mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+            //$this->mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
             $this->mail->isSMTP();                                            //Send using SMTP
             $this->mail->Host = 'smtp.gmail.com';                     //Set the SMTP server to send through
             $this->mail->SMTPAuth = true;                                   //Enable SMTP authentication
@@ -47,9 +47,9 @@ class CorreoManejador
             $this->mail->Body = $mensaje;
 
             $this->mail->send();
-            echo 'Message has been sent';
+           
         } catch (Exception $e) {
-            echo "Algun error ha ocurrido al enviar el mensaje";
+            
         }
     }
 

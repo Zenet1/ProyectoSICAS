@@ -105,12 +105,12 @@ function obtenerDiaSiguienteHabil(): array {
             $dia_siguiente_nombre = "Viernes";
             break;
         case "Friday":
-            $dia_siguiente_desplasamiento = 3;
-            $dia_siguiente_nombre = "Lunes";
+            $dia_siguiente_desplasamiento = 1;
+            $dia_siguiente_nombre = "Sabado";
             break;
         case "Saturday":
-            $dia_siguiente_desplasamiento = 2;
-            $dia_siguiente_nombre = "Lunes";
+            $dia_siguiente_desplasamiento = 1;
+            $dia_siguiente_nombre = "Domingo";
             break;
         case "Sunday":
             $dia_siguiente_desplasamiento = 1;
