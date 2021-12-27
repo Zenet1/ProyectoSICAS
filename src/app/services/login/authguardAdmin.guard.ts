@@ -16,6 +16,7 @@ export class AuthguardGuardAdmin implements CanActivate  {
     const routeurl: string = state.url;
     return this.isLogin(routeurl);
   }
+  
   isLogin(routeurl: string) {
     if (this.servicioLogin.isLoggedIn() && (this.servicioLogin.getRol() == "Administrador")) {
       return true;
