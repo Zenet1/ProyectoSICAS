@@ -42,6 +42,7 @@
         <ul>";
         $mensaje_pie = "</ul><br><p>Con el siguiente codigo QR podras acceder a la facultad</p>";
         $correo->EnviarCorreo($datosDestinatario,"Registro Exitoso", $mensaje_inicio . $cuerpo . $mensaje_pie, "img/" . $_SESSION["IDAlumno"] . ".png");
+        unlink("img/" . $_SESSION["IDAlumno"] . ".png");
     }
 
     function Rechazo(array $datosDestinatario, string $msg){
