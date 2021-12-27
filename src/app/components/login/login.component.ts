@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
           break; 
         } 
         case "Administrador": { 
-          //this.router.navigateByUrl('inicio-administrador');
+          this.router.navigateByUrl('inicio-administrador');
           break; 
         }
         case "Capturador":{
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
               break; 
             } 
             case "Administrador": { 
-              //statements; 
+              location.href = '/inicio-administrador';
               break; 
             }
             case "Capturador":{

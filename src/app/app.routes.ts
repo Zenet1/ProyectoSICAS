@@ -24,7 +24,7 @@ const app_routes: Routes = [
     { path: 'asistencia-externo', component: AsistenciaExternoComponent},
     { path: 'inicio-alumno', component: InicioAlumnoComponent, canActivate: [AuthguardGuard]},
     { path: 'inicio-capturador', component: InicioCapturadorComponent},
-    { path: 'inicio-administrador', component: InicioAdministradorComponent},//, canActivate:[AuthguardGuardAdmin]},
+    { path: 'inicio-administrador', component: InicioAdministradorComponent, canActivate:[AuthguardGuardAdmin]},
     { path: '**', pathMatch: 'full', redirectTo: 'login' },
 ]
 

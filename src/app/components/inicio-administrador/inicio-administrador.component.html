@@ -1,1 +1,33 @@
-<p>inicio-administrador works!</p>
+<div class="container-fluid"> 
+    <div class="wrapper-descripcion mb-3">
+        <div class="container-descripcion row g-0">
+            <h3 class="text-center">¡Bienvenido!</h3>
+            <p class="text-center">
+                Sesión iniciada como administrador con el usuario <strong>{{usuario}}</strong>.
+            </p>
+        </div>
+    </div>
+
+    <div class="wrapper-menu row g-0">
+        <div class="container-menu mb-3">
+            <label for="menuAdmin" class="form-label">Seleccione una opción</label>
+            <select id="menuAdmin" class="form-select">
+                <option value="null" selected disabled hidden>No se ha seleccionado una opción</option>
+                <option value="alerta">Alertar posible contagio</option>
+                <option value="capturarFacultad">Capturar capacidad de la facultad</option>
+                <option value="capturarOficinas">Capturar oficinas disponibles para usuarios externos</option>
+                <option value="listarOficinas">Ver oficinas disponibles para usuarios externos</option>
+                <option value="gestionarSICEI">Gestionar datos de SICEI</option>
+                <option value="gestionarAsistencia">Gestionar datos de asistencia por periodo</option>
+                <option value="restaurarRegistros">Restaurar registros</option>
+                <option value="generarEstadisticas">Generar estadísticas</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="wrapper-contenido mb-3">
+        <div class="container-contenido">
+
+        </div>
+    </div>
+</div>
