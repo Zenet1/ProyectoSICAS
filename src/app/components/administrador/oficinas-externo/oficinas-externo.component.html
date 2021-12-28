@@ -15,8 +15,16 @@
                         <input id="oficina" formControlName="oficina" type="text" class="form-control" placeholder="Ingresa el nombre" required>
                     </div>
                     <div class="container-campo">
-                        <label class="form-label" for="capacidad">Capacidad (%):</label>
-                        <input id="capacidad" formControlName="capacidad" type="number" class="form-control" placeholder="Ingresa la capacidad" required>
+                        <label class="form-label" for="departamento">Departamento:</label>
+                        <input id="departamento" formControlName="departamento" type="text" class="form-control" placeholder="Ingresa el departamento" required>
+                    </div>
+                    <div class="container-campo">
+                        <label for="edificio" class="form-label">Edificio</label>
+                        <select id="edificio" class="form-select" formControlName="edificio" required>
+                            <ng-container *ngFor="let edificio of edificios">
+                                <option [value]="edificio.NombreEdificio">{{edificio.NombreEdificio}}</option>
+                            </ng-container>
+                        </select>
                     </div>
                     <div class="container-botones">
                         <div class="btn-group">
@@ -39,17 +47,19 @@
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
-                                        <th>Capacidad</th>
+                                        <th>Departamento</th>
+                                        <th>Edificio</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let oficina of oficinas; let iControl=index">
-                                        <td>{{oficina.Nombre}}</td>
-                                        <td>{{oficina.Capacidad}}</td>
+                                        <td>{{oficina.NombreOficina}}</td>
+                                        <td>{{oficina.Departamento}}</td>
+                                        <td>{{oficina.NombreEdificio}}</td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <button (click)="eliminarOficina(oficina.idOficina, iControl)" class="btn btn-danger">Eliminar</button>
+                                                <button (click)="eliminarOficina(oficina.IDOficina, iControl)" class="btn btn-danger">Eliminar</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -61,6 +71,4 @@
             </div>
         </div>
     </div>
-
-    
 </div>

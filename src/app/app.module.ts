@@ -23,6 +23,7 @@ import { InicioAdministradorComponent } from './components/inicio-administrador/
 import { AsistenciaExternoComponent } from './components/asistencia-externo/asistencia-externo.component';
 import { AlertaComponent } from './components/administrador/alerta/alerta.component';
 import { OficinasExternoComponent } from './components/administrador/oficinas-externo/oficinas-externo.component';
+import { GestionRegistrosComponent } from './components/administrador/gestion-registros/gestion-registros.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { OficinasExternoComponent } from './components/administrador/oficinas-ex
     InicioAdministradorComponent,
     AsistenciaExternoComponent,
     AlertaComponent,
-    OficinasExternoComponent
+    OficinasExternoComponent,
+    GestionRegistrosComponent
   ],
   imports: [
     BrowserModule,
