@@ -41,6 +41,6 @@ export class AdministradorService {
     const someHeaders = new HttpHeaders().set('Content-Type', 'application/json');
     //const req = new HttpRequest('POST', this.API, formData, {headers: someHeaders, responseType: 'blob' as 'json'});
     //return this.clienteHttp.request(req);
-    return this.clienteHttp.post<any>(this.API, formData, {headers:someHeaders, responseType: 'blob' as 'json'});
+    return this.clienteHttp.post<any>("/ProyectoSICAS/DB_PHP/Respaldar.Service.php", formData, {headers:someHeaders, responseType: 'blob' as 'json'});
   }
 }

@@ -24,7 +24,7 @@ export class GestionRegistrosComponent implements OnInit {
   respaldar(){
     //this.siArchivoRespaldado = true;
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy h:mm:ss');
-    const nombreArchivo = "respaldo - " + currentDateTime;
+    const nombreArchivo = "respaldo - " + currentDateTime +".zip";
     this.servicioAdmin.respaldarBD().subscribe(
       respuesta=>{
         //console.log(respuesta);
