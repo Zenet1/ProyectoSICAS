@@ -2,12 +2,13 @@
 include 'BD_Conexion.php';
 $tablas_respaldar = ["reservacionesalumnos", "asistencia"];
 
-descargar("asistencia");
+
 switch ($_POST["accion"]) {
     case "respaldar":
         foreach ($tablas_respaldar as $tabla) {
             respaldar($DB_CONEXION, $tabla);
         }
+        descargar("asistencia");
         break;
     case "eliminar":
         break;
@@ -59,7 +60,6 @@ function descargar(string $nombreArchivo)
     header('Cache-Control: must-revalidate');
     header('Pragma: public');
     header('Content-Length: ' . filesize("backups/". $nombreArchivo .".txt"));
-    flush();
     readfile("backups/". $nombreArchivo .".txt");
     exit;
 }

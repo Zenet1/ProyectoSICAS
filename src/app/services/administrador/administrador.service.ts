@@ -7,10 +7,11 @@ import { FormGroup } from '@angular/forms';
 })
 export class AdministradorService {
   API:string = "/ProyectoSICAS/DB_PHP/BDControl.Service.php";
+  API2:string = "/ProyectoSICAS/DB_PHP/Alerta.Service.php";
   constructor(private clienteHttp: HttpClient) { }
 
   alertar(datos:FormGroup){
-    return this.clienteHttp.post<any>(this.API, datos);
+    return this.clienteHttp.post<any>(this.API2, datos);
   }
 
   obtenerEdificios(){
