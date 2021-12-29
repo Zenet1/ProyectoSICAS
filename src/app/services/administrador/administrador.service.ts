@@ -24,6 +24,7 @@ export class AdministradorService {
   restaurarBD(archivo:FormGroup){
     const formData = new FormData();
     formData.append('archivo', archivo.get('archivo').value);
+    formData.append('accion', 'restaurar');
     return this.clienteHttp.post<any>(this.API, formData);
   }
 
