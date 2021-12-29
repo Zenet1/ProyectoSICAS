@@ -11,7 +11,7 @@ switch ($accion) {
         descargar();
         break;
     case "restaurar":
-        restaurar();
+        restaurar($_FILES[]);
         break;
     case "eliminar":
         eliminar($DB_CONEXION, "asistencia");
