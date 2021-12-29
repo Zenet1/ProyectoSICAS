@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
@@ -37,7 +37,10 @@ export class AdministradorService {
 
   respaldarBD(){
     const formData = new FormData();
-    formData.append('accion', "respaldar");
-    return this.clienteHttp.post<any>(this.API, formData);
+    formData.append('accion', 'respaldar');
+    const someHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+    //const req = new HttpRequest('POST', this.API, formData, {headers: someHeaders, responseType: 'blob' as 'json'});
+    //return this.clienteHttp.request(req);
+    return this.clienteHttp.post<any>(this.API, formData, {headers:someHeaders, responseType: 'blob' as 'json'});
   }
 }
