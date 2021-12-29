@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { AdministradorService } from 'src/app/services/administrador/administrador.service';
 
 @Component({
   selector: 'app-oficinas-externo',
@@ -9,19 +10,37 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class OficinasExternoComponent implements OnInit {
   formularioOficina:FormGroup;
   oficinas:any;
+  edificios:any;
 
-  constructor(private formBuilder:FormBuilder) { }
+  constructor(private servicioAdmin:AdministradorService, private formBuilder:FormBuilder) { }
 
   ngOnInit(): void {
     this.formularioOficina = this.formBuilder.group({
         oficina: [""],
-        capacidad:[""]
+        departamento:[""],
+        edificio:[""]
+      }
+    );
+  }
+
+  obtenerOficinas(){
+    this.servicioAdmin.obtenerOficinas().subscribe(
+      respuesta=>{
+        this.oficinas = respuesta;
+      }
+    );
+  }
+
+  obtenerEdificios(){
+    this.servicioAdmin.obtenerEdificios().subscribe(
+      respuesta=>{
+        this.edificios = respuesta;
       }
     );
   }
 
   guardarOficina(){
-    
+    console.log(this.formularioOficina.value);
   }
 
   eliminarOficina(){

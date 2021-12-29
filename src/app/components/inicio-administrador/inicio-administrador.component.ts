@@ -19,8 +19,8 @@ export class InicioAdministradorComponent implements OnInit {
       this.usuario = this.servicioLogin.getUsuario();
     }
 
-    let currentDateTime =this.datePipe.transform((new Date), 'dd/MM/yyyy h:mm:ss');
-    console.log(currentDateTime);
+    //let currentDateTime =this.datePipe.transform((new Date), 'dd/MM/yyyy h:mm:ss');
+    //console.log(currentDateTime);
     
   }
 
