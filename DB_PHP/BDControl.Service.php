@@ -1,93 +1,65 @@
 <?php
-header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-include "BD_Conexion.php";
-date_default_timezone_set("America/Mexico_City");
+include 'BD_Conexion.php';
+$tablas_respaldar = ["reservacionesalumnos", "asistencia"];
 
-//$json = file_get_contents('php://input');
-$accion = $_POST["accion"];
-
-switch ($accion) {
+descargar("asistencia");
+switch ($_POST["accion"]) {
     case "respaldar":
-        respaldar($DB_CONEXION, "asistencia");
-        respaldar($DB_CONEXION, "reservacionesalumnos");
-        descargar();
-        break;
-    case "restaurar":
-        restaurar($_FILES['archivo']);
+        foreach ($tablas_respaldar as $tabla) {
+            respaldar($DB_CONEXION, $tabla);
+        }
         break;
     case "eliminar":
-        eliminar($DB_CONEXION, "asistencia");
-        eliminar($DB_CONEXION, "reservacionesalumnos");
         break;
-    default:
+    case "restaurar":
         break;
 }
 
-function respaldar(PDO $Conexion, string $tablaRespaldar)
+function respaldar(PDO $Conexion, string $tabla)
 {
-    $esColumnaLinea = false;
-    $reservacionesArchivo = fopen("backups/" . $tablaRespaldar . ".txt", "w");
-    $sql_recuperarDatos = "SELECT * FROM " . $tablaRespaldar;
-    $sql_recuperarNombreColumnas = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$tablaRespaldar'";
+    $archivo = fopen("backups/" . $tabla . ".txt", "w");
+    $obj_nombreColumnas = $Conexion->prepare("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$tabla'");
+    $obj_datosTabla = $Conexion->prepare("SELECT * FROM $tabla");
+    $obj_nombreColumnas->execute();
+    $obj_datosTabla->execute();
 
-    $obj_recuperarDatos = $Conexion->prepare($sql_recuperarDatos);
-    $obj_recuperarColumnas = $Conexion->prepare($sql_recuperarNombreColumnas);
+    $array_columnas = $obj_nombreColumnas->fetchAll(PDO::FETCH_ASSOC);
+    $array_datos = $obj_datosTabla->fetchAll(PDO::FETCH_ASSOC);
 
-    $obj_recuperarDatos->execute();
-    $obj_recuperarColumnas->execute();
-    $recuperaciones = $obj_recuperarDatos->fetchAll(PDO::FETCH_ASSOC);
-    $NombreColumnas = $obj_recuperarColumnas->fetchAll(PDO::FETCH_ASSOC);
+    $indice_final = 0;
 
-    $indice = 0;
-    foreach ($NombreColumnas as $nombreColuma) {
-        fwrite($reservacionesArchivo, $nombreColuma["COLUMN_NAME"] . (++$indice < sizeof($NombreColumnas) ? "|" : ""));
+    foreach ($array_columnas as $columna) {
+        fwrite($archivo, $columna["COLUMN_NAME"] . (++$indice_final < sizeof($array_columnas) ? "|" : ""));
     }
-    fwrite($reservacionesArchivo, "\n");
-
-    foreach ($recuperaciones as $recuperacion) {
-        $indice = 0;
-        foreach ($NombreColumnas as $nombreColuma) {
-            if ($esColumnaLinea) {
-            }
-            fwrite($reservacionesArchivo, $recuperacion[$nombreColuma["COLUMN_NAME"]] . (++$indice < sizeof($recuperacion) ? "|" : ""));
+    fwrite($archivo, "\n");
+    foreach ($array_datos as $dato) {
+        $indice_final = 0;
+        foreach ($array_columnas as $columna) {
+            fwrite($archivo, $dato[$columna["COLUMN_NAME"]] . (++$indice_final < sizeof($dato) ? "|" : ""));
         }
-        fwrite($reservacionesArchivo, "\n");
-        $esColumnaLinea = false;
+        fwrite($archivo, "\n");
     }
-    fclose($reservacionesArchivo);
+    fclose($archivo);
 }
 
-function restaurar($nombreArchivo)
-{
-    $direccionArchivo = "backups/";
-}
-
-function eliminar(PDO $Conexion, $tablaEliminar)
+function eliminar(PDO $Conexion)
 {
 }
 
-function descargar()
+function restaurar(PDO $Conexion)
 {
-    $zip = new ZipArchive();
-    $NombreZip = "backups/Respaldo-" . date('Y-m-d') . ".zip";
+}
 
-    if ($zip->open($NombreZip, ZIPARCHIVE::CREATE) == true) {
-        $zip->addFile("backups/asistencia.txt");
-        $zip->addFile("backups/reservacionesalumnos.txt");
-    }
-    $zip->close();
-
-    $TipoArchivo = filetype($NombreZip);
-    $NombreBase = basename($NombreZip);
-
-    header("Content-Type: " . $TipoArchivo);
-    header("Content-Length: " . filesize($NombreZip));
-    header("Content-Disposition: attachment; filename=" . $NombreBase);
-    //header("Content-Transfer-Emcoding: binary");
-    readfile($NombreZip);
-
-    unlink($NombreZip);
-    unlink("backups/asistencia.txt");
-    unlink("backups/reservacionesalumnos.txt");
+function descargar(string $nombreArchivo)
+{
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="'.basename($nombreArchivo . ".txt").'"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize("backups/". $nombreArchivo .".txt"));
+    flush();
+    readfile("backups/". $nombreArchivo .".txt");
+    exit;
 }
