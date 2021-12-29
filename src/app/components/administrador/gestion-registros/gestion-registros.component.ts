@@ -36,7 +36,7 @@ export class GestionRegistrosComponent implements OnInit {
 
   restaurar(){
     if (window.confirm("¿Está seguro que desea restaurar este archivo?")) {
-      this.servicioAdmin.restaurarBD(this.formularioRestaurar.value).subscribe(
+      this.servicioAdmin.restaurarBD(this.formularioRestaurar).subscribe(
         respuesta=>{
 
         }

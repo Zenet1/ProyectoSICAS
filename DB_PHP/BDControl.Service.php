@@ -1,8 +1,11 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 include "BD_Conexion.php";
 date_default_timezone_set("America/Mexico_City");
-//$accion = file_get_contents('php://input');
-$accion = "respaldar";
+
+//$json = file_get_contents('php://input');
+$accion = $_POST["accion"];
 
 switch ($accion) {
     case "respaldar":
@@ -11,7 +14,7 @@ switch ($accion) {
         descargar();
         break;
     case "restaurar":
-        restaurar($_FILES[]);
+        restaurar($_FILES['archivo']);
         break;
     case "eliminar":
         eliminar($DB_CONEXION, "asistencia");
@@ -62,7 +65,6 @@ function restaurar($nombreArchivo)
 
 function eliminar(PDO $Conexion, $tablaEliminar)
 {
-
 }
 
 function descargar()
@@ -82,8 +84,9 @@ function descargar()
     header("Content-Type: " . $TipoArchivo);
     header("Content-Length: " . filesize($NombreZip));
     header("Content-Disposition: attachment; filename=" . $NombreBase);
-    header("Content-Transfer-Emcoding: binary");
+    //header("Content-Transfer-Emcoding: binary");
     readfile($NombreZip);
+
     unlink($NombreZip);
     unlink("backups/asistencia.txt");
     unlink("backups/reservacionesalumnos.txt");

@@ -6,7 +6,7 @@ import { FormGroup } from '@angular/forms';
   providedIn: 'root'
 })
 export class AdministradorService {
-  API:string = "/";
+  API:string = "/ProyectoSICAS/DB_PHP/BDControl.Service.php";
   constructor(private clienteHttp: HttpClient) { }
 
   alertar(datos:FormGroup){
@@ -21,18 +21,22 @@ export class AdministradorService {
     return this.clienteHttp.get(this.API);
   }
 
-  restaurarBD(archivo:FormGroup){
+  restaurarBD(datos:FormGroup){
     const formData = new FormData();
-    formData.append('archivo', archivo.get('archivo').value);
+    formData.append('archivo', datos.get('archivo').value);
     formData.append('accion', 'restaurar');
     return this.clienteHttp.post<any>(this.API, formData);
   }
 
   eliminarBD(){
-    return this.clienteHttp.get(this.API);
+    const formData = new FormData();
+    formData.append('accion', "eliminar");
+    return this.clienteHttp.post<any>(this.API, formData);
   }
 
   respaldarBD(){
-    return this.clienteHttp.get(this.API);
+    const formData = new FormData();
+    formData.append('accion', "respaldar");
+    return this.clienteHttp.post<any>(this.API, formData);
   }
 }
