@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AdministradorService } from 'src/app/services/administrador/administrador.service';
@@ -12,7 +13,7 @@ export class GestionRegistrosComponent implements OnInit {
   formularioRestaurar:FormGroup;
   siArchivoRespaldado:boolean = false;
 
-  constructor(private servicioAdmin:AdministradorService, private formBuilder:FormBuilder) { }
+  constructor(private servicioAdmin:AdministradorService, private datepipe:DatePipe, private formBuilder:FormBuilder) { }
 
   ngOnInit(): void {
     this.formularioRestaurar = this.formBuilder.group({
@@ -22,11 +23,26 @@ export class GestionRegistrosComponent implements OnInit {
 
   respaldar(){
     //this.siArchivoRespaldado = true;
+    let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy h:mm:ss');
+    const nombreArchivo = "respaldo - " + currentDateTime;
     this.servicioAdmin.respaldarBD().subscribe(
       respuesta=>{
+        //console.log(respuesta);
         this.siArchivoRespaldado = true;
+        this.gestionarArchivo(respuesta, nombreArchivo);
       }
     );
+  }
+
+  gestionarArchivo(respuesta:any, nombreArchivo: string){
+    const tipoArchivo = respuesta.type;
+    const datosBinarios = [];
+    datosBinarios.push(respuesta);
+    const carpeta = window.URL.createObjectURL(new Blob(datosBinarios, {type: tipoArchivo}));
+    const linkDescarga = document.createElement('a');
+    linkDescarga.href = carpeta;
+    linkDescarga.setAttribute('download', nombreArchivo);
+    linkDescarga.click();
   }
 
   archivoSeleccionado(event){
