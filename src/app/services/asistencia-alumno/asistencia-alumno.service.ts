@@ -10,6 +10,7 @@ export class AsistenciaAlumnoService {
 
   API:string = "/ProyectoSICAS/DB_PHP/Reservas.Service.php";
   API2: string = '/ProyectoSICAS/DB_PHP/Email.Service.php';
+  API3: string = '/ProyectoSICAS/DB_PHP/ValidacionReservasAlumnos.Service.php';
   
   constructor(private clienteHttp: HttpClient) { }
 
@@ -26,6 +27,6 @@ export class AsistenciaAlumnoService {
   }
 
   combrobarReservacion(){
-    return this.clienteHttp.get(this.API);
+    return this.clienteHttp.get(this.API3);
   }
 }
