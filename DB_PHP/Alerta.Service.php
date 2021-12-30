@@ -3,6 +3,7 @@ include "BD_Conexion.php";
 $json = file_get_contents('php://input');
 $datos = (array)json_decode($json);
 $arraygruposID = array();
+$arrayClaveGrupo = array();
 $usuariosImplicados = array();
 $datos_enviar = array();
 
@@ -25,7 +26,7 @@ foreach ($arrayFechasAsistidas as $fechaAsistida) {
     foreach ($arrayGrupos as $grupo) {
         if (!isset($arraygruposID[$grupo["IDGrupo"]])) {
             $arraygruposID[$grupo["IDGrupo"]] = $grupo["IDGrupo"];
-            $datos_enviar[$grupo["ClaveGrupo"]] = trim($grupo["Grupo"]);
+            $arrayClaveGrupo[$grupo["ClaveGrupo"]] = trim($grupo["Grupo"]);
         }
     }
 }
@@ -47,6 +48,7 @@ foreach ($arraygruposID as $clave => $valor) {
     }
 }
 
-$datos_enviar[] = $usuariosImplicados;
+$datos_enviar["usuarios"] = $usuariosImplicados;
+$datos_enviar["grupos"] = $arrayClaveGrupo;
 
 echo json_encode($datos_enviar);
