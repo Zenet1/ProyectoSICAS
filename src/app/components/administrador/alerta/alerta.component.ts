@@ -10,6 +10,9 @@ import { AdministradorService } from 'src/app/services/administrador/administrad
 export class AlertaComponent implements OnInit {
 
   formularioAlerta:FormGroup;
+  numAfectados:any;
+  gruposAfectados:any;
+  siAlertaEnviada:boolean = false;
 
   constructor(private servicioAdmin:AdministradorService, private formBuilder:FormBuilder) { }
 
@@ -23,13 +26,22 @@ export class AlertaComponent implements OnInit {
   }
 
   alertar(){
+    this.siAlertaEnviada = false;
     if (window.confirm("Confirme para enviar la alerta")) {
       console.log(this.formularioAlerta.value);
-      this.servicioAdmin.alertar(this.formularioAlerta.value).subscribe(
+      this.servicioAdmin.obtenerAfectados(this.formularioAlerta.value).subscribe(
         respuesta=>{
-          alert("Se ha alertado a los alumnos correctamente");
+          this.gruposAfectados = respuesta.grupos;
+          this.numAfectados = respuesta.usuarios.lenght;
+          let afectados = JSON.stringify({grupos: respuesta.grupos, usuarios: respuesta.usuarios, accion:"alertar"});
+          this.servicioAdmin.alertar(afectados).subscribe(
+            respuesta=>{
+              this.siAlertaEnviada = true;
+              alert("Se ha alertado a los alumnos correctamente");
+            }
+          );
         }
-      )
+      );
     }
   }
 }

@@ -5,7 +5,7 @@
         </div>
     </div>
 
-    <div class="wrapper-formulario">
+    <div class="wrapper-formulario mb-3">
         <div class="container-formulario">
             <form [formGroup]="formularioAlerta" (ngSubmit)="alertar()" class="row" ngNativeValidate>
                 <div class="mb-3">
@@ -26,6 +26,19 @@
                     </div>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <div *ngIf="siAlertaEnviada" class="wrapper-afectados">
+        <div class="container-afectados">
+            <h4>Afectados</h4>
+            <p>Número de afectados: {{numAfectados}}</p>
+            <p>Grupos Afectados:</p>
+            <ul>
+                <ng-container *ngFor="let grupo of gruposAfectados">
+                    <li>{{grupo}}</li>
+                </ng-container>
+            </ul>
         </div>
     </div>
 </div>
