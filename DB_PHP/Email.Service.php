@@ -1,26 +1,29 @@
 <?php
-    session_start();
-    header('Access-Control-Allow-Origin: *'); 
-    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-    include 'BD_Conexion.php';
-    include 'Email.Class.php';
-    
-    $json = file_get_contents('php://input');
-    $datos = json_decode($json);
-    
-    switch($datos->accion){   
-        case "EnviarQRAlumno":
-            EnviarQRAlumno(Array($_SESSION["Correo"]=>$_SESSION["Nombre"]), $DB_CONEXION);
-            break;
-        case "rechazado":
-            Rechazo(Array($_SESSION["Correo"]=>$_SESSION["Nombre"]), "Problemas de seguridad");
-            break;
-    }
+session_start();
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+include 'BD_Conexion.php';
+include 'Email.Class.php';
 
-    function EnviarQRAlumno(array $datosDestinatario, PDO $Conexion){
-        $correo = new CorreoManejador();
-        $correo->setArchivo(true);
-        $sql_recuperarCargas = "SELECT ASIG.NombreAsignatura FROM cargaacademica AS CGAC 
+$json = file_get_contents('php://input');
+$datos = json_decode($json);
+
+switch ($datos->accion) {
+    case "EnviarQRAlumno":
+        EnviarQRAlumno(array($_SESSION["Correo"] => $_SESSION["Nombre"]), $DB_CONEXION);
+        break;
+    case "rechazado":
+        Rechazo(array($_SESSION["Correo"] => $_SESSION["Nombre"]), "Problemas de seguridad");
+        break;
+    case "alertar":
+        break;
+}
+
+function EnviarQRAlumno(array $datosDestinatario, PDO $Conexion)
+{
+    $correo = new CorreoManejador();
+    $correo->setArchivo(true);
+    $sql_recuperarCargas = "SELECT ASIG.NombreAsignatura FROM cargaacademica AS CGAC 
         INNER JOIN reservacionesalumnos AS RSAL 
         ON RSAL.IDCarga=CGAC.IDCarga 
         INNER JOIN grupos AS GPS
@@ -29,23 +32,28 @@
         ON ASIG.IDAsignatura=GPS.IDAsignatura
         WHERE CGAC.IDAlumno=? AND RSAL.FechaReservaAl=?";
 
-        $obj_recuperar = $Conexion->prepare($sql_recuperarCargas);
-        $obj_recuperar->execute(array($_SESSION["IDAlumno"], $_SESSION["FechaSig"]));
+    $obj_recuperar = $Conexion->prepare($sql_recuperarCargas);
+    $obj_recuperar->execute(array($_SESSION["IDAlumno"], $_SESSION["FechaSig"]));
 
-        $NombreMaterias = $obj_recuperar->fetchAll(PDO::FETCH_ASSOC);
-        $cuerpo = "";
+    $NombreMaterias = $obj_recuperar->fetchAll(PDO::FETCH_ASSOC);
+    $cuerpo = "";
 
-        foreach($NombreMaterias as $Materia){
-            $cuerpo .= "<li>" . $Materia["NombreAsignatura"] . "</li>";
-        }
-        $mensaje_inicio = "<p>Te has podido registrar con exito a las siguientes materias:</p><br>
+    foreach ($NombreMaterias as $Materia) {
+        $cuerpo .= "<li>" . $Materia["NombreAsignatura"] . "</li>";
+    }
+    $mensaje_inicio = "<p>Te has podido registrar con exito a las siguientes materias:</p><br>
         <ul>";
-        $mensaje_pie = "</ul><br><p>Con el siguiente codigo QR podras acceder a la facultad</p>";
-        $correo->EnviarCorreo($datosDestinatario,"Registro Exitoso", $mensaje_inicio . $cuerpo . $mensaje_pie, "img/" . $_SESSION["IDAlumno"] . ".png");
-        unlink("img/" . $_SESSION["IDAlumno"] . ".png");
-    }
+    $mensaje_pie = "</ul><br><p>Con el siguiente codigo QR podras acceder a la facultad</p>";
+    $correo->EnviarCorreo($datosDestinatario, "Registro Exitoso", $mensaje_inicio . $cuerpo . $mensaje_pie, "img/" . $_SESSION["IDAlumno"] . ".png");
+    unlink("img/" . $_SESSION["IDAlumno"] . ".png");
+}
 
-    function Rechazo(array $datosDestinatario, string $msg){
-        $correo = new CorreoManejador();
-        $correo->EnviarCorreo($datosDestinatario, "Rechazado", $msg);
-    }
+function Rechazo(array $datosDestinatario, string $msg)
+{
+    $correo = new CorreoManejador();
+    $correo->EnviarCorreo($datosDestinatario, "Rechazado", $msg);
+}
+
+function Alertar(array $datosDestinatarios, string $msg){
+    
+}
