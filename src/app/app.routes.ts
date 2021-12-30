@@ -14,6 +14,9 @@ import { InicioCapturadorComponent } from "./components/inicio-capturador/inicio
 import { AuthguardGuardCuestionario } from "./services/cuestionario/authguardCuestionario.guard";
 import { InicioAdministradorComponent } from "./components/inicio-administrador/inicio-administrador.component";
 import { AsistenciaExternoComponent } from "./components/asistencia-externo/asistencia-externo.component";
+import { AlertaComponent } from "./components/administrador/alerta/alerta.component";
+import { OficinasExternoComponent } from "./components/administrador/oficinas-externo/oficinas-externo.component";
+import { GestionRegistrosComponent } from "./components/administrador/gestion-registros/gestion-registros.component";
 
 const app_routes: Routes = [
     { path: 'login', component: LoginComponent},
@@ -24,7 +27,11 @@ const app_routes: Routes = [
     { path: 'asistencia-externo', component: AsistenciaExternoComponent},
     { path: 'inicio-alumno', component: InicioAlumnoComponent, canActivate: [AuthguardGuard]},
     { path: 'inicio-capturador', component: InicioCapturadorComponent},
-    { path: 'inicio-administrador', component: InicioAdministradorComponent},//, canActivate:[AuthguardGuardAdmin]},
+    { path: 'inicio-administrador', component: InicioAdministradorComponent, canActivate:[AuthguardGuardAdmin], children:[
+        { path: 'alerta', component: AlertaComponent},
+        { path: 'oficinas-externo', component: OficinasExternoComponent},
+        { path: 'gestion-registros', component: GestionRegistrosComponent}
+    ]},
     { path: '**', pathMatch: 'full', redirectTo: 'login' },
 ]
 

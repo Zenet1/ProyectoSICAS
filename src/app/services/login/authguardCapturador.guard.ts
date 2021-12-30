@@ -16,6 +16,7 @@ export class AuthguardGuardCapturador implements CanActivate  {
     const routeurl: string = state.url;
     return this.isLogin(routeurl);
   }
+  
   isLogin(routeurl: string) {
     if (this.servicioLogin.isLoggedIn() && (this.servicioLogin.getRol() == "Capturador")) {
       return true;
@@ -26,7 +27,7 @@ export class AuthguardGuardCapturador implements CanActivate  {
             return this.router.navigateByUrl('inicio-alumno');
           }
           case "Administrador":{
-            //return vista admin
+            return this.router.navigateByUrl('inicio-administrador');
           }
         } 
       } else {

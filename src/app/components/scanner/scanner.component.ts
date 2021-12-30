@@ -21,7 +21,7 @@ export class ScannerComponent implements OnInit {
   resultadoEscaneo: any;
 
   resultadoValidacion:boolean;
-
+  nombreAlumno:string;
   constructor(private servicioCapturador:CapturadorService, private router:Router) { }
 
   ngOnInit(): void {
@@ -47,7 +47,8 @@ export class ScannerComponent implements OnInit {
       //alert(this.resultadoEscaneo);
       this.servicioCapturador.verficar(this.resultadoEscaneo).subscribe(
         respuesta =>{
-          if(respuesta = "valido"){
+          if(respuesta.respuesta === "valido"){
+            this.nombreAlumno = respuesta.NombreCompleto;
             this.resultadoValidacion = true;
           } else {
             this. resultadoValidacion = false;

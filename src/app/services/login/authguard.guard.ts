@@ -16,6 +16,7 @@ export class AuthguardGuard implements CanActivate  {
     const routeurl: string = state.url;
     return this.isLogin(routeurl);
   }
+  
   isLogin(routeurl: string) {
     if (this.servicioLogin.isLoggedIn() && (this.servicioLogin.getRol() == "Alumno")) {
       return true;
@@ -23,7 +24,7 @@ export class AuthguardGuard implements CanActivate  {
       if(this.servicioLogin.isLoggedIn()){
         switch(this.servicioLogin.getRol()) { 
           case "Administrador": { 
-            //return vista admin
+            return this.router.navigateByUrl('inicio-administrador');
             break; 
           }
           case "Capturador":{

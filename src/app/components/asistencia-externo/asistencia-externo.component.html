@@ -10,24 +10,34 @@
             <p>Estas son las oficinas disponibles para asistir el día de mañana:</p>
 
             <div class="oficinas">
-                <ul>
-                    <li *ngFor="let oficina of oficinas"  class="">{{oficina}}</li>
-                </ul>
-            </div>
-        </div>
-    </div>
+                <form [formGroup]="formularioAsistenciaExterno" (ngSubmit)="enviarAsistencia()" ngNativeValidate>
 
-    <div class="wrapper-enviar">
-        <div class="container-enviar">
-            <p>
-                Al seleccionar "Enviar" se registrará su asistencia a las oficinas seleccionadas
-                y se le enviará un código QR a su correo institucional que deberá presentar en la facultad
-                para que se admita su entrada.
-            </p>
-            <div class="container-boton">
-                <div class="btn-group">
-                    <button (click)="enviarAsistencia()" class="btn btn-enviar">Enviar</button>
-                    <button (click)="cancelar()" class="btn btn-danger">Cancelar</button>
+                    <div formArrayName="oficinas" class="form-group" *ngFor="let oficina of listaOficinas; let i = index">
+                        <div [formGroupName]="i">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" formControlName="respuesta" value="" id="oficina_{{i+1}}">
+                                <label class="form-check-label" for="oficina_{{i+1}}">
+                                  {{oficina.title}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="wrapper-enviar">
+                    <div class="container-enviar">
+                        <p>
+                            Al seleccionar "Enviar" se registrará su asistencia a las oficinas seleccionadas
+                            y se le enviará un código QR a su correo institucional que deberá presentar en la facultad
+                            para que se admita su entrada.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="container-boton">
+                    <div class="btn-group">
+                        <button (click)="enviarAsistencia()" class="btn btn-enviar">Enviar</button>
+                        <button (click)="cancelar()" class="btn btn-danger">Cancelar</button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -7,6 +7,10 @@ include "BD_Conexion.php";
 $respuesta = array();
 $respuesta["respuesta"] = "valido";
 $FechaActual = date('Y-m-d');
+$HoraActual = date("H:i:s");
+
+$esValido = true;
+$QRcodigo =  file_get_contents('php://input');
 
 $sql_verificarReserva = "SELECT ALM.NombreAlumno,ALM.ApellidoPaternoAlumno,ALM.ApellidoMaternoAlumno FROM reservacionesalumnos AS RSAL
     INNER JOIN cargaacademica AS CGAC
@@ -15,8 +19,6 @@ $sql_verificarReserva = "SELECT ALM.NombreAlumno,ALM.ApellidoPaternoAlumno,ALM.A
     ON CGAC.IDAlumno=ALM.IDAlumno
     WHERE CGAC.IDAlumno=? AND RSAL.IDReservaAlumno=? AND RSAL.FechaReservaAl=?";
 
-$QRcodigo =  file_get_contents('php://input');
-
 $ArrayClaves = explode(",", $QRcodigo);
 $AlumnoID = $ArrayClaves[0];
 $esPrimeraLina = true;
@@ -24,7 +26,6 @@ $esPrimeraLina = true;
 $obj_reserva = $DB_CONEXION->prepare($sql_verificarReserva);
 
 foreach ($ArrayClaves as $IDReserva) {
-
     if ($esPrimeraLina) {
         $esPrimeraLina = false;
         continue;
@@ -39,7 +40,12 @@ foreach ($ArrayClaves as $IDReserva) {
 
     if ($datos_reserva == false || sizeof($datos_reserva)  < 1) {
         $respuesta["respuesta"] = "invalido";
+        $esValido = false;
     }
+}
+
+if ($esValido) {
+    $DB_CONEXION->prepare("INSERT INTO asistencia ('IDAlumno', 'Fecha', 'HoraIngreso') VALUES (?,?,?)")->execute(array($ArrayClaves[0]));
 }
 
 echo json_encode($respuesta);

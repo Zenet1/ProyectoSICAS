@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule} from '@angular/router';
+import { DatePipe } from '@angular/common';
+
 import { app_routing } from './app.routes';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +21,9 @@ import { InicioAlumnoComponent } from './components/inicio-alumno/inicio-alumno.
 import { InicioCapturadorComponent } from './components/inicio-capturador/inicio-capturador.component';
 import { InicioAdministradorComponent } from './components/inicio-administrador/inicio-administrador.component';
 import { AsistenciaExternoComponent } from './components/asistencia-externo/asistencia-externo.component';
+import { AlertaComponent } from './components/administrador/alerta/alerta.component';
+import { OficinasExternoComponent } from './components/administrador/oficinas-externo/oficinas-externo.component';
+import { GestionRegistrosComponent } from './components/administrador/gestion-registros/gestion-registros.component';
 
 
 @NgModule({
@@ -33,7 +38,10 @@ import { AsistenciaExternoComponent } from './components/asistencia-externo/asis
     InicioAlumnoComponent,
     InicioCapturadorComponent,
     InicioAdministradorComponent,
-    AsistenciaExternoComponent
+    AsistenciaExternoComponent,
+    AlertaComponent,
+    OficinasExternoComponent,
+    GestionRegistrosComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +54,7 @@ import { AsistenciaExternoComponent } from './components/asistencia-externo/asis
     ZXingScannerModule
     
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
