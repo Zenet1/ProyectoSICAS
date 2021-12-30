@@ -14,6 +14,5 @@ export class RegistroExternoService {
 
   guardarExterno(datos:FormGroup):Observable<any>{
     return this.clienteHttp.post(this.API, datos);
-  }  
-
+  }
 }

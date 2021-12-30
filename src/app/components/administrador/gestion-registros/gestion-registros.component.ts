@@ -22,13 +22,10 @@ export class GestionRegistrosComponent implements OnInit {
   }
 
   respaldar(){
-    //this.siArchivoRespaldado = true;
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy h:mm:ss');
-    const nombreArchivo = "respaldo - " + currentDateTime +".zip";
+    const nombreArchivo = "respaldo - " + currentDateTime + ".zip";
     this.servicioAdmin.respaldarBD().subscribe(
       respuesta=>{
-        //console.log(respuesta);
-        this.siArchivoRespaldado = true;
         this.gestionarArchivo(respuesta, nombreArchivo);
       }
     );
@@ -43,6 +40,7 @@ export class GestionRegistrosComponent implements OnInit {
     linkDescarga.href = carpeta;
     linkDescarga.setAttribute('download', nombreArchivo);
     linkDescarga.click();
+    this.siArchivoRespaldado = true;
   }
 
   archivoSeleccionado(event){

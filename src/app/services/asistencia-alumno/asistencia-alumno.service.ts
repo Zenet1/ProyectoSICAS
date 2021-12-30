@@ -24,4 +24,8 @@ export class AsistenciaAlumnoService {
   obtenerClases(accion:any){
     return this.clienteHttp.post<any>(this.API, accion);
   }
+
+  combrobarReservacion(){
+    return this.clienteHttp.get(this.API);
+  }
 }

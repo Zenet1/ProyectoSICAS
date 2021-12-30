@@ -11,7 +11,12 @@ export class AsistenciaExternoService {
   API:string = "/";
   constructor(private clienteHttp: HttpClient) { }
 
-  enviarAsistencia(datos:FormGroup):Observable<any>{
+  enviarAsistencia(datos:any):Observable<any>{
     return this.clienteHttp.post<any>(this.API, datos);
+  }
+
+  obtenerOficinas(){
+    let accion = JSON.stringify({accion:"obtenerOficinas"})
+    return this.clienteHttp.post<any>(this.API, accion);
   }
 }

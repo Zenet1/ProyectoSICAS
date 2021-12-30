@@ -22,6 +22,14 @@ export class AdministradorService {
     return this.clienteHttp.get(this.API);
   }
 
+  guardarOficina(datos:any){
+    return this.clienteHttp.post<any>(this.API, datos);
+  }
+
+  eliminarOficina(id:any){
+    return this.clienteHttp.post<any>(this.API, id);
+  }
+
   restaurarBD(datos:FormGroup){
     const formData = new FormData();
     formData.append('archivo', datos.get('archivo').value);
