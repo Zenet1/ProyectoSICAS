@@ -7,7 +7,7 @@
 
     $archivo = file("bd_src/Licenciatura/AlumnosInscripcionEnPeriodoCurso.txt");
     $saltado = false;
-    $sql_introducir_cuenta = "INSERT INTO sicas_test.usuarios (Cuenta, Contraseña, IDRol) VALUES (?,?,?)";
+    $sql_introducir_cuenta = "INSERT INTO usuarios (Cuenta, Contraseña, IDRol) VALUES (?,?,?)";
 
     foreach($archivo as $linea){
         if(!$saltado){

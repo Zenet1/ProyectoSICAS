@@ -6,7 +6,7 @@
 
     $archivo = file("bd_src/Licenciatura/AsignaturasALasQueSeInscribieronAlumnos.txt");
     $saltado = false;
-    $insertar = "INSERT INTO sicas_test.asignaturas (ClaveAsignatura, NombreAsignatura, IDPlanEstudio) VALUES (?,?,?)";
+    $insertar = "INSERT INTO asignaturas (ClaveAsignatura, NombreAsignatura, IDPlanEstudio) VALUES (?,?,?)";
     $recuperar = "SELECT IDPlanEstudio FROM planesdeestudio WHERE ClavePlan=? AND VersionPlan=?";
     $insertar_obj = $DB_CONEXION->prepare($insertar);
     $recuperar_obj = $DB_CONEXION->prepare($recuperar); 

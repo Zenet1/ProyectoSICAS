@@ -7,7 +7,7 @@
     $archivo = file("bd_src/Licenciatura/HorariosSesionesGrupo_Licenciatura.txt");
     $saltado = false;
 
-    $sqlInsert = "INSERT INTO sicas_test.salones (IDEdificio, NombreSalon, Capacidad) VALUES (?,?,?)";
+    $sqlInsert = "INSERT INTO salones (IDEdificio, NombreSalon, Capacidad) VALUES (?,?,?)";
     $sqlrecuperar = "SELECT IDEdificio FROM edificios WHERE NombreEdificio=?";
     $obj_recuperar = $DB_CONEXION->prepare($sqlrecuperar);
     $obj_insert = $DB_CONEXION->prepare($sqlInsert);

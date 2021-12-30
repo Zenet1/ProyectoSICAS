@@ -11,7 +11,7 @@
     $getIDgru = "SELECT IDGrupo FROM grupos WHERE ClaveGrupo=? AND IDProfesor=?";
     $getIDprof = "SELECT IDProfesor FROM academicos WHERE ClaveProfesor=?";
 
-    $setcargas = "INSERT INTO sicas_test.cargaacademica (IDAlumno, IDGrupo) VALUES (?,?)";
+    $setcargas = "INSERT INTO cargaacademica (IDAlumno, IDGrupo) VALUES (?,?)";
 
     $getProf = $DB_CONEXION->prepare($getIDprof);
     $getalu = $DB_CONEXION->prepare($getIDalu);

@@ -6,7 +6,7 @@
 
     $archivo = file("bd_src/Licenciatura/PlanesDeEstudios.txt");
     $saltado = false;
-    $insertar = "INSERT INTO sicas_test.planesdeestudio (NombrePlan, SiglasPlan, ClavePlan, VersionPlan) VALUES (?,?,?,?);";
+    $insertar = "INSERT INTO planesdeestudio (NombrePlan, SiglasPlan, ClavePlan, VersionPlan) VALUES (?,?,?,?);";
     $estado_obj = $DB_CONEXION->prepare($insertar);
 
     foreach($archivo as $linea){

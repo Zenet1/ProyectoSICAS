@@ -7,7 +7,7 @@
     $archivo = file("bd_src/Licenciatura/HorariosSesionesGrupo_Licenciatura.txt");
     $saltado = false;
 
-    $sqlInsert = "INSERT INTO sicas_test.edificios (NombreEdificio) VALUES (?)";
+    $sqlInsert = "INSERT INTO edificios (NombreEdificio) VALUES (?)";
     $obj_insert = $DB_CONEXION->prepare($sqlInsert);
 
     $edificios = array();

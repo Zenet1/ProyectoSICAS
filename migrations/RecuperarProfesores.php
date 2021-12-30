@@ -7,7 +7,7 @@
     $archivo = file("bd_src/Licenciatura/ProfesoresConAlumnosInscritos.txt");
     $saltado = false;
 
-    $sqlInsert = "INSERT INTO sicas_test.academicos (ClaveProfesor, NombreProfesor, ApellidoPaternoProfesor, ApellidoMaternoProfesor, GradoAcademico, CorreoProfesor) VALUES (?,?,?,?,?,?)";
+    $sqlInsert = "INSERT INTO academicos (ClaveProfesor, NombreProfesor, ApellidoPaternoProfesor, ApellidoMaternoProfesor, GradoAcademico, CorreoProfesor) VALUES (?,?,?,?,?,?)";
 
 
     $obj_insert = $DB_CONEXION->prepare($sqlInsert);
