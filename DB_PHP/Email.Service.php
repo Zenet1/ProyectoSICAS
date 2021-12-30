@@ -16,6 +16,7 @@ switch ($datos->accion) {
         Rechazo(array($_SESSION["Correo"] => $_SESSION["Nombre"]), "Problemas de seguridad");
         break;
     case "alertar":
+
         break;
 }
 
@@ -55,5 +56,6 @@ function Rechazo(array $datosDestinatario, string $msg)
 }
 
 function Alertar(array $datosDestinatarios, string $msg){
-    
+    $correo = new CorreoManejador();
+    //$correo->EnviarCorreo($datosDestinatarios, "Posible contagio", $msg);
 }

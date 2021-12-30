@@ -41,12 +41,12 @@ export class CuestionarioComponent implements OnInit {
     this.servicioCuestionario.obtenerPreguntas().subscribe(
       respuesta=>{
         this.preguntasBD=respuesta;
-        this.agregarPreguntas();
+        this.agregarCamposPreguntas();
       }
     );
   }
 
-  agregarPreguntas(){
+  agregarCamposPreguntas(){
     for (let index = 0; index < this.preguntasBD.length; index++) {
       const preguntaFormGroup = this.formBuilder.group({
         respuesta:['']

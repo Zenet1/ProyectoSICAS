@@ -21,6 +21,9 @@ export class OficinasExternoComponent implements OnInit {
         edificio:[""]
       }
     );
+
+    this.obtenerEdificios();
+    this.obtenerOficinas();
   }
 
   obtenerOficinas(){
@@ -41,11 +44,20 @@ export class OficinasExternoComponent implements OnInit {
 
   guardarOficina(){
     console.log(this.formularioOficina.value);
+    this.servicioAdmin.guardarOficina(this.formularioOficina.value).subscribe(
+      respuesta=>{
+        this.oficinas = this.servicioAdmin.obtenerOficinas();
+      }
+    );
   }
 
-  eliminarOficina(){
+  eliminarOficina(id:any, indexOficina:any){
     if (window.confirm("¿Desea eliminar la oficina?")) {
-      
+      this.servicioAdmin.eliminarOficina(id).subscribe(
+        respuesta=>{
+          this.oficinas.splice(indexOficina,1);
+        }
+      );
     }
   }
 
