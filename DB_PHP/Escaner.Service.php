@@ -38,14 +38,15 @@ foreach ($ArrayClaves as $IDReserva) {
         $respuesta["NombreCompleto"] = $datos_reserva["NombreAlumno"] . " " . $datos_reserva["ApellidoPaternoAlumno"] . " " . $datos_reserva["ApellidoMaternoAlumno"];
     }
 
-    if ($datos_reserva == false || sizeof($datos_reserva)  < 1) {
+    if ($datos_reserva === false || sizeof($datos_reserva)  < 1) {
         $respuesta["respuesta"] = "invalido";
         $esValido = false;
     }
 }
 
 if ($esValido) {
-    $DB_CONEXION->prepare("INSERT INTO asistencia ('IDAlumno', 'Fecha', 'HoraIngreso') VALUES (?,?,?)")->execute(array($ArrayClaves[0]));
+    $obj_asistencia = $DB_CONEXION->prepare("INSERT INTO `sicasbd`.`asistencia` (`IDAlumno`, `Fecha`, `HoraIngreso`) VALUES (?,?,?)");
+    $obj_asistencia->execute(array($ArrayClaves[0], $FechaActual, $HoraActual));
 }
 
 echo json_encode($respuesta);
