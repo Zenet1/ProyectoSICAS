@@ -8,7 +8,7 @@
     echo json_encode($datosOficinas);
     
     function obtenerOficinas(PDO $Conexion){
-        $sql_obtenerOficinas = "SELECT OFC.NombreOficina, OFC.Departamento, EDF.NombreEdificio
+        $sql_obtenerOficinas = "SELECT OFC.NombreOficina, OFC.Departamento, EDF.NombreEdificio, OFC.IDOficina
         FROM oficinas AS OFC
         INNER JOIN edificios AS EDF
         ON EDF.IDEdificio=OFC.IDEdificio";

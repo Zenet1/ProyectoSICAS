@@ -12,6 +12,7 @@ export class AdministradorService {
   API_ObtenerEdificios:string = "/ProyectoSICAS/DB_PHP/DevolverEdificios.Service.php";
   API_ObtenerOficinas:string = "/ProyectoSICAS/DB_PHP/DevolverOficinas.Service.php";
   API_RegistrarOficina:string = "/ProyectoSICAS/DB_PHP/RegistrarOficina.Service.php";
+  API_EliminarOficina:string = "/ProyectoSICAS/DB_PHP/EliminarOficina.Service.php";
   constructor(private clienteHttp: HttpClient) { }
 
   obtenerAfectados(datos:FormGroup){
@@ -35,7 +36,7 @@ export class AdministradorService {
   }
 
   eliminarOficina(id:any){
-    return this.clienteHttp.post<any>(this.API_GestionBD, id);
+    return this.clienteHttp.post<any>(this.API_EliminarOficina, id);
   }
 
   restaurarBD(datos:FormGroup){

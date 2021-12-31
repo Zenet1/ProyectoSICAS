@@ -9,8 +9,6 @@
     insertarOficina((array)$datos, $DB_CONEXION);
 
     function insertarOficina(array $oficina, PDO $Conexion) : void{
-        print_r($oficina);
-        echo "<br><br>";
         $sql_insertarOficina = "INSERT INTO oficinas (NombreOficina, Departamento, IDEdificio) VALUES (?, ?, ?)";
         $sql_recuperarIDEdificio = "SELECT IDEdificio FROM edificios WHERE NombreEdificio = ?";
 
