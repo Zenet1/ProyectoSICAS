@@ -8,7 +8,7 @@ import { FormGroup } from '@angular/forms';
 export class AdministradorService {
   API_GestionBD:string = "/ProyectoSICAS/DB_PHP/BDControl.Service.php";
   API_Alerta:string = "/ProyectoSICAS/DB_PHP/Alerta.Service.php";
-  API_Email:string = '';
+  API_Email:string = '/ProyectoSICAS/DB_PHP/Email.Service.php';
   constructor(private clienteHttp: HttpClient) { }
 
   obtenerAfectados(datos:FormGroup){

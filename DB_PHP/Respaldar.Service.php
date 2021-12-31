@@ -2,7 +2,7 @@
 include 'BD_Conexion.php';
 $tablas_respaldar = ["reservacionesalumnos", "asistencia"];
 
-foreach($tablas_respaldar as $tabla){
+foreach ($tablas_respaldar as $tabla) {
     respaldar($DB_CONEXION, $tabla);
 }
 comprimir();
@@ -35,11 +35,12 @@ function respaldar(PDO $Conexion, string $tabla)
     fclose($archivo);
 }
 
-function comprimir(){
+function comprimir()
+{
     $zip = new ZipArchive();
     $nombreZip = "backups/zipRespaldo.zip";
 
-    if($zip->open($nombreZip, ZipArchive::CREATE) === true){
+    if ($zip->open($nombreZip, ZipArchive::CREATE) === true) {
         $zip->addFile("backups/asistencia.txt");
         $zip->addFile("backups/reservacionesalumnos.txt");
     }
@@ -51,10 +52,12 @@ function descargar(string $nombreArchivo)
     header('Content-Description: File Transfer');
     header('Content-Type: application/text');
     header('Content-Disposition: attachment; filename="' . basename($nombreArchivo . ".zip") . '"');
-    header('Expires: 0');
-    header('Cache-Control: must-revalidate');
-    header('Pragma: public');
     header('Content-Length: ' . filesize("backups/" . $nombreArchivo . ".zip"));
     readfile("backups/" . $nombreArchivo . ".zip");
-    exit;
+
+    foreach (scandir('backups/') as $archivo) {
+        if (is_file("backups/" . $archivo)) {
+            unlink("backups/" . $archivo);
+        }
+    }
 }
