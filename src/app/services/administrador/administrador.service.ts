@@ -9,6 +9,8 @@ export class AdministradorService {
   API_GestionBD:string = "/ProyectoSICAS/DB_PHP/BDControl.Service.php";
   API_Alerta:string = "/ProyectoSICAS/DB_PHP/Alerta.Service.php";
   API_Email:string = '';
+  API_Capacidad:string = '';
+  API_BD_Sicei:string = '';
   constructor(private clienteHttp: HttpClient) { }
 
   obtenerAfectados(datos:FormGroup){
@@ -17,6 +19,17 @@ export class AdministradorService {
 
   alertar(afectados:any){
     return this.clienteHttp.post<any>(this.API_Email, afectados);
+  }
+
+  guardarCapacidadFacultdad(capacidad:any){
+    let datos = JSON.stringify({capacidadFacultad: capacidad, accion: 'capacidad'});
+    return this.clienteHttp.post<any>(this.API_Capacidad, datos);
+  }
+
+  subirBDSicei(datos:any){
+    const formData = new FormData();
+    formData.append('archivos', datos);
+    return this.clienteHttp.post<any>(this.API_BD_Sicei, datos);
   }
 
   obtenerEdificios(){
