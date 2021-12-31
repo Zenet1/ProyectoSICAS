@@ -10,7 +10,6 @@ $json = file_get_contents('php://input');
 $datos = json_decode($json);
 $Global_datosReservaAlumno = array();
 $_SESSION["FechaSig"] = date('Y-m-d', strtotime('+' . obtenerDiaSiguienteHabil()[1] . ' day'));
-$dia_siguiente = date('Y-m-d', strtotime('+' . obtenerDiaSiguienteHabil()[1] . ' day'));
 $ContenidoQR = "";
 
 switch ($datos->accion) {
@@ -58,7 +57,6 @@ function ObtenerMateriasDisponibles(PDO $Conexion) {
 function InsertarNuevaReservacionAlumno(array $asignaturas, PDO $Conexion): void {
     $FechaActual = date('Y-m-d');
     $horaAlumno = date("H:i:s");
-    $FechateDiaSiguiente = $GLOBALS["dia_siguiente"];
     $sql_insertar = "INSERT INTO `sicasbd`.`reservacionesalumnos` (`IDCarga`, `FechaReservaAl`, `HoraInicioReservaAl`, `HoraFinReservaAl`, `FechaAlumno`, `HoraAlumno`) VALUES (?,?,?,?,?,?)";
 
     $sql_recuperarIDCarga = "SELECT IDReservaAlumno FROM reservacionesalumnos WHERE IDCarga=? AND FechaReservaAl=?";
@@ -71,9 +69,9 @@ function InsertarNuevaReservacionAlumno(array $asignaturas, PDO $Conexion): void
     foreach($asignaturas as $asignatura){
         $asignaturaArray = (array)$asignatura;
         if(ValidadorGrupoDisponible($asignaturaArray, $Conexion)){
-            $obj_insertar->execute(array($asignaturaArray["IDCarga"], $FechateDiaSiguiente, $asignaturaArray["HoraInicioHorario"], $asignaturaArray["HoraFinHorario"], $FechaActual, $horaAlumno));
+            $obj_insertar->execute(array($asignaturaArray["IDCarga"], $_SESSION["FechaSig"], $asignaturaArray["HoraInicioHorario"], $asignaturaArray["HoraFinHorario"], $FechaActual, $horaAlumno));
 
-            $obj_recuperarID->execute(array($asignaturaArray["IDCarga"], $FechateDiaSiguiente));
+            $obj_recuperarID->execute(array($asignaturaArray["IDCarga"], $_SESSION["FechaSig"]));
             $IDReserva = $obj_recuperarID->fetch(PDO::FETCH_ASSOC);
             
             $QRContenido .= "," . $IDReserva["IDReservaAlumno"];

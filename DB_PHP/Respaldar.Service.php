@@ -1,19 +1,22 @@
 <?php
 include 'BD_Conexion.php';
-$tablas_respaldar = ["reservacionesalumnos", "asistencia"];
 
-foreach ($tablas_respaldar as $tabla) {
-    respaldar($DB_CONEXION, $tabla);
-}
+
+respaldar($DB_CONEXION, "asistencia", "SELECT * FROM asistencia");
+respaldar($DB_CONEXION, "reservacionesalumnos", "SELECT * FROM reservacionesalumnos WHERE FechaAlumno < ?", array(date('Y-m-d')));
+
 comprimir();
 descargar("zipRespaldo");
 
-function respaldar(PDO $Conexion, string $tabla)
+function respaldar(PDO $Conexion, string $tabla, string $Query, array $variables = null)
 {
     $archivo = fopen("backups/" . $tabla . ".txt", "w");
     $obj_nombreColumnas = $Conexion->prepare("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$tabla'");
-    $obj_datosTabla = $Conexion->prepare("SELECT * FROM $tabla");
+    $obj_datosTabla = $Conexion->prepare($Query);
     $obj_nombreColumnas->execute();
+    if ($variables !== null) {
+        $obj_datosTabla->execute($variables);
+    }
     $obj_datosTabla->execute();
 
     $array_columnas = $obj_nombreColumnas->fetchAll(PDO::FETCH_ASSOC);
@@ -34,17 +37,6 @@ function respaldar(PDO $Conexion, string $tabla)
     }
     fclose($archivo);
 }
-
-function RespaldarAsistencia(PDO $Conexion)
-{
-    $ObtenerDatosAsistencias = $Conexion->prepare("SELECT * FROM asistencia WHERE < ");
-}
-
-function RespaldarReservas(PDO $Conexion)
-{
-    $ObtenerDatosReservas = $Conexion->prepare("SELECT * FROM asistencia WHERE < ");
-}
-
 
 function comprimir()
 {
