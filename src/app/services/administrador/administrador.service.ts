@@ -14,7 +14,8 @@ export class AdministradorService {
   API_RegistrarOficina:string = "/ProyectoSICAS/DB_PHP/RegistrarOficina.Service.php";
   API_EliminarOficina:string = "/ProyectoSICAS/DB_PHP/EliminarOficina.Service.php";
   API_Capacidad:string = '';
-  API_BD_Sicei:string = '';
+  API_BD_Sicei:string = '/ProyectoSICAS/DB_PHP/SICEI.Service.php';
+
   constructor(private clienteHttp: HttpClient) { }
 
   obtenerAfectados(datos:FormGroup){
@@ -33,7 +34,7 @@ export class AdministradorService {
   subirBDSicei(datos:any){
     const formData = new FormData();
     formData.append('archivos', datos);
-    return this.clienteHttp.post<any>(this.API_BD_Sicei, datos);
+    return this.clienteHttp.post<any>(this.API_BD_Sicei, formData);
   }
 
   obtenerEdificios(){
