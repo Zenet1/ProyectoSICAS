@@ -33,14 +33,13 @@ export class AdministradorService {
 
   subirBDSicei(datos:any){
     const formData = new FormData();
-<<<<<<< HEAD
-    formData.append('archivos', datos);
-=======
+    let numArchivos:number = 0;
     for (let index = 0; index < datos.archivos.length; index++) {
       console.log(datos.archivos[index]);
-      formData.append('archivos['+index+']', datos.archivos[index]);
+      numArchivos++;
+      formData.append('archivo' + [index], datos.archivos[index]);
     }
->>>>>>> desarrollo
+    formData.append('numArchivos', numArchivos + "");
     return this.clienteHttp.post<any>(this.API_BD_Sicei, formData);
   }
 
