@@ -1,5 +1,6 @@
 <?php
 include 'BD_Conexion.php';
+date_default_timezone_set("America/Mexico_City");
 
 switch ($_POST["accion"]) {
     case "eliminar":
@@ -12,6 +13,10 @@ switch ($_POST["accion"]) {
 
 function eliminar(PDO $Conexion)
 {
+    $obj_borrarAsistencia = $Conexion->prepare("DELETE FROM asistencia");
+    $obj_borrarReservas = $Conexion->prepare("DELETE FROM reservacionesalumnos WHERE FechaAlumno < ?");
+    $obj_borrarReservas->execute(array(date("Y-m-d")));
+    $obj_borrarAsistencia->execute();
 }
 
 function restaurar(PDO $Conexion)
