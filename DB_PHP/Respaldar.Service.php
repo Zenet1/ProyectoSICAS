@@ -35,6 +35,17 @@ function respaldar(PDO $Conexion, string $tabla)
     fclose($archivo);
 }
 
+function RespaldarAsistencia(PDO $Conexion)
+{
+    $ObtenerDatosAsistencias = $Conexion->prepare("SELECT * FROM asistencia WHERE < ");
+}
+
+function RespaldarReservas(PDO $Conexion)
+{
+    $ObtenerDatosReservas = $Conexion->prepare("SELECT * FROM asistencia WHERE < ");
+}
+
+
 function comprimir()
 {
     $zip = new ZipArchive();
