@@ -11,13 +11,12 @@
 
             <div class="oficinas">
                 <form [formGroup]="formularioAsistenciaExterno" (ngSubmit)="enviarAsistencia()" ngNativeValidate>
-
                     <div formArrayName="oficinas" class="form-group mb-3" *ngFor="let oficina of listaOficinas; let i = index">
                         <div [formGroupName]="i">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" formControlName="respuesta" value="" id="oficina_{{i+1}}">
                                 <label class="form-check-label" for="oficina_{{i+1}}">
-                                  {{oficina.NombreOficina}}
+                                  {{oficina.NombreOficina}}, Departamento {{oficina.Departamento}}, {{oficina.NombreEdificio}}
                                 </label>
                             </div>
                         </div>
