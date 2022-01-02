@@ -9,12 +9,7 @@ import { AsistenciaExternoService } from 'src/app/services/asistencia-externo/as
   styleUrls: ['./asistencia-externo.component.css']
 })
 export class AsistenciaExternoComponent implements OnInit {
-  listaOficinas:any = [
-    { title: "book1", description: "book desc 1" },
-    { title: "book2", description: "book desc 2" },
-    { title: "book3", description: "book desc 3" },
-    { title: "book4", description: "book desc 4 " }
-  ];;
+  listaOficinas:any;
   formularioAsistenciaExterno:FormGroup;
 
   constructor(private servicioAsistenciaExterno:AsistenciaExternoService, private formBuilder:FormBuilder, private router:Router) { }
@@ -25,7 +20,7 @@ export class AsistenciaExternoComponent implements OnInit {
         accion: [""],
       }
     );
-    //this.obtenerOficinas();
+    this.obtenerOficinas();
     this.agregarCamposOficinas();
   }
 
@@ -60,7 +55,6 @@ export class AsistenciaExternoComponent implements OnInit {
           oficinasSeleccionas.push(this.listaOficinas[index].title);
         }
       }
-
       let datos = JSON.stringify({oficinasSeleccionadas: oficinasSeleccionas, accion: "aceptado"});
       //console.log(datos);
       //this.formularioAsistenciaExterno.controls["oficinas"].setValue(this.oficinas);
