@@ -8,7 +8,7 @@ function RecuperarCargasAcademicas(PDO $Conexion)
     $getIDgru = "SELECT IDGrupo FROM grupos WHERE ClaveGrupo=? AND IDProfesor=?";
     $getIDprof = "SELECT IDProfesor FROM academicos WHERE ClaveProfesor=?";
 
-    $setcargas = "INSERT INTO cargaacademica (IDAlumno, IDGrupo) VALUES (?,?)";
+    $setcargas = "INSERT INTO cargaacademica (IDAlumno, IDGrupo) SELECT ?,? FROM DUAL WHERE NOT EXISTS (SELECT IDAlumno, IDGrupo FROM cargaacademica WHERE IDAlumno = ? AND IDGrupo = ?) LIMIT 1";
 
     $getProf = $Conexion->prepare($getIDprof);
     $getalu = $Conexion->prepare($getIDalu);
@@ -31,7 +31,7 @@ function RecuperarCargasAcademicas(PDO $Conexion)
         if (isset($idprof["IDProfesor"])) {
             $getsgrup->execute(array($data[5], $idprof["IDProfesor"]));
             $idgr = $getsgrup->fetch(PDO::FETCH_ASSOC);
-            $sethora->execute(array($idal["IDAlumno"], $idgr["IDGrupo"]));
+            $sethora->execute(array($idal["IDAlumno"], $idgr["IDGrupo"], $idal["IDAlumno"], $idgr["IDGrupo"]));
         }
     }
 }

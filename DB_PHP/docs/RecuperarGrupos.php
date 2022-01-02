@@ -6,7 +6,7 @@ function RecuperarGrupos(PDO $Conexion)
     $saltado = false;
 
     //Querys
-    $sqlInsert = "INSERT INTO grupos (IDAsignatura, IDProfesor, ClaveGrupo, Grupo) VALUES (?,?,?,?)";
+    $sqlInsert = "INSERT INTO grupos (IDAsignatura, IDProfesor, ClaveGrupo, Grupo) SELECT ?,?,?,? FROM DUAL WHERE NOT EXISTS (SELECT IDProfesor, ClaveGrupo, Grupo FROM grupos WHERE IDProfesor = ? AND ClaveGrupo = ? AND Grupo = ?)LIMIT 1";
 
     $sqlrecuperarIDPlanAsig = "SELECT IDPlanEstudio FROM planesdeestudio WHERE ClavePlan=? AND VersionPlan=?";
     $sqlrecuperarCasig = "SELECT IDAsignatura FROM asignaturas WHERE ClaveAsignatura=? AND IDPlanEstudio = ?";
