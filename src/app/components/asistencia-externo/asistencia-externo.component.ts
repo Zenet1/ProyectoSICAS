@@ -17,6 +17,7 @@ export class AsistenciaExternoComponent implements OnInit {
   ngOnInit(): void {
     this.formularioAsistenciaExterno = this.formBuilder.group({
         oficinas: this.formBuilder.array([]),
+        fechaAsistencia:[""],
         accion: [""],
       }
     );
@@ -34,6 +35,10 @@ export class AsistenciaExternoComponent implements OnInit {
 
   get oficinas(){
     return this.formularioAsistenciaExterno.get('oficinas') as FormArray;
+  }
+
+  get fechaAsistencia(){
+    return this.formularioAsistenciaExterno.get('fechaAsistencia');
   }
 
   agregarCamposOficinas(){
@@ -55,7 +60,7 @@ export class AsistenciaExternoComponent implements OnInit {
           oficinasSeleccionas.push(this.listaOficinas[index].title);
         }
       }
-      let datos = JSON.stringify({oficinasSeleccionadas: oficinasSeleccionas, accion: "aceptado"});
+      let datos = JSON.stringify({oficinasSeleccionadas: oficinasSeleccionas, fechaAsistencia: this.fechaAsistencia.value, accion: "aceptado"});
       //console.log(datos);
       //this.formularioAsistenciaExterno.controls["oficinas"].setValue(this.oficinas);
       //this.formularioAsistenciaExterno.controls["accion"].setValue("aceptado");
