@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AsistenciaExternoService {
-
   API:string = "/";
+  API_ObtenerOficinas:string = "/ProyectoSICAS/DB_PHP/DevolverOficinas.Service.php";
   constructor(private clienteHttp: HttpClient) { }
 
   enviarAsistencia(datos:any):Observable<any>{
@@ -17,6 +17,6 @@ export class AsistenciaExternoService {
 
   obtenerOficinas(){
     let accion = JSON.stringify({accion:"obtenerOficinas"})
-    return this.clienteHttp.post<any>(this.API, accion);
+    return this.clienteHttp.post<any>(this.API_ObtenerOficinas, accion);
   }
 }

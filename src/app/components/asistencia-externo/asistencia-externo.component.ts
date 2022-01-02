@@ -22,13 +22,14 @@ export class AsistenciaExternoComponent implements OnInit {
       }
     );
     this.obtenerOficinas();
-    this.agregarCamposOficinas();
+    
   }
 
   obtenerOficinas(){
     this.servicioAsistenciaExterno.obtenerOficinas().subscribe(
       respuesta=>{
         this.listaOficinas = respuesta;
+        this.agregarCamposOficinas();
       }
     );
   }
