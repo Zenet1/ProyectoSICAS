@@ -7,7 +7,7 @@ $arrayClaveGrupo = array();
 $usuariosImplicados = array();
 $datos_enviar = array();
 
-$obj_obtenerFechasAsistencia = $DB_CONEXION->prepare("SELECT ASIS.Fecha,ALM.IDAlumno FROM asistencia AS ASIS INNER JOIN alumnos AS ALM ON ALM.IDAlumno=ASIS.IDAlumno WHERE ASIS.Fecha >= ? AND ASIS.Fecha <= ? AND ALM.Matricula = ?");
+$obj_obtenerFechasAsistencia = $DB_CONEXION->prepare("SELECT ASIS.FechaAl,ALM.IDAlumno FROM asistenciasalumnos AS ASIS INNER JOIN alumnos AS ALM ON ALM.IDAlumno=ASIS.IDAlumno WHERE ASIS.FechaAl >= ? AND ASIS.FechaAl <= ? AND ALM.Matricula = ?");
 
 $obj_obtenerFechasAsistencia->execute(array($datos["fechaInicio"], $datos["fechaFin"], $datos["matricula"]));
 
@@ -20,7 +20,7 @@ $obj_obtenerAlumnosAfectados = $DB_CONEXION->prepare("SELECT ALM.NombreAlumno,AL
 $obj_obtenerProfesores = $DB_CONEXION->prepare("SELECT ACAD.CorreoProfesor,ACAD.NombreProfesor,ACAD.ApellidoPaternoProfesor, ACAD.ApellidoMaternoProfesor FROM academicos AS ACAD INNER JOIN grupos AS GPS ON GPS.IDProfesor=ACAD.IDProfesor WHERE GPS.IDGrupo=?");
 
 foreach ($arrayFechasAsistidas as $fechaAsistida) {
-    $obj_obtenerGruposAsistidos->execute(array($fechaAsistida["Fecha"], $fechaAsistida["IDAlumno"]));
+    $obj_obtenerGruposAsistidos->execute(array($fechaAsistida["FechaAl"], $fechaAsistida["IDAlumno"]));
 
     $arrayGrupos = $obj_obtenerGruposAsistidos->fetchAll(PDO::FETCH_ASSOC);
     foreach ($arrayGrupos as $grupo) {

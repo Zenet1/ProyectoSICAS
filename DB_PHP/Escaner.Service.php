@@ -45,7 +45,7 @@ foreach ($ArrayClaves as $IDReserva) {
 }
 
 if ($esValido) {
-    $obj_asistencia = $DB_CONEXION->prepare("INSERT INTO `sicasbd`.`asistencia` (`IDAlumno`, `Fecha`, `HoraIngreso`) VALUES (?,?,?)");
+    $obj_asistencia = $DB_CONEXION->prepare("INSERT INTO `sicasbd`.`asistenciasalumnos` (`IDAlumno`, `Fecha`, `HoraIngreso`) VALUES (?,?,?)");
     $obj_asistencia->execute(array($ArrayClaves[0], $FechaActual, $HoraActual));
 }
 
