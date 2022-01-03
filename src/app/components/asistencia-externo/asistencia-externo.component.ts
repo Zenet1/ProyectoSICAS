@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AsistenciaExternoService } from 'src/app/services/asistencia-externo/asistencia-externo.service';
+import { CookieService } from 'src/app/services/cookie/cookie.service';
 
 @Component({
   selector: 'app-asistencia-externo',
@@ -12,9 +13,12 @@ export class AsistenciaExternoComponent implements OnInit {
   listaOficinas:any;
   formularioAsistenciaExterno:FormGroup;
 
-  constructor(private servicioAsistenciaExterno:AsistenciaExternoService, private formBuilder:FormBuilder, private router:Router) { }
+  constructor(private servicioAsistenciaExterno:AsistenciaExternoService, private servicioCookie:CookieService, private formBuilder:FormBuilder, private router:Router) { }
 
   ngOnInit(): void {
+    if(!this.servicioCookie.checkCookie("cuestionarioExterno")){
+      this.router.navigateByUrl('login');
+    }
     this.formularioAsistenciaExterno = this.formBuilder.group({
         oficinas: this.formBuilder.array([]),
         fechaAsistencia:[""],
@@ -22,7 +26,6 @@ export class AsistenciaExternoComponent implements OnInit {
       }
     );
     this.obtenerOficinas();
-    
   }
 
   obtenerOficinas(){
@@ -57,18 +60,14 @@ export class AsistenciaExternoComponent implements OnInit {
 
       for (let index = 0; index < this.oficinas.length; index++) {
         if(this.oficinas.controls[index].get("respuesta").value == true){
-          //console.log(this.listaOficinas[index].title);
           seleccionadas.push(this.listaOficinas[index]);
         }
       }
-      console.log(seleccionadas);
+      
       let datos = JSON.stringify({seleccionadas: seleccionadas, fechaAsistencia: this.fechaAsistencia.value, accion: "aceptado"});
-      //console.log(datos);
-      //this.formularioAsistenciaExterno.controls["oficinas"].setValue(this.oficinas);
-      //this.formularioAsistenciaExterno.controls["accion"].setValue("aceptado");
       this.servicioAsistenciaExterno.enviarAsistencia(datos).subscribe(
         respuesta=>{
-          this.router.navigateByUrl('inicio-externo');
+          this.router.navigateByUrl('login');
         }
       );
     }

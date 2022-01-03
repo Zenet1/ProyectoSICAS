@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CookieService } from 'src/app/services/cookie/cookie.service';
 import { CuestionarioService } from 'src/app/services/cuestionario/cuestionario.service';
 import { LoginService } from 'src/app/services/login/login.service';
 
@@ -14,7 +15,7 @@ export class CuestionarioComponent implements OnInit {
   preguntasBD:any;
   estaLogueado:boolean;
   
-  constructor(private servicioCuestionario:CuestionarioService, private servicioLogin:LoginService, private formBuilder: FormBuilder, private router:Router) {
+  constructor(private servicioCuestionario:CuestionarioService, private servicioLogin:LoginService, private servicioCookie:CookieService, private formBuilder: FormBuilder, private router:Router) {
     this.cuestionario = this.formBuilder.group({
       preguntas: this.formBuilder.array([]),
       accion: ['']    
@@ -23,18 +24,23 @@ export class CuestionarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.estaLogueado = this.servicioLogin.isLoggedIn();
-
     if(this.estaLogueado){
       switch(this.servicioLogin.getRol()) {
         case "Administrador": { 
           this.router.navigateByUrl('login');
+          break;
         }
         case "Capturador":{
           this.router.navigateByUrl('login');
+          break;
         }
-        default:{
-
+        case "Alumno":{
+          break;
         }
+      }
+    } else {
+      if(!this.servicioCookie.checkCookie("registroExterno")){
+        this.router.navigateByUrl('login');
       }
     }
 
@@ -76,10 +82,13 @@ export class CuestionarioComponent implements OnInit {
         if(this.estaLogueado){
           switch(this.servicioLogin.getRol()){
             case "Alumno": {
+              this.servicioCookie.setCookie("cuestionarioAlumno", "si");
               this.router.navigateByUrl('asistencia-alumno');
+              break;
             }
           }
         } else {
+          this.servicioCookie.setCookie("cuestionarioExterno", "si");
           this.router.navigateByUrl('asistencia-externo');
         }
       }

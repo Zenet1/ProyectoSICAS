@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AsistenciaAlumnoService } from 'src/app/services/asistencia-alumno/asistencia-alumno.service';
+import { CookieService } from 'src/app/services/cookie/cookie.service';
 
 @Component({
   selector: 'app-asistencia-alumno',
@@ -12,9 +13,12 @@ export class AsistenciaAlumnoComponent implements OnInit {
   clases:any;
   formularioAsistenciaAlumno:FormGroup;
 
-  constructor(private servicioAsistenciaAlum:AsistenciaAlumnoService, private formBuilder:FormBuilder, private router:Router) { }
+  constructor(private servicioAsistenciaAlum:AsistenciaAlumnoService, private servicioCookie:CookieService, private formBuilder:FormBuilder, private router:Router) { }
 
   ngOnInit(): void {
+    if(!this.servicioCookie.checkCookie("cuestionarioAlumno")){
+      this.router.navigateByUrl('inicio-alumno');
+    } 
 
     this.servicioAsistenciaAlum.combrobarReservacion().subscribe(
       respuesta=>{
@@ -26,8 +30,6 @@ export class AsistenciaAlumnoComponent implements OnInit {
         }
       }
     );
-
-    //this.obtenerClases();
   }
 
   obtenerClases(){
@@ -66,6 +68,6 @@ export class AsistenciaAlumnoComponent implements OnInit {
   }
 
   cancelar(){
-    this.router.navigateByUrl('login');
+    this.router.navigateByUrl('inicio-alumno');
   }
 }
