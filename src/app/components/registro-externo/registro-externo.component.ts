@@ -27,13 +27,11 @@ export class RegistroExternoComponent implements OnInit {
 
   registrarse(){
     this.router.navigateByUrl('cuestionario');
-    /*
     this.servicioExterno.guardarExterno(this.formularioRegistro.value).subscribe(
       respuesta=>{
         this.router.navigateByUrl('cuestionario');
       }
     );
-    */
   }
 
   cancelar(){
