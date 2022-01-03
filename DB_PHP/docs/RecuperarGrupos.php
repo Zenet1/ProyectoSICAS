@@ -40,7 +40,7 @@ function RecuperarGrupos(PDO $Conexion)
         $IDprof = $obj_recuperarIprof->fetch(PDO::FETCH_ASSOC);
 
         if (!isset($grupos[$data[1] . $data[2] . $data[3] . $data[4] . $data[5]])) {
-            $obj_insert->execute(array($IDasig["IDAsignatura"], $IDprof["IDProfesor"], $data[5], $data[6]));
+            $obj_insert->execute(array($IDasig["IDAsignatura"], $IDprof["IDProfesor"], $data[5], $data[6], $IDprof["IDProfesor"], $data[5], $data[6]));
             $grupos[$data[1] . $data[2] . $data[3] . $data[4] . $data[5]] = $data[1] . $data[2] . $data[3] . $data[4] . $data[5];
         }
     }
