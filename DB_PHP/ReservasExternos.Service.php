@@ -14,13 +14,13 @@ $ContenidoQR = "";
 
 $externoRegistrado = insertarExterno($DB_CONEXION);
 
-if($externoRegistrado){
+if($externoRegistrado){    
     $IDExterno = recuperarIDExterno($DB_CONEXION);
-    insertarReservacion((array)$datos_entrada->seleccionadas, $IDExterno["IDExterno"], $datos_entrada->fechaAsistencia, $DB_CONEXION);
-    //generarQRExterno($IDExterno["IDExterno"]);
+    $ContenidoQR = insertarReservacion((array)$datos_entrada->seleccionadas, $IDExterno["IDExterno"], $datos_entrada->fechaAsistencia, $DB_CONEXION);
+    generarQRExterno($IDExterno["IDExterno"], $ContenidoQR);
 }
 
-function generarQRExterno(string $IDExterno){
+function generarQRExterno(string $IDExterno, string $ContenidoQR){
     $QR = new GeneradorQr();
     $QR->setNombrePng($IDExterno);
     $QR->Generar($ContenidoQR);
@@ -34,8 +34,8 @@ function insertarExterno(PDO $Conexion): bool{
 
     $obj_insertarExterno = $Conexion->prepare($sql_insertarExterno);
 
-    if(isset($_SESSION['nombreExterno']) && isset($_SESSION['apellidosExterno']) && isset($_SESSION['empresa']) && isset($_SESSION['correoExterno'])){
-        $obj_insertarExterno->execute(array($_SESSION['nombreExterno'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['correoExterno'], $_SESSION['nombreExterno'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['correoExterno']));
+    if(isset($_SESSION['Nombre']) && isset($_SESSION['apellidosExterno']) && isset($_SESSION['empresa']) && isset($_SESSION['Correo'])){
+        $obj_insertarExterno->execute(array($_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo'], $_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo']));
     }else{
         $operacionRealizada = false;
     }
@@ -47,14 +47,14 @@ function recuperarIDExterno(PDO $Conexion) : array{
 
     $obj_recuperarIDExterno = $Conexion->prepare($sql_recuperarIDExterno);
 
-    $obj_recuperarIDExterno->execute(array($_SESSION['nombreExterno'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['correoExterno']));
+    $obj_recuperarIDExterno->execute(array($_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo']));
 
     $IDExternoRecuperado = $obj_recuperarIDExterno->fetch(PDO::FETCH_ASSOC);
 
     return $IDExternoRecuperado;
 }
 
-function insertarReservacion(array $oficinas, string $IDExterno, string $fechaAsistencia, PDO $Conexion): void {
+function insertarReservacion(array $oficinas, string $IDExterno, string $fechaAsistencia, PDO $Conexion): string {
     $fechaActual = date('Y-m-d');
     $horaActual = date("H:i:s");
     
@@ -75,8 +75,14 @@ function insertarReservacion(array $oficinas, string $IDExterno, string $fechaAs
 
         $QRContenido .= "," . $IDReserva["IDReservaExterno"];
     }
+    
+    inicializacionVariablesSesion($IDExterno, $fechaAsistencia);
+    return $QRContenido;
+}
 
-    $GLOBALS["ContenidoQR"] = $QRContenido;
+function inicializacionVariablesSesion(string $IDExterno, string $fechaAsistencia) : void{
+    $_SESSION["IDExterno"] = $IDExterno;
+    $_SESSION["FechaReservada"] = $fechaAsistencia;
 }
 
 ?>

@@ -68,10 +68,23 @@ export class AsistenciaExternoComponent implements OnInit {
       //this.formularioAsistenciaExterno.controls["accion"].setValue("aceptado");
       this.servicioAsistenciaExterno.enviarAsistencia(datos).subscribe(
         respuesta=>{
+          this.enviarQR();
           this.router.navigateByUrl('inicio-externo');
         }
       );
     }
+  }
+
+  enviarQR(){
+    this.servicioAsistenciaExterno.enviarCorreo(JSON.stringify({accion:"EnviarQRExterno"})).subscribe(
+      respuesta=>{
+        alert('Se ha enviado un código QR a tu correo, que deberás presentar para entrar a la facultad');
+        this.router.navigateByUrl('login');
+      },
+      error=>{
+        alert('Ha ocurrido un error al enviar el QR');
+      }
+    );
   }
 
   cancelar(){

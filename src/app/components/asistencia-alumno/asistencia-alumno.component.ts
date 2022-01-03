@@ -26,8 +26,6 @@ export class AsistenciaAlumnoComponent implements OnInit {
         }
       }
     );
-
-    //this.obtenerClases();
   }
 
   obtenerClases(){
@@ -62,7 +60,6 @@ export class AsistenciaAlumnoComponent implements OnInit {
         alert('Ha ocurrido un error al enviar el QR');
       }
     );
-
   }
 
   cancelar(){

@@ -8,11 +8,16 @@ import { Observable } from 'rxjs';
 })
 export class AsistenciaExternoService {
   API_ReservaExterno:string = "/ProyectoSICAS/DB_PHP/ReservasExternos.Service.php";
+  API_EnviarCorreo: string = '/ProyectoSICAS/DB_PHP/Email.Service.php';
   API_ObtenerOficinas:string = "/ProyectoSICAS/DB_PHP/DevolverOficinas.Service.php";
   constructor(private clienteHttp: HttpClient) { }
 
   enviarAsistencia(datos:any):Observable<any>{
     return this.clienteHttp.post<any>(this.API_ReservaExterno, datos);
+  }
+
+  enviarCorreo(datos:any):Observable<any>{
+    return this.clienteHttp.post<any>(this.API_EnviarCorreo, datos);
   }
 
   obtenerOficinas(){
