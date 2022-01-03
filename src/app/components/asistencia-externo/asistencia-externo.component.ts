@@ -68,7 +68,6 @@ export class AsistenciaExternoComponent implements OnInit {
       this.servicioAsistenciaExterno.enviarAsistencia(datos).subscribe(
         respuesta=>{
           this.enviarQR();
-          this.router.navigateByUrl('inicio-externo');
         }
       );
     }
@@ -81,7 +80,7 @@ export class AsistenciaExternoComponent implements OnInit {
         this.router.navigateByUrl('login');
       },
       error=>{
-        alert('Ha ocurrido un error al enviar el QR');
+        alert('Ha ocurrido un error al enviar el QR, intenténtalo de nuevo');
       }
     );
   }
