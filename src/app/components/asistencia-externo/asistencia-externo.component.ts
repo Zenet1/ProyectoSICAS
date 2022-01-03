@@ -53,15 +53,16 @@ export class AsistenciaExternoComponent implements OnInit {
 
   enviarAsistencia(){
     if (window.confirm("Si está seguro que desea asistir, confirme para finalizar")) {
-      let oficinasSeleccionas: Array<any> = [];
+      let seleccionadas: Array<any> = [];
 
       for (let index = 0; index < this.oficinas.length; index++) {
         if(this.oficinas.controls[index].get("respuesta").value == true){
           //console.log(this.listaOficinas[index].title);
-          oficinasSeleccionas.push(this.listaOficinas[index].title);
+          seleccionadas.push(this.listaOficinas[index]);
         }
       }
-      let datos = JSON.stringify({oficinasSeleccionadas: oficinasSeleccionas, fechaAsistencia: this.fechaAsistencia.value, accion: "aceptado"});
+      console.log(seleccionadas);
+      let datos = JSON.stringify({seleccionadas: seleccionadas, fechaAsistencia: this.fechaAsistencia.value, accion: "aceptado"});
       //console.log(datos);
       //this.formularioAsistenciaExterno.controls["oficinas"].setValue(this.oficinas);
       //this.formularioAsistenciaExterno.controls["accion"].setValue("aceptado");
