@@ -26,15 +26,12 @@ export class RegistroExternoComponent implements OnInit {
   }
 
   registrarse(){
-    this.router.navigateByUrl('cuestionario');
-    this.servicioCookie.setCookie("registroExterno","si");
-    /*
     this.servicioExterno.guardarExterno(this.formularioRegistro.value).subscribe(
       respuesta=>{
+        this.servicioCookie.setCookie("registroExterno","si");
         this.router.navigateByUrl('cuestionario');
       }
     );
-    */
   }
 
   cancelar(){
