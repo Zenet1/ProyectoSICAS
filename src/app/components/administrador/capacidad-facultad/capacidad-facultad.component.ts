@@ -34,7 +34,6 @@ export class CapacidadFacultadComponent implements OnInit {
     this.servicioAdmin.obtenerCapacidadActual().subscribe(
       respuesta=>{
         this.capacidadActual = respuesta;
-        this.obtenerCapacidadActual();
       }
     );
   }

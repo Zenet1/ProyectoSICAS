@@ -10,7 +10,7 @@
             <form [formGroup]="formularioAlerta" (ngSubmit)="alertar()" class="row" ngNativeValidate>
                 <div class="mb-3">
                     <label class="form-label" for="matricula">Matrícula:</label>
-                    <input id="matricula" formControlName="matricula" type="text" class="form-control" placeholder="Ingresa la matrícula" required>
+                    <input id="matricula" formControlName="matricula" type="number" class="form-control" placeholder="Ingresa la matrícula" required>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="fechaInicio" class="form-label">Fecha de incio</label>
