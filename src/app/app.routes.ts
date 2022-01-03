@@ -19,6 +19,7 @@ import { OficinasExternoComponent } from "./components/administrador/oficinas-ex
 import { GestionRegistrosComponent } from "./components/administrador/gestion-registros/gestion-registros.component";
 import { CapacidadFacultadComponent } from "./components/administrador/capacidad-facultad/capacidad-facultad.component";
 import { GestionarSiceiComponent } from "./components/administrador/gestionar-sicei/gestionar-sicei.component";
+import { EstadisticasComponent } from "./components/administrador/estadisticas/estadisticas.component";
 
 const app_routes: Routes = [
     { path: 'login', component: LoginComponent},
@@ -34,7 +35,8 @@ const app_routes: Routes = [
         { path: 'oficinas-externo', component: OficinasExternoComponent},
         { path: 'gestion-registros', component: GestionRegistrosComponent},
         { path: 'capacidad-facultad', component: CapacidadFacultadComponent},
-        { path: 'gestionar-sicei', component: GestionarSiceiComponent}
+        { path: 'gestionar-sicei', component: GestionarSiceiComponent},
+        { path: 'estadisticas', component:EstadisticasComponent}
     ]},
     { path: '**', pathMatch: 'full', redirectTo: 'login' },
 ]

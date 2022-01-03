@@ -26,6 +26,7 @@ import { OficinasExternoComponent } from './components/administrador/oficinas-ex
 import { GestionRegistrosComponent } from './components/administrador/gestion-registros/gestion-registros.component';
 import { CapacidadFacultadComponent } from './components/administrador/capacidad-facultad/capacidad-facultad.component';
 import { GestionarSiceiComponent } from './components/administrador/gestionar-sicei/gestionar-sicei.component';
+import { EstadisticasComponent } from './components/administrador/estadisticas/estadisticas.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { GestionarSiceiComponent } from './components/administrador/gestionar-si
     OficinasExternoComponent,
     GestionRegistrosComponent,
     CapacidadFacultadComponent,
-    GestionarSiceiComponent
+    GestionarSiceiComponent,
+    EstadisticasComponent
   ],
   imports: [
     BrowserModule,

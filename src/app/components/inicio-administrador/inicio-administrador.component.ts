@@ -11,17 +11,12 @@ export class InicioAdministradorComponent implements OnInit {
 
   estaLogueado:boolean;
   usuario:string;
-  constructor(private servicioLogin:LoginService, private datePipe:DatePipe) { }
+  constructor(private servicioLogin:LoginService) { }
 
   ngOnInit(): void {
     this.estaLogueado = this.servicioLogin.isLoggedIn();
     if(this.estaLogueado){
       this.usuario = this.servicioLogin.getUsuario();
     }
-
-    //let currentDateTime =this.datePipe.transform((new Date), 'dd/MM/yyyy h:mm:ss');
-    //console.log(currentDateTime);
-    
   }
-
 }
