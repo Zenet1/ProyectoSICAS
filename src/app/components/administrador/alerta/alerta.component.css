@@ -22,8 +22,16 @@
     align-items: center;
 }
 
+.wrapper-afectados{
+    display: flex;
+    justify-content: center;
+}
+
 .container-afectados{
-    text-align: center;
+    width: 100%;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+    padding: 1rem;
 }
 
 @media (min-width:600px){ 

@@ -28,7 +28,6 @@ export class AlertaComponent implements OnInit {
   alertar(){
     this.siAlertaEnviada = false;
     if (window.confirm("Confirme para enviar la alerta")) {
-      console.log(this.formularioAlerta.value);
       this.servicioAdmin.obtenerAfectados(this.formularioAlerta.value).subscribe(
         respuesta=>{
           this.siAlertaEnviada = true;

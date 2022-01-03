@@ -3,6 +3,11 @@
     justify-content: center;
 }
 
+.wrapper-opciones{
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+}
+
 .wrapper-menu{
     display: flex;
     align-items: center;

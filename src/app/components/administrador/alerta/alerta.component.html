@@ -31,12 +31,12 @@
 
     <div *ngIf="siAlertaEnviada" class="wrapper-afectados">
         <div class="container-afectados">
-            <h4>Afectados</h4>
-            <p>Número de afectados: {{numAfectados}}</p>
-            <p>Grupos Afectados:</p>
+            <h4 class="text-center">Afectados</h4>
+            <p>Número de afectados: {{numAfectados}}.</p>
+            <p class="mb-0">Grupos Afectados:</p>
             <ul>
                 <ng-container *ngFor="let grupo of gruposAfectados">
-                    <li>Clave Grupo: {{grupo.ClaveGrupo}} Clave: {{grupo.Grupo}}</li>
+                    <li>Clave del grupo: {{grupo.ClaveGrupo}}, Grupo: {{grupo.Grupo}}.</li>
                 </ng-container>
             </ul>
         </div>
