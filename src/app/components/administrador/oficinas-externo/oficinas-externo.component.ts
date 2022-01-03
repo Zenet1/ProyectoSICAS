@@ -46,7 +46,7 @@ export class OficinasExternoComponent implements OnInit {
     console.log(this.formularioOficina.value);
     this.servicioAdmin.guardarOficina(this.formularioOficina.value).subscribe(
       respuesta=>{
-        this.oficinas = this.servicioAdmin.obtenerOficinas();
+        this.oficinas = this.obtenerOficinas();
       }
     );
   }
