@@ -34,7 +34,6 @@ export class RegistroExternoComponent implements OnInit {
         this.router.navigateByUrl('cuestionario');
       }
     );
-    */
   }
 
   cancelar(){

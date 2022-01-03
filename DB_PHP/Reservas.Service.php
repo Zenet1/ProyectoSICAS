@@ -18,7 +18,7 @@ switch ($datos->accion) {
         echo json_encode($Global_datosReservaAlumno);
         break;
     case "asignarReservaAlumno":
-        InsertarNuevaReservacionAlumno($datos->carga,$DB_CONEXION);
+        InsertarNuevaReservacionAlumno($datos->carga, $DB_CONEXION);
         $QR = new GeneradorQr();
         $QR->setNombrePng($_SESSION["IDAlumno"]);
         $QR->Generar($ContenidoQR);
@@ -27,7 +27,9 @@ switch ($datos->accion) {
         break;
 }
 
-function ObtenerMateriasDisponibles(PDO $Conexion) {
+function ObtenerMateriasDisponibles(PDO $Conexion)
+{
+
     $sql_obtenerMateriasAlumnoPorDia = "SELECT CGAC.IDCarga, CGAC.IDGrupo,GPS.IDAsignatura,ASIG.NombreAsignatura, HRS.Dia, HRS.HoraInicioHorario, HRS.HoraFinHorario, SLS.Capacidad,SLS.NombreSalon
     FROM cargaacademica AS CGAC
     INNER JOIN grupos AS GPS
@@ -43,6 +45,7 @@ function ObtenerMateriasDisponibles(PDO $Conexion) {
     $obj_obtenerMateriasAlumnoPorDia = $Conexion->prepare($sql_obtenerMateriasAlumnoPorDia);
 
     $diaABuscar = obtenerDiaSiguienteHabil()[0];
+
     $obj_obtenerMateriasAlumnoPorDia->execute(array($_SESSION["IDAlumno"], $diaABuscar));
 
     $asignaturasHorario = $obj_obtenerMateriasAlumnoPorDia->fetchAll(PDO::FETCH_ASSOC);
@@ -54,10 +57,11 @@ function ObtenerMateriasDisponibles(PDO $Conexion) {
     }
 }
 
-function InsertarNuevaReservacionAlumno(array $asignaturas, PDO $Conexion): void {
+function InsertarNuevaReservacionAlumno(array $asignaturas, PDO $Conexion): void
+{
     $FechaActual = date('Y-m-d');
     $horaAlumno = date("H:i:s");
-    $sql_insertar = "INSERT INTO `sicasbd`.`reservacionesalumnos` (`IDCarga`, `FechaReservaAl`, `HoraInicioReservaAl`, `HoraFinReservaAl`, `FechaAlumno`, `HoraAlumno`) VALUES (?,?,?,?,?,?)";
+    $sql_insertar = "INSERT INTO reservacionesalumnos (IDCarga, FechaReservaAl, HoraInicioReservaAl, HoraFinReservaAl, FechaAlumno, HoraAlumno) SELECT ?,?,?,?,?,? FROM DUAL WHERE NOT EXISTS (SELECT IDCarga, FechaReservaAl FROM reservacionesalumnos WHERE IDCarga = ? AND FechaReservaAl = ?) LIMIT 1";
 
     $sql_recuperarIDCarga = "SELECT IDReservaAlumno FROM reservacionesalumnos WHERE IDCarga=? AND FechaReservaAl=?";
 
@@ -66,21 +70,22 @@ function InsertarNuevaReservacionAlumno(array $asignaturas, PDO $Conexion): void
 
     $QRContenido = $_SESSION["IDAlumno"];
 
-    foreach($asignaturas as $asignatura){
+    foreach ($asignaturas as $asignatura) {
         $asignaturaArray = (array)$asignatura;
-        if(ValidadorGrupoDisponible($asignaturaArray, $Conexion)){
-            $obj_insertar->execute(array($asignaturaArray["IDCarga"], $_SESSION["FechaSig"], $asignaturaArray["HoraInicioHorario"], $asignaturaArray["HoraFinHorario"], $FechaActual, $horaAlumno));
+        if (ValidadorGrupoDisponible($asignaturaArray, $Conexion)) {
+            $obj_insertar->execute(array($asignaturaArray["IDCarga"], $_SESSION["FechaSig"], $asignaturaArray["HoraInicioHorario"], $asignaturaArray["HoraFinHorario"], $FechaActual, $horaAlumno, $asignaturaArray["IDCarga"], $_SESSION["FechaSig"]));
 
             $obj_recuperarID->execute(array($asignaturaArray["IDCarga"], $_SESSION["FechaSig"]));
             $IDReserva = $obj_recuperarID->fetch(PDO::FETCH_ASSOC);
-            
+
             $QRContenido .= "," . $IDReserva["IDReservaAlumno"];
         }
     }
     $GLOBALS["ContenidoQR"] = $QRContenido;
 }
 
-function obtenerDiaSiguienteHabil(): array {
+function obtenerDiaSiguienteHabil(): array
+{
     $datos_fecha = array();
     $dia_siguiente_nombre = "";
     $dia_siguiente_desplasamiento = 0;
