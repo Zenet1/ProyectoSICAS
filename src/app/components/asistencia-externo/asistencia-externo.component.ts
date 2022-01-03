@@ -63,13 +63,17 @@ export class AsistenciaExternoComponent implements OnInit {
           seleccionadas.push(this.listaOficinas[index]);
         }
       }
-      
-      let datos = JSON.stringify({seleccionadas: seleccionadas, fechaAsistencia: this.fechaAsistencia.value, accion: "aceptado"});
-      this.servicioAsistenciaExterno.enviarAsistencia(datos).subscribe(
-        respuesta=>{
-          this.enviarQR();
-        }
-      );
+
+      if(seleccionadas.length < 1){
+        alert("Selecciona al menos una oficina")
+      } else {
+        let datos = JSON.stringify({seleccionadas: seleccionadas, fechaAsistencia: this.fechaAsistencia.value, accion: "aceptado"});
+        this.servicioAsistenciaExterno.enviarAsistencia(datos).subscribe(
+          respuesta=>{
+            this.enviarQR();
+          }
+        );
+      }
     }
   }
 
