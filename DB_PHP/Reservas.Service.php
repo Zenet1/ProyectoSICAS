@@ -122,7 +122,7 @@ function obtenerDiaSiguienteHabil(): array {
 
 function ValidadorGrupoDisponible(array $asignatura, PDO $Conexion): bool
 {
-    $FechateDiaSiguiente = $GLOBALS["dia_siguiente"];
+    $FechateDiaSiguiente = $_SESSION["FechaSig"];
     $sql_obtenerCantidadReservacionesPorGrupo = "SELECT COUNT(RSAL.IDReservaAlumno) AS CR FROM cargaacademica AS CGAC 
     INNER JOIN reservacionesalumnos AS RSAL 
     ON RSAL.IDCarga=CGAC.IDCarga 

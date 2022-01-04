@@ -45,8 +45,8 @@ foreach ($ArrayClaves as $IDReserva) {
 }
 
 if ($esValido) {
-    $obj_asistencia = $DB_CONEXION->prepare("INSERT INTO `sicasbd`.`asistenciasalumnos` (`IDAlumno`, `Fecha`, `HoraIngreso`) VALUES (?,?,?)");
-    $obj_asistencia->execute(array($ArrayClaves[0], $FechaActual, $HoraActual));
+    $obj_asistencia = $DB_CONEXION->prepare("INSERT INTO asistenciasalumnos (`IDAlumno`, `FechaAl`, `HoraIngresoAl`) SELECT ?,?,? FROM DUAL WHERE NOT EXISTS (SELECT IDAlumno,FechaAl FROM asistenciasalumnos WHERE IDAlumno = ? AND FechaAl = ?)");
+    $obj_asistencia->execute(array($ArrayClaves[0], $FechaActual, $HoraActual, $ArrayClaves[0], $FechaActual));
 }
 
 echo json_encode($respuesta);
