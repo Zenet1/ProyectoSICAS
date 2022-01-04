@@ -20,9 +20,12 @@ import { GestionRegistrosComponent } from "./components/administrador/gestion-re
 import { CapacidadFacultadComponent } from "./components/administrador/capacidad-facultad/capacidad-facultad.component";
 import { GestionarSiceiComponent } from "./components/administrador/gestionar-sicei/gestionar-sicei.component";
 import { EstadisticasComponent } from "./components/administrador/estadisticas/estadisticas.component";
+import { RegistroUsuariosComponent } from "./components/administrador/registro-usuarios/registro-usuarios.component";
+import { LoginUsuariosComponent } from "./components/login-usuarios/login-usuarios.component";
 
 const app_routes: Routes = [
     { path: 'login', component: LoginComponent},
+    { path: 'login-usuarios', component:LoginUsuariosComponent},
     { path: 'escaneo', component: ScannerComponent, canActivate: [AuthguardGuardCapturador]},
     { path: 'registro-externo', component: RegistroExternoComponent},
     { path: 'cuestionario', component: CuestionarioComponent},
@@ -36,7 +39,8 @@ const app_routes: Routes = [
         { path: 'gestion-registros', component: GestionRegistrosComponent},
         { path: 'capacidad-facultad', component: CapacidadFacultadComponent},
         { path: 'gestionar-sicei', component: GestionarSiceiComponent},
-        { path: 'estadisticas', component:EstadisticasComponent}
+        { path: 'estadisticas', component:EstadisticasComponent},
+        { path: 'registro-usuarios', component: RegistroUsuariosComponent}
     ]},
     { path: '**', pathMatch: 'full', redirectTo: 'login' },
 ]

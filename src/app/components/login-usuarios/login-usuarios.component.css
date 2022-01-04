@@ -23,18 +23,13 @@
     align-items: center;
 }
 
-.btn-iniciar-sesion, .btn-externo{
+.btn-iniciar-sesion{
     background-color: #C68D2A;
     color: white;
 }
 
-.container-cuadro{
-    text-align: center;
-    flex-direction: column;
-}
-
 @media (min-width:600px){ 
-    .container-formulario, .container-cuadro{
+    .container-formulario{
         width: 400px;
     }
 }

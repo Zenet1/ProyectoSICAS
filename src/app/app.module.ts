@@ -27,6 +27,8 @@ import { GestionRegistrosComponent } from './components/administrador/gestion-re
 import { CapacidadFacultadComponent } from './components/administrador/capacidad-facultad/capacidad-facultad.component';
 import { GestionarSiceiComponent } from './components/administrador/gestionar-sicei/gestionar-sicei.component';
 import { EstadisticasComponent } from './components/administrador/estadisticas/estadisticas.component';
+import { RegistroUsuariosComponent } from './components/administrador/registro-usuarios/registro-usuarios.component';
+import { LoginUsuariosComponent } from './components/login-usuarios/login-usuarios.component';
 
 
 @NgModule({
@@ -47,7 +49,9 @@ import { EstadisticasComponent } from './components/administrador/estadisticas/e
     GestionRegistrosComponent,
     CapacidadFacultadComponent,
     GestionarSiceiComponent,
-    EstadisticasComponent
+    EstadisticasComponent,
+    RegistroUsuariosComponent,
+    LoginUsuariosComponent
   ],
   imports: [
     BrowserModule,

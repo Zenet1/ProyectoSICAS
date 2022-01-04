@@ -15,6 +15,8 @@ export class AdministradorService {
   API_EliminarOficina:string = "/ProyectoSICAS/DB_PHP/EliminarOficina.Service.php";
   API_Capacidad:string = '/ProyectoSICAS/DB_PHP/Capacidad.Service.php';
   API_BD_Sicei:string = '/ProyectoSICAS/DB_PHP/SICEI.Service.php';
+  API_Roles:string = "";
+  API_RegistrarUsuario:string = "";
 
   constructor(private clienteHttp: HttpClient) { }
 
@@ -81,5 +83,13 @@ export class AdministradorService {
     formData.append('accion', 'respaldar');
     const someHeaders = new HttpHeaders().set('Content-Type', 'application/json');
     return this.clienteHttp.post<any>("/ProyectoSICAS/DB_PHP/Respaldar.Service.php", formData, {headers:someHeaders, responseType: 'blob' as 'json'});
+  }
+
+  obtenerRoles(){
+    return this.clienteHttp.get(this.API_Roles);
+  }
+
+  registrarUsuario(datos:any){
+    return this.clienteHttp.post<any>(this.API_RegistrarUsuario, datos);
   }
 }

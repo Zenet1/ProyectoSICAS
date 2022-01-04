@@ -1,6 +1,7 @@
 <div class="container-fluid" *ngIf="!estaLogueado"> 
-    <div class="container-descripcion mb-3 row g-0">
+    <div class="container-descripcion row g-0">
         <h3>¡Bienvenido!</h3>
+        <p>Inicia sesión con tu cuenta INET</p>
     </div>
     <div class="wrapper-formulario row g-0 mb-3">
         <div class="container-formulario">
@@ -8,7 +9,7 @@
             <form [formGroup]="formularioIniciarSesion" (ngSubmit)="iniciarSesion()" ngNativeValidate>
                 <div class="mb-3">
                     <label for="usuario" class="form-label">Usuario:</label>
-                    <input id="usuario" type="text"  class="form-control" formControlName="usuario" placeholder="Ingresa el usuario" required>
+                    <input id="usuario" type="text"  class="form-control" formControlName="usuario" placeholder="Ej: a00000000" required>
                 </div>
                 
                 <div class="mb-3">
@@ -22,14 +23,24 @@
         </div>
     </div>
 
-    <div class="wrapper-externo row g-0 m-3">
-        <div class="container-externo ">
+    <div class="wrapper-cuadro row g-0 m-3">
+        <div class="container-cuadro ">
             <h4>Visitante externo</h4>
             <p>
                 ¿Nos visitas de otra parte? ¡Regístrarte para asistir a la facultad!
             </p>
             <div class="container-boton">
                 <button type="button" [routerLink]="['/registro-externo']" class="btn btn-externo">Registrarse</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrapper-cuadro row g-0 m-3">
+        <div class="container-cuadro ">
+            <h4>Administrador/Capturador</h4>
+            <p>Iniciar sesión como administrador o capturador de asistencia</p>
+            <div class="container-boton">
+                <button type="button" [routerLink]="['/login-usuarios']" class="btn btn-externo">Ir al Login</button>
             </div>
         </div>
     </div>
