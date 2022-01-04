@@ -6,6 +6,8 @@ $datos = (array)json_decode($json);
 
 $arraygruposID = array();
 $arrayClaveGrupo = array();
+$alumnos = array();
+$Profesores = array();
 $usuariosImplicados = array();
 $datos_enviar = array();
 
@@ -22,12 +24,11 @@ $obj_obtenerProfesores = $DB_CONEXION->prepare("SELECT ACAD.CorreoProfesor,ACAD.
 
 foreach ($arrayFechasAsistidas as $fechaAsistida) {
     $obj_obtenerGruposAsistidos->execute(array($fechaAsistida["FechaAl"], $fechaAsistida["IDAlumno"]));
-
-    $arrayGrupos = $obj_obtenerGruposAsistidos->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($arrayGrupos as $grupo) {
+    $grupos = $obj_obtenerGruposAsistidos->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($grupos as $grupo) {
         if (!isset($arraygruposID[$grupo["IDGrupo"]])) {
             $arraygruposID[$grupo["IDGrupo"]] = $grupo["IDGrupo"];
-            $arrayClaveGrupo[$grupo["ClaveGrupo"]][] = trim($grupo["Grupo"]);
+            $arrayClaveGrupo[] = array($grupo["ClaveGrupo"] => trim($grupo["Grupo"]));
         }
     }
 }
@@ -38,13 +39,15 @@ foreach ($arraygruposID as $clave => $valor) {
     $datosProfesor = $obj_obtenerProfesores->fetch(PDO::FETCH_ASSOC);
     $datosAlumnos = $obj_obtenerAlumnosAfectados->fetchAll(PDO::FETCH_ASSOC);
 
-    if (!isset($usuariosImplicados[trim($datosProfesor["CorreoProfesor"])])) {
-        $usuariosImplicados[trim($datosProfesor["CorreoProfesor"])][] = $datosProfesor["NombreProfesor"] . " " . $datosProfesor["ApellidoPaternoProfesor"] . " " . $datosProfesor["ApellidoMaternoProfesor"];
+    if (!isset($Profesores[trim($datosProfesor["CorreoProfesor"])])) {
+        $Profesores[trim($datosProfesor["CorreoProfesor"])] = "";
+        $usuariosImplicados[] = array(trim($datosProfesor["CorreoProfesor"]) => $datosProfesor["NombreProfesor"] . " " . $datosProfesor["ApellidoPaternoProfesor"] . " " . $datosProfesor["ApellidoMaternoProfesor"]);
     }
 
     foreach ($datosAlumnos as $alumno) {
-        if (!isset($usuariosImplicados[trim($alumno["CorreoAlumno"])])) {
-            $usuariosImplicados[trim($alumno["CorreoAlumno"])][] = $alumno["NombreAlumno"] . " " . $alumno["ApellidoPaternoAlumno"] . " " . $alumno["ApellidoMaternoAlumno"];
+        if (!isset($alumnos[trim($alumno["CorreoAlumno"])])) {
+            $alumnos[trim($alumno["CorreoAlumno"])] = "";
+            $usuariosImplicados[] = array(trim($alumno["CorreoAlumno"]) => $alumno["NombreAlumno"] . " " . $alumno["ApellidoPaternoAlumno"] . " " . $alumno["ApellidoMaternoAlumno"]);
         }
     }
 }
@@ -52,7 +55,5 @@ foreach ($arraygruposID as $clave => $valor) {
 $datos_enviar["usuarios"] = $usuariosImplicados;
 $datos_enviar["grupos"] = $arrayClaveGrupo;
 
-$json = json_encode($datos_enviar);
-
-echo $json;
+echo json_encode($datos_enviar);
 flush();
