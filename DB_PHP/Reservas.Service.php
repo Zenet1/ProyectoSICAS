@@ -61,7 +61,7 @@ function InsertarNuevaReservacionAlumno(array $asignaturas, PDO $Conexion): void
 {
     $FechaActual = date('Y-m-d');
     $horaAlumno = date("H:i:s");
-    $sql_insertar = "INSERT INTO `reservacionesalumnos` (`IDCarga`, `FechaReservaAl`, `HoraInicioReservaAl`, `HoraFinReservaAl`, `FechaAlumno`, `HoraAlumno`) VALUES (?,?,?,?,?,?)";
+    $sql_insertar = "INSERT INTO reservacionesalumnos (IDCarga, FechaReservaAl, HoraInicioReservaAl, HoraFinReservaAl, FechaAlumno, HoraAlumno) SELECT ?,?,?,?,?,? FROM DUAL WHERE NOT EXISTS (SELECT IDCarga, FechaReservaAl FROM reservacionesalumnos WHERE IDCarga = ? AND FechaReservaAl = ?) LIMIT 1";
 
     $sql_recuperarIDCarga = "SELECT IDReservaAlumno FROM reservacionesalumnos WHERE IDCarga=? AND FechaReservaAl=?";
 
@@ -73,7 +73,7 @@ function InsertarNuevaReservacionAlumno(array $asignaturas, PDO $Conexion): void
     foreach ($asignaturas as $asignatura) {
         $asignaturaArray = (array)$asignatura;
         if (ValidadorGrupoDisponible($asignaturaArray, $Conexion)) {
-            $obj_insertar->execute(array($asignaturaArray["IDCarga"], $_SESSION["FechaSig"], $asignaturaArray["HoraInicioHorario"], $asignaturaArray["HoraFinHorario"], $FechaActual, $horaAlumno));
+            $obj_insertar->execute(array($asignaturaArray["IDCarga"], $_SESSION["FechaSig"], $asignaturaArray["HoraInicioHorario"], $asignaturaArray["HoraFinHorario"], $FechaActual, $horaAlumno, $asignaturaArray["IDCarga"], $_SESSION["FechaSig"]));
 
             $obj_recuperarID->execute(array($asignaturaArray["IDCarga"], $_SESSION["FechaSig"]));
             $IDReserva = $obj_recuperarID->fetch(PDO::FETCH_ASSOC);
