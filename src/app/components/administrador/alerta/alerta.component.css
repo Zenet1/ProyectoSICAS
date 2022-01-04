@@ -30,6 +30,9 @@
     .container-formulario{
         width: 400px;
     }
+    .container-afectados{
+        width: 400px;
+    }
 }
 
 @media (min-width:1024px) { 

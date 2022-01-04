@@ -31,12 +31,12 @@ export class AlertaComponent implements OnInit {
       console.log(this.formularioAlerta.value);
       this.servicioAdmin.obtenerAfectados(this.formularioAlerta.value).subscribe(
         respuesta=>{
+          this.siAlertaEnviada = true;
           this.gruposAfectados = respuesta.grupos;
           this.numAfectados = respuesta.usuarios.length;
           let afectados = JSON.stringify({grupos: respuesta.grupos, usuarios: respuesta.usuarios, accion:"alertar"});
           this.servicioAdmin.alertar(afectados).subscribe(
             respuesta=>{
-              this.siAlertaEnviada = true;
               alert("Se ha alertado a los alumnos correctamente");
             }
           );

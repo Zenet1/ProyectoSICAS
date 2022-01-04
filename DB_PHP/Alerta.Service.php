@@ -28,7 +28,7 @@ foreach ($arrayFechasAsistidas as $fechaAsistida) {
     foreach ($grupos as $grupo) {
         if (!isset($arraygruposID[$grupo["IDGrupo"]])) {
             $arraygruposID[$grupo["IDGrupo"]] = $grupo["IDGrupo"];
-            $arrayClaveGrupo[] = array($grupo["ClaveGrupo"] => trim($grupo["Grupo"]));
+            $arrayClaveGrupo[] = array("ClaveGrupo" => $grupo["ClaveGrupo"], "Grupo" => trim($grupo["Grupo"]));
         }
     }
 }
