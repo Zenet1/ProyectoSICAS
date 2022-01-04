@@ -9,21 +9,33 @@ import { AdministradorService } from 'src/app/services/administrador/administrad
 })
 export class CapacidadFacultadComponent implements OnInit {
   formularioCapacidad:FormGroup;
+  capacidadActual:any;
 
   constructor(private servicioAdmin: AdministradorService, private formBuilder:FormBuilder) { }
 
   ngOnInit(): void {
     this.formularioCapacidad = this.formBuilder.group({
-      capacidad:[""]
+      porcentaje:[""],
+      accion:[""]
     });
+    this.obtenerCapacidadActual();
   }
 
   guardarCapacidad(){
-    this.servicioAdmin.guardarCapacidadFacultdad(this.formularioCapacidad.get("capacidad").value).subscribe(
+    this.formularioCapacidad.controls["accion"].setValue("actualizar");
+    this.servicioAdmin.guardarCapacidadFacultdad(this.formularioCapacidad.value).subscribe(
       respuesta=>{
         alert("Se ha guardado la capacidad correctamente");
       }
     );
   }
 
+  obtenerCapacidadActual(){
+    this.servicioAdmin.obtenerCapacidadActual().subscribe(
+      respuesta=>{
+        this.capacidadActual = respuesta;
+        this.obtenerCapacidadActual();
+      }
+    );
+  }
 }

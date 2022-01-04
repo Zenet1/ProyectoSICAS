@@ -26,8 +26,12 @@ export class AdministradorService {
     return this.clienteHttp.post<any>(this.API_Email, afectados);
   }
 
-  guardarCapacidadFacultdad(capacidad:any){
-    let datos = JSON.stringify({capacidadFacultad: capacidad, accion: 'capacidad'});
+  obtenerCapacidadActual(){
+    let accion = JSON.stringify({accion: "recuperar"});
+    return this.clienteHttp.post<any>(this.API_Capacidad,accion);
+  }
+
+  guardarCapacidadFacultdad(datos:any){
     return this.clienteHttp.post<any>(this.API_Capacidad, datos);
   }
 
@@ -76,8 +80,6 @@ export class AdministradorService {
     const formData = new FormData();
     formData.append('accion', 'respaldar');
     const someHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-    //const req = new HttpRequest('POST', this.API_GestionBD, formData, {headers: someHeaders, responseType: 'blob' as 'json'});
-    //return this.clienteHttp.request(req);
     return this.clienteHttp.post<any>("/ProyectoSICAS/DB_PHP/Respaldar.Service.php", formData, {headers:someHeaders, responseType: 'blob' as 'json'});
   }
 }

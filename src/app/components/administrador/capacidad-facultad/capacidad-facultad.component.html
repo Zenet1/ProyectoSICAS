@@ -1,7 +1,8 @@
 <div class="container-fluid">
     <div class="wrapper-descripcion">
         <div class="descripcion">
-            <p>Ingresa la capacidad máxima que puede haber de ocupación en la facultad</p>
+            <p>Ingresa la capacidad de ocupación máxima permitida en la facultad</p>
+            <p>Capacidad actual: {{capacidadActual}}</p>
         </div>
     </div>
 
@@ -9,8 +10,8 @@
         <div class="container-formulario">
             <form [formGroup]="formularioCapacidad" (ngSubmit)="guardarCapacidad()" ngNativeValidate>
                 <div class="mb-3">
-                    <label class="form-label" for="capacidad">Capacidad (%):</label>
-                    <input id="capacidad" formControlName="capacidad" type="number" class="form-control" placeholder="Ingresa la capacidad" required>
+                    <label class="form-label" for="porcentaje">Capacidad (%):</label>
+                    <input id="porcentaje" formControlName="porcentaje" type="number" min="0" max="100" class="form-control" placeholder="Ingresa la capacidad" required>
                 </div>
                 <div class="container-botones">
                     <div class="btn-group">
