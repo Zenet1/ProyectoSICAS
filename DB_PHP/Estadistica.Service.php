@@ -3,8 +3,14 @@ include 'BD_Conexion.php';
 
 $DatosFiltrados = array();
 
-PorCarrera($DB_CONEXION);
-print_r($DatosFiltrados);
+switch ($_POST["accion"]) {
+    case "genero":
+        PorGenero($DB_CONEXION);
+        break;
+    case "carrera":
+        PorCarrera($DB_CONEXION);
+        break;
+}
 
 function PorGenero(PDO $Conexion)
 {
