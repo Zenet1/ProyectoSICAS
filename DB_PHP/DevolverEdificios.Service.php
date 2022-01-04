@@ -9,7 +9,7 @@
     echo json_encode($datosEdificios);
     
     function obtenerEdificios(PDO $Conexion){
-        $sql_obtenerEdificios = "SELECT NombreEdificio FROM edificios";
+        $sql_obtenerEdificios = "SELECT NombreEdificio FROM edificios ORDER BY NombreEdificio";
         $obj_obtenerEdificios = $Conexion->prepare($sql_obtenerEdificios);
         $obj_obtenerEdificios->execute();
         $edificios = $obj_obtenerEdificios->fetchAll(PDO::FETCH_ASSOC);
