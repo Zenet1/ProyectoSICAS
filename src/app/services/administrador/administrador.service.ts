@@ -15,8 +15,8 @@ export class AdministradorService {
   API_EliminarOficina:string = "/ProyectoSICAS/DB_PHP/EliminarOficina.Service.php";
   API_Capacidad:string = '/ProyectoSICAS/DB_PHP/Capacidad.Service.php';
   API_BD_Sicei:string = '/ProyectoSICAS/DB_PHP/SICEI.Service.php';
-  API_Roles:string = "";
-  API_RegistrarUsuario:string = "";
+  API_Roles:string = "/ProyectoSICAS/DB_PHP/Roles.Service.php";
+  API_RegistrarUsuario:string = "/ProyectoSICAS/DB_PHP/RegistroUsuario.Service.php";
 
   constructor(private clienteHttp: HttpClient) { }
 
