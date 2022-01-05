@@ -14,8 +14,6 @@ export class LoginService {
 
   constructor(private httpClient : HttpClient) { }
 
-  usuario:any;
-
   public iniciarSesion(datos:FormGroup) {
     return this.httpClient.post<any>(this.API, datos).pipe(map(Users => {
       let token = JSON.stringify(Users);

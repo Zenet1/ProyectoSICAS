@@ -17,7 +17,7 @@
                 <form [formGroup]="formularioRestaurar" (ngSubmit)="restaurar()" ngNativeValidate>
                     <div class="mb-3">
                         <label for="archivo" class="form-label">Seleccione el archivo:</label>
-                        <input id="archivo" name="archivo" (change)="archivoSeleccionado($event)" class="form-control" type="file" required>
+                        <input id="archivo" name="archivo" (change)="archivoSeleccionado($event)" class="form-control" type="file" accept=".txt" required>
                     </div>
                     <div class="container-boton">
                         <button type="submit" class="btn btn-warning">Restaurar</button>
