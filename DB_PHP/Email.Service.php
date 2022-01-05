@@ -88,6 +88,10 @@ function Rechazo(array $datosDestinatario, string $msg)
 
 function Alertar(array $datosDestinatarios, string $msg)
 {
-    $correo = new CorreoManejador();
     print_r($datosDestinatarios);
+    $correo = new CorreoManejador();
+    foreach($datosDestinatarios as $correo => $receptor){
+        echo $correo . "=>" . $receptor;
+    }
+    
 }
