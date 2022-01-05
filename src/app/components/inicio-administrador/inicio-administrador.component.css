@@ -6,12 +6,8 @@
 .wrapper-opciones{
     border: 1px solid rgba(0,0,0,.125);
     border-radius: 0.25rem;
-}
-
-.wrapper-menu{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 100%;
+    margin-bottom: 1rem;
     padding: 1rem;
 }
 
@@ -27,10 +23,6 @@
         width: 500px;
     }
 
-    .container-menu{
-        width: 500px;
-    }
-
     .form-select{
         width: 450px;
     }
@@ -39,5 +31,9 @@
 @media (min-width:1024px) { 
     .container-descripcion{
         width: 700px;
+    }
+
+    .wrapper-opciones{
+        margin-bottom: 0;
     }
 }
