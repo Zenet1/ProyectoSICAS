@@ -17,6 +17,7 @@ export class AdministradorService {
   API_BD_Sicei:string = '/ProyectoSICAS/DB_PHP/SICEI.Service.php';
   API_Roles:string = "/ProyectoSICAS/DB_PHP/Roles.Service.php";
   API_RegistrarUsuario:string = "/ProyectoSICAS/DB_PHP/RegistroUsuario.Service.php";
+  API_Aulas:string = "";
 
   constructor(private clienteHttp: HttpClient) { }
 
@@ -63,6 +64,19 @@ export class AdministradorService {
 
   eliminarOficina(id:any){
     return this.clienteHttp.post<any>(this.API_EliminarOficina, id);
+  }
+
+  obtenerAulas(){
+    return this.clienteHttp.post<any>(this.API_Aulas, JSON.stringify({accion:"recuperar"}));
+  }
+
+  guardarAula(datosAula:any){
+    let datos = JSON.stringify({accion:"actualizar",salon: datosAula})
+    return this.clienteHttp.post<any>(this.API_Aulas, datos);
+  }
+
+  eliminarAula(id:any){
+    return this.clienteHttp.post<any>(this.API_Aulas, id);
   }
 
   restaurarBD(datos:FormGroup){

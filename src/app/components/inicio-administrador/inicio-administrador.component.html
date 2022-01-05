@@ -1,15 +1,32 @@
 <div class="container-fluid"> 
-    <div class="row g-0">
-        <div class="wrapper-opciones col-lg-2 mb-3 shadow-sm shadow-inset">
-            <div class="wrapper-menu">
-                <div class="container-menu">
-                    <button [routerLink]="['alerta']" class="btn btn-menu">Alertar posible contagio</button>
-                    <button [routerLink]="['capacidad-facultad']" class="btn btn-menu">Capturar capacidad de la facultad</button>
-                    <button [routerLink]="['oficinas-externo']" class="btn btn-menu">Oficinas para usuarios externos</button>
-                    <button [routerLink]="['gestionar-sicei']" class="btn btn-menu">Gestionar datos de SICEI</button>
-                    <button [routerLink]="['gestion-registros']" class="btn btn-menu">Gestionar registros de asistencia</button>
-                    <button [routerLink]="['estadisticas']" class="btn btn-menu">Estadísticas</button>
-                    <button [routerLink]="['registro-usuarios']" class="btn btn-menu">Registrar usuarios</button>
+    <div class="wrapper-contenido row g-0">
+        <div class="wrapper-opciones col-lg-2 shadow-sm">
+            <div class="wrapper-botones">
+                <div class="row">
+                    <div class="col-md-6 col-lg-12">
+                        <button [routerLink]="['alerta']" class="btn btn-menu">Alertar</button>
+                    </div>
+                    <div class="col-md-6 col-lg-12">
+                        <button [routerLink]="['capacidad-facultad']" class="btn btn-menu">Capacidad de la facultad</button>
+                    </div>
+                    <div class="col-md-6 col-lg-12">
+                        <button [routerLink]="['oficinas']" class="btn btn-menu">Gestionar oficinas</button>
+                    </div>
+                    <div class="col-md-6 col-lg-12">
+                        <button [routerLink]="['aulas']" class="btn btn-menu">Gestionar aulas</button>
+                    </div>
+                    <div class="col-md-6 col-lg-12">
+                        <button [routerLink]="['gestion-sicei']" class="btn btn-menu">Gestionar SICEI</button>
+                    </div>
+                    <div class="col-md-6 col-lg-12">
+                        <button [routerLink]="['gestion-registros']" class="btn btn-menu">Gestionar asistencia</button>
+                    </div>
+                    <div class="col-md-6 col-lg-12">
+                        <button [routerLink]="['estadisticas']" class="btn btn-menu">Estadísticas</button>
+                    </div>
+                    <div class="col-md-6 col-lg-12">
+                        <button [routerLink]="['registro-usuarios']" class="btn btn-menu">Registrar usuarios</button>
+                    </div>
                 </div>
             </div>
         </div>

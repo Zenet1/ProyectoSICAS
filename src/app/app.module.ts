@@ -29,6 +29,7 @@ import { GestionarSiceiComponent } from './components/administrador/gestionar-si
 import { EstadisticasComponent } from './components/administrador/estadisticas/estadisticas.component';
 import { RegistroUsuariosComponent } from './components/administrador/registro-usuarios/registro-usuarios.component';
 import { LoginUsuariosComponent } from './components/login-usuarios/login-usuarios.component';
+import { AulasComponent } from './components/administrador/aulas/aulas.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { LoginUsuariosComponent } from './components/login-usuarios/login-usuari
     GestionarSiceiComponent,
     EstadisticasComponent,
     RegistroUsuariosComponent,
-    LoginUsuariosComponent
+    LoginUsuariosComponent,
+    AulasComponent
   ],
   imports: [
     BrowserModule,
