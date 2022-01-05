@@ -29,9 +29,11 @@ export class GestionarSiceiComponent implements OnInit {
   subirBDSicei(){
     this.servicioAdmin.subirBDSicei(this.formularioBDSicei.value).subscribe(
       respuesta=>{
-        alert("Se ha subido la base de datos correctamente");
+        
+      },
+      error=>{
+        alert("Ocurrió un error al intentar subir los registros de SICEI");
       }
     );
   }
-
 }

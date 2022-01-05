@@ -37,7 +37,10 @@ export class RegistroUsuariosComponent implements OnInit {
   registrarUsuario(){
     this.servicioAdmin.registrarUsuario(this.formularioRegistrarUsuario.value).subscribe(
       respuesta=>{
-        alert("Se ha guardado el usuario correctamente");
+        
+      },
+      error=>{
+        alert("Ocurrió un error al intentar registrar el usuario");
       }
     );
   }

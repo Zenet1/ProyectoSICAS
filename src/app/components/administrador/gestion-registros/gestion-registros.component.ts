@@ -53,6 +53,9 @@ export class GestionRegistrosComponent implements OnInit {
       this.servicioAdmin.restaurarBD(this.formularioRestaurar).subscribe(
         respuesta=>{
 
+        },
+        error=>{
+          alert("Ocurrió un error al intentar restaurar los registros");
         }
       );
     }
@@ -63,6 +66,9 @@ export class GestionRegistrosComponent implements OnInit {
       this.servicioAdmin.eliminarBD().subscribe(
         respuesta=>{
           
+        },
+        error=>{
+          alert("Ocurrió un error al intentar eliminar los registros");
         }
       );
     }

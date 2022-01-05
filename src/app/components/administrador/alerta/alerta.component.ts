@@ -20,7 +20,8 @@ export class AlertaComponent implements OnInit {
     this.formularioAlerta = this.formBuilder.group({
         matricula: [""],
         fechaInicio:[""],
-        fechaFin:[""]
+        fechaFin:[""],
+        fechaSuspension:[""]
       }
     );
   }
@@ -37,6 +38,9 @@ export class AlertaComponent implements OnInit {
           this.servicioAdmin.alertar(afectados).subscribe(
             respuesta=>{
               alert("Se ha alertado a los alumnos correctamente");
+            },
+            error=>{
+              alert("Ocurrió un error al enviar la alerta");
             }
           );
         }
