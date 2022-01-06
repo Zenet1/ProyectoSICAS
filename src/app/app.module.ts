@@ -4,7 +4,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule} from '@angular/router';
+
 import { DatePipe } from '@angular/common';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 import { app_routing } from './app.routes';
 import { AppRoutingModule } from './app-routing.module';
@@ -14,8 +17,6 @@ import { LoginComponent } from './components/login/login.component';
 import { ScannerComponent } from './components/scanner/scanner.component';
 import { RegistroExternoComponent } from './components/registro-externo/registro-externo.component';
 import { CuestionarioComponent } from './components/cuestionario/cuestionario.component';
-
-import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { AsistenciaAlumnoComponent } from './components/asistencia-alumno/asistencia-alumno.component';
 import { InicioAlumnoComponent } from './components/inicio-alumno/inicio-alumno.component';
 import { InicioCapturadorComponent } from './components/inicio-capturador/inicio-capturador.component';
@@ -63,8 +64,8 @@ import { AulasComponent } from './components/administrador/aulas/aulas.component
     HttpClientModule,
     RouterModule,
     app_routing,
-    ZXingScannerModule
-    
+    ZXingScannerModule,
+    NgxChartsModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
