@@ -5,8 +5,7 @@ function RecuperarHorarios(PDO $Conexion)
     $archivo = file("docs/HorariosSesionesGrupo_Licenciatura.txt");
     $saltado = false;
 
-    //Querys
-    $sqlInsert = "INSERT INTO horarios (IDGrupo, Dia, HoraInicioHorario, HoraFinHorario, IDSalon) SELECT ?, ?, ?, ?, ? FROM DUAL WHERE NOT EXISTS (SELECT IDGrupo, Dia WHERE IDGrupo = ? AND Dia = ?) LIMIT 1";
+    $sqlInsert = "INSERT INTO horarios (IDGrupo, Dia, HoraInicioHorario, HoraFinHorario, IDSalon) SELECT :idG, :dia, ?, ?, ? FROM DUAL WHERE NOT EXISTS (SELECT IDGrupo, Dia WHERE IDGrupo = :idG AND Dia = :dia) LIMIT 1";
 
     $sqlrecuperarIDProfesor = "SELECT IDProfesor FROM academicos WHERE ClaveProfesor=?";
 
