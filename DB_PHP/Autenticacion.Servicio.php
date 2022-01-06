@@ -19,12 +19,6 @@ if (esValido($datos)) {
         case "Alumno":
             Estudiantes($DB_CONEXION, $datos["IDUsuario"]);
             break;
-        case "Administrador":
-            Administrador($DB_CONEXION, $datos["IDUsuario"]);
-            break;
-        case "Capturador":
-            Administrador($DB_CONEXION, $datos["IDUsuario"]);
-            break;
     }
 
     $datos_alumnos = array("Cuenta" => $datos["Cuenta"], "Rol" => $datos["Rol"]);
@@ -33,21 +27,16 @@ if (esValido($datos)) {
 
 function Estudiantes($Conexion, $IDusuario)
 {
-    $sql_estudiante = "SELECT NombreAlumno,IDAlumno,Matricula,CorreoAlumno FROM alumnos WHERE IDUsuario = ?";
+    $sql_estudiante = "SELECT IDAlumno,Matricula,CorreoAlumno FROM alumnos WHERE IDUsuario = ?";
     $estado_obj = $Conexion->prepare($sql_estudiante);
     $estado_obj->execute(array("$IDusuario"));
 
     $datos = $estado_obj->fetch(PDO::FETCH_ASSOC);
     if (esValido($datos)) {
-        $_SESSION["Nombre"] = $datos["NombreAlumno"];
         $_SESSION["IDAlumno"] = $datos["IDAlumno"];
         $_SESSION["Matricula"] = $datos["Matricula"];
         $_SESSION["Correo"] = $datos["CorreoAlumno"];
     }
-}
-
-function Administrador($Conexion, $IDusuario)
-{
 }
 
 function esValido($datos): bool

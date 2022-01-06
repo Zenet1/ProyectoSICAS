@@ -17,12 +17,12 @@ export class AdministradorService {
   API_BD_Sicei:string = '/ProyectoSICAS/DB_PHP/SICEI.Service.php';
   API_Roles:string = "/ProyectoSICAS/DB_PHP/Roles.Service.php";
   API_RegistrarUsuario:string = "/ProyectoSICAS/DB_PHP/RegistroUsuario.Service.php";
-  API_Aulas:string = "";
-  API_Programas:string = "";
+  API_Aulas:string = "/ProyectoSICAS/DB_PHP/Salones.Service.php";
+  API_Programas:string = "/ProyectoSICAS/DB_PHP/Programas.Service.php";
   API_Estadisticas:string = "";
 
   constructor(private clienteHttp: HttpClient) { }
-  //alerta
+
   obtenerAfectados(datos:FormGroup){
     return this.clienteHttp.post<any>(this.API_Alerta, datos);
   }
@@ -31,7 +31,6 @@ export class AdministradorService {
     return this.clienteHttp.post<any>(this.API_Email, afectados);
   }
 
-  //capacidad
   obtenerCapacidadActual(){
     let accion = JSON.stringify({accion: "recuperar"});
     return this.clienteHttp.post<any>(this.API_Capacidad,accion);
@@ -40,8 +39,6 @@ export class AdministradorService {
   guardarCapacidadFacultdad(datos:any){
     return this.clienteHttp.post<any>(this.API_Capacidad, datos);
   }
-
-  //datos sicei
   subirBDSicei(datos:any){
     const formData = new FormData();
     let numArchivos:number = 0;
@@ -54,7 +51,6 @@ export class AdministradorService {
     return this.clienteHttp.post<any>(this.API_BD_Sicei, formData);
   }
 
-  //oficinas
   obtenerEdificios(){
     return this.clienteHttp.get(this.API_ObtenerEdificios);
   }
