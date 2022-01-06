@@ -49,7 +49,7 @@
                     <label for="programa" class="form-label">Programa:</label>
                     <select id="programa" class="form-select" formControlName="programa" required>
                         <ng-container *ngFor="let programa of programas">
-                            <option [value]="programa">{{programa}}</option>
+                            <option [value]="programa">{{programa.NombrePlan}} - Clave: {{programa.ClavePlan}}</option>
                         </ng-container>
                     </select>
                 </div>
