@@ -17,7 +17,7 @@ export class AdministradorService {
   API_BD_Sicei:string = '/ProyectoSICAS/DB_PHP/SICEI.Service.php';
   API_Roles:string = "/ProyectoSICAS/DB_PHP/Roles.Service.php";
   API_RegistrarUsuario:string = "/ProyectoSICAS/DB_PHP/RegistroUsuario.Service.php";
-  API_Aulas:string = "";
+  API_Aulas:string = "/ProyectoSICAS/DB_PHP/Salones.Service.php";
 
   constructor(private clienteHttp: HttpClient) { }
 

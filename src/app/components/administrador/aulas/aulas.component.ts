@@ -16,9 +16,9 @@ export class AulasComponent implements OnInit {
   ngOnInit(): void {
     this.formAula = this.formBuilder.group({
       aula:[""],
-      capacidad:[""],
-      accion:[""]
+      capacidad:[""]
     });
+    this.obtenerAulas();
   }
 
   obtenerAulas(){
