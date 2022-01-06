@@ -8,15 +8,15 @@ include "BD_Conexion.php";
 include "Qr.Class.php";
 
 $json = file_get_contents('php://input');
-$datos_entrada = json_decode($json);
+$entrada = json_decode($json);
+$datos_entrada = (array)$entrada;
 $IDExterno = array();
 $ContenidoQR = "";
 
 $externoRegistrado = insertarExterno($DB_CONEXION);
-
 if($externoRegistrado){    
     $IDExterno = recuperarIDExterno($DB_CONEXION);
-    $ContenidoQR = insertarReservacion((array)$datos_entrada->seleccionadas, $IDExterno["IDExterno"], $datos_entrada->fechaAsistencia, $DB_CONEXION);
+    $ContenidoQR = insertarReservacion($datos_entrada["seleccionadas"], $IDExterno["IDExterno"], $datos_entrada["fechaAsistencia"], $DB_CONEXION);
     generarQRExterno($IDExterno["IDExterno"], $ContenidoQR);
 }
 
