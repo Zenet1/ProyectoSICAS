@@ -8,19 +8,19 @@
             <form [formGroup]="formularioRegistro" (ngSubmit)="registrarse()" ngNativeValidate>
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre(s):</label>
-                    <input id="nombre" type="text" class="form-control" formControlName="nombre" placeholder="Ingresa tu(s) nombre(s)" required>
+                    <input id="nombre" type="text" class="form-control" formControlName="nombre" required>
                 </div>
                 <div class="mb-3">
                     <label for="apellidos" class="form-label">Apellidos:</label>
-                    <input id="apellidos" type="text" class="form-control" formControlName="apellidos" placeholder="Ingresa tus apellidos" required>
+                    <input id="apellidos" type="text" class="form-control" formControlName="apellidos" required>
                 </div>
                 <div class="mb-3">
                     <label for="empresa" class="form-label">Empresa:</label>
-                    <input id="empresa" type="text" class="form-control" formControlName="empresa" placeholder="Ingresa tu procedencia" required>
+                    <input id="empresa" type="text" class="form-control" formControlName="empresa" required>
                 </div>
                 <div class="mb-3">
                     <label for="correo" class="form-label">Correo electrónico:</label>
-                    <input id="correo" type="email" class="form-control" formControlName="correo" placeholder="Ingresa tu correo electrónico" required>
+                    <input id="correo" type="email" class="form-control" formControlName="correo" required>
                 </div>
                 <div class="container-boton">
                     <div class="btn-group">

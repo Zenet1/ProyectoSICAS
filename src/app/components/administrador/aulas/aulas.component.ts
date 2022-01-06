@@ -32,8 +32,10 @@ export class AulasComponent implements OnInit {
   guardarAula(){
     this.servicioAdmin.guardarAula(this.formAula.value).subscribe(
       respuesta=>{
-        alert("Se ha guardado el aula correctamente");
         this.obtenerAulas();
+      },
+      error=>{
+        alert("Ocurrió un error al guardar el aula");
       }
     )
   }
@@ -43,6 +45,9 @@ export class AulasComponent implements OnInit {
       this.servicioAdmin.eliminarAula(id).subscribe(
         respuesta=>{
           this.aulas.splice(index,1);
+        },
+        error=>{
+          alert("Ocurrió un error al eliminar el aula");
         }
       );
     }
