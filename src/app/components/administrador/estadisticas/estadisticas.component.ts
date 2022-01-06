@@ -37,13 +37,16 @@ export class EstadisticasComponent implements OnInit {
       genero:[""],
       fechaInicio:[""],
       fechaFin:[""],
-      programa:[""]
+      programa:[""],
+      NombrePlan:[""],
+      ClavePlan:[""]
     });
     this.obtenerProgramas();
   }
 
   obtenerEstadisticas(){
-    console.log(this.formEstadisticas.value);
+    this.formEstadisticas.controls["NombrePlan"].setValue(this.programas[this.formEstadisticas.controls["programa"].value].NombrePlan);
+    this.formEstadisticas.controls["ClavePlan"].setValue(this.programas[this.formEstadisticas.controls["programa"].value].ClavePlan);
     this.servicioAdmin.obtenerEstadisticas(this.formEstadisticas.value).subscribe(
       respuesta=>{
         this.estadisticas = respuesta;
