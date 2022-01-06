@@ -12,6 +12,23 @@ export class EstadisticasComponent implements OnInit {
   programas:any;
   estadisticas:any;
 
+  single: any[];
+  view: any[] = [700, 400];
+
+  // options
+  showXAxis: boolean = true;
+  showYAxis: boolean = true;
+  gradient: boolean = false;
+  showLegend: boolean = true;
+  showXAxisLabel: boolean = true;
+  yAxisLabel: string = 'Licenciatura';
+  showYAxisLabel: boolean = true;
+  xAxisLabel: string = 'Cantidad';
+
+  colorScheme = {
+    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+  };
+
   constructor(private servicioAdmin:AdministradorService, private formBuilder:FormBuilder) { }
 
   ngOnInit(): void {
@@ -20,13 +37,16 @@ export class EstadisticasComponent implements OnInit {
       genero:[""],
       fechaInicio:[""],
       fechaFin:[""],
-      programa:[""]
+      programa:[""],
+      NombrePlan:[""],
+      ClavePlan:[""]
     });
     this.obtenerProgramas();
   }
 
   obtenerEstadisticas(){
-    console.log(this.formEstadisticas.value);
+    this.formEstadisticas.controls["NombrePlan"].setValue(this.programas[this.formEstadisticas.controls["programa"].value].NombrePlan);
+    this.formEstadisticas.controls["ClavePlan"].setValue(this.programas[this.formEstadisticas.controls["programa"].value].ClavePlan);
     this.servicioAdmin.obtenerEstadisticas(this.formEstadisticas.value).subscribe(
       respuesta=>{
         this.estadisticas = respuesta;
