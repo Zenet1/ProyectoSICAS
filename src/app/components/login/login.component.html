@@ -9,12 +9,12 @@
             <form [formGroup]="formularioIniciarSesion" (ngSubmit)="iniciarSesion()" ngNativeValidate>
                 <div class="mb-3">
                     <label for="usuario" class="form-label">Usuario:</label>
-                    <input id="usuario" type="text"  class="form-control" formControlName="usuario" placeholder="Ej: a00000000" required>
+                    <input id="usuario" type="text"  class="form-control" formControlName="usuario" placeholder="Ej: a12345678" required>
                 </div>
                 
                 <div class="mb-3">
                     <label for="contrasena" class="form-label">Contraseña:</label>
-                    <input id="contrasena" type="password" class="form-control" formControlName="contrasena" placeholder="Ingresa la contraseña" required>
+                    <input id="contrasena" type="password" class="form-control" formControlName="contrasena" required>
                 </div>
                 <div class="container-boton">
                     <button type="submit" class="btn btn-iniciar-sesion">Ingresar</button>

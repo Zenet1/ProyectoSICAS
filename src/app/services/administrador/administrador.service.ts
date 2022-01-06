@@ -18,9 +18,11 @@ export class AdministradorService {
   API_Roles:string = "/ProyectoSICAS/DB_PHP/Roles.Service.php";
   API_RegistrarUsuario:string = "/ProyectoSICAS/DB_PHP/RegistroUsuario.Service.php";
   API_Aulas:string = "";
+  API_Programas:string = "";
+  API_Estadisticas:string = "";
 
   constructor(private clienteHttp: HttpClient) { }
-
+  //alerta
   obtenerAfectados(datos:FormGroup){
     return this.clienteHttp.post<any>(this.API_Alerta, datos);
   }
@@ -29,6 +31,7 @@ export class AdministradorService {
     return this.clienteHttp.post<any>(this.API_Email, afectados);
   }
 
+  //capacidad
   obtenerCapacidadActual(){
     let accion = JSON.stringify({accion: "recuperar"});
     return this.clienteHttp.post<any>(this.API_Capacidad,accion);
@@ -38,6 +41,7 @@ export class AdministradorService {
     return this.clienteHttp.post<any>(this.API_Capacidad, datos);
   }
 
+  //datos sicei
   subirBDSicei(datos:any){
     const formData = new FormData();
     let numArchivos:number = 0;
@@ -50,6 +54,7 @@ export class AdministradorService {
     return this.clienteHttp.post<any>(this.API_BD_Sicei, formData);
   }
 
+  //oficinas
   obtenerEdificios(){
     return this.clienteHttp.get(this.API_ObtenerEdificios);
   }
@@ -66,6 +71,7 @@ export class AdministradorService {
     return this.clienteHttp.post<any>(this.API_EliminarOficina, id);
   }
 
+  //aulas
   obtenerAulas(){
     return this.clienteHttp.post<any>(this.API_Aulas, JSON.stringify({accion:"recuperar"}));
   }
@@ -79,6 +85,7 @@ export class AdministradorService {
     return this.clienteHttp.post<any>(this.API_Aulas, id);
   }
 
+  //gestion base de datos
   restaurarBD(datos:FormGroup){
     const formData = new FormData();
     formData.append('archivo', datos.get('archivo').value);
@@ -99,6 +106,16 @@ export class AdministradorService {
     return this.clienteHttp.post<any>("/ProyectoSICAS/DB_PHP/Respaldar.Service.php", formData, {headers:someHeaders, responseType: 'blob' as 'json'});
   }
 
+  //estadisticas
+  obtenerProgramas(){
+    return this.clienteHttp.get(this.API_Programas);
+  }
+
+  obtenerEstadisticas(datos:any){
+    return this.clienteHttp.post<any>(this.API_Estadisticas, datos);
+  }
+
+  //registrar usuarios
   obtenerRoles(){
     return this.clienteHttp.get(this.API_Roles);
   }
