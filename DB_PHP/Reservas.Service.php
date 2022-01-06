@@ -19,9 +19,11 @@ switch ($datos->accion) {
         break;
     case "asignarReservaAlumno":
         InsertarNuevaReservacionAlumno($datos->carga, $DB_CONEXION);
+        $NombreQRAlumno = "a" . $_SESSION["IDAlumno"];
+        $ContenidoQRAlumno = "a," . $ContenidoQR;
         $QR = new GeneradorQr();
-        $QR->setNombrePng($_SESSION["IDAlumno"]);
-        $QR->Generar($ContenidoQR);
+        $QR->setNombrePng($NombreQRAlumno);
+        $QR->Generar($ContenidoQRAlumno);
         break;
     default:
         break;

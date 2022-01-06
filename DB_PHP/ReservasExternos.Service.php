@@ -21,9 +21,11 @@ if($externoRegistrado){
 }
 
 function generarQRExterno(string $IDExterno, string $ContenidoQR){
+    $NombreQRExterno = "e" . $IDExterno;
+    $ContenidoQRExterno = "e," . $ContenidoQR;
     $QR = new GeneradorQr();
-    $QR->setNombrePng($IDExterno);
-    $QR->Generar($ContenidoQR);
+    $QR->setNombrePng($NombreQRExterno);
+    $QR->Generar($ContenidoQRExterno);
 }
 
 function insertarExterno(PDO $Conexion): bool{
