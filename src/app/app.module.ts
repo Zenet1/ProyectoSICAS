@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule} from '@angular/router';
 
 import { DatePipe } from '@angular/common';
-//import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 import { app_routing } from './app.routes';
@@ -65,7 +65,7 @@ import { AulasComponent } from './components/administrador/aulas/aulas.component
     RouterModule,
     app_routing,
     ZXingScannerModule,
-    //NgxChartsModule
+    NgxChartsModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
