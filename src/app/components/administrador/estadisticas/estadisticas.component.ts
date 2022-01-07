@@ -68,7 +68,7 @@ export class EstadisticasComponent implements OnInit {
   showYAxisLabel: boolean = true;
   xAxisLabel = 'Cantidad';
   colorScheme = {
-    domain: ['#C68D2A', '#2D2558']
+    domain: ['#C68D2A']
   };
   schemeType: string = 'linear';
 
@@ -93,6 +93,7 @@ export class EstadisticasComponent implements OnInit {
     this.formEstadisticas.controls["ClavePlan"].setValue(this.programas[this.formEstadisticas.controls["programa"].value].ClavePlan);
     this.servicioAdmin.obtenerEstadisticas(this.formEstadisticas.value).subscribe(
       respuesta=>{
+        console.log(respuesta);
         this.estadisticas = respuesta;
         this.siEstadisticasObtenidas = true;
       },
