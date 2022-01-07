@@ -28,7 +28,7 @@ function generarQRExterno(string $IDExterno, string $ContenidoQR){
     $QR->Generar($ContenidoQRExterno);
 }
 
-function insertarExterno(PDO $Conexion): bool{
+function insertarExterno(PDO $Conexion) : bool{
     $operacionRealizada = true;
 
     $sql_insertarExterno = "INSERT INTO externos (NombreExterno, ApellidosExterno, Empresa, CorreoExterno) SELECT ?,?,?,? FROM DUAL
@@ -36,12 +36,16 @@ function insertarExterno(PDO $Conexion): bool{
 
     $obj_insertarExterno = $Conexion->prepare($sql_insertarExterno);
 
-    if(isset($_SESSION['Nombre']) && isset($_SESSION['apellidosExterno']) && isset($_SESSION['empresa']) && isset($_SESSION['Correo'])){
+    if(sesionActivaExterno()){
         $obj_insertarExterno->execute(array($_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo'], $_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo']));
     }else{
         $operacionRealizada = false;
     }
     return $operacionRealizada;
+}
+
+function sesionActivaExterno() : bool{
+    return (isset($_SESSION['Nombre']) && isset($_SESSION['apellidosExterno']) && isset($_SESSION['empresa']) && isset($_SESSION['Correo']));
 }
 
 function recuperarIDExterno(PDO $Conexion) : array{
@@ -56,7 +60,7 @@ function recuperarIDExterno(PDO $Conexion) : array{
     return $IDExternoRecuperado;
 }
 
-function insertarReservacion(array $oficinas, string $IDExterno, string $fechaAsistencia, PDO $Conexion): string {
+function insertarReservacion(array $oficinas, string $IDExterno, string $fechaAsistencia, PDO $Conexion) : string {
     $fechaActual = date('Y-m-d');
     $horaActual = date("H:i:s");
     
