@@ -48,8 +48,8 @@ function EnviarQRAlumno(array $datosDestinatario, PDO $Conexion)
     $mensaje_inicio = "<p>Te has podido registrar con exito a las siguientes materias:</p><br>
         <ul>";
     $mensaje_pie = "</ul><br><p>Con el siguiente codigo QR podras acceder a la facultad</p>";
-    $correo->EnviarCorreo($datosDestinatario, "Registro Exitoso", $mensaje_inicio . $cuerpo . $mensaje_pie, "img/" . $_SESSION["IDAlumno"] . ".png");
-    unlink("img/" . $_SESSION["IDAlumno"] . ".png");
+    $correo->EnviarCorreo($datosDestinatario, "Registro Exitoso", $mensaje_inicio . $cuerpo . $mensaje_pie, "img/a" . $_SESSION["IDAlumno"] . ".png");
+    unlink("img/a" . $_SESSION["IDAlumno"] . ".png");
 }
 
 function EnviarQRExterno(array $datosDestinatario, PDO $Conexion)
@@ -76,8 +76,8 @@ function EnviarQRExterno(array $datosDestinatario, PDO $Conexion)
     $mensaje_inicio = "<p>Has podido realizar reservaciones con éxito a las siguientes oficinas:</p><br>
         <ul>";
     $mensaje_pie = "</ul><br><p>Con el siguiente código QR podrás acceder a la facultad</p>";
-    $correo->EnviarCorreo($datosDestinatario, "Registro Exitoso", $mensaje_inicio . $cuerpo . $mensaje_pie, "img/" . $_SESSION["IDExterno"] . ".png");
-    unlink("img/" . $_SESSION["IDExterno"] . ".png");
+    $correo->EnviarCorreo($datosDestinatario, "Registro Exitoso", $mensaje_inicio . $cuerpo . $mensaje_pie, "img/e" . $_SESSION["IDExterno"] . ".png");
+    unlink("img/e" . $_SESSION["IDExterno"] . ".png");
 }
 
 function Rechazo(array $datosDestinatario, string $msg)
