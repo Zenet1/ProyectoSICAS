@@ -5,7 +5,7 @@ function RecuperarHorarios(PDO $Conexion)
     $archivo = file("docs/HorariosSesionesGrupo_Licenciatura.txt");
     $saltado = false;
 
-    $sqlInsert = "INSERT INTO horarios (IDGrupo, Dia, HoraInicioHorario, HoraFinHorario, IDSalon) SELECT :idG, :dia, ?, ?, ? FROM DUAL WHERE NOT EXISTS (SELECT IDGrupo, Dia WHERE IDGrupo = :idG AND Dia = :dia) LIMIT 1";
+    $sqlInsert = "INSERT INTO horarios (IDGrupo, Dia, HoraInicioHorario, HoraFinHorario, IDSalon) SELECT :idG, :dia, :hri, :hrf, :ids FROM DUAL WHERE NOT EXISTS (SELECT IDGrupo, Dia WHERE IDGrupo = :idG AND Dia = :dia) LIMIT 1";
 
     $sqlrecuperarIDProfesor = "SELECT IDProfesor FROM academicos WHERE ClaveProfesor=?";
 
@@ -59,7 +59,8 @@ function RecuperarHorarios(PDO $Conexion)
             $IDSalon = $obj_recuperarSalon->fetch(PDO::FETCH_ASSOC);
 
             if (isset($IDSalon["IDSalon"]) && isset($IDGrupo["IDGrupo"])) {
-                $obj_insert->execute(array($IDGrupo["IDGrupo"], $data[6], $data[7], $data[8], $IDSalon["IDSalon"], $IDGrupo["IDGrupo"], $data[6]));
+                $incognitas = array("idG" => $IDGrupo["IDGrupo"], "dia" => $data[6], "hri" => $data[7], "hrf" => $data[8], "ids" => $IDSalon["IDSalon"]);
+                $obj_insert->execute($incognitas);
             }
         }
     }
