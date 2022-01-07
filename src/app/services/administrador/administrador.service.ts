@@ -19,7 +19,7 @@ export class AdministradorService {
   API_RegistrarUsuario:string = "/ProyectoSICAS/DB_PHP/RegistroUsuario.Service.php";
   API_Aulas:string = "/ProyectoSICAS/DB_PHP/Salones.Service.php";
   API_Programas:string = "/ProyectoSICAS/DB_PHP/Programas.Service.php";
-  API_Estadisticas:string = "";
+  API_Estadisticas:string = "/ProyectoSICAS/DB_PHP/Estadistica.Service.php";
 
   constructor(private clienteHttp: HttpClient) { }
 
