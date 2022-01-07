@@ -69,7 +69,7 @@
         <div class="columna2 col-lg-7">
             <div class="wrapper-grafica">
                 <h4 class="text-center mb-0">Estadísticas</h4>
-                <div *ngIf="siEstadisticasObtenidas" class="container-grafica">
+                <div *ngIf="!siEstadisticasObtenidas" class="container-grafica">
                     <ngx-charts-bar-horizontal-2d
                         [scheme]="colorScheme"
                         [schemeType]="schemeType"
