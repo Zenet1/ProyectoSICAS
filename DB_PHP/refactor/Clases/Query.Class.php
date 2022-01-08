@@ -31,11 +31,18 @@ class Query
 
     public function UPDATE(array $Formato, array $incognitas)
     {
-        
+        $resultado = false;
+        $query = $this->formato->FormatoUPDATE($Formato);
+        $resultado = $this->ejecutarConsula($query, $incognitas);
+        return $resultado;
     }
 
-    public function DELETE(array $Formato)
+    public function DELETE(array $Formato, $incognitas)
     {
+        $resultado = false;
+        $query = $this->formato->FormatoDELETE($Formato);
+        $resultado = $this->ejecutarConsula($query, $incognitas);
+        return $resultado;
     }
 
     private function ejecutarConsula(string $queryCompleta, array $variables)

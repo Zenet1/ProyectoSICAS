@@ -54,17 +54,46 @@ class QueryFormatoServicio
         return $queryCompleta;
     }
 
-    public function FormatoUPDATE(array $estructuraQuery)
+    public function FormatoUPDATE(array $estructuraQuery): string
     {
-        //UPDATE `sicasbd`.`alumnos` SET `IDPlanEstudio` = '3' WHERE (`IDAlumno` = '8');
+        $condQuery = "";
+        $datoQuery = "";
+        $tabla = "";
+
+        foreach ($estructuraQuery as $TABLAINDIVIDUAL) {
+            $datoQuery = $this->VariablesPorActualizar($TABLAINDIVIDUAL["DATOS"]);
+            $tabla = $TABLAINDIVIDUAL["CARAC"]["TABLA"];
+            if (isset($TABLAINDIVIDUAL["COND"])) {
+                $condQuery = " WHERE " . $this->Condiciones($TABLAINDIVIDUAL, false);
+            }
+        }
+        $queryCompleta = "UPDATE " . $tabla . " SET " . $datoQuery . $condQuery;
+        return $queryCompleta;
     }
 
-    public function FormatoDELETE(array $estructuraQuery)
+    public function FormatoDELETE(array $estructuraQuery) : string
     {
+        $condQuery = "";
+        $tabla = "";
+        foreach ($estructuraQuery as $TABLAINDIVIDUAL) {
+            $tabla = $TABLAINDIVIDUAL["CARAC"]["TABLA"];
+            if (isset($TABLAINDIVIDUAL["COND"])) {
+                $condQuery = " WHERE " . $this->Condiciones($TABLAINDIVIDUAL, false);
+            }
+        }
+        $queryCompleta = "DELETE FROM " . $tabla . $condQuery;
+        return $queryCompleta;
     }
 
-    private function VariablesPorActualizar()
+    private function VariablesPorActualizar(array $datos): string
     {
+        $actualizar = "";
+        $contDatos = 0;
+
+        foreach ($datos as $DATO) {
+            $actualizar .= $DATO . "=?" . (++$contDatos < sizeof($datos) ? "," : "");
+        }
+        return $actualizar;
     }
 
     private function IncognitasPorRecuperar(int $cantidadElementos): string
@@ -98,13 +127,13 @@ class QueryFormatoServicio
         return $union . " ";
     }
 
-    private function Condiciones(array $tablaCompleta): string
+    private function Condiciones(array $tablaCompleta, bool $alias = true): string
     {
         $cond = "";
         $contCond = 0;
 
         foreach ($tablaCompleta["COND"] as $CONDINDIVIDUAl) {
-            $cond .= $tablaCompleta["CARAC"]["ALIAS"] . "." . $CONDINDIVIDUAl . "?";
+            $cond .= ($alias === true ? $tablaCompleta["CARAC"]["ALIAS"] . "." : "") . $CONDINDIVIDUAl . "?";
             $cond .= (++$contCond < sizeof($tablaCompleta["COND"]) ? " AND " : " ");
         }
         return $cond;

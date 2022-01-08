@@ -23,8 +23,8 @@ $datosAlm = array("NombreAlumno", "ApellidoPaternoAlumno", "ApellidoMaternoAlumn
 $inAlm = array("UNIR" => "cargaacademica", "CON" => "IDAlumno");
 $caracAlum = array("ALIAS" => "ALM", "TABLA" => "alumnos");
 
-$Formato["alumnos"] = array("CARAC" => $caracAlum, "DATOS" => $datosAlm, "UNIR" => $inAlm);
+$Formato["alumnos"] = array("CARAC" => $caracAlum, "DATOS" => $datosAlm, "COND" => $condCarg);
 //$Formato["cargaacademica"] = array("CARAC" => $caracCarg, "COND" => $condCarg, "UNIR" => $inCarg);
 //$Formato["reservacionesalumnos"] = array("CARAC" => $caracRes, "COND" => $condRes);
 
-$resultado = $queryhandler->INSERT($Formato, array(870, 1, "2022-01-10"));
+$resultado = $queryhandler->DELETE($Formato, array(870, 1, "2022-01-10"));
