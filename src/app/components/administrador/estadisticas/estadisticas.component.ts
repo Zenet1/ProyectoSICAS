@@ -51,27 +51,31 @@ export class EstadisticasComponent implements OnInit {
   }
 
   obtenerEstadisticas(){
-    this.siEstadisticasObtenidas = false;
-    if(this.formEstadisticas.controls["programa"].value != "todos"){
-      this.formEstadisticas.controls["NombrePlan"].setValue(this.programas[this.formEstadisticas.controls["programa"].value].NombrePlan);
-      this.formEstadisticas.controls["ClavePlan"].setValue(this.programas[this.formEstadisticas.controls["programa"].value].ClavePlan);
-    } else {
-      this.formEstadisticas.controls["NombrePlan"].setValue("todos");
-      this.formEstadisticas.controls["ClavePlan"].setValue("todos");
-    }
-    this.servicioAdmin.obtenerEstadisticas(this.formEstadisticas.value).subscribe(
-      respuesta=>{
-        if(respuesta.length > 0){
-          this.estadisticas = respuesta;
-          this.siEstadisticasObtenidas = true;
-        } else {
-          alert("No se encontraron estadísticas con los filtros seleccionados")
-        }
-      },
-      error=>{
-        alert("Ocurrió un error al obtener las estadísticas")
+    let validacionPeriodo:boolean = this.formEstadisticas.controls['fechaFin'].value > this.formEstadisticas.controls['fechaInicio'].value;
+    if(validacionPeriodo){
+      if(this.formEstadisticas.controls["programa"].value != "todos"){
+        this.formEstadisticas.controls["NombrePlan"].setValue(this.programas[this.formEstadisticas.controls["programa"].value].NombrePlan);
+        this.formEstadisticas.controls["ClavePlan"].setValue(this.programas[this.formEstadisticas.controls["programa"].value].ClavePlan);
+      } else {
+        this.formEstadisticas.controls["NombrePlan"].setValue("todos");
+        this.formEstadisticas.controls["ClavePlan"].setValue("todos");
       }
-    );
+      this.servicioAdmin.obtenerEstadisticas(this.formEstadisticas.value).subscribe(
+        respuesta=>{
+          if(respuesta.length > 0){
+            this.estadisticas = respuesta;
+            this.siEstadisticasObtenidas = true;
+          } else {
+            alert("No se encontraron estadísticas con los filtros seleccionados")
+          }
+        },
+        error=>{
+          alert("Ocurrió un error al obtener las estadísticas")
+        }
+      );
+    } else {
+      alert("La fecha de inicio no puede ser mayor que la fecha de fin");
+    }
   }
 
   obtenerProgramas(){
