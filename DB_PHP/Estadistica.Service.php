@@ -57,11 +57,20 @@ function Recursivo($datosCrudos, $datosFiltrados)
         }
     }
 
-    $datosFiltrados[$Siglas . "_" . $Clave][] = array("Siglas" => $Siglas, "Clave" => $Clave, $Genero => $contGen);
+    $datosFiltrados[$Siglas . "_" . $Clave][] = array("name" => $Genero, "value" => $contGen);
 
     if (sizeof($datosModificados) === 0) {
-        echo json_encode($datosFiltrados);
+        print_r(json_encode(formato_grafica($datosFiltrados)));
     } else {
         Recursivo($datosModificados, $datosFiltrados);
     }
+}
+
+function formato_grafica(array $datos) : array
+{
+    $array_adaptada = array();
+    foreach ($datos as $clave => $valor) {
+        $array_adaptada[] = array("name" => $clave, "series" => $valor);
+    }
+    return $array_adaptada;
 }
