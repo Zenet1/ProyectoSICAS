@@ -7,9 +7,6 @@ $datos = (array)json_decode($json);
 try {
     $datosFiltrados = array();
     $datosSQL = obtenerDatos($datos, $DB_CONEXION);
-    if (!isset($datosSQL[0])) {
-        throw new Exception();
-    }
     Recursivo($datosSQL, $datosFiltrados);
 } catch (Exception $e) {
     echo json_encode(array());
@@ -37,6 +34,10 @@ function obtenerDatos(array $datos, PDO $Conexion)
     $objRecuperar = $Conexion->prepare($query);
     $objRecuperar->execute(array($datos["fechaInicio"], $datos["fechaFin"]));
     $arrayDatos = $objRecuperar->fetchAll(PDO::FETCH_ASSOC);
+
+    if ($arrayDatos === false || sizeof($arrayDatos) === 0) {
+        throw new Exception();
+    }
     return $arrayDatos;
 }
 
