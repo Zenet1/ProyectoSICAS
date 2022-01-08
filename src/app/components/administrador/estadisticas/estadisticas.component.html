@@ -50,6 +50,7 @@
                         <div class="mb-3">
                             <label for="programa" class="form-label">Programa:</label>
                             <select id="programa" class="form-select" formControlName="programa" required>
+                                <option value="todos">Todas</option>
                                 <ng-container *ngFor="let programa of programas, let i = index">
                                     <option [value]="i">{{programa.NombrePlan}} - Clave: {{programa.ClavePlan}}</option>
                                 </ng-container>
@@ -69,11 +70,11 @@
         <div class="columna2 col-lg-7">
             <div class="wrapper-grafica">
                 <h4 class="text-center mb-0">Estadísticas</h4>
-                <div *ngIf="!siEstadisticasObtenidas" class="container-grafica">
+                <div *ngIf="siEstadisticasObtenidas" class="container-grafica">
                     <ngx-charts-bar-horizontal-2d
                         [scheme]="colorScheme"
                         [schemeType]="schemeType"
-                        [results]="multi"
+                        [results]="estadisticas"
                         [gradient]="gradient"
                         [xAxis]="showXAxis"
                         [yAxis]="showYAxis"

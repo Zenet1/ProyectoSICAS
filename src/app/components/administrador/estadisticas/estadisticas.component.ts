@@ -12,51 +12,6 @@ export class EstadisticasComponent implements OnInit {
   programas:any;
   estadisticas:any;
   siEstadisticasObtenidas:boolean = false;
-
-  multi = [
-    {
-      "name": "LIS",
-      "series": [
-        {
-          "name": "2010",
-          "value": 7300000
-        },
-        {
-          "name": "2011",
-          "value": 8940000
-        }
-      ]
-    },
-  
-    {
-      "name": "LCC",
-      "series": [
-        {
-          "name": "2010",
-          "value": 7870000
-        },
-        {
-          "name": "2011",
-          "value": 8270000
-        }
-      ]
-    },
-  
-    {
-      "name": "LM",
-      "series": [
-        {
-          "name": "2010",
-          "value": 5000002
-        },
-        {
-          "name": "2011",
-          "value": 5800000
-        }
-      ]
-    }
-  ];
-
   // options
   showXAxis: boolean = true;
   showYAxis: boolean = true;
@@ -67,9 +22,7 @@ export class EstadisticasComponent implements OnInit {
   yAxisLabel: string = 'Licenciatura';
   showYAxisLabel: boolean = true;
   xAxisLabel = 'Cantidad';
-  colorScheme = {
-    domain: ['#C68D2A']
-  };
+  colorScheme = { domain: ['#C68D2A']};
   schemeType: string = 'linear';
 
   constructor(private servicioAdmin:AdministradorService, private formBuilder:FormBuilder) { }
@@ -89,13 +42,22 @@ export class EstadisticasComponent implements OnInit {
 
   obtenerEstadisticas(){
     this.siEstadisticasObtenidas = false;
-    this.formEstadisticas.controls["NombrePlan"].setValue(this.programas[this.formEstadisticas.controls["programa"].value].NombrePlan);
-    this.formEstadisticas.controls["ClavePlan"].setValue(this.programas[this.formEstadisticas.controls["programa"].value].ClavePlan);
+    if(this.formEstadisticas.controls["programa"].value != "todos"){
+      this.formEstadisticas.controls["NombrePlan"].setValue(this.programas[this.formEstadisticas.controls["programa"].value].NombrePlan);
+      this.formEstadisticas.controls["ClavePlan"].setValue(this.programas[this.formEstadisticas.controls["programa"].value].ClavePlan);
+    } else {
+      this.formEstadisticas.controls["NombrePlan"].setValue("todos");
+      this.formEstadisticas.controls["ClavePlan"].setValue("todos");
+    }
     this.servicioAdmin.obtenerEstadisticas(this.formEstadisticas.value).subscribe(
       respuesta=>{
         console.log(respuesta);
-        this.estadisticas = respuesta;
-        this.siEstadisticasObtenidas = true;
+        if(respuesta.length > 0){
+          this.estadisticas = respuesta;
+          this.siEstadisticasObtenidas = true;
+        } else {
+          alert("No se encontraron estadísticas con los filtros seleccionados")
+        }
       },
       error=>{
         alert("Ocurrió un error al obtener las estadísticas")
