@@ -15,8 +15,6 @@ include 'docs/RecuperarProfesores.php';
 include 'docs/RecuperarSalones.php';
 include 'docs/RecuperarUsuariosAlumnos.php';
 
-
-
 $numArchivos = intval($_POST["numArchivos"]);
 
 for ($i = 0; $i < $numArchivos; $i++) {
