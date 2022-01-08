@@ -13,6 +13,7 @@ export class EstadisticasComponent implements OnInit {
   estadisticas:any;
   siEstadisticasObtenidas:boolean = false;
   // options
+  animations: boolean = false;
   showXAxis: boolean = true;
   showYAxis: boolean = true;
   gradient: boolean = false;
@@ -22,8 +23,17 @@ export class EstadisticasComponent implements OnInit {
   yAxisLabel: string = 'Licenciatura';
   showYAxisLabel: boolean = true;
   xAxisLabel = 'Cantidad';
-  colorScheme = { domain: ['#C68D2A']};
-  schemeType: string = 'linear';
+  customColors = [
+    {
+      name: "Masculino",
+      value: '#F01018'
+    },
+    {
+      name: "Femenino",
+      value: '#1C72EB'
+    }
+];
+  schemeType: string = 'ordinal';
 
   constructor(private servicioAdmin:AdministradorService, private formBuilder:FormBuilder) { }
 
@@ -51,7 +61,6 @@ export class EstadisticasComponent implements OnInit {
     }
     this.servicioAdmin.obtenerEstadisticas(this.formEstadisticas.value).subscribe(
       respuesta=>{
-        console.log(respuesta);
         if(respuesta.length > 0){
           this.estadisticas = respuesta;
           this.siEstadisticasObtenidas = true;
