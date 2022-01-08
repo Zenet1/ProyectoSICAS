@@ -44,11 +44,10 @@ export class AsistenciaAlumnoComponent implements OnInit {
     if (window.confirm("Si está seguro que desea asistir, confirme para finalizar")){
       this.servicioAsistenciaAlum.enviarAsistencia(JSON.stringify({carga:this.clases, accion:"asignarReservaAlumno"})).subscribe(
         respuesta=>{
-          alert('Se ha registrado tu reserva sastisfactoriamente');
           this.enviarQR();
         },
         error=>{
-          alert('Ha ocurrido un error al registrar su asistencia');
+          alert('Ha ocurrido un error al registrar tu reserva, intenténtalo de nuevo');
         }
       );
     }
@@ -57,11 +56,11 @@ export class AsistenciaAlumnoComponent implements OnInit {
   enviarQR(){
     this.servicioAsistenciaAlum.enviarCorreo(JSON.stringify({accion:"EnviarQRAlumno"})).subscribe(
       respuesta=>{
-        alert('Se ha enviado un código QR a tu correo, que deberás presentar para entrar a la facultad');
+        alert('Se ha registrado tu reserva sastisfactoriamente y se ha enviado un código QR a tu correo institucional que deberás presentar para acceder a la facultad');
         this.router.navigateByUrl('inicio-alumno');
       },
       error=>{
-        alert('Ha ocurrido un error al enviar el QR');
+        alert('Ha ocurrido un error al enviar el QR, intenténtalo de nuevo');
       }
     );
   }

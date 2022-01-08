@@ -71,6 +71,9 @@ export class AsistenciaExternoComponent implements OnInit {
         this.servicioAsistenciaExterno.enviarAsistencia(datos).subscribe(
           respuesta=>{
             this.enviarQR();
+          },
+          error=>{
+            alert('Ha ocurrido un error al registrar tu reserva, intenténtalo de nuevo');
           }
         );
       }

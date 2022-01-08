@@ -1,59 +1,76 @@
 <?php
 include 'BD_Conexion.php';
 
-$DatosFiltrados = array();
+$json = file_get_contents('php://input');
+$datos = (array)json_decode($json);
 
-switch ($_POST["accion"]) {
-    case "genero":
-        PorGenero($DB_CONEXION);
-        break;
-    case "carrera":
-        PorCarrera($DB_CONEXION);
-        break;
+try {
+    $datosFiltrados = array();
+    $datosSQL = obtenerDatos($datos, $DB_CONEXION);
+    Recursivo($datosSQL, $datosFiltrados);
+} catch (Exception $e) {
+    echo json_encode(array());
 }
 
-function PorGenero(PDO $Conexion)
+function obtenerDatos(array $datos, PDO $Conexion)
 {
-    $obj_recuperar = $Conexion->prepare("SELECT ALM.Genero AS GEND FROM alumnos AS ALM INNER JOIN asistenciasalumnos AS ASISALM ON ASISALM.IDAlumno=ALM.IDAlumno");
-    $obj_recuperar->execute();
-    $datosBD = $obj_recuperar->fetchAll(PDO::FETCH_ASSOC);
-    Recursivo($datosBD);
-}
+    $tabla = $datos["tipo"];
+    $query = "SELECT PLE.NombrePlan, PLE.SiglasPlan,PLE.ClavePlan,ALM.Genero FROM $tabla AS GEN INNER JOIN alumnos AS ALM ON ALM.IDAlumno=GEN.IDAlumno INNER JOIN planesdeestudio AS PLE ON PLE.IDPlanEstudio=ALM.IDPlanEstudio WHERE GEN.FechaAl >= ? AND GEN.FechaAl <= ?";
 
-function PorCarrera(PDO $Conexion)
-{
-    $obj_recuperar = $Conexion->prepare("SELECT PLE.SiglasPlan AS GEND FROM planesdeestudio AS PLE INNER JOIN alumnos AS ALM ON PLE.IDPlanEstudio=ALM.IDPlanEstudio INNER JOIN asistenciasalumnos AS ASISALM ON  ASISALM.IDAlumno=ALM.IDAlumno");
-    $obj_recuperar->execute();
-    $datosBD = $obj_recuperar->fetchAll(PDO::FETCH_ASSOC);
-    Recursivo($datosBD);
-}
+    $condGenero = $condPlan = "";
 
-function Recursivo(array $datosCrudos)
-{
-    $datoReferencia = "";
-    foreach ($datosCrudos as $datoGen) {
-        $datoReferencia = $datoGen["GEND"];
-        break;
+    if ($datos["genero"] !== "todos") {
+        $genero = $datos["genero"];
+        $condGenero = " AND ALM.Genero = '$genero' ";
     }
 
-    $contadorDatoGenerico = 0;
-    $indice = 0;
+    if ($datos["NombrePlan"] !== "todos") {
+        $nombreplan = $datos["NombrePlan"];
+        $claveplan =  $datos["ClavePlan"];
+        $condPlan = " AND PLE.NombrePlan = '$nombreplan' AND PLE.ClavePlan = $claveplan ";
+    }
+
+    $query .= $condGenero . $condPlan;
+    $objRecuperar = $Conexion->prepare($query);
+    $objRecuperar->execute(array($datos["fechaInicio"], $datos["fechaFin"]));
+    $arrayDatos = $objRecuperar->fetchAll(PDO::FETCH_ASSOC);
+
+    if ($arrayDatos === false || sizeof($arrayDatos) === 0) {
+        throw new Exception();
+    }
+    return $arrayDatos;
+}
+
+function Recursivo($datosCrudos, $datosFiltrados)
+{
+    $datosModificados = array();
+    $Genero = $datosCrudos[0]["Genero"];
+    $Plan = $datosCrudos[0]["NombrePlan"];
+    $Clave = $datosCrudos[0]["ClavePlan"];
+    $Siglas = trim($datosCrudos[0]["SiglasPlan"]);
+    $contGen = 0;
     foreach ($datosCrudos as $dato) {
-        if ($dato["GEND"] === $datoReferencia) {
-            $contadorDatoGenerico++;
-            unset($datosCrudos[$indice]);
+        if ($Genero === $dato["Genero"] && $Plan === $dato["NombrePlan"] && $Clave === $dato["ClavePlan"]) {
+            $contGen++;
+        } else {
+            $datosModificados[] = $dato;
         }
-        $indice++;
     }
 
-    $GLOBALS["DatosFiltrados"][] = array($datoReferencia => $contadorDatoGenerico);
+    $datosFiltrados[$Siglas . "_" . $Clave][] = array("name" => $Genero, "value" => $contGen);
 
-    if (sizeof($datosCrudos) !== 0) {
-        foreach ($datosCrudos as $dato) {
-            $arrayReacondicion[] = array("GEND" => $dato["GEND"]);
-        }
-        Recursivo($arrayReacondicion);
+    if (sizeof($datosModificados) === 0) {
+        print_r(json_encode(formato_grafica($datosFiltrados)));
     } else {
-        return;
+        Recursivo($datosModificados, $datosFiltrados);
     }
+}
+
+function formato_grafica(array $datos) : array
+{
+    $array_adaptada = array();
+    foreach ($datos as $clave => $valor) {
+        $array_adaptada[] = array("name" => $clave, "series" => $valor);
+    }
+    return $array_adaptada;
 }

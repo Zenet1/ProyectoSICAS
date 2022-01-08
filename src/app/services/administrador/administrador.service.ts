@@ -18,6 +18,8 @@ export class AdministradorService {
   API_Roles:string = "/ProyectoSICAS/DB_PHP/Roles.Service.php";
   API_RegistrarUsuario:string = "/ProyectoSICAS/DB_PHP/RegistroUsuario.Service.php";
   API_Aulas:string = "/ProyectoSICAS/DB_PHP/Salones.Service.php";
+  API_Programas:string = "/ProyectoSICAS/DB_PHP/Programas.Service.php";
+  API_Estadisticas:string = "/ProyectoSICAS/DB_PHP/Estadistica.Service.php";
 
   constructor(private clienteHttp: HttpClient) { }
 
@@ -37,7 +39,6 @@ export class AdministradorService {
   guardarCapacidadFacultdad(datos:any){
     return this.clienteHttp.post<any>(this.API_Capacidad, datos);
   }
-
   subirBDSicei(datos:any){
     const formData = new FormData();
     let numArchivos:number = 0;
@@ -66,6 +67,7 @@ export class AdministradorService {
     return this.clienteHttp.post<any>(this.API_EliminarOficina, id);
   }
 
+  //aulas
   obtenerAulas(){
     return this.clienteHttp.post<any>(this.API_Aulas, JSON.stringify({accion:"recuperar"}));
   }
@@ -79,6 +81,7 @@ export class AdministradorService {
     return this.clienteHttp.post<any>(this.API_Aulas, id);
   }
 
+  //gestion base de datos
   restaurarBD(datos:FormGroup){
     const formData = new FormData();
     formData.append('archivo', datos.get('archivo').value);
@@ -99,6 +102,16 @@ export class AdministradorService {
     return this.clienteHttp.post<any>("/ProyectoSICAS/DB_PHP/Respaldar.Service.php", formData, {headers:someHeaders, responseType: 'blob' as 'json'});
   }
 
+  //estadisticas
+  obtenerProgramas(){
+    return this.clienteHttp.get(this.API_Programas);
+  }
+
+  obtenerEstadisticas(datos:any){
+    return this.clienteHttp.post<any>(this.API_Estadisticas, datos);
+  }
+
+  //registrar usuarios
   obtenerRoles(){
     return this.clienteHttp.get(this.API_Roles);
   }

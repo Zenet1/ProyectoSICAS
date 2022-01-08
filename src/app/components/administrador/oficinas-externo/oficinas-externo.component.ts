@@ -56,6 +56,9 @@ export class OficinasExternoComponent implements OnInit {
       this.servicioAdmin.eliminarOficina(id).subscribe(
         respuesta=>{
           this.oficinas.splice(indexOficina,1);
+        },
+        error=>{
+          alert("Ocurrió un error al eliminar la oficina");
         }
       );
     }

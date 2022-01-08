@@ -16,7 +16,18 @@ switch ($datos->accion) {
         ObtenerMateriasDisponibles($DB_CONEXION, Fechas::ObtenerInstanciaFecha());
         break;
     case "asignarReservaAlumno":
+<<<<<<< HEAD
         InsertarNuevaReservacionAlumno($datos->carga, $DB_CONEXION, $QR);
+=======
+        InsertarNuevaReservacionAlumno($datos->carga, $DB_CONEXION);
+        $NombreQRAlumno = "a" . $_SESSION["IDAlumno"];
+        $ContenidoQRAlumno = "a," . $ContenidoQR;
+        $QR = new GeneradorQr();
+        $QR->setNombrePng($NombreQRAlumno);
+        $QR->Generar($ContenidoQRAlumno);
+        break;
+    default:
+>>>>>>> desarrollo
         break;
 }
 

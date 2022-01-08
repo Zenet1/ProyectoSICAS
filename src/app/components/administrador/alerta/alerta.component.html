@@ -10,15 +10,20 @@
             <form [formGroup]="formularioAlerta" (ngSubmit)="alertar()" class="row" ngNativeValidate>
                 <div class="mb-3">
                     <label class="form-label" for="matricula">Matrícula:</label>
-                    <input id="matricula" formControlName="matricula" type="number" class="form-control" placeholder="Ingresa la matrícula" required>
+                    <input id="matricula" formControlName="matricula" type="number" min="0" class="form-control" placeholder="Ej: 12345678" required>
                 </div>
+                <p class="mb-0">Periodo de asistencia:</p>
                 <div class="col-md-6 mb-3">
-                    <label for="fechaInicio" class="form-label">Fecha de incio</label>
+                    <label for="fechaInicio" class="form-label">Fecha incial:</label>
                     <input id="fechaInicio" formControlName="fechaInicio" type="date" class="form-control" required>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="fechaFin" class="form-label">Fecha de fin</label>
+                    <label for="fechaFin" class="form-label">Fecha final:</label>
                     <input id="fechaFin" formControlName="fechaFin" type="date" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="fechaSuspension" class="form-label">Suspender afectados hasta el:</label>
+                    <input id="fechaSuspension" formControlName="fechaSuspension" type="date" class="form-control" required>
                 </div>
                 <div class="container-botones">
                     <div class="btn-group">

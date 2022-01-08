@@ -25,8 +25,10 @@ export class CapacidadFacultadComponent implements OnInit {
     this.formularioCapacidad.controls["accion"].setValue("actualizar");
     this.servicioAdmin.guardarCapacidadFacultdad(this.formularioCapacidad.value).subscribe(
       respuesta=>{
-        alert("Se ha guardado la capacidad correctamente");
         this.capacidadActual = this.obtenerCapacidadActual();
+      },
+      error=>{
+        alert("Ocurrió un error al guardar la capacidad");
       }
     );
   }

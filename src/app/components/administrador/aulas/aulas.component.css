@@ -6,6 +6,7 @@
 .wrapper-formulario{
     display: flex;
     justify-content: center;
+    height: 100%;
 }
 
 .container-formulario{

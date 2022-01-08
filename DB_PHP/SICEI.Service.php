@@ -14,6 +14,7 @@ include 'docs/RecuperarHorarios.php';
 include 'docs/RecuperarPlanEstudio.php';
 include 'docs/RecuperarProfesores.php';
 include 'docs/RecuperarSalones.php';
+include 'docs/RecuperarUsuariosAlumnos.php';
 
 $numArchivos = intval($_POST["numArchivos"]);
 

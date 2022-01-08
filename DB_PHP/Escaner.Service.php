@@ -4,40 +4,124 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 include "BD_Conexion.php";
 include 'Fechas.Class.php';
 
-$respuesta = array("respuesta" => "valido");
-$fechas = Fechas::ObtenerInstanciaFecha();
-$CadenaQR =  file_get_contents('php://input');
+$fechaActual = date('Y-m-d');
+$horaActual = date("H:i:s");
+$respuesta = array();
 
-$sql_verificarReserva = "SELECT ALM.NombreAlumno,ALM.ApellidoPaternoAlumno,ALM.ApellidoMaternoAlumno FROM reservacionesalumnos AS RSAL
-    INNER JOIN cargaacademica AS CGAC
-    ON CGAC.IDCarga=RSAL.IDCarga
-    INNER JOIN alumnos AS ALM
-    ON CGAC.IDAlumno=ALM.IDAlumno
-    WHERE CGAC.IDAlumno=? AND RSAL.IDReservaAlumno=? AND RSAL.FechaReservaAl=?";
-$objVerificaReserva = $DB_CONEXION->prepare($sql_verificarReserva);
+$QRCodigo =  file_get_contents('php://input');
+validarUsuario($QRCodigo, $DB_CONEXION);
 
-$indentificadoresReserva = explode(",", $CadenaQR);
-$idAlumno = $indentificadoresReserva[0];
-unset($indentificadoresReserva[0]);
-
-foreach ($indentificadoresReserva as $IDReserva) {
-    $objVerificaReserva->execute(array($idAlumno, $IDReserva, $fechas->FechaAct()));
-    $datosRes = $objVerificaReserva->fetch(PDO::FETCH_ASSOC);
-
-    if ($datosRes === false || sizeof($datosRes) === 0) {
-        $respuesta["respuesta"] = "invalido";
-        break;
+function validarUsuario($QRCodigo, PDO $Conexion){
+    $elementosCodigoQR = explode(",", $QRCodigo);
+    switch($elementosCodigoQR[0]){
+        case "a":
+            $respuesta = escaneoAlumno($elementosCodigoQR, $Conexion);
+            break;
+        case "e":
+            $respuesta = escaneoExterno($elementosCodigoQR, $Conexion);
+            break;
+        default:
+            echo "Error: Tipo de usuario no detectado";
+            break;
     }
-
-    if (!isset($respuesta["NombreCompleto"])) {
-        $respuesta["NombreCompleto"] = $datosRes["NombreAlumno"] . " " . $datosRes["ApellidoPaternoAlumno"] . " " . $datosRes["ApellidoMaternoAlumno"];
-    }
+    echo json_encode($respuesta);
 }
 
-if ($respuesta["respuesta"] === "valido") {
-    $obj_asistencia = $DB_CONEXION->prepare("INSERT INTO asistenciasalumnos (IDAlumno,FechaAl,HoraIngresoAl) SELECT :idAL,:fcAct,:hrAct FROM DUAL WHERE NOT EXISTS (SELECT IDAlumno,FechaAl FROM asistenciasalumnos WHERE IDAlumno=:idAL AND FechaAl=:fcAct) LIMIT 1");
-    $incognitas = array("idAL" => $idAlumno, "fcAct" => $fechas->FechaAct(), "hrAct" => $fechas->HrAct());
-    $obj_asistencia->execute($incognitas);
+function escaneoAlumno(array $elementosAlumno, PDO $Conexion){
+    $IDAlumno = $elementosAlumno[1];
+    $esPrimeraLinea = true;
+    $esSegundaLinea = true;
+    $esValido = true;
+
+    $respuesta = array();
+    $respuesta["respuesta"] = "valido";
+    
+    $sql_verificarReservaAlumno = "SELECT ALM.NombreAlumno,ALM.ApellidoPaternoAlumno,ALM.ApellidoMaternoAlumno FROM reservacionesalumnos AS RSAL
+        INNER JOIN cargaacademica AS CGAC
+        ON CGAC.IDCarga=RSAL.IDCarga
+        INNER JOIN alumnos AS ALM
+        ON CGAC.IDAlumno=ALM.IDAlumno
+        WHERE CGAC.IDAlumno=? AND RSAL.IDReservaAlumno=? AND RSAL.FechaReservaAl=?";
+
+    $obj_verificarReservaAlumno = $Conexion->prepare($sql_verificarReservaAlumno);
+
+    foreach ($elementosAlumno as $IDReserva) {
+        if ($esPrimeraLinea) {
+            $esPrimeraLinea = false;
+            continue;
+        }
+        if($esSegundaLinea){
+            $esSegundaLinea = false;
+            continue;
+        }
+
+        $obj_verificarReservaAlumno->execute(array($IDAlumno, $IDReserva, $GLOBALS["fechaActual"]));
+        $datos_reserva = $obj_verificarReservaAlumno->fetch(PDO::FETCH_ASSOC);
+
+        if (isset($datos_reserva["NombreAlumno"]) && !isset($respuesta["NombreCompleto"])) {
+            $respuesta["NombreCompleto"] = $datos_reserva["NombreAlumno"] . " " . $datos_reserva["ApellidoPaternoAlumno"] . " " . $datos_reserva["ApellidoMaternoAlumno"];
+        }
+
+        if ($datos_reserva === false || sizeof($datos_reserva)  < 1) {
+            $respuesta["respuesta"] = "invalido";
+            $esValido = false;
+        }
+    }
+
+    if ($esValido) {
+        $obj_asistencia = $Conexion->prepare("INSERT INTO asistenciasalumnos (`IDAlumno`, `FechaAl`, `HoraIngresoAl`) 
+        SELECT ?,?,? FROM DUAL WHERE NOT EXISTS (SELECT IDAlumno,FechaAl FROM asistenciasalumnos WHERE IDAlumno = ? AND FechaAl = ?)");
+        $obj_asistencia->execute(array($elementosAlumno[1], $GLOBALS["fechaActual"], $GLOBALS["horaActual"], $elementosAlumno[1], $GLOBALS["fechaActual"]));
+    }
+
+    return $respuesta;
 }
 
-echo json_encode($respuesta);
+function escaneoExterno(array $elementosExterno, PDO $Conexion){
+    $IDExterno = $elementosExterno[1];
+    $esPrimeraLinea = true;
+    $esSegundaLinea = true;
+    $esValido = true;
+
+    $respuesta = array();
+    $respuesta["respuesta"] = "valido";
+    
+    $sql_verificarReservaExterno = "SELECT EX.NombreExterno, EX.ApellidosExterno FROM reservacionesexternos AS RSEX
+        INNER JOIN externos AS EX
+        ON EX.IDExterno = RSEX.IDExterno
+        WHERE RSEX.IDExterno=? AND RSEX.IDReservaExterno=? AND RSEX.FechaReservaExterno=?";
+
+    $obj_verificarReservaExterno = $Conexion->prepare($sql_verificarReservaExterno);
+
+    foreach ($elementosExterno as $IDReserva) {
+        if ($esPrimeraLinea) {
+            $esPrimeraLinea = false;
+            continue;
+        }
+        if($esSegundaLinea){
+            $esSegundaLinea = false;
+            continue;
+        }
+
+        $obj_verificarReservaExterno->execute(array($IDExterno, $IDReserva, $GLOBALS["fechaActual"]));
+        $datos_reserva = $obj_verificarReservaExterno->fetch(PDO::FETCH_ASSOC);
+
+        if (isset($datos_reserva["NombreExterno"]) && !isset($respuesta["NombreCompleto"])) {
+            $respuesta["NombreCompleto"] = $datos_reserva["NombreExterno"] . " " . $datos_reserva["ApellidosExterno"];
+        }
+
+        if ($datos_reserva === false || sizeof($datos_reserva)  < 1) {
+            $respuesta["respuesta"] = "invalido";
+            $esValido = false;
+        }
+    }
+
+    if ($esValido) {
+        $obj_asistenciaExterno = $Conexion->prepare("INSERT INTO asistenciasexternos (IDExterno, FechaExterno, HoraIngresoEx) 
+        SELECT ?,?,? FROM DUAL WHERE NOT EXISTS (SELECT IDExterno, FechaExterno FROM asistenciasexternos WHERE IDExterno = ? AND FechaExterno = ?)");
+        $obj_asistenciaExterno->execute(array($elementosExterno[1], $GLOBALS["fechaActual"], $GLOBALS["horaActual"], $elementosExterno[1], $GLOBALS["fechaActual"]));
+    }
+
+    return $respuesta;
+}
+
