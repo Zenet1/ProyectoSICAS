@@ -2,19 +2,20 @@
 
 class Conexion
 {
-    private PDO $Conexion;
-    private self $ObjConexion;
+    private PDO $conexion;
+    private static $ObjConexion;
 
-    public function ConexionInstacia(){
-        if($this->ObjConexion === null){
-            $this->ObjConexion = new Conexion();
+    public static function ConexionInstacia()
+    {
+        if (!self::$ObjConexion instanceof self) {
+            self::$ObjConexion = new self();
         }
-        return $this->ObjConexion;
+        return self::$ObjConexion;
     }
 
     private function __construct()
     {
-        include 'Env.Utileria.php';
+        include_once 'Env.Utileria.php';
         $this->IniciarConexion();
     }
 
@@ -24,7 +25,7 @@ class Conexion
             $DSN = $_ENV['DSN'];
             $USUARIO = $_ENV['USERNAME'];
             $CONTRASENIA = $_ENV['PASSWORD'];
-            $this->Conexion = new PDO($DSN, $USUARIO, $CONTRASENIA);
+            $this->conexion = new PDO($DSN, $USUARIO, $CONTRASENIA);
         } catch (Exception $e) {
             error_log("Error al iniciar la conexion");
         }
@@ -32,6 +33,6 @@ class Conexion
 
     public function getConexion(): PDO
     {
-        return $this->Conexion;
+        return $this->conexion;
     }
 }

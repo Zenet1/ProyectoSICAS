@@ -2,95 +2,46 @@
 
 class Query
 {
-    public function SELECT(array $Formato, array $incognitas): array
+    private Conexion $conexion;
+    private QueryFormatoServicio $formato;
+
+    public function __construct()
     {
-        $query = $this->SELECTMaker($Formato);
-        echo $query;
-        return array();
+        include_once('Conexion.Class.php');
+        include_once('QueryFormatoServicio.Class.php');
+        $this->formato = new QueryFormatoServicio();
+        $this->conexion = Conexion::ConexionInstacia();
     }
 
-    public function INSERT()
+    public function SELECT(array $Formato, array $incognitas)
+    {
+        $resultado = false;
+        $queryCompleta = $this->formato->FormatoSELECT($Formato);
+        $resultado = $this->ejecutarConsula($queryCompleta, $incognitas);
+        return $resultado;
+    }
+
+    public function INSERT(array $Formato, array $incognitas)
+    {
+        $resultado = false;
+        $queryCompleta = $this->formato->FormatoINSERT($Formato);
+        $resultado = $this->ejecutarConsula($queryCompleta, $incognitas);
+        return $resultado;
+    }
+
+    public function UPDATE(array $Formato, array $incognitas)
+    {
+        
+    }
+
+    public function DELETE(array $Formato)
     {
     }
 
-    public function UPDATE()
+    private function ejecutarConsula(string $queryCompleta, array $variables)
     {
-    }
-
-    public function DELETE()
-    {
-    }
-
-    private function SELECTMaker(array $estructuraQuery): string
-    {
-        $tablaPrinc = "";
-        $datosQuery = "";
-        $UnionesQuery = "";
-        $CondQuery = "";
-        $primerosDatos = true;
-
-        foreach ($estructuraQuery as $DATOSPORTABLA) {
-
-            if (isset($DATOSPORTABLA["DATOS"])) {
-                $datosQuery .= $this->DatosPorRecuperar($DATOSPORTABLA["CARAC"]["ALIAS"], $DATOSPORTABLA["DATOS"]);
-                $datosQuery .= ($primerosDatos === false ? "," : $primerosDatos = false);
-            }
-
-            if ($primerosDatos > 0) {
-            }
-
-            if (isset($DATOSPORTABLA["UNIR"])) {
-                $UnionesQuery .= $this->Uniones($DATOSPORTABLA, $estructuraQuery);
-            }
-
-            if (isset($DATOSPORTABLA["COND"])) {
-                $CondQuery .= $this->Condiciones($DATOSPORTABLA);
-            }
-
-            if (isset($DATOSPORTABLA["CARAC"]["DESDE"])) {
-                $tablaPrinc .= $DATOSPORTABLA["CARAC"]["TABLA"] . " AS " . $DATOSPORTABLA["CARAC"]["ALIAS"];
-            }
-        }
-
-        $queryCompleta = "SELECT " . $datosQuery . "FROM " . $tablaPrinc . " " . $UnionesQuery . " WHERE " . $CondQuery;
-        return $queryCompleta;
-    }
-
-    private function DatosPorRecuperar(string $ALIAS, array $datos): string
-    {
-        $datosPorObtener = "";
-        $contDatos = 0;
-
-        foreach ($datos as $DATOINDIVIDUAL) {
-            $datosPorObtener .= $ALIAS . "." . $DATOINDIVIDUAL . (++$contDatos < sizeof($datos) ? "," : "");
-        }
-        return $datosPorObtener;
-    }
-
-    private function Uniones(array $tablaEmisora, array $estructuraQuery): string
-    {
-        $tablaAUnir = $tablaEmisora["UNIR"]["UNIR"];
-        $tablaEmisor = $tablaEmisora["CARAC"]["TABLA"];
-        $atributoComun = $tablaEmisora["UNIR"]["CON"];
-        $aliasEmisor =  $tablaEmisora["CARAC"]["ALIAS"];
-        $aliasAUnir = $estructuraQuery[$tablaAUnir]["CARAC"]["ALIAS"];
-
-
-        $union = "INNER JOIN " . $tablaEmisor . " AS " . $aliasEmisor;
-        $union .= " ON " . $aliasAUnir . "." . $atributoComun . "=" . $aliasEmisor . "." . $atributoComun;
-        return $union;
-    }
-
-    private function Condiciones(array $tablaCompleta): string
-    {
-        $cond = "";
-        $contCond = 0;
-
-        foreach ($tablaCompleta["COND"] as $CONDINDIVIDUAl) {
-            $cond .= $tablaCompleta["CARAC"]["ALIAS"] . "." . $CONDINDIVIDUAl . "?";
-            $cond .= (++$contCond < sizeof($tablaCompleta["COND"]) ? " AND " : "");
-        }
-
-        return $cond;
+        $objSelect = $this->conexion->getConexion()->prepare($queryCompleta);
+        $objSelect->execute($variables);
+        return $objSelect->fetchAll(PDO::FETCH_ASSOC);
     }
 }
