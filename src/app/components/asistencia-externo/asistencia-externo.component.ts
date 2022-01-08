@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,7 +14,7 @@ export class AsistenciaExternoComponent implements OnInit {
   listaOficinas:any;
   formularioAsistenciaExterno:FormGroup;
 
-  constructor(private servicioAsistenciaExterno:AsistenciaExternoService, private servicioCookie:CookieService, private formBuilder:FormBuilder, private router:Router) { }
+  constructor(private servicioAsistenciaExterno:AsistenciaExternoService, private servicioCookie:CookieService, private datepipe:DatePipe, private formBuilder:FormBuilder, private router:Router) { }
 
   ngOnInit(): void {
     if(!this.servicioCookie.checkCookie("cuestionarioExterno")){
@@ -55,18 +56,17 @@ export class AsistenciaExternoComponent implements OnInit {
   }
 
   enviarAsistencia(){
-    if (window.confirm("Si está seguro que desea asistir, confirme para finalizar")) {
-      let seleccionadas: Array<any> = [];
-
-      for (let index = 0; index < this.oficinas.length; index++) {
-        if(this.oficinas.controls[index].get("respuesta").value == true){
-          seleccionadas.push(this.listaOficinas[index]);
-        }
+    let seleccionadas: Array<any> = [];
+    for (let index = 0; index < this.oficinas.length; index++) {
+      if(this.oficinas.controls[index].get("respuesta").value == true){
+        seleccionadas.push(this.listaOficinas[index]);
       }
+    }
 
-      if(seleccionadas.length < 1){
-        alert("Selecciona al menos una oficina")
-      } else {
+    if(seleccionadas.length < 1){
+      alert("Selecciona al menos una oficina")
+    } else {
+      if (window.confirm("Si está seguro que desea asistir, confirme para finalizar")){
         let datos = JSON.stringify({seleccionadas: seleccionadas, fechaAsistencia: this.fechaAsistencia.value, accion: "aceptado"});
         this.servicioAsistenciaExterno.enviarAsistencia(datos).subscribe(
           respuesta=>{

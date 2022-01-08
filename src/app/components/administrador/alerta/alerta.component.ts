@@ -28,23 +28,33 @@ export class AlertaComponent implements OnInit {
 
   alertar(){
     this.siAlertaEnviada = false;
-    if (window.confirm("Confirme para enviar la alerta")) {
-      this.servicioAdmin.obtenerAfectados(this.formularioAlerta.value).subscribe(
-        respuesta=>{
-          this.siAlertaEnviada = true;
-          this.gruposAfectados = respuesta.grupos;
-          this.numAfectados = respuesta.usuarios.length;
-          let afectados = JSON.stringify({grupos: respuesta.grupos, usuarios: respuesta.usuarios, accion:"alertar"});
-          this.servicioAdmin.alertar(afectados).subscribe(
-            respuesta=>{
-              alert("Se ha alertado a los alumnos correctamente");
-            },
-            error=>{
-              alert("Ocurrió un error al enviar la alerta");
-            }
-          );
-        }
-      );
+    let validacionPeriodo:boolean = this.formularioAlerta.controls['fechaFin'].value > this.formularioAlerta.controls['fechaInicio'].value;
+    let validacionSuspension:boolean = this.formularioAlerta.controls['fechaSuspension'].value > this.formularioAlerta.controls['fechaFin'].value;
+    if(validacionPeriodo && validacionSuspension){
+      if (window.confirm("Confirme para enviar la alerta")){
+        this.servicioAdmin.obtenerAfectados(this.formularioAlerta.value).subscribe(
+          respuesta=>{
+            this.siAlertaEnviada = true;
+            this.gruposAfectados = respuesta.grupos;
+            this.numAfectados = respuesta.usuarios.length;
+            let afectados = JSON.stringify({grupos: respuesta.grupos, usuarios: respuesta.usuarios, accion:"alertar"});
+            this.servicioAdmin.alertar(afectados).subscribe(
+              respuesta=>{
+                alert("Se ha alertado a los alumnos correctamente");
+              },
+              error=>{
+                alert("Ocurrió un error al enviar la alerta");
+              }
+            );
+          }
+        );
+      }
+    } else {
+      if(!validacionPeriodo){
+        alert("La fecha de inicio no puede ser mayor que la fecha de fin");
+      } else {
+        alert("La fecha de fin no puede ser mayor que la fecha de suspension");
+      }
     }
   }
 }
