@@ -4,9 +4,16 @@ include 'BD_Conexion.php';
 $json = file_get_contents('php://input');
 $datos = (array)json_decode($json);
 
-$datosSQL = obtenerDatos($datos, $DB_CONEXION);
-$datosFiltrados = array();
-Recursivo($datosSQL, $datosFiltrados);
+try {
+    $datosFiltrados = array();
+    $datosSQL = obtenerDatos($datos, $DB_CONEXION);
+    if (!isset($datosSQL[0])) {
+        throw new Exception();
+    }
+    Recursivo($datosSQL, $datosFiltrados);
+} catch (Exception $e) {
+    echo json_encode(array());
+}
 
 function obtenerDatos(array $datos, PDO $Conexion)
 {
@@ -36,13 +43,11 @@ function obtenerDatos(array $datos, PDO $Conexion)
 function Recursivo($datosCrudos, $datosFiltrados)
 {
     $datosModificados = array();
-    $contGen = 0;
-
     $Genero = $datosCrudos[0]["Genero"];
     $Plan = $datosCrudos[0]["NombrePlan"];
     $Clave = $datosCrudos[0]["ClavePlan"];
     $Siglas = trim($datosCrudos[0]["SiglasPlan"]);
-
+    $contGen = 0;
     foreach ($datosCrudos as $dato) {
         if ($Genero === $dato["Genero"] && $Plan === $dato["NombrePlan"] && $Clave === $dato["ClavePlan"]) {
             $contGen++;
@@ -54,7 +59,7 @@ function Recursivo($datosCrudos, $datosFiltrados)
     $datosFiltrados[$Siglas . "_" . $Clave][] = array("Siglas" => $Siglas, "Clave" => $Clave, $Genero => $contGen);
 
     if (sizeof($datosModificados) === 0) {
-        print_r($datosFiltrados);
+        echo json_encode($datosFiltrados);
     } else {
         Recursivo($datosModificados, $datosFiltrados);
     }
