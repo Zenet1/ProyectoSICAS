@@ -33,6 +33,8 @@
 
 .cont-tabla{
     width: auto;
+    max-height: 450px;
+    overflow-y: scroll;
 }
 
 .card-header{

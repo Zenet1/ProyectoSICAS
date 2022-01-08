@@ -31,6 +31,7 @@ import { EstadisticasComponent } from './components/administrador/estadisticas/e
 import { RegistroUsuariosComponent } from './components/administrador/registro-usuarios/registro-usuarios.component';
 import { LoginUsuariosComponent } from './components/login-usuarios/login-usuarios.component';
 import { AulasComponent } from './components/administrador/aulas/aulas.component';
+import { CapturaPreguntasComponent } from './components/administrador/captura-preguntas/captura-preguntas.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { AulasComponent } from './components/administrador/aulas/aulas.component
     EstadisticasComponent,
     RegistroUsuariosComponent,
     LoginUsuariosComponent,
-    AulasComponent
+    AulasComponent,
+    CapturaPreguntasComponent
   ],
   imports: [
     BrowserModule,

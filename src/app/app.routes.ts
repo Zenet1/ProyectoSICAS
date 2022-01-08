@@ -23,6 +23,7 @@ import { EstadisticasComponent } from "./components/administrador/estadisticas/e
 import { RegistroUsuariosComponent } from "./components/administrador/registro-usuarios/registro-usuarios.component";
 import { LoginUsuariosComponent } from "./components/login-usuarios/login-usuarios.component";
 import { AulasComponent } from "./components/administrador/aulas/aulas.component";
+import { CapturaPreguntasComponent } from "./components/administrador/captura-preguntas/captura-preguntas.component";
 
 const app_routes: Routes = [
     { path: 'login', component: LoginComponent},
@@ -42,7 +43,8 @@ const app_routes: Routes = [
         { path: 'capacidad-facultad', component: CapacidadFacultadComponent},
         { path: 'gestion-sicei', component: GestionarSiceiComponent},
         { path: 'estadisticas', component:EstadisticasComponent},
-        { path: 'registro-usuarios', component: RegistroUsuariosComponent}
+        { path: 'registro-usuarios', component: RegistroUsuariosComponent},
+        { path: 'cuestionario', component: CapturaPreguntasComponent}
     ]},
     { path: '**', pathMatch: 'full', redirectTo: 'login' },
 ]
