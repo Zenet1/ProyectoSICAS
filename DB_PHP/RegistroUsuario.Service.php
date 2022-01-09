@@ -9,7 +9,7 @@ $obj_insertarUsuario->execute(array($datos["usuario"], $datos["contrasena"], $da
 
 switch ($datos["rol"]) {
     case "2":
-        $query = "INSERT INTO administrativos (IDUsuario,NombreCapt,ApellidoPaternoCapt, ApellidoMaternoCapt) SELECT ?,?,?,? FROM DUAL WHERE NOT EXISTS (SELECT IDUsuario FROM administrativos WHERE IDUsuario=?) LIMIT 1";
+        $query = "INSERT INTO capturadores (IDUsuario,NombreCapt,ApellidoPaternoCapt, ApellidoMaternoCapt) SELECT ?,?,?,? FROM DUAL WHERE NOT EXISTS (SELECT IDUsuario FROM administrativos WHERE IDUsuario=?) LIMIT 1";
         Insertar($DB_CONEXION, $datos, $query);
         break;
     case "3":
