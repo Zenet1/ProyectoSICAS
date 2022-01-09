@@ -14,11 +14,9 @@ class QueryFormatoServicio
         foreach ($estructuraQuery as $DATOSPORTABLA) {
 
             if (isset($DATOSPORTABLA["DATOS"])) {
+                $datosQuery .= ($primerosDatos === false ? "," : "");
+                $primerosDatos = false;
                 $datosQuery .= $this->DatosPorRecuperar($DATOSPORTABLA["CARAC"]["ALIAS"], $DATOSPORTABLA["DATOS"]);
-                $datosQuery .= ($primerosDatos === false ? "," : $primerosDatos = false);
-            }
-
-            if ($primerosDatos > 0) {
             }
 
             if (isset($DATOSPORTABLA["UNIR"])) {
