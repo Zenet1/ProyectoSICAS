@@ -15,13 +15,13 @@ class Autenticar
 
     public function AutenticarCuenta(array $datosCuenta)
     {
-        $this->queryObj->SELECT($this->estrucAutenticar, $datosCuenta);
+        $this->AutenticarCuentaLocal($datosCuenta);
     }
+
 
     private function AutenticarCuentaLocal(array $datosCuenta)
     {
-        if ($datosCuenta !== false || sizeof($datosCuenta) > 0) {
-        }
+        $resultado = $this->queryObj->SELECT($this->estrucAutenticar, $datosCuenta);
     }
 
     private function AutenticarCuentaSICEI(array $datosCuenta)
