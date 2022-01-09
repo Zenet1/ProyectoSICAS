@@ -2,14 +2,15 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-require 'Utileria.php';
+include_once("Env.Utileria.php");
 
 class CorreoManejador
 {
     private $mail;
     private $isArchivo;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->isArchivo = false;
         $this->mail = new PHPMailer(true);
 
@@ -26,31 +27,31 @@ class CorreoManejador
         }
     }
 
-    public function EnviarCorreo(array $destinatarios, String $asunto,String $mensaje, $archivo = NULL){
+    public function EnviarCorreo(array $destinatarios, String $asunto, String $mensaje, $archivo = NULL)
+    {
         try {
             $this->mail->setFrom($_ENV['EMAILACCOUNT'], 'SICAS');
             $this->mail->addAddress($_ENV['EMAILACCOUNT'], 'SICAS');
-            
 
-            foreach($destinatarios as $correo => $nombre){
+            foreach ($destinatarios as $correo => $nombre) {
                 $this->mail->addCC($correo, $nombre);
             }
-            
-            if($this->isArchivo){
+
+            if ($this->isArchivo) {
                 $this->mail->addAttachment($archivo);
             }
-            
+
             $this->mail->isHTML(true);
             $this->mail->Subject = $asunto;
             $this->mail->Body = $mensaje;
 
             $this->mail->send();
         } catch (Exception $e) {
-
         }
     }
 
-    public function setArchivo(bool $booleano){
+    public function setArchivo(bool $booleano)
+    {
         $this->isArchivo = $booleano;
     }
 }
