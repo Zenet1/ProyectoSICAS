@@ -17,7 +17,7 @@ function RecuperarAsignaturas(PDO $Conexion)
         $datos = explode("|", $linea);
         $recuperar_obj->execute(array($datos[0], $datos[1]));
         $IDEstudio = $recuperar_obj->fetch(PDO::FETCH_ASSOC);
-        $incognitas = array("clv" => $datos[2], "nom" => $datos[3], "idp" => $IDEstudio["IDPlanEstudio"]);
+        $incognitas = array("clv" => $datos[2], "nom" => trim($datos[3]), "idp" => $IDEstudio["IDPlanEstudio"]);
         $insertar_obj->execute($incognitas);
     }
 }
