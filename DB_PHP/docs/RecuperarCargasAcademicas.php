@@ -3,17 +3,27 @@ function RecuperarCargasAcademicas(PDO $Conexion)
 {
     $archivo = file("docs/AlumnosCargaDeAsignaturas.txt");
     $saltado = false;
+    
+    //Querys
+    $sql_recuperarIDAlumno = "SELECT IDAlumno FROM alumnos WHERE Matricula = ?";
 
-    $getIDalu = "SELECT IDAlumno FROM alumnos WHERE Matricula=?";
-    $getIDgru = "SELECT IDGrupo FROM grupos AS GPS INNER JOIN asignaturas AS ASIG ON ASIG.IDAsignatura=GPS.IDIDAsignatura INNER JOIN planesdeestudio AS PLE ON PLE.IDPlanEstudio=ASIG.IDPlanEstudio WHERE GPS.ClaveGrupo=? AND GPS.IDProfesor=? AND ASIG.ClaveAsignatura=? AND PLE.ClavePlan=? AND PLE.VersionPlan=?";
-    $getIDprof = "SELECT IDProfesor FROM academicos WHERE ClaveProfesor=?";
+    $sql_recuperarIDProfesor = "SELECT IDProfesor FROM academicos WHERE ClaveProfesor = ?";
+    $sql_recuperarIDPlanEstudio = "SELECT IDPlanEstudio FROM planesdeestudio WHERE ClavePlan = ? AND VersionPlan = ?";
+    $sql_recuperarIDAsignatura = "SELECT IDAsignatura FROM asignaturas WHERE ClaveAsignatura = ? AND IDPlanEstudio = ?";
+    $sql_recuperarIDGrupo = "SELECT IDGrupo FROM grupos WHERE IDAsignatura = ? AND IDProfesor = ? AND ClaveGrupo = ?";
 
-    $setcargas = "INSERT INTO cargaacademica (IDAlumno, IDGrupo) VALUES(:idA,:idG)";
+    $sql_insertarCargaAcademica = "INSERT INTO cargaacademica (IDAlumno, IDGrupo) SELECT ?, ? FROM DUAL 
+    WHERE NOT EXISTS (SELECT IDAlumno, IDGrupo FROM cargaacademica WHERE IDAlumno = ? AND IDGrupo = ?) LIMIT 1";
 
-    $getProf = $Conexion->prepare($getIDprof);
-    $getalu = $Conexion->prepare($getIDalu);
-    $getsgrup = $Conexion->prepare($getIDgru);
-    $sethora = $Conexion->prepare($setcargas);
+    //Objetos de ejecución de querys
+    $obj_recuperarIDAlumno = $Conexion->prepare($sql_recuperarIDAlumno);
+
+    $obj_recuperarIDProfesor = $Conexion->prepare($sql_recuperarIDProfesor);
+    $obj_recuperarIDPlanEstudio = $Conexion->prepare($sql_recuperarIDPlanEstudio);
+    $obj_recuperarIDAsignatura = $Conexion->prepare($sql_recuperarIDAsignatura);
+    $obj_recuperarIDGrupo = $Conexion->prepare($sql_recuperarIDGrupo);
+
+    $obj_insertarCargaAcademica = $Conexion->prepare($sql_insertarCargaAcademica);
 
     foreach ($archivo as $linea) {
         if (!$saltado) {
@@ -23,14 +33,30 @@ function RecuperarCargasAcademicas(PDO $Conexion)
 
         $data = explode("|",  utf8_encode($linea));
         
-        $getalu->execute(array($data[0]));
-        $getProf->execute(array($data[4]));
+        $obj_recuperarIDAlumno->execute(array($data[0]));
+        $IDAlumno = $obj_recuperarIDAlumno->fetch(PDO::FETCH_ASSOC);
 
+<<<<<<< HEAD
         $idprof = $getProf->fetch(PDO::FETCH_ASSOC);
         $idal = $getalu->fetch(PDO::FETCH_ASSOC);
         $getsgrup->execute(array($data[5], $idprof["IDProfesor"], $data[3], $data[5], $data[6]));
         $idgr = $getsgrup->fetch(PDO::FETCH_ASSOC);
         //$incognitas = array("idA" => $idal["IDAlumno"], "idG" => $idgr["IDGrupo"]);
         //$sethora->execute($incognitas);
+=======
+        $obj_recuperarIDProfesor->execute(array($data[4]));
+        $IDProfesor = $obj_recuperarIDProfesor->fetch(PDO::FETCH_ASSOC);
+
+        $obj_recuperarIDPlanEstudio->execute(array($data[1], $data[2]));
+        $IDPlanEstudio = $obj_recuperarIDPlanEstudio->fetch(PDO::FETCH_ASSOC);
+
+        $obj_recuperarIDAsignatura->execute(array($data[3], $IDPlanEstudio["IDPlanEstudio"]));
+        $IDAsignatura = $obj_recuperarIDAsignatura->fetch(PDO::FETCH_ASSOC);
+
+        $obj_recuperarIDGrupo->execute(array($IDAsignatura["IDAsignatura"], $IDProfesor["IDProfesor"], $data[5]));
+        $IDGrupo = $obj_recuperarIDGrupo->fetch(PDO::FETCH_ASSOC);
+
+        $obj_insertarCargaAcademica->execute(array($IDAlumno["IDAlumno"], $IDGrupo["IDGrupo"], $IDAlumno["IDAlumno"], $IDGrupo["IDGrupo"]));
+>>>>>>> b69beb8a7663df78ca9b44a880a85127b2942271
     }
 }
