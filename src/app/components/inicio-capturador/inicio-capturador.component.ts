@@ -16,7 +16,5 @@ export class InicioCapturadorComponent implements OnInit {
     if(this.estaLogueado){
       this.usuario = this.servicioLogin.getUsuario();
     }
-    
   }
-
 }

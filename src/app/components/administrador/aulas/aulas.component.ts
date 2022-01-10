@@ -33,23 +33,11 @@ export class AulasComponent implements OnInit {
     this.servicioAdmin.guardarAula(this.formAula.value).subscribe(
       respuesta=>{
         this.obtenerAulas();
+        this.formAula.reset();
       },
       error=>{
         alert("Ocurrió un error al guardar el aula");
       }
     )
-  }
-
-  eliminarAula(id:any, index:any){
-    if (window.confirm("¿Desea eliminar la oficina?")) {
-      this.servicioAdmin.eliminarAula(id).subscribe(
-        respuesta=>{
-          this.aulas.splice(index,1);
-        },
-        error=>{
-          alert("Ocurrió un error al eliminar el aula");
-        }
-      );
-    }
   }
 }

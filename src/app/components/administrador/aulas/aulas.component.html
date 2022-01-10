@@ -43,7 +43,6 @@
                                         <th>Nombre</th>
                                         <th>Edificio</th>
                                         <th>Capacidad</th>
-                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -51,11 +50,6 @@
                                         <td>{{aula.NombreSalon}}</td>
                                         <td>{{aula.NombreEdificio}}</td>
                                         <td>{{aula.Capacidad}}</td>
-                                        <td>
-                                            <div class="btn-group" role="group">
-                                                <button (click)="eliminarAula(aula.IDSalon, iControl)" class="btn btn-danger">Eliminar</button>
-                                            </div>
-                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

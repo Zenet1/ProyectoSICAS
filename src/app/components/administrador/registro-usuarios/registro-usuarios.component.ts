@@ -37,12 +37,12 @@ export class RegistroUsuariosComponent implements OnInit {
   registrarUsuario(){
     this.servicioAdmin.registrarUsuario(this.formularioRegistrarUsuario.value).subscribe(
       respuesta=>{
-        
+        alert("Se registró el usuario correctamente");
+        this.formularioRegistrarUsuario.reset();
       },
       error=>{
         alert("Ocurrió un error al intentar registrar el usuario");
       }
     );
   }
-
 }
