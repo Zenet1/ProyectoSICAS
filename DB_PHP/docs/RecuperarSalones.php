@@ -1,24 +1,19 @@
 <?php
 
-function RecuperarSalones(PDO $DB_CONEXION){
 
-    header('Access-Control-Allow-Origin: *'); 
-    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-    header('Content-Type: text/html; charset=UTF-8');
-    //include "EsValido.php";
-    include "BD_Conexion.php";
-
+function RecuperarSalones(PDO $Conexion)
+{
     $archivo = file("docs/HorariosSesionesGrupo_Licenciatura.txt");
     $saltado = false;
 
-    $sqlInsert = "INSERT INTO salones (IDEdificio, NombreSalon, Capacidad) VALUES (?,?,?)";
+    $sqlInsert = "INSERT INTO salones (IDEdificio, NombreSalon, Capacidad) SELECT :ide,:nom,:cap FROM DUAL WHERE NOT EXISTS (SELECT IDEdificio FROM salones WHERE IDEdificio = :ide) LIMIT 1";
     $sqlrecuperar = "SELECT IDEdificio FROM edificios WHERE NombreEdificio=?";
-    $obj_recuperar = $DB_CONEXION->prepare($sqlrecuperar);
-    $obj_insert = $DB_CONEXION->prepare($sqlInsert);
+    $obj_recuperar = $Conexion->prepare($sqlrecuperar);
+    $obj_insert = $Conexion->prepare($sqlInsert);
     $salones = array();
 
-    foreach($archivo as $linea){
-        if(!$saltado){
+    foreach ($archivo as $linea) {
+        if (!$saltado) {
             $saltado = true;
             continue;
         }
@@ -27,11 +22,10 @@ function RecuperarSalones(PDO $DB_CONEXION){
         $obj_recuperar->execute(array($data[9]));
         $ID = $obj_recuperar->fetch(PDO::FETCH_ASSOC);
 
-        if(isset($ID["IDEdificio"]) && !isset($salones[$data[9] . $data[10]])){
-            $obj_insert->execute(array($ID["IDEdificio"], $data[10], 30));
+        if (isset($ID["IDEdificio"]) && !isset($salones[$data[9] . $data[10]])) {
+            $incognitas = array("ide" => $ID["IDEdificio"], "nom" => $data[10],"cap" => 0);
+            $obj_insert->execute($incognitas);
             $salones[$data[9] . $data[10]] = $data[9] . $data[10];
         }
     }
 }
-    
-?>
