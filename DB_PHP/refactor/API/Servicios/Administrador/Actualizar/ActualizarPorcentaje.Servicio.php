@@ -16,7 +16,7 @@ class Porcentaje
     public function RecuperarPorcentaje()
     {
         $resultado = $this->objQuery->SELECT($this->estrucRecuperar, array());
-        echo $resultado;
+        print_r($resultado);
     }
 
     public function ActualizarPorcentaje(array $datosActualizar)

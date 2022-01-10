@@ -32,7 +32,9 @@ class QueryFormatoServicio
             }
         }
 
-        $queryCompleta = "SELECT " . $datosQuery . " FROM " . $tablaPrinc . " " . $UnionesQuery . "WHERE " . $CondQuery;
+        $condQuery = ($CondQuery !== "" ? "WHERE " . $CondQuery : "");
+        $queryCompleta = "SELECT " . $datosQuery . " FROM " . $tablaPrinc . " " . $UnionesQuery . $CondQuery;
+
         return $queryCompleta;
     }
 
@@ -69,7 +71,7 @@ class QueryFormatoServicio
         return $queryCompleta;
     }
 
-    public function FormatoDELETE(array $estructuraQuery) : string
+    public function FormatoDELETE(array $estructuraQuery): string
     {
         $condQuery = "";
         $tabla = "";
