@@ -26,7 +26,7 @@ function RecuperarSalones(PDO $Conexion)
         $ID = $obj_recuperar->fetch(PDO::FETCH_ASSOC);
 
         if (isset($ID["IDEdificio"]) && !isset($salones[$data[9] . $data[10]])) {
-            $incognitas = array("ide" => $ID["IDEdificio"], "nom" => $data[10], "cap" => 0);
+            $incognitas = array("ide" => $ID["IDEdificio"], "nom" => trim($data[10]), "cap" => 0);
             $obj_insert->execute($incognitas);
             $salones[$data[9] . $data[10]] = "Si";
         }
