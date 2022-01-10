@@ -52,7 +52,7 @@ export class GestionRegistrosComponent implements OnInit {
     if (window.confirm("¿Está seguro que desea restaurar este archivo?")) {
       this.servicioAdmin.restaurarBD(this.formularioRestaurar).subscribe(
         respuesta=>{
-
+          alert("Se restauró el archivo correctamente");
         },
         error=>{
           alert("Ocurrió un error al intentar restaurar los registros");
@@ -65,7 +65,7 @@ export class GestionRegistrosComponent implements OnInit {
     if (window.confirm("¿Está seguro que desea eliminar los datos de asistencia actuales?")) {
       this.servicioAdmin.eliminarBD().subscribe(
         respuesta=>{
-          
+          alert("Se eliminaron los registros correctamente");
         },
         error=>{
           alert("Ocurrió un error al intentar eliminar los registros");
