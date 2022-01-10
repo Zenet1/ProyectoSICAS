@@ -16,13 +16,22 @@ include_once("../Clases/Query.Class.php");
 
 $json = file_get_contents('php://input');
 $datos = json_decode($json);
-$PorcentajeCapacidad = new Porcentaje(new Query());
+
+$PorcentajeControl = new Porcentaje(new Query());
+$SalonesControl = new Salones(new Query());
+
 
 switch ($datos->accion) {
-    case "recuperar":
+    case "recuperarPorcentaje":
         $PorcentajeCapacidad->RecuperarPorcentaje();
         break;
-    case "actualizar":
-        $PorcentajeCapacidad->ActualizarPorcentaje(array($datos->porcentaje));
+    case "actualizarPorcentaje":
+        $PorcentajeCapacidad->ActualizarPorcentaje(array($datos["porcentaje"], 1));
+        break;
+    case "recuperarSalones":
+        $SalonesControl->ObtenerSalones();
+        break;
+    case "actualizarSalon":
+        $SalonesControl->ActualizarSalon(array($datos->salon->capacidad, $datos->salon->aula));
         break;
 }
