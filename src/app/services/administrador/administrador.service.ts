@@ -21,8 +21,8 @@ export class AdministradorService {
   API_Programas:string = "/ProyectoSICAS/DB_PHP/Programas.Service.php";
   API_Estadisticas:string = "/ProyectoSICAS/DB_PHP/Estadistica.Service.php";
   API_Preguntas:string = '/ProyectoSICAS/DB_PHP/Preguntas.Servicio.php';
-  API_GuardarPregunta:string = '';
-  API_EliminarPregunta:string = '';
+  API_GuardarPregunta:string = '/ProyectoSICAS/DB_PHP/GuardarPreguntas.Service.php';
+  API_EliminarPregunta:string = '/ProyectoSICAS/DB_PHP/EliminarPreguntas.Service.php';
 
   constructor(private clienteHttp: HttpClient) { }
 
