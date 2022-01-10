@@ -31,7 +31,8 @@ export class CapturaPreguntasComponent implements OnInit {
   guardarPregunta(){
     this.servicioAdmin.guardarPreguntas(this.formPregunta.value).subscribe(
       respuesta=>{
-
+        this.obtenerPreguntas();
+        this.formPregunta.reset();
       },
       error=>{
         alert("Ha ocurrido un error al guardar la pregunta");

@@ -33,6 +33,7 @@ export class AulasComponent implements OnInit {
     this.servicioAdmin.guardarAula(this.formAula.value).subscribe(
       respuesta=>{
         this.obtenerAulas();
+        this.formAula.reset();
       },
       error=>{
         alert("Ocurrió un error al guardar el aula");
