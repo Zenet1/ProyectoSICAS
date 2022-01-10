@@ -3,7 +3,7 @@ function RecuperarAsignaturas(PDO $Conexion)
 {
     $archivo = file("docs/AsignaturasALasQueSeInscribieronAlumnos.txt");
     $saltado = false;
-    $insertar = "INSERT INTO asignaturas (ClaveAsignatura, NombreAsignatura, IDPlanEstudio) SELECT :clv,:nom,:idp FROM DUAL WHERE NOT EXISTS (SELECT ClaveAsignatura FROM asistencia WHERE ClaveAsignatura=:clv) LIMIT 1";
+    $insertar = "INSERT INTO asignaturas (ClaveAsignatura, NombreAsignatura, IDPlanEstudio) SELECT :clv,:nom,:idp FROM DUAL WHERE NOT EXISTS (SELECT ClaveAsignatura FROM asignaturas WHERE ClaveAsignatura=:clv) LIMIT 1";
     $recuperar = "SELECT IDPlanEstudio FROM planesdeestudio WHERE ClavePlan=? AND VersionPlan=?";
     $insertar_obj = $Conexion->prepare($insertar);
     $recuperar_obj = $Conexion->prepare($recuperar);
