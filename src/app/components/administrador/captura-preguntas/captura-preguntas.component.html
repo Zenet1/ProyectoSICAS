@@ -1,0 +1,57 @@
+<div class="container-fluid">
+    <div class="container-descripcion">
+        <p>Gestiona las preguntas del cuestionario del control de salud</p>
+    </div>
+
+    <div class="row">
+        <div class="wrapper-formulario col-lg-5">
+            <div class="container-formulario">
+                <p class="text-center">Redacte la pregunta de forma que las respuestas sean "si" o "no"</p>
+                <form [formGroup]="formPregunta" (ngSubmit)="guardarPregunta()" ngNativeValidate>
+                    
+                    <div class="container-campo">
+                        <label class="form-label" for="pregunta">Pregunta:</label>
+                        <textarea id="pregunta" formControlName="pregunta" type="text" class="form-control" required></textarea>
+                    </div>
+                    <div class="container-btn">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="container-tabla">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Preguntas</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Pregunta</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let pregunta of preguntas; let iControl=index">
+                                        <td>{{pregunta.Pregunta}}</td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button (click)="eliminarPregunta(pregunta.IDPregunta, iControl)" class="btn btn-danger">Eliminar</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

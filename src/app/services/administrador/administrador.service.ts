@@ -20,6 +20,9 @@ export class AdministradorService {
   API_Aulas:string = "/ProyectoSICAS/DB_PHP/Salones.Service.php";
   API_Programas:string = "/ProyectoSICAS/DB_PHP/Programas.Service.php";
   API_Estadisticas:string = "/ProyectoSICAS/DB_PHP/Estadistica.Service.php";
+  API_Preguntas:string = '/ProyectoSICAS/DB_PHP/Preguntas.Servicio.php';
+  API_GuardarPregunta:string = '/ProyectoSICAS/DB_PHP/GuardarPreguntas.Service.php';
+  API_EliminarPregunta:string = '/ProyectoSICAS/DB_PHP/EliminarPreguntas.Service.php';
 
   constructor(private clienteHttp: HttpClient) { }
 
@@ -67,7 +70,6 @@ export class AdministradorService {
     return this.clienteHttp.post<any>(this.API_EliminarOficina, id);
   }
 
-  //aulas
   obtenerAulas(){
     return this.clienteHttp.post<any>(this.API_Aulas, JSON.stringify({accion:"recuperar"}));
   }
@@ -81,7 +83,6 @@ export class AdministradorService {
     return this.clienteHttp.post<any>(this.API_Aulas, id);
   }
 
-  //gestion base de datos
   restaurarBD(datos:FormGroup){
     const formData = new FormData();
     formData.append('archivo', datos.get('archivo').value);
@@ -102,7 +103,6 @@ export class AdministradorService {
     return this.clienteHttp.post<any>("/ProyectoSICAS/DB_PHP/Respaldar.Service.php", formData, {headers:someHeaders, responseType: 'blob' as 'json'});
   }
 
-  //estadisticas
   obtenerProgramas(){
     return this.clienteHttp.get(this.API_Programas);
   }
@@ -111,7 +111,6 @@ export class AdministradorService {
     return this.clienteHttp.post<any>(this.API_Estadisticas, datos);
   }
 
-  //registrar usuarios
   obtenerRoles(){
     return this.clienteHttp.get(this.API_Roles);
   }
@@ -119,4 +118,17 @@ export class AdministradorService {
   registrarUsuario(datos:any){
     return this.clienteHttp.post<any>(this.API_RegistrarUsuario, datos);
   }
+
+  obtenerPreguntas(){
+    return this.clienteHttp.get(this.API_Preguntas);
+  }
+
+  guardarPreguntas(datos){
+    return this.clienteHttp.post<any>(this.API_GuardarPregunta, datos);
+  }
+
+  eliminarPregunta(id:any){
+    return this.clienteHttp.post<any>(this.API_EliminarPregunta, id);
+  }
+
 }

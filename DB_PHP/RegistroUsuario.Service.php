@@ -9,13 +9,12 @@ $incognitas = array("ctn" => $datos["usuario"], $datos["contrasena"], $datos["ro
 $obj_insertarUsuario->execute($incognitas);
 
 switch ($datos["rol"]) {
-    case "2": //ID del rol de capturador
-        $query = "INSERT INTO administrativos (IDUsuario,NombreCapt,ApellidoParternoCapt, ApellidoMaternoCapt) SELECT ?,?,?,? FROM DUAL WHERE NOT EXISTS (SELECT IDUsuario FROM administrativos WHERE IDUsuario=?) LIMIT 1";
+    case "2":
+        $query = "INSERT INTO capturadores (IDUsuario,NombreCapt,ApellidoPaternoCapt, ApellidoMaternoCapt) SELECT ?,?,?,? FROM DUAL WHERE NOT EXISTS (SELECT IDUsuario FROM administrativos WHERE IDUsuario=?) LIMIT 1";
         Insertar($DB_CONEXION, $datos, $query);
         break;
-
-    case "3": //ID del rol de admin
-        $query = "INSERT INTO administradores (IDUsuario,NombreAdmin, ApellidoParternoAdmin, ApellidoMaternoAdmin) SELECT ?,?,?,? FROM DUAL WHERE NOT EXISTS (SELECT IDUsuario FROM administradores WHERE IDUsuario=?) LIMIT 1";
+    case "3":
+        $query = "INSERT INTO administradores (IDUsuario,NombreAdmin, ApellidoPaternoAdmin, ApellidoMaternoAdmin) SELECT ?,?,?,? FROM DUAL WHERE NOT EXISTS (SELECT IDUsuario FROM administradores WHERE IDUsuario=?) LIMIT 1";
         Insertar($DB_CONEXION, $datos, $query);
         break;
 }
