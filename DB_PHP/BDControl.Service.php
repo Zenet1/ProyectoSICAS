@@ -92,7 +92,7 @@ function RestaurarReservacionesExternos($nombreArchivo, PDO $Conexion)
 {
     $esPrimeraLinea = true;
     $archivoLeer = file('backups/' . $nombreArchivo);
-    $obj_restaurarTabla = $Conexion->prepare("INSERT INTO reservacionesexternos (IDExterno, FechaReservaExterno, FechaExterno, HoraExterno) SELECT ?,?,?,? FROM DUAL
+    $obj_restaurarTabla = $Conexion->prepare("INSERT INTO reservacionesexternos (IDExterno, IDOficina, FechaReservaExterno, FechaExterno, HoraExterno) SELECT ?,?,?,?,? FROM DUAL
     WHERE NOT EXISTS (SELECT IDExterno, FechaReservaExterno FROM reservacionesexternos WHERE IDExterno=? AND FechaReservaExterno=?) LIMIT 1");
 
     foreach ($archivoLeer as $linea) {
@@ -101,7 +101,7 @@ function RestaurarReservacionesExternos($nombreArchivo, PDO $Conexion)
             continue;
         }
         $datos = explode("|", $linea);
-        $obj_restaurarTabla->execute(array($datos[1], $datos[2], $datos[3], $datos[4], $datos[1], $datos[2]));
+        $obj_restaurarTabla->execute(array($datos[1], $datos[2], $datos[3], $datos[4], $datos[5], $datos[1], $datos[2]));
     }
 }
 
