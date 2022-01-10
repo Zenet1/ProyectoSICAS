@@ -22,6 +22,7 @@ for ($i = 0; $i < $numArchivos; $i++) {
     move_uploaded_file($_FILES["archivo" . $i]["tmp_name"], "docs/" . $_FILES["archivo" . $i]["name"]);
 }
 
+RecuperarUsuariosAlumnos($DB_CONEXION);
 RecuperarEdificiosLicenciatura($DB_CONEXION);
 RecuperarSalones($DB_CONEXION);
 RecuperarPlanEstudio($DB_CONEXION);

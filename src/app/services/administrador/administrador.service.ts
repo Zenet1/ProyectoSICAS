@@ -46,7 +46,6 @@ export class AdministradorService {
     const formData = new FormData();
     let numArchivos:number = 0;
     for (let index = 0; index < datos.archivos.length; index++) {
-      console.log(datos.archivos[index]);
       numArchivos++;
       formData.append('archivo' + [index], datos.archivos[index]);
     }

@@ -6,6 +6,7 @@ respaldar($DB_CONEXION, "asistenciasalumnos", "SELECT * FROM asistenciasalumnos"
 respaldar($DB_CONEXION, "asistenciasexternos", "SELECT * FROM asistenciasexternos");
 respaldar($DB_CONEXION, "reservacionesalumnos", "SELECT * FROM reservacionesalumnos WHERE FechaAlumno < ?", array(date('Y-m-d')));
 respaldar($DB_CONEXION, "reservacionesexternos", "SELECT * FROM reservacionesexternos WHERE FechaExterno < ?", array(date('Y-m-d')));
+respaldar($DB_CONEXION, "incidentes", "SELECT * FROM incidentes WHERE FechaAl < ?", array(date('Y-m-d')));
 comprimir();
 descargar("zipRespaldo");
 
@@ -50,6 +51,7 @@ function comprimir()
         $zip->addFile("backups/asistenciasexternos.txt");
         $zip->addFile("backups/reservacionesalumnos.txt");
         $zip->addFile("backups/reservacionesexternos.txt");
+        $zip->addFile("backups/incidentes.txt");
     }
     $zip->close();
 }

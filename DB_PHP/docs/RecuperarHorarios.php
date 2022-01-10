@@ -2,10 +2,10 @@
 
 function RecuperarHorarios(PDO $Conexion)
 {
-    $archivo = file("docs/HorariosSesionesGrupo_Licenciatura.txt");
+    $archivo = file("docs/HorariosSesionesGrupo.txt");
     $saltado = false;
 
-    $sqlInsert = "INSERT INTO horarios (IDGrupo, Dia, HoraInicioHorario, HoraFinHorario, IDSalon) SELECT :idG, :dia, :hri, :hrf, :ids FROM DUAL WHERE NOT EXISTS (SELECT IDGrupo, Dia WHERE IDGrupo = :idG AND Dia = :dia) LIMIT 1";
+    $sqlInsert = "INSERT INTO horarios (IDGrupo, Dia, HoraInicioHorario, HoraFinHorario, IDSalon) SELECT :idG, :dia, :hri, :hrf, :ids FROM DUAL WHERE NOT EXISTS (SELECT IDGrupo, Dia FROM horarios WHERE IDGrupo=:idG AND Dia=:dia) LIMIT 1";
 
     $sqlrecuperarIDProfesor = "SELECT IDProfesor FROM academicos WHERE ClaveProfesor=?";
 
@@ -39,7 +39,6 @@ function RecuperarHorarios(PDO $Conexion)
         }
 
         $data = explode("|", utf8_encode($linea));
-
         $obj_recuperarEdificio->execute(array($data[9]));
         $IDEdificio = $obj_recuperarEdificio->fetch(PDO::FETCH_ASSOC);
 
@@ -50,14 +49,13 @@ function RecuperarHorarios(PDO $Conexion)
             $obj_recuperarIDPlanAsig->execute(array($data[0], $data[1]));
             $IDPlanAsignatura = $obj_recuperarIDPlanAsig->fetch(PDO::FETCH_ASSOC);
             $obj_recuperarIDAsignatura->execute(array($data[2], $IDPlanAsignatura["IDPlanEstudio"]));
-
+            
             $IDAsignatura = $obj_recuperarIDAsignatura->fetch(PDO::FETCH_ASSOC);
             $obj_recuperarIDGrupo->execute(array($data[4], $IDProfesor["IDProfesor"], $IDAsignatura["IDAsignatura"]));
 
-            $obj_recuperarSalon->execute(array($data[10], $IDEdificio["IDEdificio"]));
+            $obj_recuperarSalon->execute(array(trim($data[10]), $IDEdificio["IDEdificio"]));
             $IDGrupo = $obj_recuperarIDGrupo->fetch(PDO::FETCH_ASSOC);
             $IDSalon = $obj_recuperarSalon->fetch(PDO::FETCH_ASSOC);
-
             if (isset($IDSalon["IDSalon"]) && isset($IDGrupo["IDGrupo"])) {
                 $incognitas = array("idG" => $IDGrupo["IDGrupo"], "dia" => $data[6], "hri" => $data[7], "hrf" => $data[8], "ids" => $IDSalon["IDSalon"]);
                 $obj_insert->execute($incognitas);

@@ -51,6 +51,7 @@ export class EstadisticasComponent implements OnInit {
   }
 
   obtenerEstadisticas(){
+    this.siEstadisticasObtenidas = false;
     let validacionPeriodo:boolean = this.formEstadisticas.controls['fechaFin'].value >= this.formEstadisticas.controls['fechaInicio'].value;
     if(validacionPeriodo){
       if(this.formEstadisticas.controls["programa"].value != "todos"){
