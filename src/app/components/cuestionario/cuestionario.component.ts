@@ -27,29 +27,35 @@ export class CuestionarioComponent implements OnInit {
     if(this.estaLogueado){
       switch(this.servicioLogin.getRol()) {
         case "Administrador": { 
-          this.router.navigateByUrl('login');
+          this.router.navigateByUrl('inicio-administrador');
           break;
         }
         case "Capturador":{
-          this.router.navigateByUrl('login');
+          this.router.navigateByUrl('inicio-capturador');
           break;
         }
         case "Alumno":{
+          this.servicioCuestionario.obtenerPreguntas().subscribe(
+            respuesta=>{
+              this.preguntasBD=respuesta;
+              this.agregarCamposPreguntas();
+            }
+          );
           break;
         }
       }
     } else {
       if(!this.servicioCookie.checkCookie("registroExterno")){
         this.router.navigateByUrl('login');
+      } else {
+        this.servicioCuestionario.obtenerPreguntas().subscribe(
+          respuesta=>{
+            this.preguntasBD=respuesta;
+            this.agregarCamposPreguntas();
+          }
+        );
       }
     }
-
-    this.servicioCuestionario.obtenerPreguntas().subscribe(
-      respuesta=>{
-        this.preguntasBD=respuesta;
-        this.agregarCamposPreguntas();
-      }
-    );
   }
 
   agregarCamposPreguntas(){
@@ -77,7 +83,12 @@ export class CuestionarioComponent implements OnInit {
   
       if(cantidadSi > 0){
         this.cuestionario.controls["accion"].setValue("rechazado");
-        this.servicioCuestionario.rechazado(this.cuestionario.value).subscribe();
+        this.servicioCuestionario.rechazado(this.cuestionario.value).subscribe(
+          respuesta=>{
+            alert("De acuerdo a tus respuestas, no es posible que asistas a la facultad, se te ha notificado por correo electrónico");
+            this.router.navigateByUrl('login');
+          }
+        );
       } else {
         if(this.estaLogueado){
           switch(this.servicioLogin.getRol()){

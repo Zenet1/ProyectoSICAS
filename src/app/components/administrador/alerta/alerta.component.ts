@@ -28,7 +28,7 @@ export class AlertaComponent implements OnInit {
 
   alertar(){
     this.siAlertaEnviada = false;
-    let validacionPeriodo:boolean = this.formularioAlerta.controls['fechaFin'].value > this.formularioAlerta.controls['fechaInicio'].value;
+    let validacionPeriodo:boolean = this.formularioAlerta.controls['fechaFin'].value >= this.formularioAlerta.controls['fechaInicio'].value;
     let validacionSuspension:boolean = this.formularioAlerta.controls['fechaSuspension'].value > this.formularioAlerta.controls['fechaFin'].value;
     if(validacionPeriodo && validacionSuspension){
       if (window.confirm("Confirme para enviar la alerta")){

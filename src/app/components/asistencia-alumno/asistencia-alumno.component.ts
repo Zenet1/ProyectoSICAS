@@ -18,18 +18,18 @@ export class AsistenciaAlumnoComponent implements OnInit {
   ngOnInit(): void {
     if(!this.servicioCookie.checkCookie("cuestionarioAlumno")){
       this.router.navigateByUrl('inicio-alumno');
-    } 
-
-    this.servicioAsistenciaAlum.combrobarReservacion().subscribe(
-      respuesta=>{
-        if(respuesta == "Aceptado"){
-          this.obtenerClases();
-        } else if (respuesta == "Rechazado"){
-          alert("Ya tiene una reservación para mañana");
-          this.router.navigateByUrl("inicio-alumno");
+    } else {
+      this.servicioAsistenciaAlum.combrobarReservacion().subscribe(
+        respuesta=>{
+          if(respuesta == "Aceptado"){
+            this.obtenerClases();
+          } else if (respuesta == "Rechazado"){
+            alert("Ya tiene una reservación para mañana");
+            this.router.navigateByUrl("inicio-alumno");
+          }
         }
-      }
-    );
+      );
+    }
   }
 
   obtenerClases(){

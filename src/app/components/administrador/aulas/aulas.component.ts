@@ -39,17 +39,4 @@ export class AulasComponent implements OnInit {
       }
     )
   }
-
-  eliminarAula(id:any, index:any){
-    if (window.confirm("¿Desea eliminar la oficina?")) {
-      this.servicioAdmin.eliminarAula(id).subscribe(
-        respuesta=>{
-          this.aulas.splice(index,1);
-        },
-        error=>{
-          alert("Ocurrió un error al eliminar el aula");
-        }
-      );
-    }
-  }
 }

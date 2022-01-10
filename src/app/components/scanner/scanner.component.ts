@@ -16,12 +16,11 @@ export class ScannerComponent implements OnInit {
   tienePermisos: boolean;
   camarasDisponibles: MediaDeviceInfo[];
   camaraSeleccionada: MediaDeviceInfo = null;
-
   escaneoRealizado:boolean = false;
   resultadoEscaneo: any;
-
   resultadoValidacion:boolean;
   nombreAlumno:string;
+
   constructor(private servicioCapturador:CapturadorService, private router:Router) { }
 
   ngOnInit(): void {
@@ -41,10 +40,7 @@ export class ScannerComponent implements OnInit {
   }
 
   verificar(){
-    //this.resultadoValidacion = true;
-    
     if(this.resultadoEscaneo != null){
-      //alert(this.resultadoEscaneo);
       this.servicioCapturador.verficar(this.resultadoEscaneo).subscribe(
         respuesta =>{
           if(respuesta.respuesta === "valido"){
@@ -56,7 +52,6 @@ export class ScannerComponent implements OnInit {
         }
       );
     }
-    
   }
 
   cancelar(){
@@ -68,7 +63,6 @@ export class ScannerComponent implements OnInit {
     this.scanner.scanStop();
     this.escaneoRealizado = true;
     this.resultadoEscaneo = event;
-    console.log(this.resultadoEscaneo);
   }
 
   onHasPermission(siTiene:boolean){
