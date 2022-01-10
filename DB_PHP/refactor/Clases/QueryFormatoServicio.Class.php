@@ -32,7 +32,7 @@ class QueryFormatoServicio
             }
         }
 
-        $condQuery = ($CondQuery !== "" ? "WHERE " . $CondQuery : "");
+        $CondQuery = ($CondQuery !== "" ? "WHERE " . $CondQuery : "");
         $queryCompleta = "SELECT " . $datosQuery . " FROM " . $tablaPrinc . " " . $UnionesQuery . $CondQuery;
 
         return $queryCompleta;
