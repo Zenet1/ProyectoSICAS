@@ -24,6 +24,25 @@ function RecuperarPorcentaje(PDO $Conexion)
 
 function ActualizarPorcentaje(PDO $Conexion, $Porcentaje)
 {
-    $obj_actualizar = $Conexion->prepare("UPDATE porcentajecapacidad SET Porcentaje = ? WHERE IDPorcentaje = 1");
-    $obj_actualizar->execute(array($Porcentaje));
+    if(validarCapacidadRegistrada($Porcentaje, $Conexion)){
+        $obj_actualizar = $Conexion->prepare("UPDATE porcentajecapacidad SET Porcentaje = ? WHERE IDPorcentaje = 1");
+        $obj_actualizar->execute(array($Porcentaje));
+    }
+}
+
+function validarCapacidadRegistrada(string $porcentaje, PDO $Conexion) : bool{
+        
+    $sql_validarCapacidad = "SELECT Porcentaje FROM porcentajecapacidad WHERE IDPorcentaje = 1";
+
+    $obj_validarCapacidad = $Conexion->prepare($sql_validarCapacidad);
+
+    $obj_validarCapacidad->execute(array($porcentaje));
+    
+    $capacidadDevuelta = $obj_validarCapacidad->fetch(PDO::FETCH_ASSOC);
+    
+    if($capacidadDevuelta["Porcentaje"] === $porcentaje){
+        echo "ERROR: Capacidad del salón registrada con anterioridad";
+        return false;
+    }
+    return true;
 }
