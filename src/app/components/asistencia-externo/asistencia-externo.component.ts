@@ -63,9 +63,7 @@ export class AsistenciaExternoComponent implements OnInit {
       }
     }
 
-    if(seleccionadas.length < 1){
-      alert("Selecciona al menos una oficina")
-    } else {
+    if(seleccionadas.length > 0){
       if (window.confirm("Si está seguro que desea asistir, confirme para finalizar")){
         let datos = JSON.stringify({seleccionadas: seleccionadas, fechaAsistencia: this.fechaAsistencia.value, accion: "aceptado"});
         this.servicioAsistenciaExterno.enviarAsistencia(datos).subscribe(
@@ -77,6 +75,8 @@ export class AsistenciaExternoComponent implements OnInit {
           }
         );
       }
+    } else {
+      alert("Selecciona al menos una oficina");
     }
   }
 
