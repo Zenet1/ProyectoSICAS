@@ -36,14 +36,6 @@ function RecuperarCargasAcademicas(PDO $Conexion)
         $obj_recuperarIDAlumno->execute(array($data[0]));
         $IDAlumno = $obj_recuperarIDAlumno->fetch(PDO::FETCH_ASSOC);
 
-<<<<<<< HEAD
-        $idprof = $getProf->fetch(PDO::FETCH_ASSOC);
-        $idal = $getalu->fetch(PDO::FETCH_ASSOC);
-        $getsgrup->execute(array($data[5], $idprof["IDProfesor"], $data[3], $data[5], $data[6]));
-        $idgr = $getsgrup->fetch(PDO::FETCH_ASSOC);
-        //$incognitas = array("idA" => $idal["IDAlumno"], "idG" => $idgr["IDGrupo"]);
-        //$sethora->execute($incognitas);
-=======
         $obj_recuperarIDProfesor->execute(array($data[4]));
         $IDProfesor = $obj_recuperarIDProfesor->fetch(PDO::FETCH_ASSOC);
 
@@ -57,6 +49,5 @@ function RecuperarCargasAcademicas(PDO $Conexion)
         $IDGrupo = $obj_recuperarIDGrupo->fetch(PDO::FETCH_ASSOC);
 
         $obj_insertarCargaAcademica->execute(array($IDAlumno["IDAlumno"], $IDGrupo["IDGrupo"], $IDAlumno["IDAlumno"], $IDGrupo["IDGrupo"]));
->>>>>>> b69beb8a7663df78ca9b44a880a85127b2942271
     }
 }
