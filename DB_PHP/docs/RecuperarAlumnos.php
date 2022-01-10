@@ -1,31 +1,41 @@
 <?php
 
-function RecuperarAlumnos(PDO $Conexion)
-{
+function RecuperarAlumnos(PDO $DB_CONEXION){
+
+    header('Access-Control-Allow-Origin: *'); 
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+    header('Content-Type: text/html; charset=UTF-8');
+    //include "EsValido.php";
+    include "BD_Conexion.php";
+
     $archivo = file("docs/AlumnosInscripcionEnPeriodoCurso.txt");
     $saltado = false;
-
-    $insertar = "INSERT INTO alumnos (Matricula, NombreAlumno, ApellidoPaternoAlumno, ApellidoMaternoAlumno, IDPlanEstudio, CorreoAlumno, Genero, IDUsuario) SELECT ?,?,?,?,?,?,?,? FROM DUAL WHERE NOT EXISTS(SELECT Matricula FROM alumnos WHERE Matricula=?) LIMIT 1";
-
+    $insertar = "INSERT INTO alumnos (Matricula, NombreAlumno, ApellidoPaternoAlumno, ApellidoMaternoAlumno, IDPlanEstudio, CorreoAlumno, Genero, IDUsuario, IDModelo, NivelEducativo) VALUES (?,?,?,?,?,?,?,?,?,?)";
     $recuperar_plan = "SELECT IDPlanEstudio FROM planesdeestudio WHERE ClavePlan=? AND VersionPlan=?";
     $recuperar_id = "SELECT IDUsuario FROM usuarios WHERE Cuenta=?";
 
-    $insertar_obj = $Conexion->prepare($insertar);
-    $recuperarPlan_obj = $Conexion->prepare($recuperar_plan);
-    $recuperarID_obj = $Conexion->prepare($recuperar_id);
+    $insertar_obj = $DB_CONEXION->prepare($insertar);
+    $recuperarPlan_obj = $DB_CONEXION->prepare($recuperar_plan); 
+    $recuperarID_obj = $DB_CONEXION->prepare($recuperar_id);
 
-    foreach ($archivo as $linea) {
-        if (!$saltado) {
+    foreach($archivo as $linea){
+        if(!$saltado){
             $saltado = true;
             continue;
         }
         $datos_archivo = explode("|", utf8_encode($linea));
-        $recuperarID_obj->execute(array("a" . $datos_archivo[0]));
+        $recuperarID_obj->execute(array("a".$datos_archivo[0]));
         $IDUsuario = $recuperarID_obj->fetch(PDO::FETCH_ASSOC);
         $recuperarPlan_obj->execute(array($datos_archivo[6], $datos_archivo[7]));
         $IDPlan = $recuperarPlan_obj->fetch(PDO::FETCH_ASSOC);
+        
+        $verificacion = $insertar_obj->execute(array($datos_archivo[0], $datos_archivo[1], $datos_archivo[2], $datos_archivo[3],$IDPlan["IDPlanEstudio"], $datos_archivo[8], $datos_archivo[4], $IDUsuario["IDUsuario"], 1, "Licenciatura"));
 
-        $incognitas = array($datos_archivo[0], $datos_archivo[1], $datos_archivo[2], $datos_archivo[3], $IDPlan["IDPlanEstudio"], $datos_archivo[8], $datos_archivo[4], $IDUsuario["IDUsuario"], $datos_archivo[0]);
-        $insertar_obj->execute($incognitas);
+        if(!esValido($verificacion)){
+            //echo "ERROR";
+            break;
+        }
     }
 }
+    
+?>

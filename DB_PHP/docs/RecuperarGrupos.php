@@ -1,29 +1,35 @@
 <?php
 
-function RecuperarGrupos(PDO $Conexion)
-{
+function RecuperarGrupos(PDO $DB_CONEXION){
+    
+    header('Access-Control-Allow-Origin: *'); 
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+    header('Content-Type: text/html; charset=UTF-8');
+    //include "EsValido.php";
+    include "BD_Conexion.php";
+
     $archivo = file("docs/AlumnosCargaDeAsignaturas.txt");
     $saltado = false;
 
     //Querys
-    $sqlInsert = "INSERT INTO grupos (IDAsignatura, IDProfesor, ClaveGrupo, Grupo) SELECT :ida,:idP,:clG,:gP FROM DUAL WHERE NOT EXISTS (SELECT IDProfesor, ClaveGrupo, Grupo FROM grupos WHERE IDProfesor = :idP AND ClaveGrupo = :clG AND Grupo = :gP)LIMIT 1";
+    $sqlInsert = "INSERT INTO grupos (IDAsignatura, IDProfesor, ClaveGrupo, Grupo) VALUES (?,?,?,?)";
 
     $sqlrecuperarIDPlanAsig = "SELECT IDPlanEstudio FROM planesdeestudio WHERE ClavePlan=? AND VersionPlan=?";
     $sqlrecuperarCasig = "SELECT IDAsignatura FROM asignaturas WHERE ClaveAsignatura=? AND IDPlanEstudio = ?";
-
-    $sqlrecuperarIprof = "SELECT IDProfesor FROM academicos WHERE ClaveProfesor=?";
+    
+    $sqlrecuperarIprof = "SELECT IDProfesor FROM academicos WHERE ClaveProfesor=?"; 
 
     //Objetos de recuperación
-    $obj_recuperarIDPlanAsig = $Conexion->prepare($sqlrecuperarIDPlanAsig);
-    $obj_recuperarAsig = $Conexion->prepare($sqlrecuperarCasig);
+    $obj_recuperarIDPlanAsig = $DB_CONEXION->prepare($sqlrecuperarIDPlanAsig);
+    $obj_recuperarAsig = $DB_CONEXION->prepare($sqlrecuperarCasig);
 
-    $obj_recuperarIprof = $Conexion->prepare($sqlrecuperarIprof);
-    $obj_insert = $Conexion->prepare($sqlInsert);
+    $obj_recuperarIprof = $DB_CONEXION->prepare($sqlrecuperarIprof);
+    $obj_insert = $DB_CONEXION->prepare($sqlInsert);
 
     $grupos = array();
 
-    foreach ($archivo as $linea) {
-        if (!$saltado) {
+    foreach($archivo as $linea){
+        if(!$saltado){
             $saltado = true;
             continue;
         }
@@ -39,10 +45,11 @@ function RecuperarGrupos(PDO $Conexion)
         $IDasig = $obj_recuperarAsig->fetch(PDO::FETCH_ASSOC);
         $IDprof = $obj_recuperarIprof->fetch(PDO::FETCH_ASSOC);
 
-        if (!isset($grupos[$data[1] . $data[2] . $data[3] . $data[4] . $data[5]])) {
-            $incognitas = array("ida" => $IDasig["IDAsignatura"], "idP" => $IDprof["IDProfesor"], "clG" => $data[5], "gP" => $data[6]);
-            $obj_insert->execute($incognitas);
+        if(!isset($grupos[$data[1] . $data[2] . $data[3] . $data[4] . $data[5]])){
+            $obj_insert->execute(array($IDasig["IDAsignatura"], $IDprof["IDProfesor"], $data[5], $data[6]));
             $grupos[$data[1] . $data[2] . $data[3] . $data[4] . $data[5]] = $data[1] . $data[2] . $data[3] . $data[4] . $data[5];
         }
     }
 }
+    
+?>

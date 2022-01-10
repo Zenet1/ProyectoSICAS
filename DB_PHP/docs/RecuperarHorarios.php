@@ -1,39 +1,43 @@
 <?php
+function RecuperarHorarios(PDO $DB_CONEXION){
+    
+    header('Access-Control-Allow-Origin: *'); 
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+    header('Content-Type: text/html; charset=UTF-8');
+    include "BD_Conexion.php";
 
-function RecuperarHorarios(PDO $Conexion)
-{
     $archivo = file("docs/HorariosSesionesGrupo_Licenciatura.txt");
     $saltado = false;
 
-    $sqlInsert = "INSERT INTO horarios (IDGrupo, Dia, HoraInicioHorario, HoraFinHorario, IDSalon) SELECT :idG, :dia, :hri, :hrf, :ids FROM DUAL WHERE NOT EXISTS (SELECT IDGrupo, Dia WHERE IDGrupo = :idG AND Dia = :dia) LIMIT 1";
-
+    //Querys
+    $sqlInsert = "INSERT INTO horarios (IDGrupo, Dia, HoraInicioHorario, HoraFinHorario, IDSalon) VALUES (?, ?, ?, ?, ?);";
     $sqlrecuperarIDProfesor = "SELECT IDProfesor FROM academicos WHERE ClaveProfesor=?";
 
     $sqlrecuperarIDPlanAsig = "SELECT IDPlanEstudio FROM planesdeestudio WHERE ClavePlan=? AND VersionPlan=?";
     $sqlrecuperarIDAsignatura = "SELECT IDAsignatura FROM asignaturas WHERE ClaveAsignatura=? AND IDPlanEstudio=?";
 
     $sqlrecuperarIDGrupo = "SELECT IDGrupo FROM grupos WHERE ClaveGrupo=? AND IDProfesor=? AND IDAsignatura=?";
-
+    
     $sqlrecuperarEdificio = "SELECT IDEdificio FROM edificios WHERE NombreEdificio=?";
     $sqlrecuperarSalon = "SELECT IDSalon FROM salones WHERE NombreSalon=? AND IDEdificio=?";
 
     //Objetos de recuperación
-    $obj_recuperarIDProfesor = $Conexion->prepare($sqlrecuperarIDProfesor);
+    $obj_recuperarIDProfesor = $DB_CONEXION->prepare($sqlrecuperarIDProfesor);
 
-    $obj_recuperarIDPlanAsig = $Conexion->prepare($sqlrecuperarIDPlanAsig);
-    $obj_recuperarIDAsignatura = $Conexion->prepare($sqlrecuperarIDAsignatura);
+    $obj_recuperarIDPlanAsig = $DB_CONEXION->prepare($sqlrecuperarIDPlanAsig);
+    $obj_recuperarIDAsignatura = $DB_CONEXION->prepare($sqlrecuperarIDAsignatura);
+    
+    $obj_recuperarIDGrupo = $DB_CONEXION->prepare($sqlrecuperarIDGrupo);
+    
+    $obj_recuperarEdificio = $DB_CONEXION->prepare($sqlrecuperarEdificio);
+    $obj_recuperarSalon = $DB_CONEXION->prepare($sqlrecuperarSalon);
 
-    $obj_recuperarIDGrupo = $Conexion->prepare($sqlrecuperarIDGrupo);
-
-    $obj_recuperarEdificio = $Conexion->prepare($sqlrecuperarEdificio);
-    $obj_recuperarSalon = $Conexion->prepare($sqlrecuperarSalon);
-
-    $obj_insert = $Conexion->prepare($sqlInsert);
+    $obj_insert = $DB_CONEXION->prepare($sqlInsert);
 
     $horarios = array();
 
-    foreach ($archivo as $linea) {
-        if (!$saltado) {
+    foreach($archivo as $linea){
+        if(!$saltado){
             $saltado = true;
             continue;
         }
@@ -42,11 +46,11 @@ function RecuperarHorarios(PDO $Conexion)
 
         $obj_recuperarEdificio->execute(array($data[9]));
         $IDEdificio = $obj_recuperarEdificio->fetch(PDO::FETCH_ASSOC);
-
-        if (isset($IDEdificio["IDEdificio"])) {
+        
+        if(isset($IDEdificio["IDEdificio"])){
             $obj_recuperarIDProfesor->execute(array($data[3]));
             $IDProfesor = $obj_recuperarIDProfesor->fetch(PDO::FETCH_ASSOC);
-
+            
             $obj_recuperarIDPlanAsig->execute(array($data[0], $data[1]));
             $IDPlanAsignatura = $obj_recuperarIDPlanAsig->fetch(PDO::FETCH_ASSOC);
             $obj_recuperarIDAsignatura->execute(array($data[2], $IDPlanAsignatura["IDPlanEstudio"]));
@@ -58,10 +62,11 @@ function RecuperarHorarios(PDO $Conexion)
             $IDGrupo = $obj_recuperarIDGrupo->fetch(PDO::FETCH_ASSOC);
             $IDSalon = $obj_recuperarSalon->fetch(PDO::FETCH_ASSOC);
 
-            if (isset($IDSalon["IDSalon"]) && isset($IDGrupo["IDGrupo"])) {
-                $incognitas = array("idG" => $IDGrupo["IDGrupo"], "dia" => $data[6], "hri" => $data[7], "hrf" => $data[8], "ids" => $IDSalon["IDSalon"]);
-                $obj_insert->execute($incognitas);
+            if(isset($IDSalon["IDSalon"]) && isset($IDGrupo["IDGrupo"])){
+                $obj_insert->execute(array($IDGrupo["IDGrupo"], $data[6], $data[7], $data[8], $IDSalon["IDSalon"]));
             }
         }
     }
 }
+    
+?>

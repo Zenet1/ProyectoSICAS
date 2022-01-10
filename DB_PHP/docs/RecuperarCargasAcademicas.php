@@ -1,6 +1,13 @@
 <?php
-function RecuperarCargasAcademicas(PDO $Conexion)
-{
+
+function RecuperarCargasAcademicas(PDO $DB_CONEXION){
+
+    header('Access-Control-Allow-Origin: *'); 
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+    header('Content-Type: text/html; charset=UTF-8');
+    //include "EsValido.php";
+    include "BD_Conexion.php";
+
     $archivo = file("docs/AlumnosCargaDeAsignaturas.txt");
     $saltado = false;
 
@@ -8,15 +15,15 @@ function RecuperarCargasAcademicas(PDO $Conexion)
     $getIDgru = "SELECT IDGrupo FROM grupos WHERE ClaveGrupo=? AND IDProfesor=?";
     $getIDprof = "SELECT IDProfesor FROM academicos WHERE ClaveProfesor=?";
 
-    $setcargas = "INSERT INTO cargaacademica (IDAlumno, IDGrupo) SELECT :idA,:idG FROM DUAL WHERE NOT EXISTS (SELECT IDAlumno, IDGrupo FROM cargaacademica WHERE IDAlumno=:idA AND IDGrupo=:idG) LIMIT 1";
+    $setcargas = "INSERT INTO cargaacademica (IDAlumno, IDGrupo) VALUES (?,?)";
 
-    $getProf = $Conexion->prepare($getIDprof);
-    $getalu = $Conexion->prepare($getIDalu);
-    $getsgrup = $Conexion->prepare($getIDgru);
-    $sethora = $Conexion->prepare($setcargas);
+    $getProf = $DB_CONEXION->prepare($getIDprof);
+    $getalu = $DB_CONEXION->prepare($getIDalu);
+    $getsgrup = $DB_CONEXION->prepare($getIDgru);
+    $sethora = $DB_CONEXION->prepare($setcargas);
 
-    foreach ($archivo as $linea) {
-        if (!$saltado) {
+    foreach($archivo as $linea){
+        if(!$saltado){
             $saltado = true;
             continue;
         }
@@ -28,11 +35,12 @@ function RecuperarCargasAcademicas(PDO $Conexion)
         $idprof = $getProf->fetch(PDO::FETCH_ASSOC);
         $idal = $getalu->fetch(PDO::FETCH_ASSOC);
 
-        if (isset($idprof["IDProfesor"])) {
+        if(isset($idprof["IDProfesor"]) ){
             $getsgrup->execute(array($data[5], $idprof["IDProfesor"]));
             $idgr = $getsgrup->fetch(PDO::FETCH_ASSOC);
-            $incognitas = array("idA" => $idal["IDAlumno"],"idG" => $idgr["IDGrupo"]);
-            $sethora->execute($incognitas);
+            $sethora->execute(array($idal["IDAlumno"], $idgr["IDGrupo"]));
         }
     }
 }
+    
+?>

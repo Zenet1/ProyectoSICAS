@@ -32,8 +32,8 @@ RecuperarGrupos($DB_CONEXION);
 RecuperarCargasAcademicas($DB_CONEXION);
 RecuperarHorarios($DB_CONEXION);
 
-foreach (scandir('docs/') as $archivo) {
+/*foreach (scandir('docs/') as $archivo) {
     if (is_file('docs/' . $archivo) && strpos($archivo, ".txt") !== false) {
         unlink("docs/" . $archivo);
     }
-}
+}*/
