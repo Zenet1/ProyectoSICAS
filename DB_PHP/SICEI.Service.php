@@ -4,6 +4,7 @@ header('Access-Control-Allow-Credentials: true');
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 include 'BD_Conexion.php';
+
 include 'docs/RecuperarAlumnos.php';
 include 'docs/RecuperarAsignaturas.php';
 include 'docs/RecuperarCargasAcademicas.php';
@@ -21,15 +22,16 @@ for ($i = 0; $i < $numArchivos; $i++) {
     move_uploaded_file($_FILES["archivo" . $i]["tmp_name"], "docs/" . $_FILES["archivo" . $i]["name"]);
 }
 
-RecuperarUsuariosAlumnos($DB_CONEXION);
-RecuperarEdificiosLicenciatura($DB_CONEXION);
-RecuperarSalones($DB_CONEXION);
-RecuperarPlanEstudio($DB_CONEXION);
-RecuperarAsignaturas($DB_CONEXION);
-RecuperarProfesores($DB_CONEXION);
-RecuperarAlumnos($DB_CONEXION);
-RecuperarGrupos($DB_CONEXION);
+//RecuperarUsuariosAlumnos($DB_CONEXION);
+//RecuperarEdificiosLicenciatura($DB_CONEXION);
+//RecuperarSalones($DB_CONEXION);
+//RecuperarPlanEstudio($DB_CONEXION);
+//RecuperarAsignaturas($DB_CONEXION);
+//RecuperarProfesores($DB_CONEXION);
+//RecuperarAlumnos($DB_CONEXION);
+//RecuperarGrupos($DB_CONEXION);
 RecuperarCargasAcademicas($DB_CONEXION);
+/*
 RecuperarHorarios($DB_CONEXION);
 
 foreach (scandir('docs/') as $archivo) {
@@ -37,3 +39,4 @@ foreach (scandir('docs/') as $archivo) {
         unlink("docs/" . $archivo);
     }
 }
+*/
