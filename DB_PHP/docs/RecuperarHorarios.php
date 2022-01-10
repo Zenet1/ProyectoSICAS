@@ -2,10 +2,10 @@
 
 function RecuperarHorarios(PDO $Conexion)
 {
-    $archivo = file("docs/HorariosSesionesGrupo_Licenciatura.txt");
+    $archivo = file("docs/HorariosSesionesGrupo.txt");
     $saltado = false;
 
-    $sqlInsert = "INSERT INTO horarios (IDGrupo, Dia, HoraInicioHorario, HoraFinHorario, IDSalon) SELECT :idG, :dia, :hri, :hrf, :ids FROM DUAL WHERE NOT EXISTS (SELECT IDGrupo, Dia WHERE IDGrupo = :idG AND Dia = :dia) LIMIT 1";
+    $sqlInsert = "INSERT INTO horarios (IDGrupo, Dia, HoraInicioHorario, HoraFinHorario, IDSalon) SELECT :idG, :dia, :hri, :hrf, :ids FROM DUAL WHERE NOT EXISTS (SELECT IDGrupo, Dia FROM horarios WHERE IDGrupo=:idG AND Dia=:dia) LIMIT 1";
 
     $sqlrecuperarIDProfesor = "SELECT IDProfesor FROM academicos WHERE ClaveProfesor=?";
 
@@ -39,7 +39,6 @@ function RecuperarHorarios(PDO $Conexion)
         }
 
         $data = explode("|", utf8_encode($linea));
-
         $obj_recuperarEdificio->execute(array($data[9]));
         $IDEdificio = $obj_recuperarEdificio->fetch(PDO::FETCH_ASSOC);
 

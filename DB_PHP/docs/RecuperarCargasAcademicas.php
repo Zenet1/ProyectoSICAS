@@ -30,7 +30,6 @@ function RecuperarCargasAcademicas(PDO $Conexion)
         $idal = $getalu->fetch(PDO::FETCH_ASSOC);
         $getsgrup->execute(array($data[5], $idprof["IDProfesor"], $data[3], $data[5], $data[6]));
         $idgr = $getsgrup->fetch(PDO::FETCH_ASSOC);
-        print_r(array($data[5], $idprof["IDProfesor"], $data[3], $data[5], $data[6]));
         //$incognitas = array("idA" => $idal["IDAlumno"], "idG" => $idgr["IDGrupo"]);
         //$sethora->execute($incognitas);
     }
