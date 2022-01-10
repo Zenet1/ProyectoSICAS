@@ -77,6 +77,7 @@ class QueryFormatoServicio
         $tabla = "";
         foreach ($estructuraQuery as $TABLAINDIVIDUAL) {
             $tabla = $TABLAINDIVIDUAL["CARAC"]["TABLA"];
+            
             if (isset($TABLAINDIVIDUAL["COND"])) {
                 $condQuery = " WHERE " . $this->Condiciones($TABLAINDIVIDUAL, false);
             }
