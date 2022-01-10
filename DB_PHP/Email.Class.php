@@ -21,7 +21,8 @@ class CorreoManejador
             $this->mail->Username = $_ENV['EMAILACCOUNT'];                     //SMTP username
             $this->mail->Password = $_ENV['EMAILACCOUNTPASSWORD'];                             //SMTP password
             $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-            $this->mail->Port = $_ENV['EMAILPORT'];                              //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            $this->mail->Port = $_ENV['EMAILPORT'];                             //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            $this->mail->CharSet = 'UTF-8';
         } catch (Exception $e) {
 
         }

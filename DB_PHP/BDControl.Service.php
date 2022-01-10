@@ -18,12 +18,15 @@ function eliminar(PDO $Conexion)
     $obj_borrarAsistenciasExternos = $Conexion->prepare("DELETE FROM asistenciasexternos");
     $obj_borrarReservasAlumnos = $Conexion->prepare("DELETE FROM reservacionesalumnos WHERE FechaAlumno < ?");
     $obj_borrarReservasExternos = $Conexion->prepare("DELETE FROM reservacionesexternos WHERE FechaExterno < ?");
-    
+    $obj_borrarIncidentes = $Conexion->prepare("DELETE FROM incidentes WHERE FechaAl < ?");
+
     $obj_borrarExternos->execute();
     $obj_borrarReservasAlumnos->execute(array(date("Y-m-d")));
     $obj_borrarReservasExternos->execute(array(date("Y-m-d")));
     $obj_borrarAsistenciasAlumnos->execute();
     $obj_borrarAsistenciasExternos->execute();
+    $obj_borrarIncidentes->execute(array(date("Y-m-d")));
+
 }
 
 function restaurar(PDO $Conexion)
@@ -48,6 +51,9 @@ function restaurar(PDO $Conexion)
                     break;
                 case "asistenciasexternos":
                     RestaurarAsistenciasExternos($archivo, $Conexion);
+                    break;
+                case "incidentes":
+                    RestaurarIncidentes($archivo, $Conexion);
                     break;
             }
             unlink('backups/' . $archivo);
@@ -136,5 +142,22 @@ function RestaurarAsistenciasExternos($nombreArchivo, PDO $Conexion)
         }
         $datos = explode("|", $linea);
         $obj_restaurarTabla->execute(array($datos[1], $datos[2], $datos[3], $datos[4], $datos[5], $datos[1], $datos[2]));
+    }
+}
+
+function RestaurarIncidentes($nombreArchivo, PDO $Conexion)
+{
+    $esPrimeraLinea = true;
+    $archivoLeer = file('backups/' . $nombreArchivo);
+    $obj_restaurarTabla = $Conexion->prepare("INSERT INTO incidentes (IDAlumno, FechaAl, FechaLimiteSuspension) SELECT ?,?,? FROM DUAL 
+    WHERE NOT EXISTS (SELECT IDAlumno, FechaAl, FechaLimiteSuspension FROM incidentes WHERE IDAlumno=? AND FechaAl=? AND FechaLimiteSuspension=?) LIMIT 1");
+
+    foreach ($archivoLeer as $linea) {
+        if ($esPrimeraLinea) {
+            $esPrimeraLinea = false;
+            continue;
+        }
+        $datos = explode("|", $linea);
+        $obj_restaurarTabla->execute(array($datos[1], $datos[2], $datos[3], $datos[1], $datos[2], $datos[3]));
     }
 }

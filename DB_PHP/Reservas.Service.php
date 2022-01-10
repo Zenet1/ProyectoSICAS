@@ -8,14 +8,12 @@ include "Qr.Class.php";
 
 $json = file_get_contents('php://input');
 $datos = json_decode($json);
-$Global_datosReservaAlumno = array();
 $_SESSION["FechaSig"] = date('Y-m-d', strtotime('+' . obtenerDiaSiguienteHabil()[1] . ' day'));
 $ContenidoQR = "";
 
 switch ($datos->accion) {
     case "obtenerMaterias":
         ObtenerMateriasDisponibles($DB_CONEXION);
-        echo json_encode($Global_datosReservaAlumno);
         break;
     case "asignarReservaAlumno":
         InsertarNuevaReservacionAlumno($datos->carga, $DB_CONEXION);
@@ -25,38 +23,27 @@ switch ($datos->accion) {
         $QR->setNombrePng($NombreQRAlumno);
         $QR->Generar($ContenidoQRAlumno);
         break;
-    default:
-        break;
 }
 
 function ObtenerMateriasDisponibles(PDO $Conexion)
 {
+    $Global_datosReservaAlumno = array();
 
-    $sql_obtenerMateriasAlumnoPorDia = "SELECT CGAC.IDCarga, CGAC.IDGrupo,GPS.IDAsignatura,ASIG.NombreAsignatura, HRS.Dia, HRS.HoraInicioHorario, HRS.HoraFinHorario, SLS.Capacidad,SLS.NombreSalon
-    FROM cargaacademica AS CGAC
-    INNER JOIN grupos AS GPS
-    ON GPS.IDGrupo=CGAC.IDGrupo
-    INNER JOIN asignaturas As ASIG
-    ON ASIG.IDAsignatura=GPS.IDAsignatura
-    INNER JOIN horarios AS HRS
-    ON HRS.IDGrupo=CGAC.IDGrupo
-    INNER JOIN salones AS SLS
-    ON SLS.IDSalon=HRS.IDSalon
-    WHERE CGAC.IDAlumno=? AND HRS.Dia=?";
+    $sql_obtenerMateriasAlumnoPorDia = "SELECT CGAC.IDCarga, CGAC.IDGrupo,GPS.IDAsignatura,ASIG.NombreAsignatura, HRS.Dia, HRS.HoraInicioHorario, HRS.HoraFinHorario, SLS.Capacidad,SLS.NombreSalon FROM cargaacademica AS CGAC INNER JOIN grupos AS GPS ON GPS.IDGrupo=CGAC.IDGrupo INNER JOIN asignaturas As ASIG ON ASIG.IDAsignatura=GPS.IDAsignatura INNER JOIN horarios AS HRS ON HRS.IDGrupo=CGAC.IDGrupo INNER JOIN salones AS SLS ON SLS.IDSalon=HRS.IDSalon WHERE CGAC.IDAlumno=? AND HRS.Dia=?";
 
     $obj_obtenerMateriasAlumnoPorDia = $Conexion->prepare($sql_obtenerMateriasAlumnoPorDia);
 
     $diaABuscar = obtenerDiaSiguienteHabil()[0];
-
     $obj_obtenerMateriasAlumnoPorDia->execute(array($_SESSION["IDAlumno"], $diaABuscar));
 
     $asignaturasHorario = $obj_obtenerMateriasAlumnoPorDia->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($asignaturasHorario as $Asignatura) {
         if (ValidadorGrupoDisponible($Asignatura, $Conexion)) {
-            $GLOBALS["Global_datosReservaAlumno"][] = $Asignatura;
+            $Global_datosReservaAlumno[] = $Asignatura;
         }
     }
+    echo json_encode($Global_datosReservaAlumno);
 }
 
 function InsertarNuevaReservacionAlumno(array $asignaturas, PDO $Conexion): void
@@ -133,9 +120,9 @@ function ValidadorGrupoDisponible(array $asignatura, PDO $Conexion): bool
     $sql_obtenerCantidadReservacionesPorGrupo = "SELECT COUNT(RSAL.IDReservaAlumno) AS CR FROM cargaacademica AS CGAC 
     INNER JOIN reservacionesalumnos AS RSAL 
     ON RSAL.IDCarga=CGAC.IDCarga 
-    WHERE CGAC.IDGrupo=? AND RSAL.FechaReservaAl=? ";
+    WHERE CGAC.IDGrupo=? AND RSAL.FechaReservaAl=?";
 
-    $sql_obtenerCapacidadFacultad = "SELECT Porcentaje FROM sicasbd.porcentajecapacidad WHERE IDPorcentaje=1";
+    $sql_obtenerCapacidadFacultad = "SELECT Porcentaje FROM porcentajecapacidad WHERE IDPorcentaje=1";
 
     $obj_reservacionesMateriasAlumnosDiaSiguiente = $Conexion->prepare($sql_obtenerCantidadReservacionesPorGrupo);
     $obj_PorcentajeCapacidadFacultad = $Conexion->prepare($sql_obtenerCapacidadFacultad);
