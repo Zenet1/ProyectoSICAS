@@ -35,7 +35,12 @@ export class AsistenciaAlumnoComponent implements OnInit {
   obtenerClases(){
     this.servicioAsistenciaAlum.obtenerClases(JSON.stringify({accion:"obtenerMaterias"})).subscribe(
       respuesta=>{
-        this.clases = respuesta;
+        if(respuesta.length > 0){
+          this.clases = respuesta;
+        } else {
+          alert("No quedan cupos disponibles para mañana");
+          this.router.navigateByUrl("inicio-alumno");
+        }
       }
     )
   }
