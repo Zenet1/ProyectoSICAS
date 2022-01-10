@@ -56,7 +56,7 @@ function EnviarQRExterno(array $datosDestinatario, PDO $Conexion)
 {
     $correo = new CorreoManejador();
     $correo->setArchivo(true);
-    
+
     $sql_recuperarOficinas = "SELECT OFC.NombreOficina, OFC.Departamento, EDF.NombreEdificio FROM oficinas AS OFC 
     INNER JOIN reservacionesexternos AS RSEX 
     ON RSEX.IDOficina=OFC.IDOficina 
@@ -90,8 +90,7 @@ function Alertar(array $datosDestinatarios, string $msg)
 {
     print_r($datosDestinatarios);
     $correo = new CorreoManejador();
-    foreach($datosDestinatarios as $correo => $receptor){
+    foreach ($datosDestinatarios as $correo => $receptor) {
         echo $correo . "=>" . $receptor;
     }
-    
 }

@@ -10,32 +10,28 @@ $sql_verificar = "SELECT us.IDUsuario,us.IDRol,us.Cuenta,ro.IDRol,ro.Rol FROM us
 
 $estado_obj = $DB_CONEXION->prepare($sql_verificar);
 $estado_obj->execute(array("$datos->usuario", "$datos->contrasena"));
-$datos = $estado_obj->fetch(PDO::FETCH_ASSOC);
+$datosUsario = $estado_obj->fetch(PDO::FETCH_ASSOC);
 
-if (esValido($datos)) {
+if (esValido($datosUsario)) {
     session_start();
-
-    switch ($datos["Rol"]) {
-        case "Alumno":
-            Estudiantes($DB_CONEXION, $datos["IDUsuario"]);
-            break;
-    }
-
-    $datos_alumnos = array("Cuenta" => $datos["Cuenta"], "Rol" => $datos["Rol"]);
-    echo json_encode($datos_alumnos);
+    ($datosUsario["Rol"] === "Alumno" ? Estudiantes($DB_CONEXION, $datosUsario["IDUsuario"]) : "");
+    $CuentaUsuario = array("Cuenta" => $datosUsario["Cuenta"], "Rol" => $datosUsario["Rol"]);
+    echo json_encode($CuentaUsuario);
 }
 
 function Estudiantes($Conexion, $IDusuario)
 {
-    $sql_estudiante = "SELECT IDAlumno,Matricula,CorreoAlumno FROM alumnos WHERE IDUsuario = ?";
+    $sql_estudiante = "SELECT IDAlumno,NombreAlumno,ApellidoPaternoAlumno, ApellidoMaternoAlumno, Matricula,CorreoAlumno FROM alumnos WHERE IDUsuario = ?";
     $estado_obj = $Conexion->prepare($sql_estudiante);
-    $estado_obj->execute(array("$IDusuario"));
+    $estado_obj->execute(array($IDusuario));
+    $datosAlumno = $estado_obj->fetch(PDO::FETCH_ASSOC);
 
-    $datos = $estado_obj->fetch(PDO::FETCH_ASSOC);
-    if (esValido($datos)) {
-        $_SESSION["IDAlumno"] = $datos["IDAlumno"];
-        $_SESSION["Matricula"] = $datos["Matricula"];
-        $_SESSION["Correo"] = $datos["CorreoAlumno"];
+    if (esValido($datosAlumno)) {
+        $nombreCompleto = $datosAlumno["NombreAlumno"] . " "  . $datosAlumno["ApellidoPaternoAlumno"] . " " . $datosAlumno["ApellidoMaternoAlumno"];
+        $_SESSION["Nombre"] = $nombreCompleto;
+        $_SESSION["IDAlumno"] = $datosAlumno["IDAlumno"];
+        $_SESSION["Matricula"] = $datosAlumno["Matricula"];
+        $_SESSION["Correo"] = $datosAlumno["CorreoAlumno"];
     }
 }
 

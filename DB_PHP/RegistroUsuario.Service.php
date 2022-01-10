@@ -7,17 +7,17 @@ $datos = (array)json_decode($json);
 $obj_insertarUsuario = $DB_CONEXION->prepare("INSERT INTO usuarios (Cuenta,Contraseña,IDRol) SELECT ?,?,? FROM DUAL WHERE NOT EXISTS (SELECT Cuenta FROM usuarios WHERE Cuenta = ?) LIMIT 1");
 $obj_insertarUsuario->execute(array($datos["usuario"], $datos["contrasena"], $datos["rol"], $datos["usuario"]));
 
+$query = "";
 switch ($datos["rol"]) {
     case "2":
-        $query = "INSERT INTO capturadores (IDUsuario,NombreCapt,ApellidoPaternoCapt, ApellidoMaternoCapt) SELECT ?,?,?,? FROM DUAL WHERE NOT EXISTS (SELECT IDUsuario FROM administrativos WHERE IDUsuario=?) LIMIT 1";
-        Insertar($DB_CONEXION, $datos, $query);
+        $query = "INSERT INTO capturadores (IDUsuario,NombreCapt,ApellidoPaternoCapt, ApellidoMaternoCapt) SELECT ?,?,?,? FROM DUAL WHERE NOT EXISTS (SELECT IDUsuario FROM capturadores WHERE IDUsuario=?) LIMIT 1";
         break;
     case "3":
         $query = "INSERT INTO administradores (IDUsuario,NombreAdmin, ApellidoPaternoAdmin, ApellidoMaternoAdmin) SELECT ?,?,?,? FROM DUAL WHERE NOT EXISTS (SELECT IDUsuario FROM administradores WHERE IDUsuario=?) LIMIT 1";
-        Insertar($DB_CONEXION, $datos, $query);
         break;
 }
 
+Insertar($DB_CONEXION, $datos, $query);
 
 function Insertar(PDO $Conexion, array $datosAdmin, string $query)
 {
