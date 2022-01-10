@@ -1,21 +1,22 @@
 <?php
-class Autenticar
+include_once("Autenticar.Abstract.php");
+
+class AutenticarAlumno extends Autenticar
 {
-    private Query $queryObj;
     private array $estrucAutenticar;
 
     public function __construct(Query $queryObj)
     {
-        $this->queryObj = $queryObj;
-        $this->queryObj = new Query();
-        $this->cuentaValida = false;
+        parent::__construct($queryObj);
+
         $this->estrucAutenticar = array();
         $this->ArmarEstructura();
     }
 
-    public function AutenticarCuenta(array $datosCuenta)
+    public function ValidarCuenta(array $datosAValidar)
     {
-        $this->AutenticarCuentaLocal($datosCuenta);
+        $this->AutenticarCuentaSICEI($datosAValidar);
+        $this->AutenticarCuentaLocal($datosAValidar);
     }
 
 
@@ -34,11 +35,10 @@ class Autenticar
         $condUsu = array("Cuenta=", "Contraseña=");
         $caracUsu = array("ALIAS" => "USU", "TABLA" => "usuarios", "DESDE" => "si");
 
-        $datosRol = array("Rol");
         $unionRol = array("UNIR" => "usuarios", "CON" => "IDRol");
         $caracRol = array("ALIAS" => "ROL", "TABLA" => "roles");
 
         $this->estrucAutenticar["usuarios"] = array("CARAC" => $caracUsu, "DATOS" => $datosUsu, "COND" => $condUsu);
-        $this->estrucAutenticar["roles"] = array("CARAC" => $caracRol, "DATOS" => $datosRol, "UNIR" => $unionRol);
+        $this->estrucAutenticar["roles"] = array("CARAC" => $caracRol, "UNIR" => $unionRol);
     }
 }
