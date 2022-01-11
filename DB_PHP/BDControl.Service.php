@@ -145,7 +145,7 @@ function RestaurarAsistenciasExternos($nombreArchivo, PDO $Conexion)
     }
 }
 
-function RestaurarIncidentes()
+function RestaurarIncidentes($nombreArchivo, PDO $Conexion)
 {
     $esPrimeraLinea = true;
     $archivoLeer = file('backups/' . $nombreArchivo);
