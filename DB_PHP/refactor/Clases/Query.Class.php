@@ -16,7 +16,7 @@ class Query
     public function SELECT(array $Formato, array $incognitas)
     {
         $resultado = false;
-        $queryCompleta = $this->formato->FormatoSELECT($Formato);  
+        $queryCompleta = $this->formato->FormatoSELECT($Formato);
         $resultado = $this->ejecutarConsula($queryCompleta, $incognitas);
         return $resultado;
     }

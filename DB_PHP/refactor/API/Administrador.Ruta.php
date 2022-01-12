@@ -21,7 +21,7 @@ $PorcentajeControl = new Porcentaje(new Query());
 $SalonesControl = new Salones(new Query());
 $BDControl = new ControlBD(new Query());
 
-$BDControl->EliminarBD();
+$BDControl->Respaldar();
 
 /*
 switch ($datos->accion) {

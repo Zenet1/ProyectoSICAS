@@ -28,7 +28,7 @@ class ControlBD
 
     public function Restaurar()
     {
-
+        
     }
 
     private function ArmarEstruc()
@@ -43,14 +43,20 @@ class ControlBD
         $caracAsisAl = array("ALIAS" => "ASAL", "TABLA" => "asistenciasalumnos", "DESDE" => "si");
         $caracAsisEx = array("ALIAS" => "ASEX", "TABLA" => "asistenciasexternos", "DESDE" => "si");
 
-        $this->estrucElimin["externos"][] = array("CARAC" => $caracExt);
-        $this->estrucElimin["reservacionesalumnos"][] = array("CARAC" => $caracResAl, "COND" => $condResAl);
-        $this->estrucElimin["reservacionesexternos"][] = array("CARAC" => $caracResEx, "COND" => $condResEx);
-        $this->estrucElimin["incidentes"][] = array("CARAC" => $caracInciden, "COND" => $condInciden);
-        $this->estrucElimin["asistenciasalumnos"][] = array("CARAC" => $caracAsisAl);
-        $this->estrucElimin["asistenciasexternos"][] = array("CARAC" => $caracAsisEx);
+        $datosExt = array("IDExterno", "NombreExterno", "ApellidosExterno", "Empresa", "CorreoExterno");
+        $datosResAl = array("IDReservaAlumno", "IDCarga", "FechaReservaAl", "HoraInicioReservaAl", "HoraFinReservaAl", "FechaAlumno", "HoraAlumno");
+        $datosResExt = array("IDReservExterno", "IDExterno", "IDOficina", "FechaReservaExterno", "FechaExterno", "HoraExterno");
+        $datosInci = array("IDIncidente", "IDAlumno", "FechaAl", "FechaLimiteSuspencion");
+        $datosAsisAl = array("IDAsistenciaAlumnos", "IDAlumno", "FechaAl", "HoraIngresoAl", "HoraSalidaAl", "LugarEntradaAl");
+        $datosAsisEx = array("IDAsistenciaExternos", "IDExterno", "FechaExterno", "HoraIngresoEx", "LugarEntradaEx");
+
+        $this->estrucElimin["externos"][] = array("CARAC" => $caracExt, "DATOS" => $datosExt);
+        $this->estrucElimin["reservacionesalumnos"][] = array("CARAC" => $caracResAl, "COND" => $condResAl, "DATOS" => $datosResAl);
+        $this->estrucElimin["reservacionesexternos"][] = array("CARAC" => $caracResEx, "COND" => $condResEx, "DATOS" => $datosResExt);
+        $this->estrucElimin["incidentes"][] = array("CARAC" => $caracInciden, "COND" => $condInciden, "DATOS" => $datosInci);
+        $this->estrucElimin["asistenciasalumnos"][] = array("CARAC" => $caracAsisAl, "DATOS" => $datosAsisAl);
+        $this->estrucElimin["asistenciasexternos"][] = array("CARAC" => $caracAsisEx, "DATOS" => $datosAsisEx);
 
         // ESTRUCTA DE RESTAURACION
-        $datosExt = array("*");
     }
 }
