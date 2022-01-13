@@ -12,7 +12,6 @@ class Porcentaje
         $this->ArmarEstructura();
     }
 
-
     public function RecuperarPorcentaje()
     {
         $resultado = $this->objQuery->SELECT($this->estrucRecuperar, array());
@@ -34,7 +33,7 @@ class Porcentaje
 
         /* Estructura de Actualizar */
 
-        $condPor = array("IDPorcentaje=");
+        $condPor = array("IDPorcentaje=:idp");
         $this->estrucActualizar["porcentajecapacidad"] = array("CARAC" => $caracPor, "DATOS" => $datosPor, "COND" => $condPor);
     }
 }
