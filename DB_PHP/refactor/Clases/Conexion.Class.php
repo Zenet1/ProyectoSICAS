@@ -22,10 +22,7 @@ class Conexion
     private function IniciarConexion()
     {
         try {
-            $DSN = $_ENV['DSN'];
-            $USUARIO = $_ENV['USERNAME'];
-            $CONTRASENIA = $_ENV['PASSWORD'];
-            $this->conexion = new PDO($DSN, $USUARIO, $CONTRASENIA);
+            $this->conexion = new PDO($_ENV['DSN'], $_ENV['USERNAME'],  $_ENV['PASSWORD']);
         } catch (Exception $e) {
             error_log("Error al iniciar la conexion");
         }

@@ -23,7 +23,7 @@ $BDControl = new ControlBD(new Query());
 
 $BDControl->Respaldar();
 
-/*
+
 switch ($datos->accion) {
     case "recuperarPorcentaje":
         $PorcentajeCapacidad->RecuperarPorcentaje();
@@ -37,5 +37,26 @@ switch ($datos->accion) {
     case "actualizarSalon":
         $SalonesControl->ActualizarSalon(array($datos->salon->capacidad, $datos->salon->aula));
         break;
+    case "respaldarSICAS":
+        break;
+    case "eliminarSICAS":
+        break;
+    case "restaurarSICAS":
+        break;
+    case "restaurarSICEI":
+        break;
+    case "recuperarEstadisticaAlumno":
+        break;
+    case "recuperarEstadistica":
+        break;
+    case "alertaCOVID":
+        break;
+    case "recuperarPreguntas":
+        break;
+    case "agregarPregunta":
+        break;
+    case "eliminarPregunta":
+        break;
+    case "":
+        break;
 }
-*/
