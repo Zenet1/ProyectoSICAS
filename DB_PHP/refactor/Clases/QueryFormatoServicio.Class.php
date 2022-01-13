@@ -133,11 +133,12 @@ class QueryFormatoServicio
         $TABLAUNIR = $tablaEmisora["UNIR"]["UNIR"];
         $ALIASUNIR = $estructuraQuery[$TABLAUNIR]["CARAC"]["ALIAS"];
         $TABLAEMISOR = $tablaEmisora["CARAC"]["TABLA"];
-        $DATOCOMUN = $tablaEmisora["UNIR"]["CON"];
+        $DATOCOEMISOR = $tablaEmisora["UNIR"]["EMIDATO"];
+        $DATORECEPTOR = $tablaEmisora["UNIR"]["RECDATO"];
         $ALIASEMISOR =  $tablaEmisora["CARAC"]["ALIAS"];
 
         $Cadenaunion = "INNER JOIN " . $TABLAEMISOR . " AS " . $ALIASEMISOR;
-        $Cadenaunion .= " ON " . $ALIASUNIR . "." . $DATOCOMUN . "=" . $ALIASEMISOR . "." . $DATOCOMUN;
+        $Cadenaunion .= " ON " . $ALIASUNIR . "." . $DATORECEPTOR . "=" . $ALIASEMISOR . "." . $DATOCOEMISOR;
         return $Cadenaunion . " ";
     }
 }
