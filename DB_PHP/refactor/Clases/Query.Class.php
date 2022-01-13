@@ -18,7 +18,8 @@ class Query
         $resultado = false;
         $queryCompleta = $this->formato->FormatoSELECT($Formato);
         $resultado = $this->ejecutarConsula($queryCompleta, $incognitas);
-        return $resultado;
+        print_r($resultado);
+        //return $resultado;
     }
 
     public function INSERT(array $Formato, array $incognitas)

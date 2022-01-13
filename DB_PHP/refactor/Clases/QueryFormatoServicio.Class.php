@@ -2,7 +2,6 @@
 
 class QueryFormatoServicio
 {
-
     public function FormatoSELECT(array $estructuraQuery): string
     {
         $tablaPrinc = "";
@@ -10,25 +9,28 @@ class QueryFormatoServicio
         $UnionesQuery = "";
         $CondQuery = "";
         $primerosDatos = true;
+        $primerasCond = true;
 
-        foreach ($estructuraQuery as $DATOSPORTABLA) {
+        foreach ($estructuraQuery as $TABLAINDIVIAUL) {
 
-            if (isset($DATOSPORTABLA["DATOS"])) {
+            if (isset($TABLAINDIVIAUL["DATOS"])) {
                 $datosQuery .= ($primerosDatos === false ? "," : "");
                 $primerosDatos = false;
-                $datosQuery .= $this->DatosPorRecuperar($DATOSPORTABLA["CARAC"]["ALIAS"], $DATOSPORTABLA["DATOS"]);
+                $datosQuery .= $this->DatosPorRecuperar($TABLAINDIVIAUL["CARAC"]["ALIAS"], $TABLAINDIVIAUL["DATOS"]);
             }
 
-            if (isset($DATOSPORTABLA["UNIR"])) {
-                $UnionesQuery .= $this->Uniones($DATOSPORTABLA, $estructuraQuery);
+            if (isset($TABLAINDIVIAUL["UNIR"])) {
+                $UnionesQuery .= $this->ObtenerUniones($TABLAINDIVIAUL, $estructuraQuery);
             }
 
-            if (isset($DATOSPORTABLA["COND"])) {
-                $CondQuery .= $this->Condiciones($DATOSPORTABLA);
+            if (isset($TABLAINDIVIAUL["COND"])) {
+                $CondQuery .= ($primerasCond === false ? " AND " : "");
+                $primerasCond = false;
+                $CondQuery .= $this->ObtenerCondiciones($TABLAINDIVIAUL);
             }
 
-            if (isset($DATOSPORTABLA["CARAC"]["DESDE"])) {
-                $tablaPrinc .= $DATOSPORTABLA["CARAC"]["TABLA"] . " AS " . $DATOSPORTABLA["CARAC"]["ALIAS"];
+            if (isset($TABLAINDIVIAUL["CARAC"]["DESDE"])) {
+                $tablaPrinc .= $TABLAINDIVIAUL["CARAC"]["TABLA"] . " AS " . $TABLAINDIVIAUL["CARAC"]["ALIAS"];
             }
         }
 
@@ -64,7 +66,7 @@ class QueryFormatoServicio
             $datoQuery = $this->VariablesPorActualizar($TABLAINDIVIDUAL["DATOS"]);
             $tabla = $TABLAINDIVIDUAL["CARAC"]["TABLA"];
             if (isset($TABLAINDIVIDUAL["COND"])) {
-                $condQuery = " WHERE " . $this->Condiciones($TABLAINDIVIDUAL, false);
+                $condQuery = " WHERE " . $this->ObtenerCondiciones($TABLAINDIVIDUAL, false);
             }
         }
         $queryCompleta = "UPDATE " . $tabla . " SET " . $datoQuery . $condQuery;
@@ -77,29 +79,28 @@ class QueryFormatoServicio
         $tabla = "";
         foreach ($estructuraQuery as $TABLAINDIVIDUAL) {
             $tabla = $TABLAINDIVIDUAL["CARAC"]["TABLA"];
-            
+
             if (isset($TABLAINDIVIDUAL["COND"])) {
-                $condQuery = " WHERE " . $this->Condiciones($TABLAINDIVIDUAL, false);
+                $condQuery = " WHERE " . $this->ObtenerCondiciones($TABLAINDIVIDUAL, false);
             }
         }
         $queryCompleta = "DELETE FROM " . $tabla . $condQuery;
         return $queryCompleta;
     }
 
-    private function VariablesPorActualizar(array $datos): string
+    private function VariablesPorActualizar(array $DATOS): string
     {
         $actualizar = "";
         $contDatos = 0;
 
-        foreach ($datos as $DATO) {
-            $actualizar .= $DATO . "=?" . (++$contDatos < sizeof($datos) ? "," : "");
+        foreach ($DATOS as $DATO) {
+            $actualizar .= $DATO . "=?" . (++$contDatos < sizeof($DATOS) ? "," : "");
         }
         return $actualizar;
     }
 
     private function IncognitasPorRecuperar(int $cantidadElementos): string
     {
-        $incog = str_repeat("?,", $cantidadElementos - 1);
         return str_repeat("?,", $cantidadElementos - 1) . "?";
     }
 
@@ -114,29 +115,29 @@ class QueryFormatoServicio
         return $datosPorObtener;
     }
 
-    private function Uniones(array $tablaEmisora, array $estructuraQuery): string
+    private function ObtenerCondiciones(array $TABLAINDIVIAUL, bool $ALIAS = true): string
     {
-        $tablaAUnir = $tablaEmisora["UNIR"]["UNIR"];
-        $tablaEmisor = $tablaEmisora["CARAC"]["TABLA"];
-        $atributoComun = $tablaEmisora["UNIR"]["CON"];
-        $aliasEmisor =  $tablaEmisora["CARAC"]["ALIAS"];
-        $aliasAUnir = $estructuraQuery[$tablaAUnir]["CARAC"]["ALIAS"];
+        $contadorCond = 0;
+        $cadenaCond = "";
 
-
-        $union = "INNER JOIN " . $tablaEmisor . " AS " . $aliasEmisor;
-        $union .= " ON " . $aliasAUnir . "." . $atributoComun . "=" . $aliasEmisor . "." . $atributoComun;
-        return $union . " ";
+        foreach ($TABLAINDIVIAUL["COND"] as $CONDIND) {
+            $cadenaCond .= ($ALIAS === true ? $TABLAINDIVIAUL["CARAC"]["ALIAS"] . "." : "") . $CONDIND . " ";
+            // EVITA FORMAR CADENAS: "<ULTIMA CONDICION> AND <CADENA VACIA>"
+            $cadenaCond .= (++$contadorCond < sizeof($TABLAINDIVIAUL["COND"]) ? " AND " : "");
+        }
+        return $cadenaCond;
     }
 
-    private function Condiciones(array $tablaCompleta, bool $alias = true): string
+    private function ObtenerUniones(array $tablaEmisora, array $estructuraQuery): string
     {
-        $cond = "";
-        $contCond = 0;
+        $TABLAUNIR = $tablaEmisora["UNIR"]["UNIR"];
+        $ALIASUNIR = $estructuraQuery[$TABLAUNIR]["CARAC"]["ALIAS"];
+        $TABLAEMISOR = $tablaEmisora["CARAC"]["TABLA"];
+        $DATOCOMUN = $tablaEmisora["UNIR"]["CON"];
+        $ALIASEMISOR =  $tablaEmisora["CARAC"]["ALIAS"];
 
-        foreach ($tablaCompleta["COND"] as $CONDINDIVIDUAl) {
-            $cond .= ($alias === true ? $tablaCompleta["CARAC"]["ALIAS"] . "." : "") . $CONDINDIVIDUAl . "?";
-            $cond .= (++$contCond < sizeof($tablaCompleta["COND"]) ? " AND " : " ");
-        }
-        return $cond;
+        $Cadenaunion = "INNER JOIN " . $TABLAEMISOR . " AS " . $ALIASEMISOR;
+        $Cadenaunion .= " ON " . $ALIASUNIR . "." . $DATOCOMUN . "=" . $ALIASEMISOR . "." . $DATOCOMUN;
+        return $Cadenaunion . " ";
     }
 }

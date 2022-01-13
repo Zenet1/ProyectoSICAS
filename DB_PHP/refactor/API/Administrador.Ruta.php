@@ -14,16 +14,17 @@ include_once("Servicios/Administrador/Alertar.Servicio.php");
 include_once("Servicios/Administrador/Estadisticas.Servicio.php");
 include_once("../Clases/Query.Class.php");
 
-//$json = file_get_contents('php://input');
-//$datos = json_decode($json);
+$json = file_get_contents('php://input');
+$datos = json_decode($json);
 
 $PorcentajeControl = new Porcentaje(new Query());
 $SalonesControl = new Salones(new Query());
 $BDControl = new ControlBD(new Query());
+$AlertasControl = new Alertar(new Query());
 
-$BDControl->Respaldar();
+$AlertasControl->Alertar((array)$datos);
 
-
+/*
 switch ($datos->accion) {
     case "recuperarPorcentaje":
         $PorcentajeCapacidad->RecuperarPorcentaje();
@@ -60,3 +61,4 @@ switch ($datos->accion) {
     case "":
         break;
 }
+*/

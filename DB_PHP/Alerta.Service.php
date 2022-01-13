@@ -145,5 +145,3 @@ function validarCasos(array $incidenteDevuelto, bool $validarDuplicacion) : bool
 function validarVariable(array $variable) : bool{
     return ($variable === false || sizeof($variable) === 0);
 }
-
-?>

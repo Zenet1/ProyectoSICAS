@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class AdministradorService {
   API_GestionBD:string = "/ProyectoSICAS/DB_PHP/BDControl.Service.php";
-  API_Alerta:string = "/ProyectoSICAS/DB_PHP/Alerta.Service.php";
+  API_Alerta:string = "/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php";
   API_Email:string = '/ProyectoSICAS/DB_PHP/Email.Service.php';
   API_ObtenerEdificios:string = "/ProyectoSICAS/DB_PHP/DevolverEdificios.Service.php";
   API_ObtenerOficinas:string = "/ProyectoSICAS/DB_PHP/DevolverOficinas.Service.php";
