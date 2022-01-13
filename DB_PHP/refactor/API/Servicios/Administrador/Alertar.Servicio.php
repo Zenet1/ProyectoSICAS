@@ -3,7 +3,7 @@
 class Alertar
 {
     private Query $objQuery;
-    private array $estrucVerif;
+    private array $estrucGeneral;
 
     public function __construct(Query $objQuery)
     {
@@ -13,23 +13,33 @@ class Alertar
 
     public function Alertar(array $datos)
     {
-        $this->VerificarAsistenciaRango($datos);
-    }
-
-    private function VerificarAsistenciaRango(array $datos)
-    {
         $matricula = $datos["matricula"];
         $fechaInicio = $datos["fechaInicio"];
         $fechaFin = $datos["fechaFin"];
-
         $datosAfectado = array("mtc" => $matricula, "fchIn" => $fechaInicio, "fchFn" => $fechaFin);
-        $resultado = $this->objQuery->SELECT($this->estrucVerif, $datosAfectado);
-        return (sizeof($resultado) !== 0 && $resultado !== false);
+
+        if ($this->VerificarAsistenciaRango($datosAfectado) !== false) {
+        }
+    }
+
+    private function VerificarAsistenciaRango(array $datos): bool
+    {
+        $resultado = $this->objQuery->SELECT($this->estrucGeneral, $datos);
+
+        if (sizeof($resultado) !== 0 && $resultado !== false) {
+            return $resultado;
+        }
+        return false;
+    }
+
+    private function ObteneFechasAsistencia(array $datos)
+    {
     }
 
     private function ArmarEstructura()
     {
-        /// ESTRUCTURA DE VALIDACION ///
+        /// ESTRUCTURA DE DATOS ///
+
         $datosAsis = array("IDAsistenciaAlumnos");
         $condAsis = array("FechaAl>=:fchIn", "FechaAl<=:fchFn");
         $caracAsis = array("ALIAS" => "ASAL", "TABLA" => "asistenciasalumnos", "DESDE" => "si");
@@ -38,7 +48,11 @@ class Alertar
         $unionAlum = array("UNIR" => "asistenciasalumnos", "CON" => "IDAlumno");
         $caracAlum = array("ALIAS" => "ALM", "TABLA" => "alumnos");
 
-        $this->estrucVerif["asistenciasalumnos"] = array("CARAC" => $caracAsis, "DATOS" => $datosAsis, "COND" => $condAsis);
-        $this->estrucVerif["alumnos"] = array("CARAC" => $caracAlum, "COND" => $condAlum, "UNIR" => $unionAlum);
+        $this->estrucGeneral["asistenciasalumnos"] = array("CARAC" => $caracAsis, "DATOS" => $datosAsis, "COND" => $condAsis);
+        $this->estrucGeneral["alumnos"] = array("CARAC" => $caracAlum, "COND" => $condAlum, "UNIR" => $unionAlum);
+
+        
+
+        
     }
 }

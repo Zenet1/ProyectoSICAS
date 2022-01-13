@@ -8,7 +8,8 @@ $datos_entrada = (array)json_decode($json);
 
 alertarAfectados($datos_entrada, $DB_CONEXION);
 
-function alertarAfectados(array $datos_entrada, PDO $Conexion){
+function alertarAfectados(array $datos_entrada, PDO $Conexion)
+{
 
     $arraygruposID = array();
     $arrayClaveGrupo = array();
@@ -82,12 +83,13 @@ function alertarAfectados(array $datos_entrada, PDO $Conexion){
     flush();
 }
 
-function obtenerFechasAsistencia(string $fechaInicio, string $fechaFin, string $matricula, PDO $Conexion) : array{
+function obtenerFechasAsistencia(string $fechaInicio, string $fechaFin, string $matricula, PDO $Conexion): array
+{
 
     $sql_obtenerFechasAsistencia = "SELECT ASIS.FechaAl, ALM.IDAlumno FROM asistenciasalumnos AS ASIS 
     INNER JOIN alumnos AS ALM ON ALM.IDAlumno = ASIS.IDAlumno 
     WHERE ASIS.FechaAl >= ? AND ASIS.FechaAl <= ? AND ALM.Matricula = ?";
-    
+
     $obj_obtenerFechasAsistencia = $Conexion->prepare($sql_obtenerFechasAsistencia);
 
     $obj_obtenerFechasAsistencia->execute(array($fechaInicio, $fechaFin, $matricula));
@@ -97,10 +99,11 @@ function obtenerFechasAsistencia(string $fechaInicio, string $fechaFin, string $
     return $arrayFechasAsistidas;
 }
 
-function registrarIncidente(string $IDAlumno, string $fechaLimiteSuspension, PDO $Conexion){
+function registrarIncidente(string $IDAlumno, string $fechaLimiteSuspension, PDO $Conexion)
+{
 
     $fechaAlerta = date('Y-m-d');
-    if(validarIncidenteRegistrado($IDAlumno, $fechaAlerta, $fechaLimiteSuspension, true, $Conexion)){
+    if (validarIncidenteRegistrado($IDAlumno, $fechaAlerta, $fechaLimiteSuspension, true, $Conexion)) {
         $sql_registrarIncidente = "INSERT INTO incidentes (IDAlumno, FechaAl, FechaLimiteSuspension) SELECT ?, ?, ? FROM DUAL 
         WHERE NOT EXISTS (SELECT IDIncidente FROM incidentes WHERE IDAlumno = ? AND FechaAl = ? AND FechaLimiteSuspension = ?) LIMIT 1";
 
@@ -110,31 +113,32 @@ function registrarIncidente(string $IDAlumno, string $fechaLimiteSuspension, PDO
 
         validarIncidenteRegistrado($IDAlumno, $fechaAlerta, $fechaLimiteSuspension, false, $Conexion);
     }
-    
 }
 
-function validarIncidenteRegistrado(string $IDAlumno, string $fechaAlerta, string $fechaLimiteSuspension, bool $validarDuplicacion, PDO $Conexion) : bool{
-        
+function validarIncidenteRegistrado(string $IDAlumno, string $fechaAlerta, string $fechaLimiteSuspension, bool $validarDuplicacion, PDO $Conexion): bool
+{
+
     $sql_validarIncidente = "SELECT * FROM incidentes WHERE IDAlumno = ? AND FechaAl = ? AND FechaLimiteSuspension = ?";
 
     $obj_validarIncidente = $Conexion->prepare($sql_validarIncidente);
 
     $obj_validarIncidente->execute(array($IDAlumno, $fechaAlerta, $fechaLimiteSuspension));
-    
+
     $incidenteDevuelto = $obj_validarIncidente->fetchAll(PDO::FETCH_ASSOC);
 
     return validarCasos($incidenteDevuelto, $validarDuplicacion);
 }
 
-function validarCasos(array $incidenteDevuelto, bool $validarDuplicacion) : bool{
+function validarCasos(array $incidenteDevuelto, bool $validarDuplicacion): bool
+{
 
-    if($validarDuplicacion){
-        if(!validarVariable($incidenteDevuelto)){
+    if ($validarDuplicacion) {
+        if (!validarVariable($incidenteDevuelto)) {
             echo "ERROR: El incidente ingresado ya ha sido registrado con anterioridad";
             return false;
         }
-    }else{
-        if(validarVariable($incidenteDevuelto)){
+    } else {
+        if (validarVariable($incidenteDevuelto)) {
             echo "ERROR: El incidente no se ha podido registrar con éxito";
             return false;
         }
@@ -142,6 +146,7 @@ function validarCasos(array $incidenteDevuelto, bool $validarDuplicacion) : bool
     return true;
 }
 
-function validarVariable(array $variable) : bool{
+function validarVariable(array $variable): bool
+{
     return ($variable === false || sizeof($variable) === 0);
 }
