@@ -1,10 +1,10 @@
 <?php
 include_once("Servicios/Administrador/Actualizar/ActualizarPorcentaje.Servicio.php");
 include_once("Servicios/Administrador/Actualizar/ActualizarSalones.Servicio.php");
-include_once("Servicios/Administrador/Insertar/IncentarOficina.Servicio.php");
-include_once("Servicios/Administrador/Insertar/IncertarIncidente.Servicio.php");
+include_once("Servicios/Administrador/Insertar/InsertarOficina.Servicio.php");
+include_once("Servicios/Administrador/Insertar/InsertarIncidente.Servicio.php");
 include_once("Servicios/Administrador/Eliminar/EliminarBD.Servicio.php");
-include_once("Servicios/Administrador/Recuperar/RecuperarOficionas.Servicio.php");
+include_once("Servicios/Administrador/Recuperar/RecuperarOficinas.Servicio.php");
 include_once("Servicios/Administrador/Recuperar/RecuperarPlanes.Servicio.php");
 include_once("Servicios/Administrador/Recuperar/RecuperarPorcentaje.Servicio.php");
 include_once("Servicios/Administrador/Recuperar/RecuperarSalones.Servicio.php");
@@ -12,6 +12,9 @@ include_once("Servicios/Administrador/Respaldar/RespaldarBD.Servicio.php");
 include_once("Servicios/Administrador/Restaurar/RestaurarBD.Servicio.php");
 include_once("Servicios/Administrador/Alertar.Servicio.php");
 include_once("Servicios/Administrador/Estadisticas.Servicio.php");
+include_once("Servicios/Administrador/Edificio.Servicio.php");
+include_once("Servicios/Administrador/Oficina.Servicio.php");
+include_once("Servicios/Administrador/Pregunta.Servicio.php");
 include_once("../Clases/Query.Class.php");
 
 $json = file_get_contents('php://input');
@@ -21,6 +24,9 @@ $PorcentajeControl = new Porcentaje(new Query());
 $SalonesControl = new Salones(new Query());
 $BDControl = new ControlBD(new Query());
 $AlertasControl = new Alertar(new Query());
+$EdificioControl = new Edificio();
+$OficinaControl = new Oficina();
+$PreguntaControl =new Pregunta();
 
 $AlertasControl->Alertar((array)$datos);
 
