@@ -5,6 +5,7 @@ $json = file_get_contents('php://input');
 $datos = (array)json_decode($json);
 
 $obj_insertarUsuario = $DB_CONEXION->prepare("INSERT INTO usuarios (Cuenta,Contraseña,IDRol) SELECT :ctn,?,? FROM DUAL WHERE NOT EXISTS (SELECT Cuenta FROM usuarios WHERE Cuenta = :ctn) LIMIT 1");
+
 $incognitas = array("ctn" => $datos["usuario"], $datos["contrasena"], $datos["rol"]);
 $obj_insertarUsuario->execute($incognitas);
 

@@ -33,13 +33,13 @@ switch ($datos->accion) {
         $PorcentajeCapacidad->RecuperarPorcentaje();
         break;
     case "actualizarPorcentaje":
-        $PorcentajeCapacidad->ActualizarPorcentaje(array($datos["porcentaje"], 1));
+        $PorcentajeCapacidad->ActualizarPorcentaje(array("pct" => $datos["porcentaje"]));
         break;
     case "recuperarSalones":
         $SalonesControl->ObtenerSalones();
         break;
     case "actualizarSalon":
-        $SalonesControl->ActualizarSalon(array($datos->salon->capacidad, $datos->salon->aula));
+        $SalonesControl->ActualizarSalon(array("cpd" => $datos->salon->capacidad, "ids" => $datos->salon->aula));
         break;
     case "respaldarSICAS":
         break;
