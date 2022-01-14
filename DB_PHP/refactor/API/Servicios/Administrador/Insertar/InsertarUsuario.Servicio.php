@@ -13,22 +13,10 @@ class InsertarUsuario
 
     public function InsertarNuevoTrabajador(array $datos)
     {
-        $datosInsertar = array();
+        $incognitas = array("ctn" => $datos["usuario"], "pss" => $datos["contrasena"], "idr" => $datos["rol"]);
+        $this->objQuery->ejecutarConsula($this->objQueries->INSERTusuarioQuery(), $incognitas);
+        $IDUsuario = $this->objQuery->ejecutarConsula($this->objQueries->SELECTIDusuarioQuery(), array("ctn" => $datos["usuario"]));
+        $datosTrabajador = array("idu" => $IDUsuario[0]["IDUsuario"], "nm" => $datos["nombre"], "app" => $datos["apellidoPaterno"], "apm" => $datos["apellidoMaterno"]);
+        $this->objQuery->ejecutarConsula($this->objQueries->INSERTTRABQuery($datos["rol"]), $datosTrabajador);
     }
-}
-
-$incognitas = array("ctn" => $datos["usuario"], $datos["contrasena"], $datos["rol"]);
-$obj_insertarUsuario->execute($incognitas);
-
-
-function Insertar(PDO $Conexion, array $datosAdmin, string $query)
-{
-    $obj_recuperarID = $Conexion->prepare("SELECT IDUsuario FROM usuarios WHERE Cuenta=?");
-    $obj_recuperarID->execute(array($datosAdmin["usuario"]));
-
-    $IDCuenta = $obj_recuperarID->fetch(PDO::FETCH_ASSOC);
-
-    $obj_registro = $Conexion->prepare($query);
-
-    $obj_registro->execute(array($IDCuenta["IDUsuario"], $datosAdmin["nombre"], $datosAdmin["apellidoPaterno"], $datosAdmin["apellidoMaterno"], $IDCuenta["IDUsuario"]));
 }

@@ -1,7 +1,7 @@
 <?php
 include_once("Servicios/Administrador/Actualizar/ActualizarPorcentaje.Servicio.php");
 include_once("Servicios/Administrador/Actualizar/ActualizarSalones.Servicio.php");
-include_once("Servicios/Administrador/Insertar/IncentarOficina.Servicio.php");
+include_once("Servicios/Administrador/Insertar/InsertarUsuario.Servicio.php");
 include_once("Servicios/Administrador/Insertar/IncertarIncidente.Servicio.php");
 include_once("Servicios/Administrador/Eliminar/EliminarBD.Servicio.php");
 include_once("Servicios/Administrador/Recuperar/RecuperarOficionas.Servicio.php");
@@ -24,9 +24,9 @@ $SalonesControl = new Salones(new Query());
 $BDControl = new ControlBD(new Query());
 $AlertasControl = new Alertar(new Query());
 $Fechas = Fechas::ObtenerInstancia();
+$NUsuarios = new InsertarUsuario(new Query());
 
-$BDControl->Restaurar(new ArchivoControl($Fechas), $Fechas);
-
+$NUsuarios->InsertarNuevoTrabajador((array) $datos);
 /*
 switch ($datos->accion) {
     case "recuperarPorcentaje":
