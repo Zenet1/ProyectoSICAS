@@ -6,7 +6,7 @@ import { FormGroup } from '@angular/forms';
   providedIn: 'root'
 })
 export class AdministradorService {
-  API_GestionBD:string = "/ProyectoSICAS/DB_PHP/BDControl.Service.php";
+  API_GestionBD:string = "/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php";
   API_Alerta:string = "/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php";
   API_Email:string = '/ProyectoSICAS/DB_PHP/Email.Service.php';
   API_ObtenerEdificios:string = "/ProyectoSICAS/DB_PHP/DevolverEdificios.Service.php";
@@ -99,7 +99,7 @@ export class AdministradorService {
     const formData = new FormData();
     formData.append('accion', 'respaldar');
     const someHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.clienteHttp.post<any>("/ProyectoSICAS/DB_PHP/Respaldar.Service.php", formData, {headers:someHeaders, responseType: 'blob' as 'json'});
+    return this.clienteHttp.post<any>("/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php", formData, {headers:someHeaders, responseType: 'blob' as 'json'});
   }
 
   obtenerProgramas(){

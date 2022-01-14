@@ -6,9 +6,16 @@ class ArchivoControl
 
     public function __construct(Fechas $fechaObj)
     {
-        $carpetaRaiz = "backups/";
-        self::$carpetaUnica = $carpetaRaiz . $fechaObj->FechaAct() . "_" . $fechaObj->HrAct();
+        $carpetaRaiz = "./backups/";
+        self::$carpetaUnica = $carpetaRaiz . $fechaObj->FechaAct() . "-" . $fechaObj->HrAct("i");
         mkdir(self::$carpetaUnica);
+    }
+
+    public function MoverArchivo(string $PATH): string
+    {
+        $direccion = $PATH . $_FILES["archivo"]["name"];
+        move_uploaded_file($_FILES["archivo"]["tmp_name"], $direccion);
+        return $direccion;
     }
 
     public function MoverArchivos(string $PATH, int $CANTARCHIVOS)
@@ -29,19 +36,14 @@ class ArchivoControl
         }
     }
 
-    public function TablaArchivo(String $NombreArchivo, string $extension, string $separador,  array $contenido)
+    public function descargarArchivos(String $NombreZip, string $PATH, string $extension)
     {
-        
-    }
-
-    public function descargarArchivos(String $NombreArchivo, string $PATH, string $extension)
-    {
-        $direccionZip = $PATH . $NombreArchivo;
+        $direccionZip = $PATH . $NombreZip . ".zip";
         $archivoZip = new ZipArchive();
         if ($archivoZip->open($direccionZip, ZipArchive::CREATE) === true) {
             foreach (scandir($PATH) as $archivo) {
                 $direccion = $PATH . $archivo;
-                if (is_file($PATH) && strpos($archivo, $extension) !== false) {
+                if (is_file($direccion) && strpos($archivo, $extension) !== false) {
                     $archivoZip->addFile($direccion);
                 }
             }
@@ -61,6 +63,6 @@ class ArchivoControl
 
     function __destruct()
     {
-        rmdir(self::$carpetaUnica . "/");
+        rmdir(self::$carpetaUnica);
     }
 }

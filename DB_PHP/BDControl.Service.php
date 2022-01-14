@@ -18,7 +18,7 @@ function eliminar(PDO $Conexion)
     $obj_borrarAsistenciasExternos = $Conexion->prepare("DELETE FROM asistenciasexternos");
     $obj_borrarReservasAlumnos = $Conexion->prepare("DELETE FROM reservacionesalumnos WHERE FechaAlumno < ?");
     $obj_borrarReservasExternos = $Conexion->prepare("DELETE FROM reservacionesexternos WHERE FechaExterno < ?");
-    $obj_borrarIncidentes = $Conexion->prepare("DELETE FROM incidentes WHERE FechaAl < ?");
+    $obj_borrarIncidentes = $Conexion->prepare("DELETE FROM incidentes WHERE FechaAl<?");
 
     $obj_borrarExternos->execute();
     $obj_borrarReservasAlumnos->execute(array(date("Y-m-d")));

@@ -13,6 +13,8 @@ include_once("Servicios/Administrador/Restaurar/RestaurarBD.Servicio.php");
 include_once("Servicios/Administrador/Alertar.Servicio.php");
 include_once("Servicios/Administrador/Estadisticas.Servicio.php");
 include_once("../Clases/Query.Class.php");
+include_once("../Clases/Fechas.Class.php");
+include_once("../Clases/ArchivosControl.Class.php");
 
 $json = file_get_contents('php://input');
 $datos = json_decode($json);
@@ -21,8 +23,9 @@ $PorcentajeControl = new Porcentaje(new Query());
 $SalonesControl = new Salones(new Query());
 $BDControl = new ControlBD(new Query());
 $AlertasControl = new Alertar(new Query());
+$Fechas = Fechas::ObtenerInstancia();
 
-$AlertasControl->Alertar((array)$datos);
+$BDControl->Restaurar(new ArchivoControl($Fechas), $Fechas);
 
 /*
 switch ($datos->accion) {
