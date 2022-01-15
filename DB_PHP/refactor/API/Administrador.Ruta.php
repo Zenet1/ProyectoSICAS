@@ -48,6 +48,7 @@ switch ($datos->accion) {
         $SalonesControl->ActualizarSalon(array("cpd" => $datos->contenido->capacidad, "ids" => $datos->contenido->aula));
         break;
     case "respaldarSICAS":
+        
         break;
     case "eliminarSICAS":
         break;
