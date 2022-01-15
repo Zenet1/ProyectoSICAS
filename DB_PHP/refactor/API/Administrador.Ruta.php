@@ -3,6 +3,7 @@ include_once("Servicios/Administrador/Actualizar/ActualizarPorcentaje.Servicio.p
 include_once("Servicios/Administrador/Actualizar/ActualizarSalones.Servicio.php");
 include_once("Servicios/Administrador/Insertar/InsertarOficina.Servicio.php");
 include_once("Servicios/Administrador/Insertar/InsertarIncidente.Servicio.php");
+include_once("Servicios/Administrador/Insertar/InsertarUsuario.Servicio.php");
 include_once("Servicios/Administrador/Eliminar/EliminarBD.Servicio.php");
 include_once("Servicios/Administrador/Recuperar/RecuperarOficinas.Servicio.php");
 include_once("Servicios/Administrador/Recuperar/RecuperarPlanes.Servicio.php");
@@ -30,22 +31,21 @@ $Fechas = Fechas::ObtenerInstancia();
 $NUsuarios = new InsertarUsuario(new Query());
 $EdificioControl = new Edificio();
 $OficinaControl = new Oficina();
-$PreguntaControl =new Pregunta();
-
-$NUsuarios->InsertarNuevoTrabajador((array) $datos);
+$PreguntaControl = new Pregunta(new Query());
 
 switch ($datos->accion) {
     case "recuperarPorcentaje":
-        $PorcentajeCapacidad->RecuperarPorcentaje();
+        $PorcentajeControl->RecuperarPorcentaje();
         break;
     case "actualizarPorcentaje":
-        $PorcentajeCapacidad->ActualizarPorcentaje(array("pct" => $datos["porcentaje"]));
+        $PorcentajeControl->ActualizarPorcentaje($datos->contenido->porcentaje);
         break;
     case "recuperarSalones":
         $SalonesControl->ObtenerSalones();
         break;
     case "actualizarSalon":
-        $SalonesControl->ActualizarSalon(array("cpd" => $datos->salon->capacidad, "ids" => $datos->salon->aula));
+        print_r($datos);
+        $SalonesControl->ActualizarSalon(array("cpd" => $datos->contenido->capacidad, "ids" => $datos->contenido->aula));
         break;
     case "respaldarSICAS":
         break;
@@ -57,15 +57,18 @@ switch ($datos->accion) {
         break;
     case "recuperarEstadisticaAlumno":
         break;
-    case "recuperarEstadistica":
+    case "recuperarEstadisticaPersonal":
         break;
     case "alertaCOVID":
         break;
     case "recuperarPreguntas":
+        $PreguntaControl->recuperarPreguntas();
         break;
     case "agregarPregunta":
+        $PreguntaControl->insertarPregunta($datos->contenido->pregunta);
         break;
     case "eliminarPregunta":
+        $PreguntaControl->eliminarPregunta($datos->contenido);
         break;
     case "":
         break;

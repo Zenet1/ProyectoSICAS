@@ -16,7 +16,7 @@ class Porcentaje
     public function RecuperarPorcentaje()
     {
         $porcentaje = $this->objQuery->ejecutarConsula($this->SELECTPorcentaje, array());
-        echo json_encode($porcentaje);
+        echo json_encode($porcentaje[0]["Porcentaje"]);
     }
 
     public function ActualizarPorcentaje(int $porcentaje)
