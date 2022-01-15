@@ -33,7 +33,7 @@ $OficinaControl = new Oficina();
 $PreguntaControl =new Pregunta();
 
 $NUsuarios->InsertarNuevoTrabajador((array) $datos);
-/*
+
 switch ($datos->accion) {
     case "recuperarPorcentaje":
         $PorcentajeCapacidad->RecuperarPorcentaje();
@@ -70,4 +70,3 @@ switch ($datos->accion) {
     case "":
         break;
 }
-*/
