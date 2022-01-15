@@ -23,4 +23,9 @@ class Salones
     {
         $this->objQuery->ejecutarConsula($this->UPDATESalon, $datosSalon);
     }
+
+    public function EliminarSalon(array $datosSalon)
+    {
+        
+    }
 }
