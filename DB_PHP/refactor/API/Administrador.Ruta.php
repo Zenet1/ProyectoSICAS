@@ -32,8 +32,6 @@ $EdificioControl = new Edificio();
 $OficinaControl = new Oficina();
 $PreguntaControl =new Pregunta();
 
-$NUsuarios->InsertarNuevoTrabajador((array) $datos);
-/*
 switch ($datos->accion) {
     case "recuperarPorcentaje":
         $PorcentajeCapacidad->RecuperarPorcentaje();
@@ -57,7 +55,7 @@ switch ($datos->accion) {
         break;
     case "recuperarEstadisticaAlumno":
         break;
-    case "recuperarEstadistica":
+    case "recuperarEstadisticaPersonal":
         break;
     case "alertaCOVID":
         break;
@@ -70,4 +68,3 @@ switch ($datos->accion) {
     case "":
         break;
 }
-*/

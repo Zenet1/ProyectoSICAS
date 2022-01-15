@@ -26,22 +26,26 @@ export class AdministradorService {
 
   constructor(private clienteHttp: HttpClient) { }
 
-  obtenerAfectados(datos:FormGroup){
+  obtenerAfectados(afectados:FormGroup){
+    let datos = JSON.stringify({afectados: afectados});
     return this.clienteHttp.post<any>(this.API_Alerta, datos);
   }
 
-  alertar(afectados:any){
-    return this.clienteHttp.post<any>(this.API_Email, afectados);
+  alertar(grupos:any, usuarios:any){
+    let datos = JSON.stringify({accion:"alertaCOVID", grupos: grupos, usuarios: usuarios});
+    return this.clienteHttp.post<any>(this.API_Email, datos);
   }
 
   obtenerCapacidadActual(){
-    let accion = JSON.stringify({accion: "recuperar"});
-    return this.clienteHttp.post<any>(this.API_Capacidad,accion);
-  }
-
-  guardarCapacidadFacultdad(datos:any){
+    let datos = JSON.stringify({accion: "recuperarPorcentaje"});
     return this.clienteHttp.post<any>(this.API_Capacidad, datos);
   }
+
+  guardarCapacidadFacultdad(datosCapacidad:FormGroup){
+    let datos = JSON.stringify({accion:"actualizarPorcentaje", capacidad: datosCapacidad});
+    return this.clienteHttp.post<any>(this.API_Capacidad, datos);
+  }
+
   subirBDSicei(datos:any){
     const formData = new FormData();
     let numArchivos:number = 0;
@@ -50,6 +54,7 @@ export class AdministradorService {
       formData.append('archivo' + [index], datos.archivos[index]);
     }
     formData.append('numArchivos', numArchivos + "");
+    formData.append('accion', 'restaurarSICEI');
     return this.clienteHttp.post<any>(this.API_BD_Sicei, formData);
   }
 
@@ -70,11 +75,11 @@ export class AdministradorService {
   }
 
   obtenerAulas(){
-    return this.clienteHttp.post<any>(this.API_Aulas, JSON.stringify({accion:"recuperar"}));
+    return this.clienteHttp.post<any>(this.API_Aulas, JSON.stringify({accion:"recuperarSalones"}));
   }
 
   guardarAula(datosAula:any){
-    let datos = JSON.stringify({accion:"actualizar",salon: datosAula})
+    let datos = JSON.stringify({accion:"actualizarSalon", salon: datosAula});
     return this.clienteHttp.post<any>(this.API_Aulas, datos);
   }
 
@@ -85,19 +90,18 @@ export class AdministradorService {
   restaurarBD(datos:FormGroup){
     const formData = new FormData();
     formData.append('archivo', datos.get('archivo').value);
-    formData.append('accion', 'restaurar');
+    formData.append('accion', 'restaurarSICAS');
     return this.clienteHttp.post<any>(this.API_GestionBD, formData);
   }
 
   eliminarBD(){
-    const formData = new FormData();
-    formData.append('accion', "eliminar");
-    return this.clienteHttp.post<any>(this.API_GestionBD, formData);
+    let datos = JSON.stringify({accion:"eliminarSICAS"});
+    return this.clienteHttp.post<any>(this.API_GestionBD, datos);
   }
 
   respaldarBD(){
     const formData = new FormData();
-    formData.append('accion', 'respaldar');
+    formData.append('accion', 'respaldarSICAS');
     const someHeaders = new HttpHeaders().set('Content-Type', 'application/json');
     return this.clienteHttp.post<any>("/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php", formData, {headers:someHeaders, responseType: 'blob' as 'json'});
   }
@@ -106,7 +110,8 @@ export class AdministradorService {
     return this.clienteHttp.get(this.API_Programas);
   }
 
-  obtenerEstadisticas(datos:any){
+  obtenerEstadisticas(filtros:any){
+    let datos = JSON.stringify({accion:"recuperarEstadisticaAlumno", filtros: filtros});
     return this.clienteHttp.post<any>(this.API_Estadisticas, datos);
   }
 
@@ -119,15 +124,17 @@ export class AdministradorService {
   }
 
   obtenerPreguntas(){
-    return this.clienteHttp.get(this.API_Preguntas);
+    let datos = JSON.stringify({accion:"recuperarPreguntas"});
+    return this.clienteHttp.post<any>(this.API_Preguntas, datos);
   }
 
-  guardarPreguntas(datos){
+  guardarPreguntas(pregunta:any){
+    let datos = JSON.stringify({accion:"agregarPregunta", pregunta:pregunta});
     return this.clienteHttp.post<any>(this.API_GuardarPregunta, datos);
   }
 
   eliminarPregunta(id:any){
-    return this.clienteHttp.post<any>(this.API_EliminarPregunta, id);
+    let datos = JSON.stringify({accion:"eliminarPregunta", id: id});
+    return this.clienteHttp.post<any>(this.API_EliminarPregunta, datos);
   }
-
 }

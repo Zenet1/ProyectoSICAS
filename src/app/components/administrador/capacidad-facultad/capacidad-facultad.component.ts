@@ -16,13 +16,11 @@ export class CapacidadFacultadComponent implements OnInit {
   ngOnInit(): void {
     this.formularioCapacidad = this.formBuilder.group({
       porcentaje:[""],
-      accion:[""]
     });
     this.obtenerCapacidadActual();
   }
 
   guardarCapacidad(){
-    this.formularioCapacidad.controls["accion"].setValue("actualizar");
     this.servicioAdmin.guardarCapacidadFacultdad(this.formularioCapacidad.value).subscribe(
       respuesta=>{
         this.capacidadActual = this.obtenerCapacidadActual();
