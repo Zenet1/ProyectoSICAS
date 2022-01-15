@@ -2,77 +2,60 @@
 
 class Pregunta
 {
-    private Conexion $conexion;
-    
-    public function __construct()
+    private Query $objQuery;
+
+    public function __construct(Query $objQuery)
     {
-        header('Access-Control-Allow-Origin: *'); 
-        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-        include_once('Conexion.Class.php');
-        $this->conexion = Conexion::ConexionInstacia();
+        $this->objQuery = $objQuery;
     }
 
     function recuperarPreguntas()
     {
         $sql_recuperarPreguntas = "SELECT * FROM preguntas";
-        $obj_recuperarPreguntas = $this->conexion->getConexion()->prepare($sql_verificar);
-        $obj_recuperarPreguntas->execute();
-        $preguntasRecuperadas = $obj_recuperarPreguntas->fetchAll(PDO::FETCH_ASSOC);
-
-        echo json_encode($preguntasRecuperadas);
+        $preguntas = $this->objQuery->ejecutarConsula($sql_recuperarPreguntas, array());
+        echo json_encode($preguntas);
     }
 
-    function eliminarPregunta(string $contenidoPregunta)
+    function eliminarPregunta(int $idPregunta)
     {
-        $sql_eliminarPregunta = "DELETE FROM preguntas WHERE IDPregunta = ?";
-        $obj_eliminarPregunta = $this->conexion->getConexion()->prepare($sql_eliminarPregunta);
-        $obj_eliminarPregunta->execute(array($contenidoPregunta));
+        $sql_eliminarPregunta = "DELETE FROM preguntas WHERE IDPregunta=:pgr;ALTER TABLE preguntas auto_increment = 1";
+        $this->objQuery->ejecutarConsula($sql_eliminarPregunta, array("pgr" => $idPregunta));
     }
 
-    public function insertarPregunta(string $contenidoPregunta)
+    public function insertarPregunta(string $pregunta)
     {
-        
-        if($this->validarPreguntaRegistrada($contenidoPregunta, true)){
-            $sql_registrarPregunta = "INSERT INTO preguntas (Pregunta) SELECT ? FROM DUAL
-            WHERE NOT EXISTS (SELECT Pregunta FROM preguntas WHERE Pregunta = ?) LIMIT 1";
-            $obj_registrarPregunta = $this->conexion->getConexion()->prepare($sql_registrarPregunta);
-            $obj_registrarPregunta->execute(array($contenidoPregunta, $contenidoPregunta));
-            
-            $this->validarPreguntaRegistrada($contenidoPregunta, false);
-        }
+        $sql_registrarPregunta = "INSERT INTO preguntas (IDpregunta, Pregunta) SELECT :idp,:pgr FROM DUAL WHERE NOT EXISTS (SELECT Pregunta FROM preguntas WHERE Pregunta=:pgr) LIMIT 1";
+        $this->objQuery->ejecutarConsula($sql_registrarPregunta, array("idp" => 0, "pgr" => $pregunta));
     }
-    
-    private function validarPreguntaRegistrada(string $contenidoPregunta, bool $validarDuplicacion) : bool
+
+    private function validarPreguntaRegistrada(string $contenidoPregunta, bool $validarDuplicacion): bool
     {
         $sql_validarPregunta = "SELECT * FROM preguntas WHERE Pregunta = ?";
         $obj_validarPregunta = $this->conexion->getConexion()->prepare($sql_validarPregunta);
         $obj_validarPregunta->execute(array($contenidoPregunta));
         $preguntaDevuelta = $obj_validarPregunta->fetchAll(PDO::FETCH_ASSOC);
-        
+
         return $this->validarCasos($preguntaDevuelta, $validarDuplicacion);
     }
 
-    private function validarCasos(array $preguntaDevuelta, bool $validarDuplicacion) : bool
+    private function validarCasos(array $preguntaDevuelta, bool $validarDuplicacion): bool
     {
-        if($validarDuplicacion){
-            if(!validarVariable($preguntaDevuelta)){
+        if ($validarDuplicacion) {
+            if (!validarVariable($preguntaDevuelta)) {
                 echo "ERROR: Pregunta duplicada";
                 return false;
             }
-        }else{
-            if(validarVariable($preguntaDevuelta)){
+        } else {
+            if (validarVariable($preguntaDevuelta)) {
                 echo "ERROR: La pregunta no se ha podido registrar con éxito";
                 return false;
             }
         }
         return true;
     }
-    
-    private function validarVariable(array $variable) : bool
+
+    private function validarVariable(array $variable): bool
     {
         return ($variable === false || sizeof($variable) === 0);
     }
 }
-
-    
-?>

@@ -1,14 +1,13 @@
 <?php
 class Edificio{
-
     private Conexion $conexion;
 
     public function __construct()
     {
         header('Access-Control-Allow-Origin: *'); 
         header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-        include_once('Conexion.Class.php');
-        $this->conexion = Conexion::ConexionInstacia();
+        //include_once('Conexion.Class.php');
+        //$this->conexion = Conexion::ConexionInstacia();
     }
 
     public function recuperarEdificios(){

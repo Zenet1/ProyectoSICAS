@@ -20,14 +20,14 @@ export class AdministradorService {
   API_Aulas:string = '/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php';
   API_Programas:string = "/ProyectoSICAS/DB_PHP/Programas.Service.php";
   API_Estadisticas:string = "/ProyectoSICAS/DB_PHP/Estadistica.Service.php";
-  API_Preguntas:string = '/ProyectoSICAS/DB_PHP/Preguntas.Servicio.php';
-  API_GuardarPregunta:string = '/ProyectoSICAS/DB_PHP/GuardarPreguntas.Service.php';
-  API_EliminarPregunta:string = '/ProyectoSICAS/DB_PHP/EliminarPreguntas.Service.php';
+  API_Preguntas:string = '/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php';
+  API_GuardarPregunta:string = '/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php';
+  API_EliminarPregunta:string = '/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php';
 
   constructor(private clienteHttp: HttpClient) { }
 
   obtenerAfectados(afectados:FormGroup){
-    let datos = JSON.stringify({afectados: afectados});
+    let datos = JSON.stringify({accion:"no ce aun", contenido: afectados});
     return this.clienteHttp.post<any>(this.API_Alerta, datos);
   }
 
@@ -42,7 +42,7 @@ export class AdministradorService {
   }
 
   guardarCapacidadFacultdad(datosCapacidad:FormGroup){
-    let datos = JSON.stringify({accion:"actualizarPorcentaje", capacidad: datosCapacidad});
+    let datos = JSON.stringify({accion:"actualizarPorcentaje", contenido: datosCapacidad});
     return this.clienteHttp.post<any>(this.API_Capacidad, datos);
   }
 
@@ -79,7 +79,7 @@ export class AdministradorService {
   }
 
   guardarAula(datosAula:any){
-    let datos = JSON.stringify({accion:"actualizarSalon", salon: datosAula});
+    let datos = JSON.stringify({accion:"actualizarSalon", contenido: datosAula});
     return this.clienteHttp.post<any>(this.API_Aulas, datos);
   }
 
@@ -129,12 +129,12 @@ export class AdministradorService {
   }
 
   guardarPreguntas(pregunta:any){
-    let datos = JSON.stringify({accion:"agregarPregunta", pregunta:pregunta});
+    let datos = JSON.stringify({accion:"agregarPregunta", contenido:pregunta});
     return this.clienteHttp.post<any>(this.API_GuardarPregunta, datos);
   }
 
   eliminarPregunta(id:any){
-    let datos = JSON.stringify({accion:"eliminarPregunta", id: id});
+    let datos = JSON.stringify({accion:"eliminarPregunta", contenido: id});
     return this.clienteHttp.post<any>(this.API_EliminarPregunta, datos);
   }
 }
