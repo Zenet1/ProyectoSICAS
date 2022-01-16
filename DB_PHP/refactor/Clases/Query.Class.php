@@ -10,7 +10,7 @@ class Query
         $this->conexion = Conexion::ConexionInstacia();
     }
 
-    public function ejecutarConsula(string $query, array $variables)
+    public function ejecutarConsulta(string $query, array $variables)
     {
         $objSelect = $this->conexion->getConexion()->prepare($query);
         $objSelect->execute($variables);
