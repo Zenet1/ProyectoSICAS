@@ -15,12 +15,12 @@ class Porcentaje
 
     public function RecuperarPorcentaje()
     {
-        $porcentaje = $this->objQuery->ejecutarConsula($this->SELECTPorcentaje, array());
+        $porcentaje = $this->objQuery->ejecutarConsulta($this->SELECTPorcentaje, array());
         echo json_encode($porcentaje[0]["Porcentaje"]);
     }
 
     public function ActualizarPorcentaje(array $porcentaje)
     {
-        $this->objQuery->ejecutarConsula($this->UPDATEPorcentaje, array("pct" => $porcentaje["porcentaje"]));
+        $this->objQuery->ejecutarConsulta($this->UPDATEPorcentaje, array("pct" => $porcentaje["porcentaje"]));
     }
 }

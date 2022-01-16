@@ -15,13 +15,13 @@ class Salones
 
     public function ObtenerSalones()
     {
-        $resultado = $this->objQuery->ejecutarConsula($this->SELECTSalon, array());
+        $resultado = $this->objQuery->ejecutarConsulta($this->SELECTSalon, array());
         echo json_encode($resultado);
     }
 
     public function ActualizarSalon(array $contenido)
     {
         $incognitas = array("cpd" => $contenido["capacidad"], "ids" => $contenido["aula"]);
-        $this->objQuery->ejecutarConsula($this->UPDATESalon, $incognitas);
+        $this->objQuery->ejecutarConsulta($this->UPDATESalon, $incognitas);
     }
 }

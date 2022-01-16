@@ -15,7 +15,7 @@ class ControlBD
     public function EliminarBD(Fechas $fecha)
     {
         foreach ($this->queries->ObtenerQueriesEliminar() as $QUERYELIMINAR) {
-            $this->objQuery->ejecutarConsula($QUERYELIMINAR, array("fch" => $fecha->FechaAct()));
+            $this->objQuery->ejecutarConsulta($QUERYELIMINAR, array("fch" => $fecha->FechaAct()));
         }
     }
 
@@ -33,8 +33,8 @@ class ControlBD
     private function RespaldarTablas(string $tabla, string $Query, array $variables = null)
     {
         $archivo = fopen(ArchivoControl::$carpetaUnica . "/" . $tabla . ".txt", "w");
-        $nombreColumnas = $this->objQuery->ejecutarConsula($this->queries->RecupColumQuery($tabla), array());
-        $datosTabla = $this->objQuery->ejecutarConsula($Query, $variables);
+        $nombreColumnas = $this->objQuery->ejecutarConsulta($this->queries->RecupColumQuery($tabla), array());
+        $datosTabla = $this->objQuery->ejecutarConsulta($Query, $variables);
 
         $indice_final = 0;
 
@@ -63,7 +63,7 @@ class ControlBD
             $lnExp = explode("|", $LINEA);
             $datos = $this->FormatearLinea($lnExp, $nombreSinExtension);
             $query = $this->queries->ObtenerQueryRestaurar($nombreSinExtension);
-            $this->objQuery->ejecutarConsula($query, $datos);
+            $this->objQuery->ejecutarConsulta($query, $datos);
         }
         $archivoControl->EliminarArchivos(ArchivoControl::$carpetaUnica ."/", ".txt");
     }
