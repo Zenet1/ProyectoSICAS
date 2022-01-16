@@ -1,4 +1,6 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 include_once("Servicios/Administrador/Actualizar/ActualizarPorcentaje.Servicio.php");
 include_once("Servicios/Administrador/Actualizar/ActualizarSalones.Servicio.php");
 include_once("Servicios/Administrador/Insertar/InsertarOficina.Servicio.php");
@@ -20,10 +22,6 @@ include_once("../Clases/Query.Class.php");
 include_once("../Clases/Fechas.Class.php");
 include_once("../Clases/ArchivosControl.Class.php");
 
-header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-include_once("../Clases/Query.Class.php");
-
 $json = file_get_contents('php://input');
 $datos = json_decode($json);
 
@@ -34,9 +32,9 @@ $BDControl = new ControlBD(new Query());
 $AlertasControl = new Alertar(new Query());
 $Fechas = Fechas::ObtenerInstancia();
 //$NUsuarios = new InsertarUsuario(new Query());
-$EdificioControl = new Edificio();
-$OficinaControl = new Oficina();
-$PreguntaControl = new Pregunta();
+$EdificioControl = new Edificio(new Query());
+$OficinaControl = new Oficina(new Query());
+$PreguntaControl = new Pregunta(new Query());
 
 switch ($datos->accion) {
     case "recuperarPorcentaje":
@@ -71,10 +69,10 @@ switch ($datos->accion) {
         $PreguntaControl->recuperarPreguntas();
         break;
     case "agregarPregunta":
-        $PreguntaControl->insertarPregunta($datos->pregunta->pregunta);
+        $PreguntaControl->insertarPregunta((array) $datos->contenido);
         break;
     case "eliminarPregunta":
-        $PreguntaControl->eliminarPregunta($datos->IDPregunta);
+        $PreguntaControl->eliminarPregunta($datos->contenido);
         break;
     case "recuperarEdificios":
         $EdificioControl->recuperarEdificios();

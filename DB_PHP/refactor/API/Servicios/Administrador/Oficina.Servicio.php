@@ -5,20 +5,21 @@ class Oficina
 
     public function __construct(Query $objQuery)
     {
+        $this->objQuery = $objQuery;
     }
 
     public function recuperarOficinas()
     {
         $sql_obtenerOficinas = "SELECT OFC.NombreOficina, OFC.Departamento, EDF.NombreEdificio, OFC.IDOficina FROM oficinas AS OFC INNER JOIN edificios AS EDF ON EDF.IDEdificio=OFC.IDEdificio";
 
-        $oficinasRecuperadas = $this->objQuery->ejecutarConsula($sql_obtenerOficinas, array());
+        $oficinasRecuperadas = $this->objQuery->ejecutarConsulta($sql_obtenerOficinas, array());
         echo json_encode($oficinasRecuperadas);
     }
 
     public function eliminarOficina($id)
     {
         $sql_eliminarOficina = "DELETE FROM oficinas WHERE IDOficina = ?";
-        $this->objQuery->ejecutarConsula($sql_eliminarOficina, array($id));
+        $this->objQuery->ejecutarConsulta($sql_eliminarOficina, array($id));
     }
     
     function insertarOficina($datosOficina)
@@ -28,20 +29,18 @@ class Oficina
         $edificioOficina = $datosOficina->edificio;
 
         $sql_recuperarIDEdificio = "SELECT IDEdificio FROM edificios WHERE NombreEdificio = ?";
-        $obj_recuperarIDEdificio =$this->conexion->getConexion()->prepare($sql_recuperarIDEdificio);
-        $obj_recuperarIDEdificio->execute(array($edificioOficina));
-        $IDEdificio = $obj_recuperarIDEdificio->fetch(PDO::FETCH_ASSOC);
+        $datosDevueltos = $this->objQuery->ejecutarConsulta($sql_recuperarIDEdificio, array($edificioOficina));
+        $IDEdificio = $datosDevueltos[0];
         
         if($this->validarOficinaRegistrada($nombreOficina, $departamentoOficina, $IDEdificio["IDEdificio"])){
             
             $sql_insertarOficina = "INSERT INTO oficinas (NombreOficina, Departamento, IDEdificio) SELECT ?, ?, ? FROM DUAL
             WHERE NOT EXISTS (SELECT NombreOficina, Departamento, IDEdificio FROM oficinas WHERE NombreOficina = ? AND Departamento = ? AND IDEdificio = ?) LIMIT 1";
 
-            $obj_insertarOficina = $this->conexion->getConexion()->prepare($sql_insertarOficina);
 
             if (isset($IDEdificio["IDEdificio"])) {
-                $incognitas = array($oficina["oficina"], $oficina["departamento"], $IDEdificio["IDEdificio"], $oficina["oficina"], $oficina["departamento"], $IDEdificio["IDEdificio"]);
-                $this->objQuery->ejecutarConsula($sql_insertarOficina, $incognitas);
+                $incognitas = array($nombreOficina, $departamentoOficina, $IDEdificio["IDEdificio"], $nombreOficina, $departamentoOficina, $IDEdificio["IDEdificio"]);
+                $this->objQuery->ejecutarConsulta($sql_insertarOficina, $incognitas);
             }
         }
     }
@@ -49,9 +48,8 @@ class Oficina
     function validarOficinaRegistrada(string $nombreOficina, string $departamento, string $IDEdificio): bool
     {
         $sql_validarOficina = "SELECT * FROM oficinas WHERE NombreOficina = ? AND Departamento = ? AND IDEdificio = ?";
-        $obj_validarOficina = $this->conexion->getConexion()->prepare($sql_validarOficina);
-        $obj_validarOficina->execute(array($nombreOficina, $departamento, $IDEdificio));
-        $oficinaDevuelta = $obj_validarOficina->fetchAll(PDO::FETCH_ASSOC);
+
+        $oficinaDevuelta = $this->objQuery->ejecutarConsulta($sql_validarOficina, array($nombreOficina, $departamento, $IDEdificio));
 
         if (!$this->validarVariable($oficinaDevuelta)) {
             echo "ERROR: Oficina duplicada";
