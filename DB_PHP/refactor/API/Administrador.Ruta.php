@@ -23,6 +23,8 @@ include_once("../Clases/ArchivosControl.Class.php");
 $json = file_get_contents('php://input');
 $datos = json_decode($json);
 
+print_r($datos);
+
 $PorcentajeControl = new Porcentaje(new Query());
 $SalonesControl = new Salones(new Query());
 $BDControl = new ControlBD(new Query());
@@ -44,11 +46,11 @@ switch ($datos->accion) {
         $SalonesControl->ObtenerSalones();
         break;
     case "actualizarSalon":
-        
+
         $SalonesControl->ActualizarSalon(array("cpd" => $datos->contenido->capacidad, "ids" => $datos->contenido->aula));
         break;
     case "respaldarSICAS":
-        
+
         break;
     case "eliminarSICAS":
         break;
@@ -70,6 +72,11 @@ switch ($datos->accion) {
         break;
     case "eliminarPregunta":
         $PreguntaControl->eliminarPregunta($datos->contenido);
+        break;
+    case "recuperarOficinas":
+        $OficinaControl->recuperarOficinas();
+        break;
+    case "":
         break;
     case "":
         break;

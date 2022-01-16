@@ -10,9 +10,9 @@ export class AdministradorService {
   API_Alerta:string = "/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php";
   API_Email:string = '/ProyectoSICAS/DB_PHP/Email.Service.php';
   API_ObtenerEdificios:string = "/ProyectoSICAS/DB_PHP/DevolverEdificios.Service.php";
-  API_ObtenerOficinas:string = "/ProyectoSICAS/DB_PHP/DevolverOficinas.Service.php";
-  API_RegistrarOficina:string = "/ProyectoSICAS/DB_PHP/RegistrarOficina.Service.php";
-  API_EliminarOficina:string = "/ProyectoSICAS/DB_PHP/EliminarOficina.Service.php";
+  API_ObtenerOficinas:string = "/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php";
+  API_RegistrarOficina:string = "/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php";
+  API_EliminarOficina:string = "/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php";
   API_Capacidad:string = '/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php';
   API_BD_Sicei:string = '/ProyectoSICAS/DB_PHP/SICEI.Service.php';
   API_Roles:string = "/ProyectoSICAS/DB_PHP/Roles.Service.php";
@@ -63,7 +63,8 @@ export class AdministradorService {
   }
 
   obtenerOficinas(){
-    return this.clienteHttp.get(this.API_ObtenerOficinas);
+    let datos : string = JSON.stringify({accion : "recuperarOficinas"});
+    return this.clienteHttp.post<any>(this.API_ObtenerOficinas, datos);
   }
 
   guardarOficina(datos:any){

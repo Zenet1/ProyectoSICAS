@@ -24,7 +24,6 @@ class Oficina
 
     function insertarOficina(array $oficina)
     {
-
         $sql_recuperarIDEdificio = "SELECT IDEdificio FROM edificios WHERE NombreEdificio = ?";
         $obj_recuperarIDEdificio = $this->conexion->getConexion()->prepare($sql_recuperarIDEdificio);
         $obj_recuperarIDEdificio->execute(array($oficina["edificio"]));
@@ -38,7 +37,8 @@ class Oficina
             $obj_insertarOficina = $this->conexion->getConexion()->prepare($sql_insertarOficina);
 
             if (isset($IDEdificio["IDEdificio"])) {
-                $obj_insertarOficina->execute(array($oficina["oficina"], $oficina["departamento"], $IDEdificio["IDEdificio"], $oficina["oficina"], $oficina["departamento"], $IDEdificio["IDEdificio"]));
+                $incognitas = array($oficina["oficina"], $oficina["departamento"], $IDEdificio["IDEdificio"], $oficina["oficina"], $oficina["departamento"], $IDEdificio["IDEdificio"]);
+                $this->objQuery->ejecutarConsula($sql_insertarOficina, $incognitas);
             }
         }
     }
