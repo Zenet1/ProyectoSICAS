@@ -5,7 +5,7 @@ include_once("Servicios/Administrador/Insertar/InsertarOficina.Servicio.php");
 include_once("Servicios/Administrador/Insertar/InsertarIncidente.Servicio.php");
 include_once("Servicios/Administrador/Insertar/InsertarUsuario.Servicio.php");
 include_once("Servicios/Administrador/Eliminar/EliminarBD.Servicio.php");
-include_once("Servicios/Administrador/Recuperar/RecuperarOficinas.Servicio.php");
+include_once("Servicios/Administrador/Recuperar/Roles.Servicio.php");
 include_once("Servicios/Administrador/Recuperar/RecuperarPlanes.Servicio.php");
 include_once("Servicios/Administrador/Recuperar/RecuperarPorcentaje.Servicio.php");
 include_once("Servicios/Administrador/Recuperar/RecuperarSalones.Servicio.php");
@@ -23,14 +23,11 @@ include_once("../Clases/ArchivosControl.Class.php");
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 include_once("../Clases/Query.Class.php");
-include_once("Servicios/Usuarios/AutenticarAlumno.Servicio.php");
-include_once("Servicios/Usuarios/AutenticarTrabajador.Servicio.php");
 
 $json = file_get_contents('php://input');
 $datos = json_decode($json);
 
-print_r($datos);
-
+$RolesControl = new Roles(new Query());
 $PorcentajeControl = new Porcentaje(new Query());
 $SalonesControl = new Salones(new Query());
 $BDControl = new ControlBD(new Query());
