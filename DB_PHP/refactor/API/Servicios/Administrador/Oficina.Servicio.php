@@ -18,7 +18,7 @@ class Oficina
 
     public function eliminarOficina(string $IDOficina)
     {
-        $sql_eliminarOficina = "DELETE FROM oficinas WHERE IDOficina = ?";
+        $sql_eliminarOficina = "DELETE FROM oficinas WHERE IDOficina=?";
         $this->objQuery->ejecutarConsulta($sql_eliminarOficina, array($IDOficina));
     }
     function insertarOficina($datosOficina)
@@ -27,15 +27,14 @@ class Oficina
         $departamentoOficina = $datosOficina->departamento;
         $edificioOficina = $datosOficina->edificio;
 
-        $sql_recuperarIDEdificio = "SELECT IDEdificio FROM edificios WHERE NombreEdificio = ?";
+        $sql_recuperarIDEdificio = "SELECT IDEdificio FROM edificios WHERE NombreEdificio=?";
         $datosDevueltos = $this->objQuery->ejecutarConsulta($sql_recuperarIDEdificio, array($edificioOficina));
         $IDEdificio = $datosDevueltos[0];
         
         if($this->validarOficinaRegistrada($nombreOficina, $departamentoOficina, $IDEdificio["IDEdificio"])){
             
-            $sql_insertarOficina = "INSERT INTO oficinas (NombreOficina, Departamento, IDEdificio) SELECT ?, ?, ? FROM DUAL
-            WHERE NOT EXISTS (SELECT NombreOficina, Departamento, IDEdificio FROM oficinas WHERE NombreOficina = ? AND Departamento = ? AND IDEdificio = ?) LIMIT 1";
-
+            $sql_insertarOficina = "INSERT INTO oficinas (NombreOficina, Departamento, IDEdificio) SELECT ?,?,? FROM DUAL
+            WHERE NOT EXISTS (SELECT NombreOficina, Departamento, IDEdificio FROM oficinas WHERE NombreOficina=? AND Departamento=? AND IDEdificio=?) LIMIT 1";
 
             if (isset($IDEdificio["IDEdificio"])) {
                 $incognitas = array($nombreOficina, $departamentoOficina, $IDEdificio["IDEdificio"], $nombreOficina, $departamentoOficina, $IDEdificio["IDEdificio"]);
@@ -46,7 +45,7 @@ class Oficina
 
     function validarOficinaRegistrada(string $nombreOficina, string $departamento, string $IDEdificio): bool
     {
-        $sql_validarOficina = "SELECT * FROM oficinas WHERE NombreOficina = ? AND Departamento = ? AND IDEdificio = ?";
+        $sql_validarOficina = "SELECT * FROM oficinas WHERE NombreOficina=? AND Departamento=? AND IDEdificio=?";
 
         $oficinaDevuelta = $this->objQuery->ejecutarConsulta($sql_validarOficina, array($nombreOficina, $departamento, $IDEdificio));
 
