@@ -11,7 +11,6 @@ class Edificio{
 
     public function validarReservaNoExistente()
     {
-
         $Respuesta = "Aceptado";
         $sql_recuperarReservaciones = "SELECT RSV.IDCarga FROM reservacionesalumnos AS RSV 
         INNER JOIN cargaacademica AS CGAC ON RSV.IDCarga=CGAC.IDCarga 
