@@ -25,18 +25,7 @@ class Pregunta
     public function insertarPregunta(string $pregunta)
     {
         $sql_registrarPregunta = "INSERT INTO preguntas (IDpregunta, Pregunta) SELECT :idp,:pgr FROM DUAL WHERE NOT EXISTS (SELECT Pregunta FROM preguntas WHERE Pregunta=:pgr) LIMIT 1";
-        $sql_indices = "SELECT IDpregunta FROM preguntas";
-        $indices = $this->objQuery->ejecutarConsula($sql_indices, array());
         $this->objQuery->ejecutarConsula($sql_registrarPregunta, array("idp" => 0, "pgr" => $pregunta));
-    }
-
-    private function EncontrarIndiceAdecuado(array $indices)
-    {
-        $indiceMax = max($indices);
-
-        switch ($indiceMax) {
-
-        }
     }
 
     private function validarPreguntaRegistrada(string $contenidoPregunta, bool $validarDuplicacion): bool
