@@ -9,7 +9,7 @@ class Pregunta
         $this->objQuery = $objQuery;
     }
 
-    function recuperarPreguntas()
+    public function recuperarPreguntas()
     {
         $sql_recuperarPreguntas = "SELECT * FROM preguntas";
         $preguntas = $this->objQuery->ejecutarConsula($sql_recuperarPreguntas, array());
