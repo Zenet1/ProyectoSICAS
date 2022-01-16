@@ -8,11 +8,45 @@
             <div class="container-formulario">
                 <p class="text-center">Redacte la pregunta de forma que las respuestas sean "si" o "no"</p>
                 <form [formGroup]="formPregunta" (ngSubmit)="guardarPregunta()" ngNativeValidate>
+
+                    <div class="container-campo">
+                        <label class="form-label">Tipo de pregunta:</label>
+                        <div class="form-check">
+                            <input  id="tipo" class="form-check-input" type="radio" name="tipo" (change)="cambioTipo($event.target.value)" formControlName="tipo" value="primaria" required>
+                            <label class="form-check-label" for="tipo">Primaria</label>
+                        </div>
+                        <div class="form-check">
+                            <input id="incidentes" class="form-check-input" type="radio" name="tipo" (change)="cambioTipo($event.target.value)" formControlName="tipo" value="secundaria">
+                            <label class="form-check-label" for="incidentes">Secundaria</label>
+                        </div>
+                    </div>
                     
                     <div class="container-campo">
                         <label class="form-label" for="pregunta">Pregunta:</label>
                         <textarea id="pregunta" formControlName="pregunta" type="text" class="form-control" required></textarea>
                     </div>
+
+                    <div class="container-campo">
+                        <label class="form-label">Respuesta correcta:</label>
+                        <div class="form-check">
+                            <input  id="tipo" class="form-check-input" type="radio" name="respuesta" formControlName="respuesta" value="si" required>
+                            <label class="form-check-label" for="tipo">Si</label>
+                        </div>
+                        <div class="form-check">
+                            <input id="incidentes" class="form-check-input" type="radio" name="respuesta" formControlName="respuesta" value="no">
+                            <label class="form-check-label" for="incidentes">No</label>
+                        </div>
+                    </div>
+
+                    <div *ngIf="esSecundaria" class="container-campo">
+                        <label for="preguntaEnlace" class="form-label">Seleccioné la pregunta a la que se enlazará:</label>
+                        <select id="preguntaEnlace" class="form-select" formControlName="preguntaEnlace" required>
+                            <ng-container *ngFor="let pregunta of preguntas">
+                                <option [value]="pregunta.IDPregunta">{{pregunta.Pregunta}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+
                     <div class="container-btn">
                         <div class="btn-group">
                             <button type="submit" class="btn btn-success">Guardar</button>

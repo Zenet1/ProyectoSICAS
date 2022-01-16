@@ -10,12 +10,16 @@ import { AdministradorService } from 'src/app/services/administrador/administrad
 export class CapturaPreguntasComponent implements OnInit {
   formPregunta:FormGroup;
   preguntas:any;
+  esSecundaria:boolean = false;
 
   constructor(private servicioAdmin:AdministradorService, private formBuilder:FormBuilder) { }
 
   ngOnInit(): void {
     this.formPregunta = this.formBuilder.group({
-      pregunta:[""]
+      tipo:[""],
+      pregunta:[""],
+      respuesta:[""],
+      preguntaEnlace:[""]
     });
     this.obtenerPreguntas();
   }
@@ -26,6 +30,14 @@ export class CapturaPreguntasComponent implements OnInit {
         this.preguntas = respuesta;
       }
     );
+  }
+
+  cambioTipo(event){
+    if(event == "secundaria"){
+      this.esSecundaria = true;
+    } else {
+      this.esSecundaria = false;
+    }
   }
 
   guardarPregunta(){
