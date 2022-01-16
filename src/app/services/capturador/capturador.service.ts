@@ -6,11 +6,12 @@ import { Injectable } from '@angular/core';
 })
 export class CapturadorService {
 
-  API:string = "/ProyectoSICAS/DB_PHP/Escaner.Service.php";
+  API:string = "/ProyectoSICAS/DB_PHP/refactor/API/Escaneador.Ruta.php";
 
   constructor(private clienteHttp: HttpClient) { }
 
   verficar(escaneo:string){
-    return this.clienteHttp.post<any>(this.API, escaneo);
+    let datos = JSON.stringify({accion: "registrarAsistencia", contenido: escaneo});
+    return this.clienteHttp.post<any>(this.API, datos);
   }
 }
