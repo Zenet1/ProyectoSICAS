@@ -34,7 +34,7 @@ $BDControl = new ControlBD(new Query());
 $AlertasControl = new Alertar(new Query());
 $Fechas = Fechas::ObtenerInstancia();
 //$NUsuarios = new InsertarUsuario(new Query());
-$EdificioControl = new Edificio();
+$EdificioControl = new Edificio(new Query());
 $OficinaControl = new Oficina(new Query());
 $PreguntaControl = new Pregunta(new Query());
 
@@ -43,13 +43,13 @@ switch ($datos->accion) {
         $PorcentajeControl->RecuperarPorcentaje();
         break;
     case "actualizarPorcentaje":
-        $PorcentajeControl->ActualizarPorcentaje($datos->contenido->porcentaje);
+        $PorcentajeControl->ActualizarPorcentaje((array) $datos->contenido);
         break;
     case "recuperarSalones":
         $SalonesControl->ObtenerSalones();
         break;
     case "actualizarSalon":
-        $SalonesControl->ActualizarSalon(array("cpd" => $datos->contenido->capacidad, "ids" => $datos->contenido->aula));
+        $SalonesControl->ActualizarSalon((array)$datos->contenido);
         break;
     case "respaldarSICAS":
         break;
@@ -69,10 +69,10 @@ switch ($datos->accion) {
         $PreguntaControl->recuperarPreguntas();
         break;
     case "agregarPregunta":
-        $PreguntaControl->insertarPregunta($datos->pregunta->pregunta);
+        $PreguntaControl->insertarPregunta((array)$datos->cotenido);
         break;
     case "eliminarPregunta":
-        $PreguntaControl->eliminarPregunta($datos->IDPregunta);
+        $PreguntaControl->eliminarPregunta((array)$datos->cotenido);
         break;
     case "recuperarEdificios":
         $EdificioControl->recuperarEdificios();
@@ -83,10 +83,10 @@ switch ($datos->accion) {
     case "recuperarRoles":
         $RolesControl->RecuperarRoles();
     case "eliminarOficina":
-        $OficinaControl->eliminarOficina($datos->IDOficina);
+        $OficinaControl->eliminarOficina((array)$datos->cotenido);
         break;
     case "agregarOficina":
-        $OficinaControl->insertarOficina($datos->datosOficina);
+        //$OficinaControl->insertarOficina($datos->cotenido);
     case "":
         break;
 }

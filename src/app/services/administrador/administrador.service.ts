@@ -115,12 +115,8 @@ export class AdministradorService {
   }
 
   obtenerRoles(){
-<<<<<<< HEAD
     let datos = JSON.stringify({accion:"recuperarRoles"});
     return this.clienteHttp.post<any>(this.API_Roles, datos);
-=======
-    return this.clienteHttp.get(this.API);
->>>>>>> fixRefactor
   }
 
   registrarUsuario(datos:any){

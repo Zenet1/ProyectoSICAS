@@ -15,12 +15,13 @@ class Oficina
         echo json_encode($oficinasRecuperadas);
     }
 
-    public function eliminarOficina($id)
-    {
+    public function eliminarOficina(array $contenido)
+    {  
+        print_r($contenido);
         $sql_eliminarOficina = "DELETE FROM oficinas WHERE IDOficina = ?";
-        $this->objQuery->ejecutarConsula($sql_eliminarOficina, array($id));
+        $this->objQuery->ejecutarConsula($sql_eliminarOficina, array($contenido[""]));
     }
-    
+ /*   
     function insertarOficina($datosOficina)
     {
         $nombreOficina = $datosOficina->oficina;
@@ -64,4 +65,5 @@ class Oficina
     {
         return ($variable === false || sizeof($variable) === 0);
     }
+    */
 }

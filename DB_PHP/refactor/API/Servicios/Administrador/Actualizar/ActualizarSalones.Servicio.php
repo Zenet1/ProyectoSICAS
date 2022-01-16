@@ -19,13 +19,9 @@ class Salones
         echo json_encode($resultado);
     }
 
-    public function ActualizarSalon(array $datosSalon)
+    public function ActualizarSalon(array $contenido)
     {
-        $this->objQuery->ejecutarConsula($this->UPDATESalon, $datosSalon);
-    }
-
-    public function EliminarSalon(array $datosSalon)
-    {
-        
+        $incognitas = array("cpd" => $contenido["capacidad"], "ids" => $contenido["aula"]);
+        $this->objQuery->ejecutarConsula($this->UPDATESalon, $incognitas);
     }
 }

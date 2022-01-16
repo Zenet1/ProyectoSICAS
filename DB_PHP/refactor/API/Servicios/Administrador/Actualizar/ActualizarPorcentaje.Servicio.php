@@ -19,8 +19,8 @@ class Porcentaje
         echo json_encode($porcentaje[0]["Porcentaje"]);
     }
 
-    public function ActualizarPorcentaje(int $porcentaje)
+    public function ActualizarPorcentaje(array $porcentaje)
     {
-        $this->objQuery->ejecutarConsula($this->UPDATEPorcentaje, array("pct" => $porcentaje));
+        $this->objQuery->ejecutarConsula($this->UPDATEPorcentaje, array("pct" => $porcentaje["porcentaje"]));
     }
 }
