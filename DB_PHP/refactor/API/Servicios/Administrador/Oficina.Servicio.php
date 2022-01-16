@@ -16,11 +16,10 @@ class Oficina
         echo json_encode($oficinasRecuperadas);
     }
 
-    public function eliminarOficina(array $contenido)
-    {  
-        print_r($contenido);
+    public function eliminarOficina(string $IDOficina)
+    {
         $sql_eliminarOficina = "DELETE FROM oficinas WHERE IDOficina = ?";
-        $this->objQuery->ejecutarConsulta($sql_eliminarOficina, array($id));
+        $this->objQuery->ejecutarConsulta($sql_eliminarOficina, array($IDOficina));
     }
     function insertarOficina($datosOficina)
     {

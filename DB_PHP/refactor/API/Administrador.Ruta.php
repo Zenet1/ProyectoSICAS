@@ -81,10 +81,10 @@ switch ($datos->accion) {
     case "recuperarRoles":
         $RolesControl->RecuperarRoles();
     case "eliminarOficina":
-        $OficinaControl->eliminarOficina((array)$datos->contenido);
+        $OficinaControl->eliminarOficina($datos->IDOficina);
         break;
     case "agregarOficina":
-        //$OficinaControl->insertarOficina($datos->cotenido);
+        $OficinaControl->insertarOficina($datos->datosOficina);
     case "":
         break;
 }
