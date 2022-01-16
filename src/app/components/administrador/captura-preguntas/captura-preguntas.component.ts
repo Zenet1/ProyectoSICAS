@@ -41,6 +41,7 @@ export class CapturaPreguntasComponent implements OnInit {
   }
 
   guardarPregunta(){
+    console.log(this.formPregunta.value);
     this.servicioAdmin.guardarPreguntas(this.formPregunta.value).subscribe(
       respuesta=>{
         this.obtenerPreguntas();

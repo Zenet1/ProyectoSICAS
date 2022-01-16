@@ -12,12 +12,12 @@
                     <div class="container-campo">
                         <label class="form-label">Tipo de pregunta:</label>
                         <div class="form-check">
-                            <input  id="tipo" class="form-check-input" type="radio" name="tipo" (change)="cambioTipo($event.target.value)" formControlName="tipo" value="primaria" required>
-                            <label class="form-check-label" for="tipo">Primaria</label>
+                            <input  id="primaria" class="form-check-input" type="radio" name="tipo" (change)="cambioTipo($event.target.value)" formControlName="tipo" value="primaria" required>
+                            <label class="form-check-label" for="primaria">Primaria</label>
                         </div>
                         <div class="form-check">
-                            <input id="incidentes" class="form-check-input" type="radio" name="tipo" (change)="cambioTipo($event.target.value)" formControlName="tipo" value="secundaria">
-                            <label class="form-check-label" for="incidentes">Secundaria</label>
+                            <input id="secundaria" class="form-check-input" type="radio" name="tipo" (change)="cambioTipo($event.target.value)" formControlName="tipo" value="secundaria">
+                            <label class="form-check-label" for="secundaria">Secundaria</label>
                         </div>
                     </div>
                     
@@ -29,12 +29,12 @@
                     <div class="container-campo">
                         <label class="form-label">Respuesta correcta:</label>
                         <div class="form-check">
-                            <input  id="tipo" class="form-check-input" type="radio" name="respuesta" formControlName="respuesta" value="si" required>
-                            <label class="form-check-label" for="tipo">Si</label>
+                            <input  id="si" class="form-check-input" type="radio" name="respuesta" formControlName="respuesta" value="si" required>
+                            <label class="form-check-label" for="si">Si</label>
                         </div>
                         <div class="form-check">
-                            <input id="incidentes" class="form-check-input" type="radio" name="respuesta" formControlName="respuesta" value="no">
-                            <label class="form-check-label" for="incidentes">No</label>
+                            <input id="no" class="form-check-input" type="radio" name="respuesta" formControlName="respuesta" value="no">
+                            <label class="form-check-label" for="no">No</label>
                         </div>
                     </div>
 
