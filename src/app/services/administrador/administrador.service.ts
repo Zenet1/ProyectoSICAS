@@ -59,7 +59,8 @@ export class AdministradorService {
   }
 
   obtenerEdificios(){
-    return this.clienteHttp.get(this.API_ObtenerEdificios);
+    let datos : string = JSON.stringify({accion : "recuperarEdificios"});
+    return this.clienteHttp.post<any>(this.API_ObtenerEdificios, datos);
   }
 
   obtenerOficinas(){
@@ -67,7 +68,8 @@ export class AdministradorService {
     return this.clienteHttp.post<any>(this.API_ObtenerOficinas, datos);
   }
 
-  guardarOficina(datos:any){
+  guardarOficina(datosOficina:any){
+    let datos : string = JSON.stringify({accion : "recuperarOficinas", contenido:datosOficina});
     return this.clienteHttp.post<any>(this.API_RegistrarOficina, datos);
   }
 
