@@ -35,8 +35,8 @@ $AlertasControl = new Alertar(new Query());
 $Fechas = Fechas::ObtenerInstancia();
 //$NUsuarios = new InsertarUsuario(new Query());
 $EdificioControl = new Edificio();
-$OficinaControl = new Oficina();
-$PreguntaControl = new Pregunta();
+$OficinaControl = new Oficina(new Query());
+$PreguntaControl = new Pregunta(new Query());
 
 switch ($datos->accion) {
     case "recuperarPorcentaje":
