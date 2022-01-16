@@ -19,7 +19,7 @@ class Pregunta
     function eliminarPregunta(array $contenido)
     {
         $sql_eliminarPregunta = "DELETE FROM preguntas WHERE IDPregunta=:pgr or Enlace=:pgr";
-        $this->objQuery->ejecutarConsula($sql_eliminarPregunta, array("pgr" => $contenido["IDPregunta"]));
+        $this->objQuery->ejecutarConsula($sql_eliminarPregunta, array("pgr" => $contenido[0]));
     }
 
     public function insertarPregunta(array $contenido)

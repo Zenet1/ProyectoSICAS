@@ -69,10 +69,10 @@ switch ($datos->accion) {
         $PreguntaControl->recuperarPreguntas();
         break;
     case "agregarPregunta":
-        $PreguntaControl->insertarPregunta((array)$datos->cotenido);
+        $PreguntaControl->insertarPregunta((array)$datos->contenido);
         break;
     case "eliminarPregunta":
-        $PreguntaControl->eliminarPregunta((array)$datos->cotenido);
+        $PreguntaControl->eliminarPregunta((array)$datos->contenido);
         break;
     case "recuperarEdificios":
         $EdificioControl->recuperarEdificios();
@@ -83,7 +83,7 @@ switch ($datos->accion) {
     case "recuperarRoles":
         $RolesControl->RecuperarRoles();
     case "eliminarOficina":
-        $OficinaControl->eliminarOficina((array)$datos->cotenido);
+        $OficinaControl->eliminarOficina((array)$datos->contenido);
         break;
     case "agregarOficina":
         //$OficinaControl->insertarOficina($datos->cotenido);
