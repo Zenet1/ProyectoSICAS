@@ -29,8 +29,8 @@ $BDControl = new ControlBD(new Query());
 $AlertasControl = new Alertar(new Query());
 $Fechas = Fechas::ObtenerInstancia();
 $NUsuarios = new InsertarUsuario(new Query());
-$EdificioControl = new Edificio();
-$OficinaControl = new Oficina();
+$EdificioControl = new Edificio(new Query());
+$OficinaControl = new Oficina(new Query());
 $PreguntaControl = new Pregunta(new Query());
 
 switch ($datos->accion) {
@@ -44,7 +44,7 @@ switch ($datos->accion) {
         $SalonesControl->ObtenerSalones();
         break;
     case "actualizarSalon":
-        print_r($datos);
+        
         $SalonesControl->ActualizarSalon(array("cpd" => $datos->contenido->capacidad, "ids" => $datos->contenido->aula));
         break;
     case "respaldarSICAS":
@@ -66,7 +66,7 @@ switch ($datos->accion) {
         $PreguntaControl->recuperarPreguntas();
         break;
     case "agregarPregunta":
-        $PreguntaControl->insertarPregunta($datos->contenido->pregunta);
+        $PreguntaControl->insertarPregunta((array) $datos->contenido);
         break;
     case "eliminarPregunta":
         $PreguntaControl->eliminarPregunta($datos->contenido);

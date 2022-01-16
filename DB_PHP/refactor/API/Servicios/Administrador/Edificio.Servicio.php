@@ -1,23 +1,15 @@
 <?php
 class Edificio{
-    private Conexion $conexion;
+    private Query $objQuery;
 
-    public function __construct()
+    public function __construct(Query $objQuery)
     {
-        header('Access-Control-Allow-Origin: *'); 
-        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-        //include_once('Conexion.Class.php');
-        //$this->conexion = Conexion::ConexionInstacia();
+        $this->objQuery = $objQuery;
     }
 
     public function recuperarEdificios(){
         $sql_obtenerEdificios = "SELECT NombreEdificio FROM edificios ORDER BY NombreEdificio";
-        $obj_obtenerEdificios = $this->conexion->getConexion()->prepare($sql_obtenerEdificios);
-        $obj_obtenerEdificios->execute();
-        $edificiosRecuperados = $obj_obtenerEdificios->fetchAll(PDO::FETCH_ASSOC);
-
+        $edificiosRecuperados = $this->objQuery->ejecutarConsula($sql_obtenerEdificios, array());
         echo json_encode($edificiosRecuperados);
     }
 }
-
-?>
