@@ -10,10 +10,10 @@ export class AdministradorService {
   API_Alerta:string = "/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php";
   API_Email:string = '/ProyectoSICAS/DB_PHP/Email.Service.php';
   API_ObtenerEdificios:string = "/ProyectoSICAS/DB_PHP/DevolverEdificios.Service.php";
-  API_ObtenerOficinas:string = "/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php";
-  API_RegistrarOficina:string = "/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php";
-  API_EliminarOficina:string = "/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php";
-  API_Capacidad:string = '/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php';
+  API_ObtenerOficinas:string = "/ProyectoSICAS/DB_PHP/DevolverOficinas.Service.php";
+  API_RegistrarOficina:string = "/ProyectoSICAS/DB_PHP/RegistrarOficina.Service.php";
+  API_EliminarOficina:string = "/ProyectoSICAS/DB_PHP/EliminarOficina.Service.php";
+  API:string = '/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php';
   API_BD_Sicei:string = '/ProyectoSICAS/DB_PHP/SICEI.Service.php';
   API_Roles:string = "/ProyectoSICAS/DB_PHP/Roles.Service.php";
   API_RegistrarUsuario:string = "/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php";
@@ -28,22 +28,22 @@ export class AdministradorService {
 
   obtenerAfectados(afectados:FormGroup){
     let datos = JSON.stringify({accion:"no ce aun", contenido: afectados});
-    return this.clienteHttp.post<any>(this.API_Alerta, datos);
+    return this.clienteHttp.post<any>(this.API, datos);
   }
 
   alertar(grupos:any, usuarios:any){
     let datos = JSON.stringify({accion:"alertaCOVID", grupos: grupos, usuarios: usuarios});
-    return this.clienteHttp.post<any>(this.API_Email, datos);
+    return this.clienteHttp.post<any>(this.API, datos);
   }
 
   obtenerCapacidadActual(){
     let datos = JSON.stringify({accion: "recuperarPorcentaje"});
-    return this.clienteHttp.post<any>(this.API_Capacidad, datos);
+    return this.clienteHttp.post<any>(this.API, datos);
   }
 
   guardarCapacidadFacultdad(datosCapacidad:FormGroup){
     let datos = JSON.stringify({accion:"actualizarPorcentaje", contenido: datosCapacidad});
-    return this.clienteHttp.post<any>(this.API_Capacidad, datos);
+    return this.clienteHttp.post<any>(this.API, datos);
   }
 
   subirBDSicei(datos:any){
@@ -54,76 +54,72 @@ export class AdministradorService {
       formData.append('archivo' + [index], datos.archivos[index]);
     }
     formData.append('numArchivos', numArchivos + "");
-    formData.append('accion', 'restaurarSICEI');
-    return this.clienteHttp.post<any>(this.API_BD_Sicei, formData);
+    return this.clienteHttp.post<any>(this.API, formData);
   }
 
   obtenerEdificios(){
-    let datos : string = JSON.stringify({accion : "recuperarEdificios"});
-    return this.clienteHttp.post<any>(this.API_ObtenerEdificios, datos);
+    return this.clienteHttp.post(this.API, JSON.stringify({accion: "recuperarEdificios"}));
   }
 
   obtenerOficinas(){
-    let datos : string = JSON.stringify({accion : "recuperarOficinas"});
-    return this.clienteHttp.post<any>(this.API_ObtenerOficinas, datos);
+    return this.clienteHttp.post(this.API, JSON.stringify({accion: "recuperarOficinas"}));
   }
 
-  guardarOficina(datosOficina:any){
-    let datos : string = JSON.stringify({accion : "recuperarOficinas", contenido:datosOficina});
-    return this.clienteHttp.post<any>(this.API_RegistrarOficina, datos);
+  guardarOficina(datos:any){
+    return this.clienteHttp.post<any>(this.API, JSON.stringify({accion: "agregarOficina", datosOficina: datos}));
   }
 
-  eliminarOficina(id:any){
-    return this.clienteHttp.post<any>(this.API_EliminarOficina, id);
+  eliminarOficina(idOficina:any){
+    return this.clienteHttp.post<any>(this.API, JSON.stringify({accion: "eliminarOficina", IDOficina: idOficina}));
   }
 
   obtenerAulas(){
-    return this.clienteHttp.post<any>(this.API_Aulas, JSON.stringify({accion:"recuperarSalones"}));
+    return this.clienteHttp.post<any>(this.API, JSON.stringify({accion:"recuperarSalones"}));
   }
 
   guardarAula(datosAula:any){
     let datos = JSON.stringify({accion:"actualizarSalon", contenido: datosAula});
-    return this.clienteHttp.post<any>(this.API_Aulas, datos);
+    return this.clienteHttp.post<any>(this.API, datos);
   }
 
   eliminarAula(id:any){
-    return this.clienteHttp.post<any>(this.API_Aulas, id);
+    return this.clienteHttp.post<any>(this.API, id);
   }
 
   restaurarBD(datos:FormGroup){
     const formData = new FormData();
     formData.append('archivo', datos.get('archivo').value);
     formData.append('accion', 'restaurarSICAS');
-    return this.clienteHttp.post<any>(this.API_GestionBD, formData);
+    return this.clienteHttp.post<any>(this.API, formData);
   }
 
   eliminarBD(){
     let datos = JSON.stringify({accion:"eliminarSICAS"});
-    return this.clienteHttp.post<any>(this.API_GestionBD, datos);
+    return this.clienteHttp.post<any>(this.API, datos);
   }
 
   respaldarBD(){
     const formData = new FormData();
     formData.append('accion', 'respaldarSICAS');
     const someHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.clienteHttp.post<any>("/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php", formData, {headers:someHeaders, responseType: 'blob' as 'json'});
+    return this.clienteHttp.post<any>(this.API, formData, {headers:someHeaders, responseType: 'blob' as 'json'});
   }
 
   obtenerProgramas(){
-    return this.clienteHttp.get(this.API_Programas);
+    return this.clienteHttp.get(this.API);
   }
 
   obtenerEstadisticas(filtros:any){
     let datos = JSON.stringify({accion:"recuperarEstadisticaAlumno", filtros: filtros});
-    return this.clienteHttp.post<any>(this.API_Estadisticas, datos);
+    return this.clienteHttp.post<any>(this.API, datos);
   }
 
   obtenerRoles(){
-    return this.clienteHttp.get(this.API_Roles);
+    return this.clienteHttp.get(this.API);
   }
 
   registrarUsuario(datos:any){
-    return this.clienteHttp.post<any>(this.API_RegistrarUsuario, datos);
+    return this.clienteHttp.post<any>(this.API, datos);
   }
 
   obtenerPreguntas(){

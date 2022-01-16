@@ -5,7 +5,6 @@ class Oficina
 
     public function __construct(Query $objQuery)
     {
-        $this->objQuery = $objQuery;
     }
 
     public function recuperarOficinas()
@@ -21,16 +20,20 @@ class Oficina
         $sql_eliminarOficina = "DELETE FROM oficinas WHERE IDOficina = ?";
         $this->objQuery->ejecutarConsula($sql_eliminarOficina, array($id));
     }
-
-    function insertarOficina(array $oficina)
+    
+    function insertarOficina($datosOficina)
     {
+        $nombreOficina = $datosOficina->oficina;
+        $departamentoOficina = $datosOficina->departamento;
+        $edificioOficina = $datosOficina->edificio;
+
         $sql_recuperarIDEdificio = "SELECT IDEdificio FROM edificios WHERE NombreEdificio = ?";
-        $obj_recuperarIDEdificio = $this->conexion->getConexion()->prepare($sql_recuperarIDEdificio);
-        $obj_recuperarIDEdificio->execute(array($oficina["edificio"]));
+        $obj_recuperarIDEdificio =$this->conexion->getConexion()->prepare($sql_recuperarIDEdificio);
+        $obj_recuperarIDEdificio->execute(array($edificioOficina));
         $IDEdificio = $obj_recuperarIDEdificio->fetch(PDO::FETCH_ASSOC);
-
-        if ($this->validarOficinaRegistrada($oficina["oficina"], $oficina["departamento"], $IDEdificio["IDEdificio"])) {
-
+        
+        if($this->validarOficinaRegistrada($nombreOficina, $departamentoOficina, $IDEdificio["IDEdificio"])){
+            
             $sql_insertarOficina = "INSERT INTO oficinas (NombreOficina, Departamento, IDEdificio) SELECT ?, ?, ? FROM DUAL
             WHERE NOT EXISTS (SELECT NombreOficina, Departamento, IDEdificio FROM oficinas WHERE NombreOficina = ? AND Departamento = ? AND IDEdificio = ?) LIMIT 1";
 

@@ -4,7 +4,8 @@ class Edificio{
 
     public function __construct(Query $objQuery)
     {
-        $this->objQuery = $objQuery;
+        include_once('../Clases/Conexion.Class.php');
+        $this->conexion = Conexion::ConexionInstacia();
     }
 
     public function recuperarEdificios(){

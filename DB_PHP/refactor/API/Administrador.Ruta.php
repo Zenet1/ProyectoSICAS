@@ -33,10 +33,10 @@ $SalonesControl = new Salones(new Query());
 $BDControl = new ControlBD(new Query());
 $AlertasControl = new Alertar(new Query());
 $Fechas = Fechas::ObtenerInstancia();
-$NUsuarios = new InsertarUsuario(new Query());
-$EdificioControl = new Edificio(new Query());
-$OficinaControl = new Oficina(new Query());
-$PreguntaControl = new Pregunta(new Query());
+//$NUsuarios = new InsertarUsuario(new Query());
+$EdificioControl = new Edificio();
+$OficinaControl = new Oficina();
+$PreguntaControl = new Pregunta();
 
 switch ($datos->accion) {
     case "recuperarPorcentaje":
@@ -71,16 +71,23 @@ switch ($datos->accion) {
         $PreguntaControl->recuperarPreguntas();
         break;
     case "agregarPregunta":
-        $PreguntaControl->insertarPregunta((array) $datos->contenido);
+        $PreguntaControl->insertarPregunta($datos->pregunta->pregunta);
         break;
     case "eliminarPregunta":
-        $PreguntaControl->eliminarPregunta($datos->contenido);
+        $PreguntaControl->eliminarPregunta($datos->IDPregunta);
+        break;
+    case "recuperarEdificios":
+        $EdificioControl->recuperarEdificios();
         break;
     case "recuperarOficinas":
         $OficinaControl->recuperarOficinas();
         break;
-    case "":
+    case "eliminarOficina":
+        $OficinaControl->eliminarOficina($datos->IDOficina);
         break;
+    case "agregarOficina":
+        $OficinaControl->insertarOficina($datos->datosOficina);
     case "":
+        
         break;
 }

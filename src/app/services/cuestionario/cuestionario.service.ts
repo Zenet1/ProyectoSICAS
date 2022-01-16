@@ -8,13 +8,13 @@ import { Observable } from 'rxjs';
 })
 export class CuestionarioService {
 
-  API: string = '/ProyectoSICAS/DB_PHP/Preguntas.Servicio.php';
+  API_Administrador:string = '/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php';
   API2: string = '/ProyectoSICAS/DB_PHP/Email.Service.php';
 
   constructor(private clienteHttp: HttpClient) { }
 
   obtenerPreguntas(){
-    return this.clienteHttp.get(this.API);
+    return this.clienteHttp.post(this.API_Administrador, JSON.stringify({accion: "recuperarPreguntas"}));
   }
 
   rechazado(datos:FormGroup):Observable<any>{
