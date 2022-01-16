@@ -49,11 +49,9 @@ switch ($datos->accion) {
         $SalonesControl->ObtenerSalones();
         break;
     case "actualizarSalon":
-
         $SalonesControl->ActualizarSalon(array("cpd" => $datos->contenido->capacidad, "ids" => $datos->contenido->aula));
         break;
     case "respaldarSICAS":
-
         break;
     case "eliminarSICAS":
         break;
@@ -79,7 +77,8 @@ switch ($datos->accion) {
     case "recuperarOficinas":
         $OficinaControl->recuperarOficinas();
         break;
-    case "":
+    case "recuperarRoles":
+        $RolesControl->RecuperarRoles();
         break;
     case "":
         break;

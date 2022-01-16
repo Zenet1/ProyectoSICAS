@@ -9,7 +9,7 @@ class Roles
         $this->objQuery = $objQuery;
     }
 
-    public function ObtenerRoles(){
+    public function RecuperarRoles(){
         $sql_SELECTRoles = "SELECT IDRol,Rol FROM roles WHERE IDRol > 1";
         $roles = $this->objQuery->ejecutarConsula($sql_SELECTRoles, array());
         echo json_encode($roles);
