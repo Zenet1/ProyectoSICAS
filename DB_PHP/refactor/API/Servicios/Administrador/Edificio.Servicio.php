@@ -5,9 +5,7 @@ class Edificio{
 
     public function __construct()
     {
-        header('Access-Control-Allow-Origin: *'); 
-        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-        include_once('Conexion.Class.php');
+        include_once('../Clases/Conexion.Class.php');
         $this->conexion = Conexion::ConexionInstacia();
     }
 

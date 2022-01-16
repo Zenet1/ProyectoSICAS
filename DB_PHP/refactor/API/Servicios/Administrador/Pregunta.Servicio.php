@@ -6,32 +6,28 @@ class Pregunta
     
     public function __construct()
     {
-        header('Access-Control-Allow-Origin: *'); 
-        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-        include_once('Conexion.Class.php');
+        include_once('../Clases/Conexion.Class.php');
         $this->conexion = Conexion::ConexionInstacia();
     }
 
-    function recuperarPreguntas()
+    public function recuperarPreguntas()
     {
         $sql_recuperarPreguntas = "SELECT * FROM preguntas";
-        $obj_recuperarPreguntas = $this->conexion->getConexion()->prepare($sql_verificar);
+        $obj_recuperarPreguntas = $this->conexion->getConexion()->prepare($sql_recuperarPreguntas);
         $obj_recuperarPreguntas->execute();
         $preguntasRecuperadas = $obj_recuperarPreguntas->fetchAll(PDO::FETCH_ASSOC);
 
         echo json_encode($preguntasRecuperadas);
     }
 
-    function eliminarPregunta(string $contenidoPregunta)
+    public function eliminarPregunta(string $contenidoPregunta)
     {
         $sql_eliminarPregunta = "DELETE FROM preguntas WHERE IDPregunta = ?";
         $obj_eliminarPregunta = $this->conexion->getConexion()->prepare($sql_eliminarPregunta);
         $obj_eliminarPregunta->execute(array($contenidoPregunta));
     }
 
-    public function insertarPregunta(string $contenidoPregunta)
-    {
-        
+    public function insertarPregunta(string $contenidoPregunta){
         if($this->validarPreguntaRegistrada($contenidoPregunta, true)){
             $sql_registrarPregunta = "INSERT INTO preguntas (Pregunta) SELECT ? FROM DUAL
             WHERE NOT EXISTS (SELECT Pregunta FROM preguntas WHERE Pregunta = ?) LIMIT 1";
@@ -68,7 +64,7 @@ class Pregunta
         return true;
     }
     
-    private function validarVariable(array $variable) : bool
+    private function validarVariable($variable)
     {
         return ($variable === false || sizeof($variable) === 0);
     }

@@ -5,9 +5,7 @@ class Oficina
 
     public function __construct()
     {
-        header('Access-Control-Allow-Origin: *'); 
-        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-        include_once('Conexion.Class.php');
+        include_once('../Clases/Conexion.Class.php');
         $this->conexion = Conexion::ConexionInstacia();
     }
 
@@ -32,15 +30,18 @@ class Oficina
         $obj_eliminarOficina->execute(array($id));
     }
     
-    function insertarOficina(array $oficina)
+    function insertarOficina($datosOficina)
     {
+        $nombreOficina = $datosOficina->oficina;
+        $departamentoOficina = $datosOficina->departamento;
+        $edificioOficina = $datosOficina->edificio;
 
         $sql_recuperarIDEdificio = "SELECT IDEdificio FROM edificios WHERE NombreEdificio = ?";
         $obj_recuperarIDEdificio =$this->conexion->getConexion()->prepare($sql_recuperarIDEdificio);
-        $obj_recuperarIDEdificio->execute(array($oficina["edificio"]));
+        $obj_recuperarIDEdificio->execute(array($edificioOficina));
         $IDEdificio = $obj_recuperarIDEdificio->fetch(PDO::FETCH_ASSOC);
         
-        if($this->validarOficinaRegistrada($oficina["oficina"], $oficina["departamento"], $IDEdificio["IDEdificio"])){
+        if($this->validarOficinaRegistrada($nombreOficina, $departamentoOficina, $IDEdificio["IDEdificio"])){
             
             $sql_insertarOficina = "INSERT INTO oficinas (NombreOficina, Departamento, IDEdificio) SELECT ?, ?, ? FROM DUAL
             WHERE NOT EXISTS (SELECT NombreOficina, Departamento, IDEdificio FROM oficinas WHERE NombreOficina = ? AND Departamento = ? AND IDEdificio = ?) LIMIT 1";
@@ -48,7 +49,7 @@ class Oficina
             $obj_insertarOficina = $this->conexion->getConexion()->prepare($sql_insertarOficina);
             
             if (isset($IDEdificio["IDEdificio"])) {
-                $obj_insertarOficina->execute(array($oficina["oficina"], $oficina["departamento"], $IDEdificio["IDEdificio"], $oficina["oficina"], $oficina["departamento"], $IDEdificio["IDEdificio"]));
+                $obj_insertarOficina->execute(array($nombreOficina, $departamentoOficina, $IDEdificio["IDEdificio"], $nombreOficina, $departamentoOficina, $IDEdificio["IDEdificio"]));
             }
         }
     }

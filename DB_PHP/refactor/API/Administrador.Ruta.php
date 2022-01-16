@@ -27,13 +27,11 @@ $SalonesControl = new Salones(new Query());
 $BDControl = new ControlBD(new Query());
 $AlertasControl = new Alertar(new Query());
 $Fechas = Fechas::ObtenerInstancia();
-$NUsuarios = new InsertarUsuario(new Query());
+//$NUsuarios = new InsertarUsuario(new Query());
 $EdificioControl = new Edificio();
 $OficinaControl = new Oficina();
-$PreguntaControl =new Pregunta();
+$PreguntaControl = new Pregunta();
 
-$NUsuarios->InsertarNuevoTrabajador((array) $datos);
-/*
 switch ($datos->accion) {
     case "recuperarPorcentaje":
         $PorcentajeCapacidad->RecuperarPorcentaje();
@@ -62,12 +60,26 @@ switch ($datos->accion) {
     case "alertaCOVID":
         break;
     case "recuperarPreguntas":
+        $PreguntaControl->recuperarPreguntas();
         break;
     case "agregarPregunta":
+        $PreguntaControl->insertarPregunta($datos->pregunta->pregunta);
         break;
     case "eliminarPregunta":
+        $PreguntaControl->eliminarPregunta($datos->IDPregunta);
         break;
+    case "recuperarEdificios":
+        $EdificioControl->recuperarEdificios();
+        break;
+    case "recuperarOficinas":
+        $OficinaControl->recuperarOficinas();
+        break;
+    case "eliminarOficina":
+        $OficinaControl->eliminarOficina($datos->IDOficina);
+        break;
+    case "agregarOficina":
+        $OficinaControl->insertarOficina($datos->datosOficina);
     case "":
+        
         break;
 }
-*/

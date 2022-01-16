@@ -8,11 +8,11 @@ import { Observable } from 'rxjs';
 })
 export class RegistroExternoService {
 
-  API: string = '/ProyectoSICAS/DB_PHP/RegistroExternos.Servicio.php';
+  API_Externo:string = '/ProyectoSICAS/DB_PHP/refactor/API/Externos.Ruta.php';
   
   constructor(private clienteHttp: HttpClient) {}
 
   guardarExterno(datos:FormGroup):Observable<any>{
-    return this.clienteHttp.post(this.API, datos);
+    return this.clienteHttp.post(this.API_Externo, JSON.stringify({accion: "registroExterno", datosExterno: datos}));
   }
 }
