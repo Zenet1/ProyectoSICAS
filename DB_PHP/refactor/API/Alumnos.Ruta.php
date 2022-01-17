@@ -14,8 +14,10 @@ switch ($datos->accion) {
     case "validacionReservasAlumno":
         $AlumnoControl->validarReservaNoExistente($datos);
         break;
-    case "obtenerClasesAlumno":
+    case "obtenerClases":
+        //print_r($contenido);
         $AlumnoControl->obtenerMateriasDisponibles();
+        break;
     case "insertarReservaAlumno":
         $AlumnoControl->insertarReservasAlumno($datos);
         break;

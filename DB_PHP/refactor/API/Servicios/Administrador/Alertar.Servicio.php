@@ -1,4 +1,6 @@
 <?php
+include_once("Alertar.Query.php");
+
 class Alertar
 {
     private Query $objQuery;
@@ -12,5 +14,8 @@ class Alertar
     {
     }
 
-    
+    private function ValidarAsistencia() : bool
+    {
+        
+    }
 }

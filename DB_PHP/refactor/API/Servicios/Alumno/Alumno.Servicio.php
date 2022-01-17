@@ -32,6 +32,9 @@ class Alumno{
     public function insertarReservasAlumno(){
         //
     }
-}
 
-?>
+    private function ValidarCupo(){
+        
+    }
+    
+}

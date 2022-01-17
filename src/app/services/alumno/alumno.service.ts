@@ -21,7 +21,7 @@ export class AlumnoService {
   }
 
   obtenerClases(){
-    let datos = JSON.stringify({accion: "obtenerClasesAlumno"})
+    let datos = JSON.stringify({accion: "obtenerClases"})
     return this.clienteHttp.post<any>(this.API_Alumnos, datos);
   }
 
