@@ -35,12 +35,7 @@ export class CuestionarioComponent implements OnInit {
           break;
         }
         case "Alumno":{
-          this.servicioCuestionario.obtenerPreguntas().subscribe(
-            respuesta=>{
-              this.preguntasBD=respuesta;
-              this.agregarCamposPreguntas();
-            }
-          );
+          this.obtenerPreguntas();
           break;
         }
       }
@@ -48,14 +43,18 @@ export class CuestionarioComponent implements OnInit {
       if(!this.servicioCookie.checkCookie("registroExterno")){
         this.router.navigateByUrl('login');
       } else {
-        this.servicioCuestionario.obtenerPreguntas().subscribe(
-          respuesta=>{
-            this.preguntasBD=respuesta;
-            this.agregarCamposPreguntas();
-          }
-        );
+        this.obtenerPreguntas();
       }
     }
+  }
+
+  obtenerPreguntas(){
+    this.servicioCuestionario.obtenerPreguntas().subscribe(
+      (respuesta:any[])=>{
+        this.preguntasBD = respuesta;
+        this.agregarCamposPreguntas();
+      }
+    );
   }
 
   agregarCamposPreguntas(){
@@ -63,44 +62,49 @@ export class CuestionarioComponent implements OnInit {
       const preguntaFormGroup = this.formBuilder.group({
         respuesta:['']
       });
-      this.preguntas.push(preguntaFormGroup);
+      this.preguntasForm.push(preguntaFormGroup);
     }
   }
 
-  get preguntas(){
+  get preguntasForm(){
     return this.cuestionario.get('preguntas') as FormArray;
+  }
+
+  eleccion($event){
+
   }
 
   enviar(){
     if (window.confirm("Si está seguro de sus respuestas, confirme para continuar")) {
       //recoleccion de respuestas
       let cantidadSi:number = 0;
-      for (let index = 0; index < this.preguntas.length; index++) {
-        if(this.preguntas.controls[index].get("respuesta").value  == 'si'){
+      for (let index = 0; index < this.preguntasForm.length; index++) {
+        if(this.preguntasForm.controls[index].get("respuesta").value  == 'si'){
           cantidadSi++; 
         }
       }
   
       if(cantidadSi > 0){
         this.cuestionario.controls["accion"].setValue("rechazado");
-        this.servicioCuestionario.rechazado(this.cuestionario.value).subscribe(
+        /*this.servicioCuestionario.rechazado(this.cuestionario.value).subscribe(
           respuesta=>{
             alert("De acuerdo a tus respuestas, no es posible que asistas a la facultad, se te ha notificado por correo electrónico");
-            this.router.navigateByUrl('login');
+            //this.router.navigateByUrl('login');
           }
         );
+        */
       } else {
         if(this.estaLogueado){
           switch(this.servicioLogin.getRol()){
             case "Alumno": {
               this.servicioCookie.setCookie("cuestionarioAlumno", "si");
-              this.router.navigateByUrl('asistencia-alumno');
+              //this.router.navigateByUrl('asistencia-alumno');
               break;
             }
           }
         } else {
           this.servicioCookie.setCookie("cuestionarioExterno", "si");
-          this.router.navigateByUrl('asistencia-externo');
+          //this.router.navigateByUrl('asistencia-externo');
         }
       }
     }

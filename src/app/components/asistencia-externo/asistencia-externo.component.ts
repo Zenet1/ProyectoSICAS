@@ -2,8 +2,8 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AsistenciaExternoService } from 'src/app/services/asistencia-externo/asistencia-externo.service';
 import { CookieService } from 'src/app/services/cookie/cookie.service';
+import { ExternoService } from 'src/app/services/externo/externo.service';
 
 @Component({
   selector: 'app-asistencia-externo',
@@ -14,7 +14,7 @@ export class AsistenciaExternoComponent implements OnInit {
   listaOficinas:any;
   formularioAsistenciaExterno:FormGroup;
 
-  constructor(private servicioAsistenciaExterno:AsistenciaExternoService, private servicioCookie:CookieService, private datepipe:DatePipe, private formBuilder:FormBuilder, private router:Router) { }
+  constructor(private servicioExterno:ExternoService, private servicioCookie:CookieService, private formBuilder:FormBuilder, private router:Router) { }
 
   ngOnInit(): void {
     if(!this.servicioCookie.checkCookie("cuestionarioExterno")){
@@ -30,7 +30,7 @@ export class AsistenciaExternoComponent implements OnInit {
   }
 
   obtenerOficinas(){
-    this.servicioAsistenciaExterno.obtenerOficinas().subscribe(
+    this.servicioExterno.obtenerOficinas().subscribe(
       respuesta=>{
         this.listaOficinas = respuesta;
         this.agregarCamposOficinas();
@@ -56,17 +56,16 @@ export class AsistenciaExternoComponent implements OnInit {
   }
 
   enviarAsistencia(){
-    let seleccionadas: Array<any> = [];
+    var oficinasSeleccionadas: Array<any> = [];
     for (let index = 0; index < this.oficinas.length; index++) {
       if(this.oficinas.controls[index].get("respuesta").value == true){
-        seleccionadas.push(this.listaOficinas[index]);
+        oficinasSeleccionadas.push(this.listaOficinas[index]);
       }
     }
 
-    if(seleccionadas.length > 0){
+    if(oficinasSeleccionadas.length > 0){
       if (window.confirm("Si está seguro que desea asistir, confirme para finalizar")){
-        let datos = JSON.stringify({seleccionadas: seleccionadas, fechaAsistencia: this.fechaAsistencia.value, accion: "aceptado"});
-        this.servicioAsistenciaExterno.enviarAsistencia(datos).subscribe(
+        this.servicioExterno.enviarAsistencia(oficinasSeleccionadas, this.fechaAsistencia.value).subscribe(
           respuesta=>{
             this.enviarQR();
           },
@@ -81,7 +80,7 @@ export class AsistenciaExternoComponent implements OnInit {
   }
 
   enviarQR(){
-    this.servicioAsistenciaExterno.enviarCorreo(JSON.stringify({accion:"EnviarQRExterno"})).subscribe(
+    this.servicioExterno.enviarCorreo().subscribe(
       respuesta=>{
         alert('Se ha enviado un código QR a tu correo, que deberás presentar para entrar a la facultad');
         this.router.navigateByUrl('login');
