@@ -16,7 +16,7 @@ class EstadisticaControl
     {
         $queryCompleta = $this->objEstic->ObtenerQuery($contenido["tipo"]);
         $queryCompleta .= $this->objEstic->ObtenerGenero($contenido["genero"]);
-        $queryCompleta .= $this->objEstic->ObtenerPlan($contenido["programa"]);
+        $queryCompleta .= $this->objEstic->ObtenerPlan($contenido["NombrePlan"]);
 
         try {
             $incognitas = array("fchIn" => $contenido["fechaInicio"], "fchFn" => $contenido["fechaFin"]);

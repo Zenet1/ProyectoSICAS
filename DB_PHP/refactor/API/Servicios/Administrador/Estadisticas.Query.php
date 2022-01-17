@@ -18,11 +18,11 @@ class EstadisticaQuery
     
     public function ObtenerGenero(string $genero): string
     {
-        return ($genero !== "todos" ? $this->genero . " $genero " : "");
+        return ($genero !== "todos" ? $this->genero . "'$genero' " : "");
     }
 
     public function ObtenerPlan(string $nombrePlan): string
     {
-        return ($nombrePlan !== "todos" ? $this->plan . " $nombrePlan " : "");
+        return ($nombrePlan !== "todos" ? $this->plan . "'$nombrePlan' " : "");
     }
 }
