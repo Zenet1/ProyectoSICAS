@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AsistenciaAlumnoService } from 'src/app/services/asistencia-alumno/asistencia-alumno.service';
+import { AlumnoService } from 'src/app/services/alumno/alumno.service';
 import { CookieService } from 'src/app/services/cookie/cookie.service';
 
 @Component({
@@ -13,13 +13,13 @@ export class AsistenciaAlumnoComponent implements OnInit {
   clases:any;
   formularioAsistenciaAlumno:FormGroup;
 
-  constructor(private servicioAsistenciaAlum:AsistenciaAlumnoService, private servicioCookie:CookieService, private formBuilder:FormBuilder, private router:Router) { }
+  constructor(private servicioAlumno:AlumnoService, private servicioCookie:CookieService, private formBuilder:FormBuilder, private router:Router) { }
 
   ngOnInit(): void {
     if(!this.servicioCookie.checkCookie("cuestionarioAlumno")){
       this.router.navigateByUrl('inicio-alumno');
     } else {
-      this.servicioAsistenciaAlum.combrobarReservacion().subscribe(
+      this.servicioAlumno.combrobarReservacion().subscribe(
         respuesta=>{
           if(respuesta == "Aceptado"){
             this.obtenerClases();
@@ -33,7 +33,7 @@ export class AsistenciaAlumnoComponent implements OnInit {
   }
 
   obtenerClases(){
-    this.servicioAsistenciaAlum.obtenerClases(JSON.stringify({accion:"obtenerMaterias"})).subscribe(
+    this.servicioAlumno.obtenerClases().subscribe(
       respuesta=>{
         if(respuesta.length > 0){
           this.clases = respuesta;
@@ -47,7 +47,7 @@ export class AsistenciaAlumnoComponent implements OnInit {
 
   enviarAsistencia(){
     if (window.confirm("Si está seguro que desea asistir, confirme para finalizar")){
-      this.servicioAsistenciaAlum.enviarAsistencia(JSON.stringify({carga:this.clases, accion:"asignarReservaAlumno"})).subscribe(
+      this.servicioAlumno.enviarAsistencia(this.clases).subscribe(
         respuesta=>{
           this.enviarQR();
         },
@@ -59,9 +59,9 @@ export class AsistenciaAlumnoComponent implements OnInit {
   }
 
   enviarQR(){
-    this.servicioAsistenciaAlum.enviarCorreo(JSON.stringify({accion:"EnviarQRAlumno"})).subscribe(
+    this.servicioAlumno.enviarCorreo().subscribe(
       respuesta=>{
-        alert('Se ha registrado tu reserva sastisfactoriamente y se ha enviado un código QR a tu correo institucional que deberás presentar para acceder a la facultad');
+        alert('Se ha registrado tu reserva sastisfactoriamente y se ha enviado un código QR a tu correo, que deberás presentar para acceder a la facultad');
         this.router.navigateByUrl('inicio-alumno');
       },
       error=>{

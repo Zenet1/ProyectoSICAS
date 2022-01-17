@@ -12,7 +12,7 @@ export class LoginService {
  
   @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
 
-  constructor(private httpClient : HttpClient) { }
+  constructor(private httpClient:HttpClient) { }
 
   public iniciarSesion(datos:FormGroup) {
     return this.httpClient.post<any>(this.API, datos).pipe(map(Users => {
@@ -31,7 +31,8 @@ export class LoginService {
 
   getRol(){
     return JSON.parse(localStorage.getItem('usuario')).Rol;
-  }  
+  }
+  
   setToken(token:string) {
     localStorage.setItem('usuario', token);
   }
