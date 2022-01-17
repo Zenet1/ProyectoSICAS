@@ -27,6 +27,7 @@ $datos = json_decode($json);
 
 $QueryObj = new Query();
 
+$PlanesControl = new PlanesControl($QueryObj);
 $RolesControl = new Roles($QueryObj);
 $PorcentajeControl = new Porcentaje($QueryObj);
 $SalonesControl = new Salones($QueryObj);
@@ -91,6 +92,7 @@ switch ($datos->accion) {
     case "agregarOficina":
         $OficinaControl->insertarOficina((array)$datos->contenido);
         break;
-    case "":
+    case "recuperarPlanes":
+        $PlanesControl->RecuperarPlanesEstudio();
         break;
 }

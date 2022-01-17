@@ -14,15 +14,21 @@ class EstadisticaControl
 
     public function EstadisticasAlumno(array $contenido)
     {
-        print_r($contenido);
-        /*
+        $queryCompleta = $this->objEstic->ObtenerQuery($contenido["tipo"]);
+        $queryCompleta .= $this->objEstic->ObtenerGenero($contenido["genero"]);
+        $queryCompleta .= $this->objEstic->ObtenerPlan($contenido["programa"]);
+
         try {
-            $datosSQL = obtenerDatos($datos, $DB_CONEXION);
-            Recursivo($datosSQL, array());
+            $incognitas = array("fchIn" => $contenido["fechaInicio"], "fchFn" => $contenido["fechaFin"]);
+            $datosCrudos = $this->objQuery->ejecutarConsulta($queryCompleta, $incognitas);
+            if(sizeof($datosCrudos) !== 0){
+                $this->FiltradoRecursivo($datosCrudos, array());
+            } else {
+                throw new Exception();
+            }
         } catch (Exception $e) {
             echo json_encode(array());
         }
-        */
     }
 
     private function FiltradoRecursivo(array $datosCrudos, array $datosFiltrados)
@@ -30,19 +36,18 @@ class EstadisticaControl
         $datosModificados = array();
         $Genero = $datosCrudos[0]["Genero"];
         $Plan = $datosCrudos[0]["NombrePlan"];
-        $Clave = $datosCrudos[0]["ClavePlan"];
         $Siglas = trim($datosCrudos[0]["SiglasPlan"]);
         $contGen = 0;
 
         foreach ($datosCrudos as $dato) {
-            if ($Genero === $dato["Genero"] && $Plan === $dato["NombrePlan"] && $Clave === $dato["ClavePlan"]) {
+            if ($Genero === $dato["Genero"] && $Plan === $dato["NombrePlan"]) {
                 $contGen++;
             } else {
                 $datosModificados[] = $dato;
             }
         }
 
-        $datosFiltrados[$Siglas . "_" . $Clave][] = array("name" => $Genero, "value" => $contGen);
+        $datosFiltrados[$Siglas][] = array("name" => $Genero, "value" => $contGen);
         if (sizeof($datosModificados) === 0) {
             print_r(json_encode($this->FormatoGrafica($datosFiltrados)));
         } else {

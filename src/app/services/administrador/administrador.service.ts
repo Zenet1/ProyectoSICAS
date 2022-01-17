@@ -96,11 +96,12 @@ export class AdministradorService {
   }
 
   obtenerProgramas(){
-    return this.clienteHttp.get(this.API_Administrador);
+    let datos = JSON.stringify({accion:"recuperarPlanes"});
+    return this.clienteHttp.post<any>(this.API_Administrador,datos);
   }
 
   obtenerEstadisticas(filtros:any){
-    let datos = JSON.stringify({accion:"recuperarEstadisticaAlumno", filtros: filtros});
+    let datos = JSON.stringify({accion:"recuperarEstadisticaAlumno", contenido: filtros});
     return this.clienteHttp.post<any>(this.API_Administrador, datos);
   }
 
