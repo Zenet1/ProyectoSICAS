@@ -1,12 +1,11 @@
 <?php
-class Edificio{
+class Alumno{
 
-    private Conexion $conexion;
+    private Query $objQuery;
 
-    public function __construct()
+    public function __construct(Query $objQuery)
     {
-        include_once('../../Clases/Conexion.Class.php');
-        $this->conexion = Conexion::ConexionInstacia();
+        $this->objQuery = $objQuery;
     }
 
     public function validarReservaNoExistente()
@@ -27,7 +26,7 @@ class Edificio{
     }
 
     public function obtenerMateriasDisponibles(){
-        //
+        
     }
 
     public function insertarReservasAlumno(){

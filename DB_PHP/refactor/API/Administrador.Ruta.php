@@ -25,16 +25,19 @@ include_once("../Clases/ArchivosControl.Class.php");
 $json = file_get_contents('php://input');
 $datos = json_decode($json);
 
-$RolesControl = new Roles(new Query());
-$PorcentajeControl = new Porcentaje(new Query());
-$SalonesControl = new Salones(new Query());
-$BDControl = new ControlBD(new Query());
-$AlertasControl = new Alertar(new Query());
+$QueryObj = new Query();
+
+$RolesControl = new Roles($QueryObj);
+$PorcentajeControl = new Porcentaje($QueryObj);
+$SalonesControl = new Salones($QueryObj);
+$BDControl = new ControlBD($QueryObj);
+$AlertasControl = new Alertar($QueryObj);
 $Fechas = Fechas::ObtenerInstancia();
-//$NUsuarios = new InsertarUsuario(new Query());
-$EdificioControl = new Edificio(new Query());
-$OficinaControl = new Oficina(new Query());
-$PreguntaControl = new Pregunta(new Query());
+$EstadisticaControl = new EstadisticaControl($QueryObj);
+//$NUsuarios = new InsertarUsuario($QueryObj);
+$EdificioControl = new Edificio($QueryObj);
+$OficinaControl = new Oficina($QueryObj);
+$PreguntaControl = new Pregunta($QueryObj);
 
 switch ($datos->accion) {
     case "recuperarPorcentaje":
@@ -58,6 +61,7 @@ switch ($datos->accion) {
     case "restaurarSICEI":
         break;
     case "recuperarEstadisticaAlumno":
+        $EstadisticaControl->EstadisticasAlumno((array) $datos->contenido);
         break;
     case "recuperarEstadisticaPersonal":
         break;

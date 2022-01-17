@@ -12,7 +12,6 @@ $sql_verificar = "SELECT us.IDUsuario,us.IDRol,us.Cuenta,ro.IDRol,ro.Rol FROM us
 INNER JOIN roles AS ro ON ro.IDRol=us.IDRol 
 WHERE us.Cuenta=? AND us.Contraseña=?";
 
-//$estado_obj = $DB_CONEXION->prepare($sql_verificar);
 $datos = $objQuery->ejecutarConsulta($sql_verificar, array($datos->usuario, $datos->contrasena));
 $datosUsuario = $datos[0];
 
