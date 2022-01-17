@@ -21,12 +21,12 @@ class Oficina
         $sql_eliminarOficina = "DELETE FROM oficinas WHERE IDOficina=?";
         $this->objQuery->ejecutarConsulta($sql_eliminarOficina, array($IDOficina));
     }
-    function insertarOficina($datosOficina)
+    function insertarOficina(array $datosOficina)
     {
-        $nombreOficina = $datosOficina->oficina;
-        $departamentoOficina = $datosOficina->departamento;
-        $edificioOficina = $datosOficina->edificio;
-
+        $nombreOficina = $datosOficina["oficina"];
+        $departamentoOficina = $datosOficina["departamento"];
+        $edificioOficina = $datosOficina["edificio"];
+        
         $sql_recuperarIDEdificio = "SELECT IDEdificio FROM edificios WHERE NombreEdificio=?";
         $datosDevueltos = $this->objQuery->ejecutarConsulta($sql_recuperarIDEdificio, array($edificioOficina));
         $IDEdificio = $datosDevueltos[0];
