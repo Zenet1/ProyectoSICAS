@@ -1,0 +1,31 @@
+<div class="container-fluid">
+    <div class="wrapper-descripcion row g-0">
+        <div class="container-descripcion">
+            <h3 class="text-center">Cuestionario</h3>
+            <p>Por favor responda el siguiente cuestionario con total honestidad para verficar si es posible tu asistencia</p>
+        </div>
+    </div>
+    <div class="wrapper-cuestionario row g-0">
+        <div class="container-cuestionario">
+            <form [formGroup]="cuestionario" (ngSubmit)="enviar()" ngNativeValidate>
+                <div formArrayName="preguntas" class="form-group" *ngFor="let question of preguntasBD; let i = index">
+                    <div [formGroupName]="i">
+                        <div class="mb-3">
+                            <label for="pregunta_{{i+1}}" class="form-label">{{question.Pregunta}}</label>
+                            <select id="pregunta_{{i+1}}" formControlName="respuesta" class="form-select" required>
+                                <option value="si">Si</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-boton">
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-enviar">Enviar</button>
+                        <button type="button" (click)="cancelar()" class="btn btn-danger">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

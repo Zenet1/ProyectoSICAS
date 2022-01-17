@@ -44,3 +44,12 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# ENVIRAMENT
+/DB_PHP/.env
+# vendor
+/DB_PHP/vendor/
+/DB_PHP/composer.lock
+/DB_PHP/phpqrcode/
+
+/proxy.conf.json
