@@ -1,13 +1,16 @@
 <?php
-class Alumno
+include_once("Reservaciones.Query.php");
+
+class ReservaControl
 {
     private Query $objQuery;
     private Fechas $objFecha;
-
+    private ReservaQuery $objResQuery;
     public function __construct(Query $objQuery, Fechas $objFecha)
     {
         $this->objQuery = $objQuery;
         $this->objFecha = $objFecha;
+        $this->objResQuery = new ReservaQuery();
     }
 
     public function validarReservaNoExistente()
@@ -39,12 +42,6 @@ class Alumno
     private function ValidarCupo()
     {
         $FechateDiaSiguiente = $_SESSION["FechaSig"];
-        $sql_obtenerCantidadReservacionesPorGrupo = "SELECT COUNT(RSAL.IDReservaAlumno) AS CR FROM cargaacademica AS CGAC 
-    INNER JOIN reservacionesalumnos AS RSAL 
-    ON RSAL.IDCarga=CGAC.IDCarga 
-    WHERE CGAC.IDGrupo=? AND RSAL.FechaReservaAl=?";
-
-        $sql_obtenerCapacidadFacultad = "SELECT Porcentaje FROM porcentajecapacidad WHERE IDPorcentaje=1";
 
         $obj_reservacionesMateriasAlumnosDiaSiguiente = $Conexion->prepare($sql_obtenerCantidadReservacionesPorGrupo);
         $obj_PorcentajeCapacidadFacultad = $Conexion->prepare($sql_obtenerCapacidadFacultad);
