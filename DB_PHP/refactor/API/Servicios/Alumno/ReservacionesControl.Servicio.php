@@ -16,10 +16,13 @@ class ReservaControl
     public function validarReservaNoExistente()
     {
         $Respuesta = "Aceptado";
+        
         $sql_recuperarReservaciones = "SELECT RSV.IDCarga FROM reservacionesalumnos AS RSV 
         INNER JOIN cargaacademica AS CGAC ON RSV.IDCarga=CGAC.IDCarga 
         WHERE CGAC.IDAlumno=? AND RSV.FechaAlumno=?";
+
         $obj_recuperarReservaciones = $this->conexion->getConexion()->prepare($sql_recuperarReservaciones);
+        
         $obj_recuperarReservaciones->execute(array($_SESSION["IDAlumno"], date('Y-m-d')));
 
         $IDReserva = $obj_recuperarReservaciones->fetchAll(PDO::FETCH_ASSOC);
@@ -42,10 +45,11 @@ class ReservaControl
     private function ValidarCupo()
     {
         $FechateDiaSiguiente = $_SESSION["FechaSig"];
-
+/*
         $obj_reservacionesMateriasAlumnosDiaSiguiente = $Conexion->prepare($sql_obtenerCantidadReservacionesPorGrupo);
         $obj_PorcentajeCapacidadFacultad = $Conexion->prepare($sql_obtenerCapacidadFacultad);
 
+        $this->objQuery->ejecutarConsulta($this->objResQuery->CuposDisconibles(), array());
         $obj_PorcentajeCapacidadFacultad->execute();
         $obj_reservacionesMateriasAlumnosDiaSiguiente->execute(array($asignatura["IDGrupo"], $FechateDiaSiguiente));
 
@@ -58,5 +62,6 @@ class ReservaControl
             return true;
         }
         return false;
+        */
     }
 }

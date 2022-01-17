@@ -10,6 +10,15 @@ class ReservaQuery
         $this->SELECTCuposAct = "SELECT COUNT(RSAL.IDReservaAlumno) AS CR FROM cargaacademica AS CGAC INNER JOIN reservacionesalumnos AS RSAL ON RSAL.IDCarga=CGAC.IDCarga WHERE CGAC.IDGrupo=:idg AND RSAL.FechaReservaAl=:fchR";
 
         $this->SELECTPorcentaje = "SELECT Porcentaje FROM porcentajecapacidad WHERE IDPorcentaje=1";
+    }
 
+    public function CuposDisconibles(): string
+    {
+        return $this->SELECTCuposAct;
+    }
+
+    public function PorcetajeFac(): string
+    {
+        return $this->SELECTPorcentaje;
     }
 }

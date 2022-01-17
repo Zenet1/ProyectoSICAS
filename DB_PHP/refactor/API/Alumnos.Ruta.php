@@ -8,8 +8,9 @@ include_once("../Clases/Query.Class.php");
 $json = file_get_contents('php://input');
 $datos = json_decode($json);
 
-$AlumnoControl = new Alumno(new Query());
+//$AlumnoControl = new Alumno(new Query());
 
+print_r($datos);
 switch ($datos->accion) {
     case "validacionReservasAlumno":
         $AlumnoControl->validarReservaNoExistente($datos);
