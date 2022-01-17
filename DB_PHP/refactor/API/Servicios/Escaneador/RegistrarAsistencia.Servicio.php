@@ -35,7 +35,7 @@ class RegistrarAsistencia
         $resultado = array();
         foreach ($codigoQr as $IDRESERVA) {
             $incognitas = array("id" => $id, "idr" => $IDRESERVA, "fch" => $this->fecha->FechaAct());
-            $resultado = $this->objQuery->ejecutarConsula($operacion, $incognitas);
+            $resultado = $this->objQuery->ejecutarConsulta($operacion, $incognitas);
             if ($resultado === false || sizeof($resultado) === 0) {
                 return "invalido";
             }
@@ -47,7 +47,7 @@ class RegistrarAsistencia
     private function InsertarAsistencia(String $operacion, int $id)
     {
         $incognitas = array("id" => $id, "fch" => $this->fecha->FechaAct(), "hri" => $this->fecha->HrAct());
-        $this->objQuery->ejecutarConsula($operacion, $incognitas);
+        $this->objQuery->ejecutarConsulta($operacion, $incognitas);
     }
 
     private function TipoValido(string $tipo): bool

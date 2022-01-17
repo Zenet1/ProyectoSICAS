@@ -1,6 +1,5 @@
 <?php
     require 'Utileria.php';
-
     try{
         $DSN = $_ENV['DSN'];
         $USUARIO = $_ENV['USERNAME'];

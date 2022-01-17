@@ -66,11 +66,11 @@ export class AdministradorService {
   }
 
   guardarOficina(datos:any){
-    return this.clienteHttp.post<any>(this.API, JSON.stringify({accion: "agregarOficina", datosOficina: datos}));
+    return this.clienteHttp.post<any>(this.API, JSON.stringify({accion: "agregarOficina", contenido: datos}));
   }
 
   eliminarOficina(idOficina:any){
-    return this.clienteHttp.post<any>(this.API, JSON.stringify({accion: "eliminarOficina", IDOficina: idOficina}));
+    return this.clienteHttp.post<any>(this.API, JSON.stringify({accion: "eliminarOficina", contenido: idOficina}));
   }
 
   obtenerAulas(){
