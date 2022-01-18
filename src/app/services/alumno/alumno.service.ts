@@ -11,7 +11,7 @@ export class AlumnoService {
   API_Alumnos: string = '/ProyectoSICAS/DB_PHP/refactor/API/Alumnos.Ruta.php';
 
   enviarAsistencia(datosClases:any):Observable<any>{
-    let datos = JSON.stringify({accion: "insertarReservasAlumno", contenido: datosClases});
+    let datos = JSON.stringify({accion: "insertarReservas", contenido: datosClases});
     return this.clienteHttp.post<any>(this.API_Alumnos, datos);
   }
 
@@ -26,7 +26,7 @@ export class AlumnoService {
   }
 
   combrobarReservacion(){
-    let datos = JSON.stringify({accion: "validacionReservasAlumno"});
+    let datos = JSON.stringify({accion: "validacionReservas"});
     return this.clienteHttp.post(this.API_Alumnos, datos);
   }
 }

@@ -2,24 +2,23 @@
 
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-include_once("Servicios/Alumno/Alumno.Servicio.php");
+include_once("Servicios/Alumno/ReservacionesControl.Servicio.php");
 include_once("../Clases/Query.Class.php");
+include_once("../Clases/Fechas.Class.php");
 
 $json = file_get_contents('php://input');
 $datos = json_decode($json);
 
-//$AlumnoControl = new Alumno(new Query());
+$ReservacionesControl = new ReservaControl(new Query(), Fechas::ObtenerInstancia());
 
-print_r($datos);
 switch ($datos->accion) {
-    case "validacionReservasAlumno":
-        $AlumnoControl->validarReservaNoExistente($datos);
+    case "validacionReservas":
+        $ReservacionesControl->validarReservaNoExistente();
         break;
     case "obtenerClases":
-        //print_r($contenido);
-        $AlumnoControl->obtenerMateriasDisponibles();
+        $ReservacionesControl->obtenerMateriasDisponibles();
         break;
-    case "insertarReservaAlumno":
-        $AlumnoControl->insertarReservasAlumno($datos);
+    case "insertarReservas":
+        $ReservacionesControl->insertarReservasAlumno((array)$datos->contenido);
         break;
 }

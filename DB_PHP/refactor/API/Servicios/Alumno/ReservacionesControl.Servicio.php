@@ -1,11 +1,13 @@
 <?php
 include_once("Reservaciones.Query.php");
+session_start();
 
 class ReservaControl
 {
     private Query $objQuery;
     private Fechas $objFecha;
     private ReservaQuery $objResQuery;
+
     public function __construct(Query $objQuery, Fechas $objFecha)
     {
         $this->objQuery = $objQuery;
@@ -16,52 +18,51 @@ class ReservaControl
     public function validarReservaNoExistente()
     {
         $Respuesta = "Aceptado";
-        
-        $sql_recuperarReservaciones = "SELECT RSV.IDCarga FROM reservacionesalumnos AS RSV 
-        INNER JOIN cargaacademica AS CGAC ON RSV.IDCarga=CGAC.IDCarga 
-        WHERE CGAC.IDAlumno=? AND RSV.FechaAlumno=?";
+        $incognitas = array("ida" => $_SESSION["IDAlumno"], "fchA" => $this->objFecha->FechaAct());
+        $Reservaciones = $this->objQuery->ejecutarConsulta($this->objResQuery->ExisteReserva(), $incognitas);
 
-        $obj_recuperarReservaciones = $this->conexion->getConexion()->prepare($sql_recuperarReservaciones);
-        
-        $obj_recuperarReservaciones->execute(array($_SESSION["IDAlumno"], date('Y-m-d')));
-
-        $IDReserva = $obj_recuperarReservaciones->fetchAll(PDO::FETCH_ASSOC);
-
-        if (sizeof($IDReserva) > 0) {
+        if (sizeof($Reservaciones) > 0) {
             $Respuesta = "Rechazado";
         }
+
         echo json_encode($Respuesta);
     }
 
     public function obtenerMateriasDisponibles()
     {
+        $gruposValidados = array();
+        $incognitas = array("ida" => $_SESSION["IDAlumno"], "dia" => $this->objFecha->DiaSig());
+        $resultado = $this->objQuery->ejecutarConsulta($this->objResQuery->Grupos(), $incognitas);
+
+        foreach ($resultado as $MATERIA) {
+            if ($this->ValidarCupo($MATERIA)) {
+                $gruposValidados[] = $MATERIA;
+            }
+        }
+        echo json_encode($gruposValidados);
     }
 
-    public function insertarReservasAlumno()
+    public function insertarReservasAlumno(array $contenido)
     {
-        //
+        foreach ($contenido as $MATERIA) {
+            if ($this->ValidarCupo((array)$MATERIA)) {
+                $incognitas = array("idc" => $MATERIA->IDCarga, "fchR" => $this->objFecha->FechaSig(), "hrI" => $MATERIA->HoraInicioHorario, "hrF" => $MATERIA->HoraFinHorario, "fchA" => $this->objFecha->FechaAct(), "hrA" => $this->objFecha->HrAct());
+                $this->objQuery->ejecutarConsulta($this->objResQuery->InsertarReservacion(), $incognitas);
+            }
+        }
     }
 
-    private function ValidarCupo()
+    private function ValidarCupo(array $asignatura): bool
     {
-        $FechateDiaSiguiente = $_SESSION["FechaSig"];
-/*
-        $obj_reservacionesMateriasAlumnosDiaSiguiente = $Conexion->prepare($sql_obtenerCantidadReservacionesPorGrupo);
-        $obj_PorcentajeCapacidadFacultad = $Conexion->prepare($sql_obtenerCapacidadFacultad);
+        $incognitas = array("idg" => $asignatura["IDGrupo"], "fchR" => $this->objFecha->FechaSig());
+        $cuposOcupados = $this->objQuery->ejecutarConsulta($this->objResQuery->CuposDisconibles(), $incognitas);
+        $porcentaje = $this->objQuery->ejecutarConsulta($this->objResQuery->PorcetajeFac(), array());
 
-        $this->objQuery->ejecutarConsulta($this->objResQuery->CuposDisconibles(), array());
-        $obj_PorcentajeCapacidadFacultad->execute();
-        $obj_reservacionesMateriasAlumnosDiaSiguiente->execute(array($asignatura["IDGrupo"], $FechateDiaSiguiente));
+        $capasidadSalon = intval($asignatura["Capacidad"] * ($porcentaje[0]["Porcentaje"] / 100));
 
-        $cantidadDeReservaciones = $obj_reservacionesMateriasAlumnosDiaSiguiente->fetch(PDO::FETCH_ASSOC);
-        $porcentajeDeCapacidad = $obj_PorcentajeCapacidadFacultad->fetch(PDO::FETCH_ASSOC);
-
-        $capasidadSalon = intval($asignatura["Capacidad"] * ($porcentajeDeCapacidad["Porcentaje"] / 100));
-
-        if (intval($cantidadDeReservaciones["CR"]) < $capasidadSalon) {
+        if (intval($cuposOcupados[0]["CR"]) < $capasidadSalon) {
             return true;
         }
         return false;
-        */
     }
 }
