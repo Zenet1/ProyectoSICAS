@@ -22,10 +22,11 @@ class Alertar
     public function obtenerAfectados(array $contenido)
     {
         $fechas = $this->ObtenerFechas($contenido);
+
         if (sizeof($fechas) === 0) {
-            echo "no valido";
             exit();
         }
+
         $gruposFiltrados = array();
         $alumnosFiltrados = array();
         $profesoresFiltrados = array();
@@ -46,6 +47,11 @@ class Alertar
 
         $this->EnviarCorreo($profesoresFiltrados, $gruposFiltrados);
         $this->EnviarCorreo($alumnosFiltrados, $gruposFiltrados);
+        
+        $datosEnviar["usuarios"] = sizeof($profesoresFiltrados) + sizeof($alumnosFiltrados);
+        $datosEnviar["grupos"] = $gruposFiltrados;
+
+        echo json_encode($datosEnviar);
     }
 
     private function ObtenerDatosUnicos(string $sql, array $datosFiltrados, array $datos): array
@@ -82,8 +88,6 @@ class Alertar
 
         $mensaje .= $gruposAfectados . "</ul>";
         $mensaje .= "Por lo que se recomienda monitorear tu salud por un posible contagio.";
-        
-        echo $mensaje;
 
         foreach ($datosUnicos as $DATO) {
             $NombreCompleto = $DATO["NOMBRE"] . " ";
