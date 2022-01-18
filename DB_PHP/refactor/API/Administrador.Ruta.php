@@ -20,6 +20,7 @@ include_once("Servicios/Administrador/Oficina.Servicio.php");
 include_once("Servicios/Administrador/Pregunta.Servicio.php");
 include_once("../Clases/Query.Class.php");
 include_once("../Clases/Fechas.Class.php");
+include_once("../Clases/Email.Class.php");
 include_once("../Clases/ArchivosControl.Class.php");
 
 $json = file_get_contents('php://input');
@@ -32,13 +33,14 @@ $RolesControl = new Roles($QueryObj);
 $PorcentajeControl = new Porcentaje($QueryObj);
 $SalonesControl = new Salones($QueryObj);
 $BDControl = new ControlBD($QueryObj);
-$AlertasControl = new Alertar($QueryObj);
+$AlertaControl = new Alertar($QueryObj, new CorreoManejador());
 $Fechas = Fechas::ObtenerInstancia();
 $EstadisticaControl = new EstadisticaControl($QueryObj);
 //$NUsuarios = new InsertarUsuario($QueryObj);
 $EdificioControl = new Edificio($QueryObj);
 $OficinaControl = new Oficina($QueryObj);
 $PreguntaControl = new Pregunta($QueryObj);
+
 
 switch ($datos->accion) {
     case "recuperarPorcentaje":
@@ -67,6 +69,7 @@ switch ($datos->accion) {
     case "recuperarEstadisticaPersonal":
         break;
     case "alertaCOVID":
+        $AlertaControl->Alertar((array) $datos->contenido);
         break;
     case "recuperarPreguntas":
         $PreguntaControl->recuperarPreguntas();
@@ -94,5 +97,8 @@ switch ($datos->accion) {
         break;
     case "recuperarPlanes":
         $PlanesControl->RecuperarPlanesEstudio();
+        break;
+    case "obtenerAfectados":
+        $AlertaControl->obtenerAfectados((array) $datos->contenido);
         break;
 }

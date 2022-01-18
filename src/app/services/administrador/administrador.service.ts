@@ -17,7 +17,7 @@ export class AdministradorService {
   }
 
   alertar(grupos:any, usuarios:any){
-    let datos = JSON.stringify({accion:"alertaCOVID", grupos: grupos, usuarios: usuarios});
+    let datos = JSON.stringify({accion:"alertaCOVID", contenido: grupos, usuarios});
     return this.clienteHttp.post<any>(this.API_Administrador, datos);
   }
 

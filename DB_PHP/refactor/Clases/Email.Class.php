@@ -45,7 +45,7 @@ class CorreoManejador
             $this->mail->Subject = $asunto;
             $this->mail->Body = $mensaje;
 
-            $this->mail->send();
+            //$this->mail->send();
         } catch (Exception $e) {
 
         }
