@@ -27,7 +27,6 @@ $json = file_get_contents('php://input');
 $datos = json_decode($json);
 
 $QueryObj = new Query();
-
 $PlanesControl = new PlanesControl($QueryObj);
 $RolesControl = new Roles($QueryObj);
 $PorcentajeControl = new Porcentaje($QueryObj);
@@ -35,14 +34,16 @@ $SalonesControl = new Salones($QueryObj);
 $BDControl = new ControlBD($QueryObj);
 $Fechas = Fechas::ObtenerInstancia();
 $EstadisticaControl = new EstadisticaControl($QueryObj);
-//$NUsuarios = new InsertarUsuario($QueryObj);
+$NUsuarios = new InsertarUsuario($QueryObj);
 $EdificioControl = new Edificio($QueryObj);
 $OficinaControl = new Oficina($QueryObj);
 $PreguntaControl = new Pregunta($QueryObj);
 $AlertaControl = new Alertar($QueryObj, new CorreoManejador(), $Fechas);
 
-
 switch ($datos->accion) {
+    case "agregarUsuario":
+        $NUsuarios->InsertarNuevoTrabajador((array)$datos->contenido);
+        break;
     case "recuperarPorcentaje":
         $PorcentajeControl->RecuperarPorcentaje();
         break;
