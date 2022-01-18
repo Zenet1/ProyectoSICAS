@@ -24,7 +24,6 @@ class ReservaControl
         if (sizeof($Reservaciones) > 0) {
             $Respuesta = "Rechazado";
         }
-
         echo json_encode($Respuesta);
     }
 
