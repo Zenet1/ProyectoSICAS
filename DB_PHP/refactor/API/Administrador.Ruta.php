@@ -33,13 +33,13 @@ $RolesControl = new Roles($QueryObj);
 $PorcentajeControl = new Porcentaje($QueryObj);
 $SalonesControl = new Salones($QueryObj);
 $BDControl = new ControlBD($QueryObj);
-$AlertaControl = new Alertar($QueryObj, new CorreoManejador());
 $Fechas = Fechas::ObtenerInstancia();
 $EstadisticaControl = new EstadisticaControl($QueryObj);
 //$NUsuarios = new InsertarUsuario($QueryObj);
 $EdificioControl = new Edificio($QueryObj);
 $OficinaControl = new Oficina($QueryObj);
 $PreguntaControl = new Pregunta($QueryObj);
+$AlertaControl = new Alertar($QueryObj, new CorreoManejador(), $Fechas);
 
 
 switch ($datos->accion) {
