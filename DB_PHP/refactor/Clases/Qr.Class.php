@@ -1,5 +1,5 @@
 <?php
-include 'phpqrcode/qrlib.php';
+include '../../phpqrcode/qrlib.php';
 
 class GeneradorQr
 {
@@ -17,11 +17,11 @@ class GeneradorQr
         $this->file;
     }
 
-    public function Generar($contenido): void {
+    public function GenerarImagen(string $contenido): void {
         QRcode::png($contenido,  $this->file, $this->ecc, $this->pixel_Size, $this->frame_Size);
     }
 
-    public function setNombrePng($nombre) : void
+    public function setNombrePng(string $nombre) : void
     {
         $this->file = $this->path . $nombre . ".png";
     }

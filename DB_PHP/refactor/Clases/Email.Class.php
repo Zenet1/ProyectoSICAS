@@ -28,12 +28,11 @@ class CorreoManejador
         }
     }
 
-    public function EnviarCorreo(array $destinatarios, String $asunto,String $mensaje, $archivo = NULL){
+    public function EnviarCorreo(array $destinatarios, string $asunto,string $mensaje, $archivo = NULL){
         try {
             $this->mail->setFrom($_ENV['EMAILACCOUNT'], 'SICAS');
             $this->mail->addAddress($_ENV['EMAILACCOUNT'], 'SICAS');
             
-
             foreach($destinatarios as $correo => $nombre){
                 $this->mail->addCC($correo, $nombre);
             }
@@ -56,5 +55,3 @@ class CorreoManejador
         $this->isArchivo = $booleano;
     }
 }
-
-?>
