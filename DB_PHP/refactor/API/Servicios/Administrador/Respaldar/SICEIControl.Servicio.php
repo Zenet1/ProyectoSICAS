@@ -44,7 +44,7 @@ class SICEIControl
     public function RestaurarSICEI()
     {
         $this->VerificarDatosRespaldo();
-        
+        /*
         RecuperarUsuariosAlumnos($this->conexion);
         RecuperarEdificiosLicenciatura($this->conexion);
         RecuperarSalones($this->conexion);
@@ -55,5 +55,6 @@ class SICEIControl
         RecuperarGrupos($this->conexion);
         RecuperarCargasAcademicas($this->conexion);
         RecuperarHorarios($this->conexion);
+        */
     }
 }

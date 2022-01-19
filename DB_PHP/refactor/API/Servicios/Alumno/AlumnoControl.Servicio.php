@@ -3,8 +3,6 @@ class AlumnoControl
 {
     private Query $objQuery;
     private Fechas $objFecha;
-    private CorreoManejador $correo;
-    private GeneradorQr $qr;
 
     public function __construct(Query $objQuery, Fechas $objFecha)
     {

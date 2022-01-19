@@ -66,6 +66,7 @@ switch ($datos->accion) {
     case "restaurarSICAS":
         break;
     case "restaurarSICEI":
+        $SICEIControl->RestaurarSICEI();
         break;
     case "recuperarEstadisticaAlumno":
         $EstadisticaControl->EstadisticasAlumno((array) $datos->contenido);
