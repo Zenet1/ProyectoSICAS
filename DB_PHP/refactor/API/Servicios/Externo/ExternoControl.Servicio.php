@@ -1,12 +1,13 @@
 <?php
-class Externo{
+class ExternoControl{
 
-    private Conexion $conexion;
+    private Query $objQuery;
+    private Fechas $fecha;
 
-    public function __construct()
+    public function __construct(Query $objQuery, Fechas $fecha)
     {
-        include_once('../Clases/Conexion.Class.php');
-        $this->conexion = Conexion::ConexionInstacia();
+        $this->objQuery = $objQuery;
+        $this->objFecha = $fecha;
     }
 
     public function registroExterno($datos){
@@ -17,25 +18,24 @@ class Externo{
         $_SESSION['Correo'] = "$datos->correo";
     }
 
-    public function insertarReservaExterno($datos_entrada){
+    public function insertarReservaExterno($oficinas, $fechaAsistencia){
         session_start();
         $externoRegistrado = $this->insertarExterno();
-        if($externoRegistrado){    
+        if($externoRegistrado){
             $IDExterno = $this->recuperarIDExterno();
-            $ContenidoQR = $this->insertarReservacion($datos_entrada->seleccionadas, $IDExterno["IDExterno"], $datos_entrada->fechaAsistencia);
-            //generarQRExterno($IDExterno["IDExterno"], $ContenidoQR);
+            $ContenidoQR = $this->insertarReservacion($oficinas, $IDExterno["IDExterno"], $fechaAsistencia);
+            $this->generarQRExterno($IDExterno["IDExterno"], $ContenidoQR);
         }else{
             echo "No se tiene una sesión iniciada";
         }
-    }
-    
+    }  
 
     private function generarQRExterno(string $IDExterno, string $ContenidoQR){
         $NombreQRExterno = "e" . $IDExterno;
         $ContenidoQRExterno = "e," . $ContenidoQR;
         $QR = new GeneradorQr();
         $QR->setNombrePng($NombreQRExterno);
-        $QR->Generar($ContenidoQRExterno);
+        $QR->GenerarImagen($ContenidoQRExterno);
     }
 
     private function insertarExterno() : bool{
@@ -44,10 +44,8 @@ class Externo{
         $sql_insertarExterno = "INSERT INTO externos (NombreExterno, ApellidosExterno, Empresa, CorreoExterno) SELECT ?,?,?,? FROM DUAL
         WHERE NOT EXISTS (SELECT IDExterno FROM externos WHERE NombreExterno = ? AND ApellidosExterno = ? AND Empresa = ? AND CorreoExterno = ?) LIMIT 1";
 
-        $obj_insertarExterno = $this->conexion->getConexion()->prepare($sql_insertarExterno);
-
         if($this->sesionActivaExterno()){
-            $obj_insertarExterno->execute(array($_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo'], $_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo']));
+            $this->objQuery->ejecutarConsulta($sql_insertarExterno, array($_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo'], $_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo']));
         }else{
             $operacionRealizada = false;
         }
@@ -61,35 +59,32 @@ class Externo{
     private function recuperarIDExterno() : array{
         $sql_recuperarIDExterno = "SELECT IDExterno FROM externos WHERE NombreExterno = ? AND ApellidosExterno = ? AND Empresa = ? AND CorreoExterno = ?";
 
-        $obj_recuperarIDExterno = $this->conexion->getConexion()->prepare($sql_recuperarIDExterno);
+        $IDExternoRecuperado = $this->objQuery->ejecutarConsulta($sql_recuperarIDExterno, array($_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo']));
 
-        $obj_recuperarIDExterno->execute(array($_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo']));
-
-        $IDExternoRecuperado = $obj_recuperarIDExterno->fetch(PDO::FETCH_ASSOC);
-
-        return $IDExternoRecuperado;
+        return $IDExternoRecuperado[0];
     }
 
     private function insertarReservacion(array $oficinas, string $IDExterno, string $fechaAsistencia) : string {
-        $fechaActual = date('Y-m-d');
-        $horaActual = date("H:i:s");
+       
+        $fechaActual =  $this->objFecha->FechaAct("d-m-Y");
+        $horaActual =  $this->objFecha->HrAct("H:i:s");
         
-        $sql_insertarReservacion = "INSERT INTO reservacionesexternos (IDExterno, IDOficina, FechaReservaExterno, FechaExterno, HoraExterno) VALUES (?, ?, ?, ?, ?)";
-        $sql_recuperarIDReserva = "SELECT IDReservaExterno FROM reservacionesexternos WHERE IDExterno = ? AND IDOficina = ? AND FechaReservaExterno = ?";
-        
-        $obj_insertarReservacion = $this->conexion->getConexion()->prepare($sql_insertarReservacion);
-        $obj_recuperarIDReserva = $this->conexion->getConexion()->prepare($sql_recuperarIDReserva);
+        $sql_insertarReservacion = "INSERT INTO reservacionesexternos 
+        (IDExterno, IDOficina, FechaReservaExterno, FechaExterno, HoraExterno) 
+        VALUES (?, ?, ?, ?, ?)";
+
+        $sql_recuperarIDReserva = "SELECT IDReservaExterno FROM reservacionesexternos 
+        WHERE IDExterno = ? AND IDOficina = ? AND FechaReservaExterno = ?";
 
         $QRContenido = $IDExterno;
 
         foreach($oficinas as $oficina){
             $oficinaArray = (array)$oficina;
             
-            $obj_insertarReservacion->execute(array($IDExterno, $oficinaArray["IDOficina"], $fechaAsistencia, $fechaActual, $horaActual));
-            $obj_recuperarIDReserva->execute(array($IDExterno, $oficinaArray["IDOficina"], $fechaAsistencia));
-            $IDReserva = $obj_recuperarIDReserva->fetch(PDO::FETCH_ASSOC);
+            $this->objQuery->ejecutarConsulta($sql_insertarReservacion, array($IDExterno, $oficinaArray["IDOficina"], $fechaAsistencia, $fechaActual, $horaActual));
+            $IDReserva = $this->objQuery->ejecutarConsulta($sql_recuperarIDReserva, array($IDExterno, $oficinaArray["IDOficina"], $fechaAsistencia));
 
-            $QRContenido .= "," . $IDReserva["IDReservaExterno"];
+            $QRContenido .= "," . $IDReserva[0]["IDReservaExterno"];
         }
         
         $this->inicializacionVariablesSesion($IDExterno, $fechaAsistencia);

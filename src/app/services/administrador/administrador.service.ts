@@ -6,7 +6,7 @@ import { FormGroup } from '@angular/forms';
   providedIn: 'root'
 })
 export class AdministradorService {
-
+  
   API_Administrador:string = '/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php';
 
   constructor(private clienteHttp: HttpClient) { }

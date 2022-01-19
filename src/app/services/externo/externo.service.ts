@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class ExternoService {
+  API_Administrador:string = '/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php';
   API_Externo:string = '/ProyectoSICAS/DB_PHP/refactor/API/Externos.Ruta.php';
 
   constructor(private clienteHttp: HttpClient) { }
@@ -16,13 +18,13 @@ export class ExternoService {
   }
 
   enviarCorreo():Observable<any>{
-    let datos = JSON.stringify({accion:"EnviarQRExterno"});
+    let datos = JSON.stringify({accion:"enviarQRExterno"});
     return this.clienteHttp.post<any>(this.API_Externo, datos);
   }
 
   obtenerOficinas(){
-    let datos = JSON.stringify({accion:"recuperarOficinas"})
-    return this.clienteHttp.post<any>(this.API_Externo, datos);
+    let datos = JSON.stringify({accion:"recuperarOficinas"});
+    return this.clienteHttp.post<any>(this.API_Administrador, datos);
   }
 
   guardarExterno(datosExterno:any):Observable<any>{
