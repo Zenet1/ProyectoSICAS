@@ -18,6 +18,7 @@ include_once("Servicios/Administrador/Estadisticas.Servicio.php");
 include_once("Servicios/Administrador/Edificio.Servicio.php");
 include_once("Servicios/Administrador/Oficina.Servicio.php");
 include_once("Servicios/Administrador/Pregunta.Servicio.php");
+include_once("../Clases/Conexion.Class.php");
 include_once("../Clases/Query.Class.php");
 include_once("../Clases/Fechas.Class.php");
 include_once("../Clases/Email.Class.php");
@@ -26,19 +27,21 @@ include_once("../Clases/ArchivosControl.Class.php");
 $json = file_get_contents('php://input');
 $datos = json_decode($json);
 
+$Conexion = Conexion::ConexionInstacia();
+$Fechas = Fechas::ObtenerInstancia();
 $QueryObj = new Query();
 $PlanesControl = new PlanesControl($QueryObj);
 $RolesControl = new Roles($QueryObj);
 $PorcentajeControl = new Porcentaje($QueryObj);
 $SalonesControl = new Salones($QueryObj);
 $BDControl = new ControlBD($QueryObj);
-$Fechas = Fechas::ObtenerInstancia();
 $EstadisticaControl = new EstadisticaControl($QueryObj);
 $NUsuarios = new InsertarUsuario($QueryObj);
 $EdificioControl = new Edificio($QueryObj);
 $OficinaControl = new Oficina($QueryObj);
 $PreguntaControl = new Pregunta($QueryObj);
 $AlertaControl = new Alertar($QueryObj, new CorreoManejador(), $Fechas);
+$SICEIControl = new SICEIControl($Conexion->getConexion(), new ArchivoControl($Fechas));
 
 switch ($datos->accion) {
     case "agregarUsuario":
