@@ -4,9 +4,10 @@ class ArchivoControl
 {
     public static string $carpetaUnica;
 
-    public function __construct(Fechas $fechaObj, string $PATH = "./backups/")
+    public function __construct(Fechas $fechaObj)
     {
-        self::$carpetaUnica = $PATH . $fechaObj->FechaAct() . "-" . $fechaObj->HrAct("i");
+        $carpetaRaiz = "./backups/";
+        self::$carpetaUnica = $carpetaRaiz . $fechaObj->FechaAct() . "-" . $fechaObj->HrAct("i");
         mkdir(self::$carpetaUnica);
     }
 
@@ -17,10 +18,10 @@ class ArchivoControl
         return $direccion;
     }
 
-    public function MoverArchivos(string $PATH, int $CANTARCHIVOS)
+    public function MoverArchivos(int $CANTARCHIVOS)
     {
         for ($i = 0; $i < $CANTARCHIVOS; $i++) {
-            $direccion = $PATH . $_FILES["archivo" . $i]["name"];
+            $direccion = "./docs/" . $_FILES["archivo" . $i]["name"];
             move_uploaded_file($_FILES["archivo" . $i]["tmp_name"], $direccion);
         }
     }

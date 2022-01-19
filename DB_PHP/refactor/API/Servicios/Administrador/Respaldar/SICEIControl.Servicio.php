@@ -1,14 +1,14 @@
 <?php
-include_once("docs/RecuperarAlumnos.php");
-include_once("docs/RecuperarAsignaturas.php");
-include_once("docs/RecuperarCargasAcademicas.php");
-include_once("docs/RecuperarEdificiosLicenciatura.php");
-include_once("docs/RecuperarGrupos.php");
-include_once("docs/RecuperarHorarios.php");
-include_once("docs/RecuperarPlanEstudio.php");
-include_once("docs/RecuperarProfesores.php");
-include_once("docs/RecuperarSalones.php");
-include_once("docs/RecuperarUsuariosAlumnos.php");
+include_once("./docs/RecuperarAlumnos.php");
+include_once("./docs/RecuperarAsignaturas.php");
+include_once("./docs/RecuperarCargasAcademicas.php");
+include_once("./docs/RecuperarEdificiosLicenciatura.php");
+include_once("./docs/RecuperarGrupos.php");
+include_once("./docs/RecuperarHorarios.php");
+include_once("./docs/RecuperarPlanEstudio.php");
+include_once("./docs/RecuperarProfesores.php");
+include_once("./docs/RecuperarSalones.php");
+include_once("./docs/RecuperarUsuariosAlumnos.php");
 
 class SICEIControl
 {
@@ -20,9 +20,6 @@ class SICEIControl
     {
         $this->conexion = $conexion;
         $this->archivos = $archivos;
-
-
-
         $this->archivosPrinc = array("AlumnosCargaDeAsignaturas", "AlumnosInscripcionEnPeriodoCurso", "AsignaturasALasQueSeInscribieronAlumnos", "HorariosSesionesGrupo", "PlanesDeEstudios", "ProfesoresConAlumnosInscritos");
     }
 
@@ -32,7 +29,7 @@ class SICEIControl
             exit("Cantidad de archivos incorrectos");
         }
 
-        $archivosSubidos = scandir("docs/");
+        $archivosSubidos = scandir("./docs/");
 
         foreach ($this->archivosPrinc as $archivo) {
             if (!in_array($archivo, $archivosSubidos)) {
@@ -43,8 +40,11 @@ class SICEIControl
 
     public function RestaurarSICEI()
     {
-        $this->archivos->MoverArchivos("docs/", intval($_POST["numArchivos"]));
+        
+        $this->archivos->MoverArchivos(intval($_POST["numArchivos"]));
         $this->VerificarDatosRespaldo();
+
+
         /*
         RecuperarUsuariosAlumnos($this->conexion);
         RecuperarEdificiosLicenciatura($this->conexion);
