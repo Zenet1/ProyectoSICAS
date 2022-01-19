@@ -4,11 +4,11 @@ class ArchivoControl
 {
     public static string $carpetaUnica;
 
-    public function __construct(Fechas $fechaObj)
+    public function __construct(Fechas $fechaObj, bool $crearCapeta = true)
     {
         $carpetaRaiz = "./backups/";
         self::$carpetaUnica = $carpetaRaiz . $fechaObj->FechaAct() . "-" . $fechaObj->HrAct("i");
-        mkdir(self::$carpetaUnica);
+        ($crearCapeta ? mkdir(self::$carpetaUnica) : "");
     }
 
     public function MoverArchivo(string $PATH): string
@@ -63,7 +63,7 @@ class ArchivoControl
 
     function __destruct()
     {
-        if(is_dir(self::$carpetaUnica)){
+        if (is_dir(self::$carpetaUnica)) {
             rmdir(self::$carpetaUnica);
         }
     }
