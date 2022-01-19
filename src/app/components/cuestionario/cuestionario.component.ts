@@ -52,6 +52,7 @@ export class CuestionarioComponent implements OnInit {
     this.servicioCuestionario.obtenerPreguntas().subscribe(
       (respuesta:any[])=>{
         this.preguntasBD = respuesta;
+        console.log(respuesta);
         this.agregarCamposPreguntas();
       }
     );

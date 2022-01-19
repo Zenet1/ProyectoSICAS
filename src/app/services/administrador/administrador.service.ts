@@ -91,9 +91,9 @@ export class AdministradorService {
 
   respaldarBD(){
     const formData = new FormData();
-    formData.append('accion', 'respaldarSICAS');
     const someHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.clienteHttp.post<any>(this.API_Administrador, formData, {headers:someHeaders, responseType: 'blob' as 'json'});
+    formData.append('accion', 'respaldarSICAS');
+    return this.clienteHttp.post<any>(this.API_Administrador, {headers:someHeaders, body:formData, responseType: 'blob' as 'json'});
   }
 
   obtenerProgramas(){
