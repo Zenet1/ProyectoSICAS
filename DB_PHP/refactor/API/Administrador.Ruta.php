@@ -1,12 +1,17 @@
 <?php
-header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+
+header("Access-Control-Allow-Origin:*");
+header("Access-Control-Allow-Credentials: true ");
+header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+header("Access-Control-Allow-Headers: X-Custom-Header, Origin, Content-Type , Authorisation , X-Requested-With");
+header("Content-Type: application/json; charset=UTF-8 ");
+
 include_once("Servicios/Administrador/Actualizar/ActualizarPorcentaje.Servicio.php");
 include_once("Servicios/Administrador/Actualizar/ActualizarSalones.Servicio.php");
 include_once("Servicios/Administrador/Insertar/InsertarOficina.Servicio.php");
 include_once("Servicios/Administrador/Insertar/InsertarIncidente.Servicio.php");
 include_once("Servicios/Administrador/Insertar/InsertarUsuario.Servicio.php");
-include_once("Servicios/Administrador/Eliminar/EliminarBD.Servicio.php");
+include_once("Servicios/Administrador/Eliminar/ControlBD.Servicio.php");
 include_once("Servicios/Administrador/Recuperar/Roles.Servicio.php");
 include_once("Servicios/Administrador/Recuperar/RecuperarPlanes.Servicio.php");
 include_once("Servicios/Administrador/Recuperar/RecuperarPorcentaje.Servicio.php");
@@ -41,7 +46,6 @@ $EdificioControl = new Edificio($QueryObj);
 $OficinaControl = new Oficina($QueryObj);
 $PreguntaControl = new Pregunta($QueryObj);
 $AlertaControl = new Alertar($QueryObj, new CorreoManejador(), $Fechas);
-$SICEIControl = new SICEIControl($Conexion->getConexion(), new ArchivoControl($Fechas, false));
 
 switch ($datos->accion) {
     case "agregarUsuario":
@@ -60,13 +64,13 @@ switch ($datos->accion) {
         $SalonesControl->ActualizarSalon((array)$datos->contenido);
         break;
     case "respaldarSICAS":
+        $BDControl->Respaldar(new ArchivoControl($Fechas), $Fechas);
         break;
     case "eliminarSICAS":
+        $BDControl->EliminarBD($Fechas);
         break;
     case "restaurarSICAS":
-        break;
-    case "restaurarSICEI":
-        $SICEIControl->RestaurarSICEI();
+        $BDControl->Restaurar(new ArchivoControl($Fechas));
         break;
     case "recuperarEstadisticaAlumno":
         $EstadisticaControl->EstadisticasAlumno((array) $datos->contenido);
@@ -105,5 +109,9 @@ switch ($datos->accion) {
         break;
     case "obtenerAfectados":
         $AlertaControl->obtenerAfectados((array) $datos->contenido);
+        break;
+    default:
+        $SICEIControl = new SICEIControl($Conexion->getConexion(), new ArchivoControl($Fechas, false));
+        $SICEIControl->RestaurarSICEI();
         break;
 }
