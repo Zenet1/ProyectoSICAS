@@ -41,7 +41,7 @@ $EdificioControl = new Edificio($QueryObj);
 $OficinaControl = new Oficina($QueryObj);
 $PreguntaControl = new Pregunta($QueryObj);
 $AlertaControl = new Alertar($QueryObj, new CorreoManejador(), $Fechas);
-$SICEIControl = new SICEIControl($Conexion->getConexion(), new ArchivoControl($Fechas,"docs"));
+$SICEIControl = new SICEIControl($Conexion->getConexion(), new ArchivoControl($Fechas, "docs"));
 
 switch ($datos->accion) {
     case "agregarUsuario":
