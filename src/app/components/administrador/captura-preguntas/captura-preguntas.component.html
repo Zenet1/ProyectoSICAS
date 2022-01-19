@@ -42,7 +42,7 @@
                         <label for="preguntaEnlace" class="form-label">Seleccioné la pregunta a la que se enlazará:</label>
                         <select id="preguntaEnlace" class="form-select" formControlName="preguntaEnlace" required>
                             <ng-container *ngFor="let pregunta of preguntas">
-                                <option [value]="pregunta.IDPregunta">{{pregunta.Pregunta}}</option>
+                                <option *ngIf="pregunta.Enlace == null" [value]="pregunta.IDPregunta">{{pregunta.Pregunta}}</option>
                             </ng-container>
                         </select>
                     </div>
