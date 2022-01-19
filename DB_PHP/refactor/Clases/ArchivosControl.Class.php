@@ -63,6 +63,8 @@ class ArchivoControl
 
     function __destruct()
     {
-        rmdir(self::$carpetaUnica);
+        if(is_dir(self::$carpetaUnica)){
+            rmdir(self::$carpetaUnica);
+        }
     }
 }
