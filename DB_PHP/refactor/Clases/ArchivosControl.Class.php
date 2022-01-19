@@ -4,10 +4,9 @@ class ArchivoControl
 {
     public static string $carpetaUnica;
 
-    public function __construct(Fechas $fechaObj)
+    public function __construct(Fechas $fechaObj, string $PATH = "./backups/")
     {
-        $carpetaRaiz = "./backups/";
-        self::$carpetaUnica = $carpetaRaiz . $fechaObj->FechaAct() . "-" . $fechaObj->HrAct("i");
+        self::$carpetaUnica = $PATH . $fechaObj->FechaAct() . "-" . $fechaObj->HrAct("i");
         mkdir(self::$carpetaUnica);
     }
 
