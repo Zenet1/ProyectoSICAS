@@ -24,24 +24,26 @@ class RegistrarAsistencia
 
         if ($this->TipoValido($tipo)) {
             $operaciones = $this->TipoOperacion($tipo);
-            $this->respuesta["respuesta"] = $this->ValidarReservaciones($operaciones[0], $id, $codigoQr);
-            $this->InsertarAsistencia($operaciones[1], $id);
+            if ($this->ValidarReservaciones($operaciones[0], $id, $codigoQr)) {
+                $this->InsertarAsistencia($operaciones[1], $id);
+            }
         }
         echo json_encode($this->respuesta);
     }
 
-    private function ValidarReservaciones(string $operacion, int $id, array $codigoQr): string
+    private function ValidarReservaciones(string $operacion, int $id, array $codigoQr): bool
     {
         $resultado = array();
         foreach ($codigoQr as $IDRESERVA) {
             $incognitas = array("id" => $id, "idr" => $IDRESERVA, "fch" => $this->fecha->FechaAct());
             $resultado = $this->objQuery->ejecutarConsulta($operacion, $incognitas);
             if ($resultado === false || sizeof($resultado) === 0) {
-                return "invalido";
+                return false;
             }
         }
         $this->respuesta["NombreCompleto"] = $this->AsignarNombre($resultado[0]);
-        return "valido";
+        $this->respuesta["respuesta"] = "valido";
+        return true;
     }
 
     private function InsertarAsistencia(String $operacion, int $id)
