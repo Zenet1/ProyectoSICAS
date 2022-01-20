@@ -29,8 +29,16 @@ include_once("../Clases/Fechas.Class.php");
 include_once("../Clases/Email.Class.php");
 include_once("../Clases/ArchivosControl.Class.php");
 
-$json = file_get_contents('php://input');
-$datos = json_decode($json);
+$datos = null;
+$accion = null;
+
+if (isset($_POST)) {
+    $accion = $_POST["accion"];
+} else {
+    $json = file_get_contents('php://input');
+    $datos = json_decode($json);
+    $accion = $datos->accion;
+}
 
 $Conexion = Conexion::ConexionInstacia();
 $Fechas = Fechas::ObtenerInstancia();
@@ -47,7 +55,7 @@ $OficinaControl = new Oficina($QueryObj);
 $PreguntaControl = new Pregunta($QueryObj);
 $AlertaControl = new Alertar($QueryObj, new CorreoManejador(), $Fechas);
 
-switch ($datos->accion) {
+switch ($accion) {
     case "agregarUsuario":
         $NUsuarios->InsertarNuevoTrabajador((array)$datos->contenido);
         break;
@@ -64,7 +72,6 @@ switch ($datos->accion) {
         $SalonesControl->ActualizarSalon((array)$datos->contenido);
         break;
     case "respaldarSICAS":
-        $BDControl->Respaldar(new ArchivoControl($Fechas), $Fechas);
         break;
     case "eliminarSICAS":
         $BDControl->EliminarBD($Fechas);
@@ -110,8 +117,11 @@ switch ($datos->accion) {
     case "obtenerAfectados":
         $AlertaControl->obtenerAfectados((array) $datos->contenido);
         break;
-    default:
+    case "restaurarSICEI":
         $SICEIControl = new SICEIControl($Conexion->getConexion(), new ArchivoControl($Fechas, false));
         $SICEIControl->RestaurarSICEI();
+        break;
+    default:
+        $BDControl->Respaldar(new ArchivoControl($Fechas), $Fechas);
         break;
 }

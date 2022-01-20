@@ -20,7 +20,7 @@ class SICEIControl
     {
         $this->conexion = $conexion;
         $this->archivos = $archivos;
-        $this->archivosPrinc = array("AlumnosCargaDeAsignaturas", "AlumnosInscripcionEnPeriodoCurso", "AsignaturasALasQueSeInscribieronAlumnos", "HorariosSesionesGrupo", "PlanesDeEstudios", "ProfesoresConAlumnosInscritos");
+        $this->archivosPrinc = array("AlumnosCargaDeAsignaturas.txt", "AlumnosInscripcionEnPeriodoCurso.txt", "AsignaturasALasQueSeInscribieronAlumnos.txt", "HorariosSesionesGrupo.txt", "PlanesDeEstudios.txt", "ProfesoresConAlumnosInscritos.txt");
     }
 
     private function VerificarDatosRespaldo()
@@ -40,12 +40,10 @@ class SICEIControl
 
     public function RestaurarSICEI()
     {
-        
+
         $this->archivos->MoverArchivos(intval($_POST["numArchivos"]));
         $this->VerificarDatosRespaldo();
 
-
-        /*
         RecuperarUsuariosAlumnos($this->conexion);
         RecuperarEdificiosLicenciatura($this->conexion);
         RecuperarSalones($this->conexion);
@@ -56,6 +54,5 @@ class SICEIControl
         RecuperarGrupos($this->conexion);
         RecuperarCargasAcademicas($this->conexion);
         RecuperarHorarios($this->conexion);
-        */
     }
 }
