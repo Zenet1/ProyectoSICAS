@@ -35,7 +35,7 @@ class Externo{
         $ContenidoQRExterno = "e," . $ContenidoQR;
         $QR = new GeneradorQr();
         $QR->setNombrePng($NombreQRExterno);
-        $QR->Generar($ContenidoQRExterno);
+        $QR->GenerarImagen($ContenidoQRExterno);
     }
 
     private function insertarExterno() : bool{

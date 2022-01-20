@@ -50,6 +50,6 @@ class Pregunta
         $preguntasFiltradas["primarias"] = $preguntasPrim;
         $preguntasFiltradas["secundarias"] = $preguntasSec;
 
-        return $preguntasFiltradas;
+        echo json_encode($preguntasFiltradas);
     }
 }

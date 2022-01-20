@@ -8,7 +8,7 @@ class ArchivoControl
     {
         $carpetaRaiz = "./backups/";
         self::$carpetaUnica = $carpetaRaiz . $fechaObj->FechaAct() . "-" . $fechaObj->HrAct("i");
-        ($crearCapeta ? mkdir(self::$carpetaUnica) : "");
+        mkdir(self::$carpetaUnica);
     }
 
     public function MoverArchivo(string $PATH): string

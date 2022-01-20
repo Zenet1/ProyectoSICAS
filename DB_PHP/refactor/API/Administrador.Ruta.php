@@ -31,7 +31,7 @@ include_once("../Clases/ArchivosControl.Class.php");
 $datos = null;
 $accion = null;
 
-if (isset($_POST)) {
+if (isset($_POST) && sizeof($_POST) > 0) {
     $accion = $_POST["accion"];
 } else {
     $json = file_get_contents('php://input');
@@ -71,6 +71,7 @@ switch ($accion) {
         $SalonesControl->ActualizarSalon((array)$datos->contenido);
         break;
     case "respaldarSICAS":
+        $BDControl->Respaldar(new ArchivoControl($Fechas), $Fechas);
         break;
     case "eliminarSICAS":
         $BDControl->EliminarBD($Fechas);
@@ -120,7 +121,7 @@ switch ($accion) {
         $SICEIControl = new SICEIControl($Conexion->getConexion(), new ArchivoControl($Fechas, false));
         $SICEIControl->RestaurarSICEI();
         break;
-    default:
-       
+    case "preguntasFiltradas":
+        $PreguntaControl->FiltrarPreguntas();
         break;
 }
