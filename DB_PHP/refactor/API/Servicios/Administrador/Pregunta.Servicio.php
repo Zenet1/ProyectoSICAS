@@ -3,16 +3,17 @@
 class Pregunta
 {
     private Query $objQuery;
+    private string $SELECTPreguntas;
 
     public function __construct(Query $objQuery)
     {
         $this->objQuery = $objQuery;
+        $this->SELECTPreguntas = "SELECT * FROM preguntas";
     }
 
     public function recuperarPreguntas()
     {
-        $sql_recuperarPreguntas = "SELECT * FROM preguntas";
-        $preguntas = $this->objQuery->ejecutarConsulta($sql_recuperarPreguntas, array());
+        $preguntas = $this->objQuery->ejecutarConsulta($this->SELECTPreguntas, array());
         echo json_encode($preguntas);
     }
 
@@ -25,7 +26,30 @@ class Pregunta
     public function insertarPregunta(array $contenido)
     {
         $sql_registrarPregunta = "INSERT INTO preguntas (Pregunta,Respuesta,Enlace) SELECT :pgr,:rpt,:enl FROM DUAL WHERE NOT EXISTS (SELECT Pregunta FROM preguntas WHERE Pregunta=:pgr) LIMIT 1";
-        $incognitas = array("pgr" => $contenido["pregunta"], "rpt" => $contenido["respuesta"], "enl" => $contenido["preguntaEnlace"]);
+
+        $enlace = ($contenido["preguntaEnlace"] === "0" ? "" : $contenido["preguntaEnlace"]);
+
+        $incognitas = array("pgr" => $contenido["pregunta"], "rpt" => $contenido["respuesta"], "enl" => $enlace);
         $this->objQuery->ejecutarConsulta($sql_registrarPregunta, $incognitas);
+    }
+
+    public function FiltrarPreguntas()
+    {
+        $preguntas = $this->objQuery->ejecutarConsulta($this->SELECTPreguntas, array());
+        $preguntasSec = array();
+        $preguntasPrim = array();
+
+        foreach ($preguntas as $DATO) {
+            if ($DATO["Enlace"] === null) {
+                $preguntasPrim[] = array_shift($preguntas);
+            } else {
+                $preguntasSec[] = array_shift($preguntas);
+            }
+        }
+
+        $preguntasFiltradas["primarias"] = $preguntasPrim;
+        $preguntasFiltradas["secundarias"] = $preguntasSec;
+
+        return $preguntasFiltradas;
     }
 }

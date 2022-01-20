@@ -51,7 +51,7 @@ class EstadisticaControl
         if (sizeof($datosModificados) === 0) {
             print_r(json_encode($this->FormatoGrafica($datosFiltrados)));
         } else {
-            Recursivo($datosModificados, $datosFiltrados);
+            $this->FiltradoRecursivo($datosModificados, $datosFiltrados);
         }
     }
 

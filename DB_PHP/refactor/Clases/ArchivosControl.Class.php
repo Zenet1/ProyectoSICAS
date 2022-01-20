@@ -4,11 +4,11 @@ class ArchivoControl
 {
     public static string $carpetaUnica;
 
-    public function __construct(Fechas $fechaObj)
+    public function __construct(Fechas $fechaObj, bool $crearCapeta = true)
     {
         $carpetaRaiz = "./backups/";
         self::$carpetaUnica = $carpetaRaiz . $fechaObj->FechaAct() . "-" . $fechaObj->HrAct("i");
-        mkdir(self::$carpetaUnica);
+        ($crearCapeta ? mkdir(self::$carpetaUnica) : "");
     }
 
     public function MoverArchivo(string $PATH): string
@@ -18,10 +18,10 @@ class ArchivoControl
         return $direccion;
     }
 
-    public function MoverArchivos(string $PATH, int $CANTARCHIVOS)
+    public function MoverArchivos(int $CANTARCHIVOS)
     {
         for ($i = 0; $i < $CANTARCHIVOS; $i++) {
-            $direccion = $PATH . $_FILES["archivo" . $i]["name"];
+            $direccion = "./docs/" . $_FILES["archivo" . $i]["name"];
             move_uploaded_file($_FILES["archivo" . $i]["tmp_name"], $direccion);
         }
     }
@@ -63,6 +63,8 @@ class ArchivoControl
 
     function __destruct()
     {
-        rmdir(self::$carpetaUnica);
+        if (is_dir(self::$carpetaUnica)) {
+            rmdir(self::$carpetaUnica);
+        }
     }
 }

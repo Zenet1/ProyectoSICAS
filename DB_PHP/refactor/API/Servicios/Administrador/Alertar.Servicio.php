@@ -6,12 +6,14 @@ class Alertar
     private Query $objQuery;
     private AlertaQuery $objAleQ;
     private CorreoManejador $correo;
+    private Fechas $fecha;
 
-    public function __construct(Query $objQuery, CorreoManejador $correo)
+    public function __construct(Query $objQuery, CorreoManejador $correo, Fechas $fecha)
     {
         $this->objQuery = $objQuery;
         $this->objAleQ = new AlertaQuery();
         $this->correo = $correo;
+        $this->fecha = $fecha;
     }
 
     public function Alertar(array $contenido)
@@ -47,7 +49,9 @@ class Alertar
 
         $this->EnviarCorreo($profesoresFiltrados, $gruposFiltrados);
         $this->EnviarCorreo($alumnosFiltrados, $gruposFiltrados);
-        
+
+        $this->InsertarInfectados($contenido);
+
         $datosEnviar["usuarios"] = sizeof($profesoresFiltrados) + sizeof($alumnosFiltrados);
         $datosEnviar["grupos"] = $gruposFiltrados;
 
@@ -59,7 +63,6 @@ class Alertar
         $resultado = $this->objQuery->ejecutarConsulta($sql, $datos);
         return $this->Filtrar($resultado, $datosFiltrados);
     }
-
 
     private function Filtrar(array $datoCrudo, array $datosFiltrados)
     {
@@ -103,5 +106,11 @@ class Alertar
     {
         $incognitas = array("mat" => $contenido["matricula"], "fchIn" => $contenido["fechaInicio"], "fchFn" => $contenido["fechaFin"]);
         return $this->objQuery->ejecutarConsulta($this->objAleQ->ObtenerAsistencias(), $incognitas);
+    }
+
+    private function InsertarInfectados(array $datos)
+    {
+        $incognitas = array("ida" => $datos["matricula"], "fchA" => $this->fecha->FechaAct(), "fchL" => $datos["fechaSuspension"]);
+        $this->objQuery->ejecutarConsulta($this->objAleQ->AgregarIncidente(), $incognitas);
     }
 }

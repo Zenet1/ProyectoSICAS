@@ -10,7 +10,7 @@
         <div class="container-formulario">
             <form [formGroup]="formularioBDSicei" (ngSubmit)="subirBDSicei()" ngNativeValidate>
                 <div class="mb-3">
-                    <label for="archivos" class="form-label">Seleccione el archivos:</label>
+                    <label for="archivos" class="form-label">Seleccione los archivos:</label>
                     <input id="archivos" name="archivos" accept=".txt" (change)="archivosSeleccionados($event)" class="form-control" type="file" multiple required>
                 </div>
                 <div class="container-botones">
