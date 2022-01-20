@@ -23,7 +23,6 @@ export class AsistenciaExternoComponent implements OnInit {
     this.formularioAsistenciaExterno = this.formBuilder.group({
         oficinas: this.formBuilder.array([]),
         fechaAsistencia:[""],
-        accion: [""],
       }
     );
     this.obtenerOficinas();
@@ -59,7 +58,7 @@ export class AsistenciaExternoComponent implements OnInit {
     var oficinasSeleccionadas: Array<any> = [];
     for (let index = 0; index < this.oficinas.length; index++) {
       if(this.oficinas.controls[index].get("respuesta").value == true){
-        oficinasSeleccionadas.push(this.listaOficinas[index]);
+        oficinasSeleccionadas.push(this.listaOficinas[index].IDOficina);
       }
     }
 
@@ -67,7 +66,7 @@ export class AsistenciaExternoComponent implements OnInit {
       if (window.confirm("Si está seguro que desea asistir, confirme para finalizar")){
         this.servicioExterno.enviarAsistencia(oficinasSeleccionadas, this.fechaAsistencia.value).subscribe(
           respuesta=>{
-            this.enviarQR();
+            this.enviarQR(oficinasSeleccionadas, this.fechaAsistencia.value);
           },
           error=>{
             alert('Ha ocurrido un error al registrar tu reserva, intenténtalo de nuevo');
@@ -79,8 +78,8 @@ export class AsistenciaExternoComponent implements OnInit {
     }
   }
 
-  enviarQR(){
-    this.servicioExterno.enviarCorreo().subscribe(
+  enviarQR(oficinasSeleccionadas, fechaAsistencia){
+    this.servicioExterno.enviarCorreo(oficinasSeleccionadas, fechaAsistencia).subscribe(
       respuesta=>{
         alert('Se ha enviado un código QR a tu correo, que deberás presentar para entrar a la facultad');
         this.router.navigateByUrl('login');
