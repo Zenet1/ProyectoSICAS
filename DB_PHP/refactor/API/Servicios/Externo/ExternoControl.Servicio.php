@@ -12,8 +12,9 @@ class ExternoControl{
 
     public function enviarQRExterno(array $IDOficinas, string $fechaReservada) : void
     {
+        session_start();
         if($this->sesionActivaExterno()){
-            session_start();
+            
             $objCorreo = new CorreoManejador();
 
             $IDExterno = $_SESSION["IDExterno"];
@@ -24,13 +25,15 @@ class ExternoControl{
 
             $contenidoCorreo = $this->generarContenidoCorreo($nombreExterno, $IDExterno, $IDOficinas, $fechaReservada);
 
-            $nombreQR = $this->generarQRExterno($IDExterno);
+            $nombreQR = $this->generarQRExterno($IDExterno, $IDOficinas, $fechaReservada);
             $ubicacionQR = "img/" . $nombreQR .".png";
-            
-            $objCorreo->setArchivo(true);
-            $objCorreo->EnviarCorreo($datosDestinatario, $contenidoCorreo["asunto"], $contenidoCorreo["mensaje"], $ubicacionQR);
 
-            unlink($ubicacionQR);
+            $objCorreo->setArchivo(true);
+            $objCorreo->EnviarCorreo($datosDestinatario, $contenidoCorreo[0], $contenidoCorreo[1], $ubicacionQR);
+
+            //unlink($ubicacionQR);
+        }else{
+            echo "ERROR: Sesión no activa";
         }
     }
 
@@ -38,23 +41,26 @@ class ExternoControl{
     {
         $asunto = "Clave QR para acceso";
         $mensaje = "Estimado " .  $nombreExterno . " el siguiente correo contiene su clave unica QR para acceder";
-        $mensaje .= " a su entidad educativa correspondiente, este codigo es unicamente valido en la fecha " . $this->objFecha->FechaSig("d-m-Y") . ".\n";
+        $mensaje .= " a su entidad educativa correspondiente, este codigo es unicamente valido en la fecha " . $fechaReservada . ".\n";
         
-        $this->recuperarOficinasReservadas($IDExterno, $listaOficinas, $fechaReservada);
-        
+        $mensaje = "Usted ha podido realizar reservaciones con éxito a las siguientes oficinas:<br>";
+        $oficinasRecuperadas = $this->recuperarOficinasReservadas($IDExterno, $listaOficinas, $fechaReservada);
+        $mensaje .= $oficinasRecuperadas;
+
         $mensaje .= "Se le exhorta que guarde la imagen para evitar algun problema.";
+
         return array($asunto, $mensaje);
     }
 
-    private function recuperarOficinasReservadas(string $IDExterno, array $listaOficinas, string $fechaReservada) : void
+    private function recuperarOficinasReservadas(string $IDExterno, array $listaOficinas, string $fechaReservada) : string
     {
-
-        $mensaje.= "Usted ha podido realizar reservaciones con éxito a las siguientes oficinas:<br>";
+        $mensaje = "";
         
         foreach($listaOficinas as $IDOficina){
             $nombreOficina = $this->recuperarNombreOficina($IDExterno, $IDOficina, $fechaReservada);
             $mensaje .= "<li>" . $nombreOficina . "</li>";
         }
+        return $mensaje;
     }
 
     private function recuperarNombreOficina(string $IDExterno, $IDOficina, string $fechaReservada) : string
@@ -67,24 +73,24 @@ class ExternoControl{
 
         $nombreOficina = $this->objQuery->ejecutarConsulta($sql_recuperarOficina, array($IDExterno, $IDOficina, $fechaReservada));
 
-        return $nombreOficina["NombreOficina"];
+        return $nombreOficina[0]["NombreOficina"];
     }
 
     private function generarQRExterno(string $IDExterno, array $listaIDOficinas, string $fechaReservada) : string
     {
-        $NombreQRExterno = "e" . $IDExterno;
-        $ContenidoQRExterno = $this->generarContenidoQR($IDExterno, $listaIDOficinas, $fechaReservada);
+        $nombreQRExterno = "e" . $IDExterno;
+        $contenidoQRExterno = $this->generarContenidoQR($IDExterno, $listaIDOficinas, $fechaReservada);
 
         $QR = new GeneradorQr();
-        $QR->setNombrePng($NombreQRExterno);
-        $QR->GenerarImagen($ContenidoQRExterno);
+        $QR->setNombrePng($nombreQRExterno);
+        $QR->GenerarImagen($contenidoQRExterno);
 
         return $nombreQRExterno;
     }
 
     private function generarContenidoQR(string $IDExterno, array $listaIDOficinas, string $fechaReservada) : string
     {
-        $ContenidoQR = "e";
+        $ContenidoQR = "e," . $IDExterno;
 
         foreach($listaIDOficinas as $IDOficina){
             $sql_recuperarIDReserva = "SELECT IDReservaExterno FROM reservacionesexternos 

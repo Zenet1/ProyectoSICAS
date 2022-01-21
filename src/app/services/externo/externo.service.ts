@@ -18,7 +18,7 @@ export class ExternoService {
   }
 
   enviarCorreo(oficinas:any, fecha:any):Observable<any>{
-    let datos = JSON.stringify({accion:"EnviarQRExterno", oficinas: oficinas, fecha: fecha});
+    let datos = JSON.stringify({accion:"enviarQRExterno", oficinas: oficinas, fecha: fecha});
     return this.clienteHttp.post<any>(this.API_Externo, datos);
   }
 

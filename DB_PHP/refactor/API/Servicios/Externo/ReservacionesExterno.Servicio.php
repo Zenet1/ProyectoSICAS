@@ -26,7 +26,6 @@ class ReservacionExterno{
         if($externoRegistrado){
             $IDExterno = $this->recuperarIDExterno();
             $this->insertarReservacion($oficinas, $IDExterno["IDExterno"], $fechaAsistencia);
-            //$this->generarQRExterno($IDExterno["IDExterno"], $ContenidoQR);
         }else{
             echo "No se tiene una sesión iniciada";
         }
@@ -64,7 +63,7 @@ class ReservacionExterno{
     private function insertarReservacion(array $oficinas, string $IDExterno, string $fechaAsistencia)
     {
        
-        $fechaActual =  $this->objFecha->FechaAct("d-m-Y");
+        $fechaActual =  $this->objFecha->FechaAct("Y-m-d");
         $horaActual =  $this->objFecha->HrAct("H:i:s");
         
         $sql_insertarReservacion = "INSERT INTO reservacionesexternos 
