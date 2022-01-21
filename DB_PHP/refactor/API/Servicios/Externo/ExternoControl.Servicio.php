@@ -31,7 +31,7 @@ class ExternoControl{
             $objCorreo->setArchivo(true);
             $objCorreo->EnviarCorreo($datosDestinatario, $contenidoCorreo[0], $contenidoCorreo[1], $ubicacionQR);
 
-            //unlink($ubicacionQR);
+            unlink($ubicacionQR);
         }else{
             echo "ERROR: Sesión no activa";
         }
