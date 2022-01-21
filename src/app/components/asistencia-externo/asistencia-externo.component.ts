@@ -17,9 +17,9 @@ export class AsistenciaExternoComponent implements OnInit {
   constructor(private servicioExterno:ExternoService, private servicioCookie:CookieService, private formBuilder:FormBuilder, private router:Router) { }
 
   ngOnInit(): void {
-    if(!this.servicioCookie.checkCookie("cuestionarioExterno")){
+    /*if(!this.servicioCookie.checkCookie("cuestionarioExterno")){
       this.router.navigateByUrl('login');
-    }
+    }*/
     this.formularioAsistenciaExterno = this.formBuilder.group({
         oficinas: this.formBuilder.array([]),
         fechaAsistencia:[""],
