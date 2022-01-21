@@ -75,8 +75,8 @@ class ReservacionExterno{
 
         foreach($oficinas as $oficina){
             $oficinaArray = (array)$oficina;
-            
-            $this->objQuery->ejecutarConsulta($sql_insertarReservacion, array($IDExterno, $oficinaArray["IDOficina"], $fechaAsistencia, $fechaActual, $horaActual));
+
+            $this->objQuery->ejecutarConsulta($sql_insertarReservacion, array($IDExterno, $oficinaArray[0], $fechaAsistencia, $fechaActual, $horaActual));
         }
         
         $this->inicializacionVariablesSesion($IDExterno, $fechaAsistencia);
