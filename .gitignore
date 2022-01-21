@@ -55,3 +55,4 @@ Thumbs.db
 
 /proxy.conf.json
 *.png
+DB_PHP/refactor/API/img/
