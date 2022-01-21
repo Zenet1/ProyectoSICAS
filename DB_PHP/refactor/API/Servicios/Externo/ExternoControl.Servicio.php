@@ -10,90 +10,96 @@ class ExternoControl{
         $this->objFecha = $fecha;
     }
 
-    public function registroExterno($datos){
-        session_start();
-        $_SESSION['Nombre'] = "$datos->nombre";
-        $_SESSION['apellidosExterno'] = "$datos->apellidos";
-        $_SESSION['empresa'] = "$datos->empresa";
-        $_SESSION['Correo'] = "$datos->correo";
+    public function enviarQRExterno(array $IDOficinas, string $fechaReservada) : void
+    {
+        if($this->sesionActivaExterno()){
+            session_start();
+            $objCorreo = new CorreoManejador();
+
+            $IDExterno = $_SESSION["IDExterno"];
+            $correoExterno = $_SESSION["Correo"];
+            $nombreExterno = $_SESSION["Nombre"];
+            $fechaReservada = $_SESSION["FechaReservada"];
+            $datosDestinatario = array($correoExterno => $nombreExterno);
+
+            $contenidoCorreo = $this->generarContenidoCorreo($nombreExterno, $IDExterno, $IDOficinas, $fechaReservada);
+
+            $nombreQR = $this->generarQRExterno($IDExterno);
+            $ubicacionQR = "img/" . $nombreQR .".png";
+            
+            $objCorreo->setArchivo(true);
+            $objCorreo->EnviarCorreo($datosDestinatario, $contenidoCorreo["asunto"], $contenidoCorreo["mensaje"], $ubicacionQR);
+
+            unlink($ubicacionQR);
+        }
     }
 
-    public function insertarReservaExterno($oficinas, $fechaAsistencia){
-        session_start();
-        $externoRegistrado = $this->insertarExterno();
-        if($externoRegistrado){
-            $IDExterno = $this->recuperarIDExterno();
-            $ContenidoQR = $this->insertarReservacion($oficinas, $IDExterno["IDExterno"], $fechaAsistencia);
-            $this->generarQRExterno($IDExterno["IDExterno"], $ContenidoQR);
-        }else{
-            echo "No se tiene una sesión iniciada";
-        }
-    }  
+    private function generarContenidoCorreo(string $nombreExterno, string $IDExterno, array $listaOficinas, string $fechaReservada) : array
+    {
+        $asunto = "Clave QR para acceso";
+        $mensaje = "Estimado " .  $nombreExterno . " el siguiente correo contiene su clave unica QR para acceder";
+        $mensaje .= " a su entidad educativa correspondiente, este codigo es unicamente valido en la fecha " . $this->objFecha->FechaSig("d-m-Y") . ".\n";
+        
+        $this->recuperarOficinasReservadas($IDExterno, $listaOficinas, $fechaReservada);
+        
+        $mensaje .= "Se le exhorta que guarde la imagen para evitar algun problema.";
+        return array($asunto, $mensaje);
+    }
 
-    private function generarQRExterno(string $IDExterno, string $ContenidoQR){
+    private function recuperarOficinasReservadas(string $IDExterno, array $listaOficinas, string $fechaReservada) : void
+    {
+
+        $mensaje.= "Usted ha podido realizar reservaciones con éxito a las siguientes oficinas:<br>";
+        
+        foreach($listaOficinas as $IDOficina){
+            $nombreOficina = $this->recuperarNombreOficina($IDExterno, $IDOficina, $fechaReservada);
+            $mensaje .= "<li>" . $nombreOficina . "</li>";
+        }
+    }
+
+    private function recuperarNombreOficina(string $IDExterno, $IDOficina, string $fechaReservada) : string
+    {
+
+        $sql_recuperarOficina = "SELECT OFC.NombreOficina FROM oficinas AS OFC 
+        INNER JOIN reservacionesexternos AS RSEX 
+        ON RSEX.IDOficina=OFC.IDOficina 
+        WHERE RSEX.IDExterno=? AND RSEX.IDOficina=? AND RSEX.FechaReservaExterno=?";
+
+        $nombreOficina = $this->objQuery->ejecutarConsulta($sql_recuperarOficina, array($IDExterno, $IDOficina, $fechaReservada));
+
+        return $nombreOficina["NombreOficina"];
+    }
+
+    private function generarQRExterno(string $IDExterno, array $listaIDOficinas, string $fechaReservada) : string
+    {
         $NombreQRExterno = "e" . $IDExterno;
-        $ContenidoQRExterno = "e," . $ContenidoQR;
+        $ContenidoQRExterno = $this->generarContenidoQR($IDExterno, $listaIDOficinas, $fechaReservada);
+
         $QR = new GeneradorQr();
         $QR->setNombrePng($NombreQRExterno);
         $QR->GenerarImagen($ContenidoQRExterno);
+
+        return $nombreQRExterno;
     }
 
-    private function insertarExterno() : bool{
-        $operacionRealizada = true;
+    private function generarContenidoQR(string $IDExterno, array $listaIDOficinas, string $fechaReservada) : string
+    {
+        $ContenidoQR = "e";
 
-        $sql_insertarExterno = "INSERT INTO externos (NombreExterno, ApellidosExterno, Empresa, CorreoExterno) SELECT ?,?,?,? FROM DUAL
-        WHERE NOT EXISTS (SELECT IDExterno FROM externos WHERE NombreExterno = ? AND ApellidosExterno = ? AND Empresa = ? AND CorreoExterno = ?) LIMIT 1";
-
-        if($this->sesionActivaExterno()){
-            $this->objQuery->ejecutarConsulta($sql_insertarExterno, array($_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo'], $_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo']));
-        }else{
-            $operacionRealizada = false;
-        }
-        return $operacionRealizada;
-    }
-
-    private function sesionActivaExterno() : bool{
-        return (isset($_SESSION['Nombre']) && isset($_SESSION['apellidosExterno']) && isset($_SESSION['empresa']) && isset($_SESSION['Correo']));
-    }
-
-    private function recuperarIDExterno() : array{
-        $sql_recuperarIDExterno = "SELECT IDExterno FROM externos WHERE NombreExterno = ? AND ApellidosExterno = ? AND Empresa = ? AND CorreoExterno = ?";
-
-        $IDExternoRecuperado = $this->objQuery->ejecutarConsulta($sql_recuperarIDExterno, array($_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo']));
-
-        return $IDExternoRecuperado[0];
-    }
-
-    private function insertarReservacion(array $oficinas, string $IDExterno, string $fechaAsistencia) : string {
-       
-        $fechaActual =  $this->objFecha->FechaAct("d-m-Y");
-        $horaActual =  $this->objFecha->HrAct("H:i:s");
-        
-        $sql_insertarReservacion = "INSERT INTO reservacionesexternos 
-        (IDExterno, IDOficina, FechaReservaExterno, FechaExterno, HoraExterno) 
-        VALUES (?, ?, ?, ?, ?)";
-
-        $sql_recuperarIDReserva = "SELECT IDReservaExterno FROM reservacionesexternos 
-        WHERE IDExterno = ? AND IDOficina = ? AND FechaReservaExterno = ?";
-
-        $QRContenido = $IDExterno;
-
-        foreach($oficinas as $oficina){
-            $oficinaArray = (array)$oficina;
+        foreach($listaIDOficinas as $IDOficina){
+            $sql_recuperarIDReserva = "SELECT IDReservaExterno FROM reservacionesexternos 
+            WHERE IDExterno = ? AND IDOficina = ? AND FechaReservaExterno = ?";
             
-            $this->objQuery->ejecutarConsulta($sql_insertarReservacion, array($IDExterno, $oficinaArray["IDOficina"], $fechaAsistencia, $fechaActual, $horaActual));
-            $IDReserva = $this->objQuery->ejecutarConsulta($sql_recuperarIDReserva, array($IDExterno, $oficinaArray["IDOficina"], $fechaAsistencia));
-
-            $QRContenido .= "," . $IDReserva[0]["IDReservaExterno"];
+            $IDReserva = $this->objQuery->ejecutarConsulta($sql_recuperarIDReserva, array($IDExterno, $IDOficina, $fechaReservada));
+            $ContenidoQR .= "," . $IDReserva[0]["IDReservaExterno"];
         }
-        
-        $this->inicializacionVariablesSesion($IDExterno, $fechaAsistencia);
-        return $QRContenido;
+
+        return $ContenidoQR;
     }
 
-    private function inicializacionVariablesSesion(string $IDExterno, string $fechaAsistencia) : void{
-        $_SESSION["IDExterno"] = $IDExterno;
-        $_SESSION["FechaReservada"] = $fechaAsistencia;
+    private function sesionActivaExterno() : bool
+    {
+        return (isset($_SESSION['Nombre']) && isset($_SESSION['apellidosExterno']) && isset($_SESSION['empresa']) && isset($_SESSION['Correo']));
     }
 }
 
