@@ -54,3 +54,4 @@ Thumbs.db
 /DB_PHP/phpqrcode/
 
 /proxy.conf.json
+*.png
