@@ -42,7 +42,7 @@ export class AsistenciaAlumnoComponent implements OnInit {
           this.router.navigateByUrl("inicio-alumno");
         }
       }
-    )
+    );
   }
 
   enviarAsistencia(){

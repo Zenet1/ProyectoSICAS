@@ -105,7 +105,7 @@ export class CuestionarioComponent implements OnInit {
           }
         } else {
           this.servicioCookie.setCookie("cuestionarioExterno", "si");
-          //this.router.navigateByUrl('asistencia-externo');
+          this.router.navigateByUrl('asistencia-externo');
         }
       }
     }
