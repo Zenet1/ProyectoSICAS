@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 })
 export class LoginService {
   API: string = '/ProyectoSICAS/DB_PHP/refactor/API/Autenticacion.Servicio.php';
+  API_Facultades:string = '';
   redirectUrl: string;
  
   @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
@@ -23,6 +24,11 @@ export class LoginService {
         return Users;
       }
     }));
+  }
+
+  obtenerFacultades(){
+    let datos = JSON.stringify({accion:"recuperarFacultades"});
+    return this.httpClient.post<any>(this.API_Facultades, datos);
   }
 
   getUsuario(){
