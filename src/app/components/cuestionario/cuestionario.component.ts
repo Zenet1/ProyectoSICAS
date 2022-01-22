@@ -12,7 +12,6 @@ import { LoginService } from 'src/app/services/login/login.service';
 })
 export class CuestionarioComponent implements OnInit {
   cuestionario:FormGroup;
-  preguntasBD:any;
   estaLogueado:boolean;
   pregPrimarias:any;
   pregSecundarias:any;
@@ -95,34 +94,32 @@ export class CuestionarioComponent implements OnInit {
 
   enviar(){
     if (window.confirm("Si está seguro de sus respuestas, confirme para continuar")) {
-      //recoleccion de respuestas
       var cantidadIncorrecta:number = 0;
       var tieneSecundarias:boolean = false;
       for (let index = 0; index < this.preguntasForm.length; index++) {
         if(this.preguntasForm.controls[index].get("respuesta").value != this.pregPrimarias[index].Respuesta){
           for (let j = 0; j < this.pregSecundariasForm.length; j++) {
-            console.log(this.pregSecundariasForm.controls[j].get("respuesta").value != this.pregSecundarias[j].Respuesta);
-            if((this.pregSecundariasForm.controls[j].get("respuesta").value != this.pregSecundarias[j].Respuesta) && 
-            (this.pregSecundariasForm.controls[j].get("respuesta").value  != '') &&
-            (this.pregSecundarias[j].Enlace  == this.pregPrimarias[index].IDPregunta)){
+            if(this.pregSecundarias[j].Enlace  == this.pregPrimarias[index].IDPregunta){
               tieneSecundarias = true;
-              cantidadIncorrecta++;
+              if(this.pregSecundariasForm.controls[j].get("respuesta").value  != ''){
+                if(this.pregSecundariasForm.controls[j].get("respuesta").value != this.pregSecundarias[j].Respuesta){
+                  cantidadIncorrecta++;
+                }
+              }
             }
           }
           if(!tieneSecundarias){
-            console.log(cantidadIncorrecta);
             cantidadIncorrecta++;
           }
         }
         tieneSecundarias = false;
       }
-  
+
       if(cantidadIncorrecta > 0){
-        alert("De acuerdo a tus respuestas, no es posible que asistas a la facultad, se te ha notificado por correo electrónico");
-        this.servicioCuestionario.rechazado(this.cuestionario.value).subscribe(
+        this.servicioCuestionario.rechazado().subscribe(
           respuesta=>{
             alert("De acuerdo a tus respuestas, no es posible que asistas a la facultad, se te ha notificado por correo electrónico");
-            //this.router.navigateByUrl('login');
+            this.router.navigateByUrl('login');
           }
         );
         
