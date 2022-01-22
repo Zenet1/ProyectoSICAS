@@ -12,6 +12,7 @@ import { LoginService } from 'src/app/services/login/login.service';
 export class LoginComponent implements OnInit {
   estaLogueado: Boolean;
   formularioIniciarSesion:FormGroup;
+  facultades:any;
 
   constructor(private servicioLogin:LoginService, private servicioCookie:CookieService, private formBuilder:FormBuilder, private router:Router) { }
 
@@ -39,11 +40,20 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl('login');
         }
       } 
-    }
-
-    this.formularioIniciarSesion = this.formBuilder.group({
+    } else {
+      this.formularioIniciarSesion = this.formBuilder.group({
         usuario: [""],
         contrasena: [""],
+        facultad:[""]
+      });
+    this.obtenerFacultades();
+    }
+  }
+
+  obtenerFacultades(){
+    this.servicioLogin.obtenerFacultades().subscribe(
+      respuesta=>{
+        this.facultades = respuesta;
       }
     );
   }

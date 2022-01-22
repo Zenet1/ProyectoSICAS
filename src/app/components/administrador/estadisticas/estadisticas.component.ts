@@ -43,9 +43,7 @@ export class EstadisticasComponent implements OnInit {
       genero:[""],
       fechaInicio:[""],
       fechaFin:[""],
-      programa:[""],
-      NombrePlan:[""],
-      ClavePlan:[""]
+      programa:[""]
     });
     this.obtenerProgramas();
   }
@@ -54,13 +52,6 @@ export class EstadisticasComponent implements OnInit {
     this.siEstadisticasObtenidas = false;
     let validacionPeriodo:boolean = this.formEstadisticas.controls['fechaFin'].value >= this.formEstadisticas.controls['fechaInicio'].value;
     if(validacionPeriodo){
-      if(this.formEstadisticas.controls["programa"].value != "todos"){
-        this.formEstadisticas.controls["NombrePlan"].setValue(this.programas[this.formEstadisticas.controls["programa"].value].NombrePlan);
-        this.formEstadisticas.controls["ClavePlan"].setValue(this.programas[this.formEstadisticas.controls["programa"].value].ClavePlan);
-      } else {
-        this.formEstadisticas.controls["NombrePlan"].setValue("todos");
-        this.formEstadisticas.controls["ClavePlan"].setValue("todos");
-      }
       this.servicioAdmin.obtenerEstadisticas(this.formEstadisticas.value).subscribe(
         respuesta=>{
           if(respuesta.length > 0){
@@ -82,6 +73,7 @@ export class EstadisticasComponent implements OnInit {
   obtenerProgramas(){
     this.servicioAdmin.obtenerProgramas().subscribe(
       respuesta=>{
+        console.log(respuesta);
         this.programas = respuesta;
       }
     );

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'src/app/services/cookie/cookie.service';
@@ -12,13 +12,15 @@ import { LoginService } from 'src/app/services/login/login.service';
 })
 export class CuestionarioComponent implements OnInit {
   cuestionario:FormGroup;
-  preguntasBD:any;
   estaLogueado:boolean;
+  pregPrimarias:any;
+  pregSecundarias:any;
+  banderas:boolean[] = [];
   
-  constructor(private servicioCuestionario:CuestionarioService, private servicioLogin:LoginService, private servicioCookie:CookieService, private formBuilder: FormBuilder, private router:Router) {
+  constructor(private cd:ChangeDetectorRef,private servicioCuestionario:CuestionarioService, private servicioLogin:LoginService, private servicioCookie:CookieService, private formBuilder: FormBuilder, private router:Router) {
     this.cuestionario = this.formBuilder.group({
       preguntas: this.formBuilder.array([]),
-      accion: ['']    
+      preguntasSecundarias: this.formBuilder.array([]), 
     });
   }
 
@@ -44,26 +46,31 @@ export class CuestionarioComponent implements OnInit {
         this.router.navigateByUrl('login');
       } else {
         this.obtenerPreguntas();
+        for(let index = 0; index<this.pregPrimarias.length; index++){
+          this.banderas.push(false);
+        }
+        
       }
     }
   }
 
   obtenerPreguntas(){
     this.servicioCuestionario.obtenerPreguntas().subscribe(
-      (respuesta:any[])=>{
-        this.preguntasBD = respuesta;
-        console.log(respuesta);
-        this.agregarCamposPreguntas();
+      (respuesta:any)=>{
+        this.pregPrimarias = respuesta.primarias;
+        this.pregSecundarias = respuesta.secundarias;
+        this.agregarCamposPreguntas(this.pregPrimarias.length, this.preguntasForm);
+        this.agregarCamposPreguntas(this.pregSecundarias.length, this.pregSecundariasForm);
       }
     );
   }
 
-  agregarCamposPreguntas(){
-    for (let index = 0; index < this.preguntasBD.length; index++) {
+  agregarCamposPreguntas(cantidad:any, campo:any){
+    for (let index = 0; index < cantidad; index++) {
       const preguntaFormGroup = this.formBuilder.group({
         respuesta:['']
       });
-      this.preguntasForm.push(preguntaFormGroup);
+      campo.push(preguntaFormGroup);
     }
   }
 
@@ -71,35 +78,57 @@ export class CuestionarioComponent implements OnInit {
     return this.cuestionario.get('preguntas') as FormArray;
   }
 
-  eleccion($event){
+  get pregSecundariasForm(){
+    return this.cuestionario.get('preguntasSecundarias') as FormArray;
+  }
 
+  eleccion(event, i){
+    if(this.pregPrimarias[i].Respuesta != event){
+      this.banderas[i] = true;
+    } else {
+      this.banderas[i] = false;
+    }
+
+    this.cd.detectChanges();
   }
 
   enviar(){
     if (window.confirm("Si está seguro de sus respuestas, confirme para continuar")) {
-      //recoleccion de respuestas
-      let cantidadSi:number = 0;
+      var cantidadIncorrecta:number = 0;
+      var tieneSecundarias:boolean = false;
       for (let index = 0; index < this.preguntasForm.length; index++) {
-        if(this.preguntasForm.controls[index].get("respuesta").value  == 'si'){
-          cantidadSi++; 
+        if(this.preguntasForm.controls[index].get("respuesta").value != this.pregPrimarias[index].Respuesta){
+          for (let j = 0; j < this.pregSecundariasForm.length; j++) {
+            if(this.pregSecundarias[j].Enlace  == this.pregPrimarias[index].IDPregunta){
+              tieneSecundarias = true;
+              if(this.pregSecundariasForm.controls[j].get("respuesta").value  != ''){
+                if(this.pregSecundariasForm.controls[j].get("respuesta").value != this.pregSecundarias[j].Respuesta){
+                  cantidadIncorrecta++;
+                }
+              }
+            }
+          }
+          if(!tieneSecundarias){
+            cantidadIncorrecta++;
+          }
         }
+        tieneSecundarias = false;
       }
-  
-      if(cantidadSi > 0){
-        this.cuestionario.controls["accion"].setValue("rechazado");
-        /*this.servicioCuestionario.rechazado(this.cuestionario.value).subscribe(
+
+      if(cantidadIncorrecta > 0){
+        this.servicioCuestionario.rechazado().subscribe(
           respuesta=>{
             alert("De acuerdo a tus respuestas, no es posible que asistas a la facultad, se te ha notificado por correo electrónico");
-            //this.router.navigateByUrl('login');
+            this.router.navigateByUrl('login');
           }
         );
-        */
+        
       } else {
         if(this.estaLogueado){
           switch(this.servicioLogin.getRol()){
             case "Alumno": {
               this.servicioCookie.setCookie("cuestionarioAlumno", "si");
-              //this.router.navigateByUrl('asistencia-alumno');
+              this.router.navigateByUrl('asistencia-alumno');
               break;
             }
           }

@@ -16,8 +16,8 @@ export class CuestionarioService {
     return this.clienteHttp.post(this.API_Preguntas, datos);
   }
 
-  rechazado(datosPreguntas:any):Observable<any>{
-    let datos  = JSON.stringify({accion: "enviarCorreo", contenido: datosPreguntas});
+  rechazado():Observable<any>{
+    let datos  = JSON.stringify({accion: "enviarCorreo"});
     return this.clienteHttp.post<any>(this.API_Preguntas, datos);
   }
 }

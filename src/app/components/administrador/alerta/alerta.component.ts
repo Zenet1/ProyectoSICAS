@@ -21,7 +21,8 @@ export class AlertaComponent implements OnInit {
         matricula: [""],
         fechaInicio:[""],
         fechaFin:[""],
-        fechaSuspension:[""]
+        fechaSuspension:[""],
+        fechaSospechosos:[""]
       }
     );
   }
@@ -29,7 +30,7 @@ export class AlertaComponent implements OnInit {
   alertar(){
     this.siAlertaEnviada = false;
     let validacionPeriodo:boolean = this.formularioAlerta.controls['fechaFin'].value >= this.formularioAlerta.controls['fechaInicio'].value;
-    let validacionSuspension:boolean = this.formularioAlerta.controls['fechaSuspension'].value > this.formularioAlerta.controls['fechaFin'].value;
+    let validacionSuspension:boolean = (this.formularioAlerta.controls['fechaSuspension'].value > this.formularioAlerta.controls['fechaFin'].value) && (this.formularioAlerta.controls['fechaSospechosos'].value > this.formularioAlerta.controls['fechaFin'].value);
     if(validacionPeriodo && validacionSuspension){
       if (window.confirm("Confirme para enviar la alerta")){
         this.servicioAdmin.obtenerAfectados(this.formularioAlerta.value).subscribe(
