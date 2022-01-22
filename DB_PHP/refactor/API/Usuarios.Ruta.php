@@ -8,3 +8,6 @@ include_once("Servicios/Usuarios/AutenticarTrabajador.Servicio.php");
 $jsonUsuario = file_get_contents('php://input');
 $datosCuentaUsuario = (array) json_decode($jsonUsuario);
 
+//FACULTAD ES
+//matricula
+//contraseña
