@@ -22,7 +22,8 @@ export class RegistroExternoComponent implements OnInit {
         nombre: [""],
         apellidos: [""],
         empresa: [""],
-        correo: [""]
+        correo: [""],
+        facultad: [""]
       }
     );
     this.obtenerFacultades();
