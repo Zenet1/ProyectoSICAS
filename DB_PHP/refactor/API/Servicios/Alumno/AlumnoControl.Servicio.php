@@ -1,4 +1,5 @@
 <?php
+session_start();
 class AlumnoControl
 {
     private Query $objQuery;
@@ -13,7 +14,7 @@ class AlumnoControl
     public function EnviarQRCorreo(CorreoManejador $correo, GeneradorQr $qr)
     {
         $nombreImagen = "a" . $_SESSION["IDAlumno"];
-        $contenido = "a," . $_SESSION["IDAlumno"] . "," . $this->GenerarContenidoQR();
+        $contenido = $_SESSION["Conexion"] . "," . "a," . $_SESSION["IDAlumno"] . "," . $this->GenerarContenidoQR();
 
         $qr->setNombrePng($nombreImagen);
         $qr->GenerarImagen($contenido);
@@ -24,7 +25,7 @@ class AlumnoControl
         $mensaje .= " a su entidad educativa correspondiente, este codigo es unicamente valido en la fecha ";
         $mensaje .= $this->objFecha->FechaSig("d-m-Y") . ". Se le exhorta que guarde la imagen para evitar algun problema";
         $mensaje .= ".";
-        $imagenCodigo = "img/" . $nombreImagen .".png";
+        $imagenCodigo = "img/" . $nombreImagen . ".png";
         $correo->setArchivo(true);
 
         $correo->EnviarCorreo($destinatario, $asunto, $mensaje, $imagenCodigo);

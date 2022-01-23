@@ -48,6 +48,7 @@ Thumbs.db
 # ENVIRAMENT
 /DB_PHP/.env
 /DB_PHP/refactor/Clases/.env
+/DB_PHP/refactor/Clases/vendor
 # vendor
 /DB_PHP/vendor/
 /DB_PHP/composer.lock

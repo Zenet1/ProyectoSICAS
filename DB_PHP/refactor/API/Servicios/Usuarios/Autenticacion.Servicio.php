@@ -8,10 +8,6 @@ $objQuery = new Query();
 $json = file_get_contents('php://input');
 $datos = json_decode($json);
 
-$sql_verificar = "SELECT us.IDUsuario,us.IDRol,us.Cuenta,ro.IDRol,ro.Rol FROM usuarios AS us 
-INNER JOIN roles AS ro ON ro.IDRol=us.IDRol 
-WHERE us.Cuenta=? AND us.Contraseña=?";
-
 $datos = $objQuery->ejecutarConsulta($sql_verificar, array($datos->usuario, $datos->contrasena));
 $datosUsuario = $datos[0];
 

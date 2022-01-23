@@ -1,12 +1,11 @@
 <?php
-
+include_once('Conexion.Class.php');
 class Query
 {
     private Conexion $conexion;
 
     public function __construct()
     {
-        include_once('Conexion.Class.php');
         $this->conexion = Conexion::ConexionInstacia();
     }
 
