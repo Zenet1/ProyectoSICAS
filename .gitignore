@@ -57,3 +57,5 @@ Thumbs.db
 /proxy.conf.json
 *.png
 DB_PHP/refactor/API/img/
+
+/DB_PHP/refactor/Clases/vendor
