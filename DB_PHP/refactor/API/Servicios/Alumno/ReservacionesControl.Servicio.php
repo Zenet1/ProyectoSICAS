@@ -1,7 +1,5 @@
 <?php
 include_once("Reservaciones.Query.php");
-session_start();
-
 class ReservaControl
 {
     private Query $objQuery;
