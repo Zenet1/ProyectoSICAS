@@ -3,13 +3,19 @@
 class AutentcacionQuery
 {
     private string $SELECTVerificar;
-    private string $SELECTAlumno;
+    private string $SELECTProfesor;
+    private string $SELECTPersonal;
+    private string $SELECTDatosAl;
 
     public function __construct()
     {
         $this->SELECTVerificar = "SELECT us.IDUsuario,us.IDRol,us.Cuenta,ro.IDRol,ro.Rol FROM usuarios AS us INNER JOIN roles AS ro ON ro.IDRol=us.IDRol WHERE us.Cuenta=:ctn AND us.Contraseña=:pss";
 
-        $this->SELECTAlumno = "SELECT IDAlumno,NombreAlumno,ApellidoPaternoAlumno,ApellidoMaternoAlumno,Matricula,CorreoAlumno FROM alumnos WHERE IDUsuario=:idu";
+        $this->SELECTDatosAl = "SELECT IDAlumno,NombreAlumno,ApellidoPaternoAlumno,ApellidoMaternoAlumno,Matricula,CorreoAlumno FROM alumnos WHERE IDUsuario=:idu";
+
+        $this->SELECTProfesor = "SELECT IDProfesor AS ID,CorreoProfesor AS CORREO FROM academicos WHERE IDUsuario=:idu";
+
+        $this->SELECTPersonal = "SELECT CorreoPersonal AS CORREO, IDPersonal AS ID FROM personal WHERE IDUsuario=:idu";
     }
 
     public function VerificarLocal(): string
@@ -19,6 +25,16 @@ class AutentcacionQuery
 
     public function DatosAlumno(): string
     {
-        return $this->SELECTAlumno;
+        return $this->SELECTDatosAl;
+    }
+
+    public function DatosProfesor(): string
+    {
+        return $this->SELECTProfesor;
+    }
+
+    public function DatosPersonal(): string
+    {
+        return $this->SELECTPersonal;
     }
 }

@@ -21,7 +21,7 @@
                     <label for="facultad" class="form-label">Facultad:</label>
                     <select id="facultad" class="form-select" formControlName="facultad" required>
                         <ng-container *ngFor="let facultad of facultades, let i = index">
-                            <option [value]="facultad.IDFacultad">{{facultad.NombreFacultad}}</option>
+                            <option [value]="facultad.SiglasFacultad">{{facultad.NombreFacultad}}</option>
                         </ng-container>
                     </select>
                 </div>
