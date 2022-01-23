@@ -22,6 +22,14 @@
                     <label for="correo" class="form-label">Correo electrónico:</label>
                     <input id="correo" type="email" class="form-control" formControlName="correo" required>
                 </div>
+                <div class="mb-3">
+                    <label for="facultad" class="form-label">Facultad:</label>
+                    <select id="facultad" class="form-select" formControlName="facultad" required>
+                        <ng-container *ngFor="let facultad of facultades, let i = index">
+                            <option [value]="facultad.SiglasFacultad">{{facultad.NombreFacultad}}</option>
+                        </ng-container>
+                    </select>
+                </div>
                 <div class="container-boton">
                     <div class="btn-group">
                         <button type="submit" class="btn btn-enviar">Enviar</button>
