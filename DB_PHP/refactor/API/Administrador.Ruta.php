@@ -17,6 +17,7 @@ include_once("Servicios/Administrador/Recuperar/RecuperarPlanes.Servicio.php");
 include_once("Servicios/Administrador/Recuperar/RecuperarPorcentaje.Servicio.php");
 include_once("Servicios/Administrador/Recuperar/RecuperarSalones.Servicio.php");
 include_once("Servicios/Administrador/Restaurar/RestaurarBD.Servicio.php");
+include_once("Servicios/Administrador/Respaldar/SICEIControl.Servicio.php");
 include_once("Servicios/Administrador/Alertar.Servicio.php");
 include_once("Servicios/Administrador/Estadisticas.Servicio.php");
 include_once("Servicios/Administrador/Edificio.Servicio.php");

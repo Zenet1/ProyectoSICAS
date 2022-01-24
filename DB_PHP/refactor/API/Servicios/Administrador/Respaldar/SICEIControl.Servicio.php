@@ -54,5 +54,11 @@ class SICEIControl
         RecuperarGrupos($this->conexion);
         RecuperarCargasAcademicas($this->conexion);
         RecuperarHorarios($this->conexion);
+
+        foreach (scandir('docs/') as $archivo) {
+            if (is_file('docs/' . $archivo) && strpos($archivo, ".txt") !== false) {
+                unlink("docs/" . $archivo);
+            }
+        }
     }
 }

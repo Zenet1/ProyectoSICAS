@@ -19,6 +19,7 @@ class RegistrarAsistencia
     public function Asistencias(string $contenido)
     {
         $codigoQr = explode(",", $contenido);
+        array_shift($codigoQr);
         $tipo = array_shift($codigoQr);
         $id = array_shift($codigoQr);
 
