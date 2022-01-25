@@ -18,7 +18,7 @@ class Alertar
 
     public function Alertar(array $contenido)
     {
-        //print_r($contenido);
+        print_r($contenido);
     }
 
     public function obtenerAfectados(array $contenido)
@@ -47,8 +47,8 @@ class Alertar
             $alumnosFiltrados = $this->ObtenerDatosUnicos($this->objAleQ->ObtenerInvol(), $alumnosFiltrados, $incognitaAl);
         }
 
-        $this->EnviarCorreo($profesoresFiltrados, $gruposFiltrados);
-        $this->EnviarCorreo($alumnosFiltrados, $gruposFiltrados);
+        //$this->EnviarCorreo($profesoresFiltrados, $gruposFiltrados);
+        //$this->EnviarCorreo($alumnosFiltrados, $gruposFiltrados);
 
         $this->InsertarInfectados($contenido);
 
