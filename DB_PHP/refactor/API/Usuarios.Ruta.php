@@ -8,7 +8,7 @@ include_once("Servicios/Usuarios/Autenticar.Servicio.php");
 $jsonUsuario = file_get_contents('php://input');
 $datos = (array) json_decode($jsonUsuario);
 
-Conexion::ReconfigurarConexcion($datos["facultad"]);
+Conexion::ReconfigurarConexion($datos["facultad"]);
 $QueryControl = new Query();
 $UsuariosControl = new Autenticar($QueryControl);
 

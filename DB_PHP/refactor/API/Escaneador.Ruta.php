@@ -11,7 +11,7 @@ $json = file_get_contents('php://input');
 $datos = json_decode($json);
 $ConexionDato = explode(",", (string)$datos->contenido);
 
-Conexion::ReconfigurarConexcion($ConexionDato[0]);
+Conexion::ReconfigurarConexion($ConexionDato[0]);
 $Fechas = Fechas::ObtenerInstancia();
 $Query = new Query();
 

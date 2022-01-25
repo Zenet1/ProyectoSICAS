@@ -14,7 +14,7 @@ include_once("../Clases/Email.Class.php");
 $json = file_get_contents('php://input');
 $datos = json_decode($json);
 
-Conexion::ReconfigurarConexcion($_SESSION["Conexion"]);
+Conexion::ReconfigurarConexion($_SESSION["Conexion"]);
 $Fechas = Fechas::ObtenerInstancia();
 $Query = new Query();
 

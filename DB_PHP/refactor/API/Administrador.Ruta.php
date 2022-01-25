@@ -41,7 +41,7 @@ if (isset($_POST) && sizeof($_POST) > 0) {
 }
 
 $Conexion = Conexion::ConexionInstacia($_SESSION["Conexion"]);
-Conexion::ReconfigurarConexcion($_SESSION["Conexion"]);
+Conexion::ReconfigurarConexion($_SESSION["Conexion"]);
 $Fechas = Fechas::ObtenerInstancia();
 $QueryObj = new Query();
 $PlanesControl = new PlanesControl($QueryObj);
