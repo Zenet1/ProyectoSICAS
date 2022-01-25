@@ -23,7 +23,7 @@ class Conexion
         }
     }
 
-    public static function ReconfigurarConexcion(string $cabecera = "DSN")
+    public static function ReconfigurarConexion(string $cabecera = "DSN")
     {
         if (!self::$ObjConexion instanceof self) {
             self::$ObjConexion = new self($cabecera);
