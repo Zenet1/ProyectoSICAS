@@ -4,11 +4,11 @@ import { CookieService } from 'src/app/services/cookie/cookie.service';
 import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
-  selector: 'app-inicio-alumno',
-  templateUrl: './inicio-alumno.component.html',
-  styleUrls: ['./inicio-alumno.component.css']
+  selector: 'app-inicio-personal',
+  templateUrl: './inicio-personal.component.html',
+  styleUrls: ['./inicio-personal.component.css']
 })
-export class InicioAlumnoComponent implements OnInit {
+export class InicioPersonalComponent implements OnInit {
   estaLogueado:boolean;
   usuario:string;
 
