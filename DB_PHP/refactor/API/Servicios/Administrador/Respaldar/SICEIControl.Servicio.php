@@ -4,6 +4,7 @@ include_once("./docs/RecuperarAsignaturas.php");
 include_once("./docs/RecuperarCargasAcademicas.php");
 include_once("./docs/RecuperarEdificiosLicenciatura.php");
 include_once("./docs/RecuperarGrupos.php");
+include_once("./docs/EstablecerPorcentaje.php");
 include_once("./docs/RecuperarPersonal.php");
 include_once("./docs/RecuperarHorarios.php");
 include_once("./docs/RecuperarPlanEstudio.php");
@@ -61,6 +62,7 @@ class SICEIControl
         RecuperarGrupos($this->conexion);
         RecuperarCargasAcademicas($this->conexion);
         RecuperarHorarios($this->conexion);
+        InsertarPorcentaje($this->conexion);
 
         if ($this->personal) {
             RecuperarPersonal($this->conexion);
