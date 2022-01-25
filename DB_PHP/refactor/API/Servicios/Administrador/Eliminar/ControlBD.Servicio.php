@@ -5,9 +5,11 @@ class ControlBD
 {
     private Query $objQuery;
     private ControlBDQueries $queries;
+    private array $tablas;
 
     public function __construct(Query $objQuery)
     {
+        $this->tablas = array("externos", "reservacionesalumnos", "reservacionesexternos", "asistenciasalumnos", "asistenciasexternos", "incidentes");
         $this->queries = new ControlBDQueries();
         $this->objQuery = $objQuery;
     }
@@ -21,13 +23,12 @@ class ControlBD
 
     public function Respaldar(ArchivoControl $archivoControl, Fechas $fecha)
     {
-        $tablas = array("externos", "reservacionesalumnos", "reservacionesexternos", "asistenciasalumnos", "asistenciasexternos", "incidentes");
-        foreach ($tablas as $tabla) {
+        foreach ($this->tablas as $tabla) {
             $this->RespaldarTablas($tabla, $this->queries->ObtenerQueryRespaldar($tabla), array($fecha->FechaAct()));
         }
         $archivoControl->descargarArchivos("zipRespaldo", ArchivoControl::$carpetaUnica . "/", ".txt");
-        $archivoControl->EliminarArchivos(ArchivoControl::$carpetaUnica ."/", ".txt");
-        $archivoControl->EliminarArchivos(ArchivoControl::$carpetaUnica ."/", ".zip");
+        $archivoControl->EliminarArchivos(ArchivoControl::$carpetaUnica . "/", ".txt");
+        $archivoControl->EliminarArchivos(ArchivoControl::$carpetaUnica . "/", ".zip");
         rmdir($archivoControl::$carpetaUnica);
     }
 
@@ -60,14 +61,25 @@ class ControlBD
         $nombreSinExtension = basename($rutaArchivo, ".txt");
         $archivo = file($rutaArchivo);
 
+        if (!$this->ValidarArchivo($nombreSinExtension)) {
+            unlink($rutaArchivo);
+            rmdir($archivoControl::$carpetaUnica);
+            exit();
+        }
+
         foreach ($archivo as $LINEA) {
             $lnExp = explode("|", $LINEA);
             $datos = $this->FormatearLinea($lnExp, $nombreSinExtension);
             $query = $this->queries->ObtenerQueryRestaurar($nombreSinExtension);
             $this->objQuery->ejecutarConsulta($query, $datos);
         }
-        $archivoControl->EliminarArchivos(ArchivoControl::$carpetaUnica ."/", ".txt");
+        $archivoControl->EliminarArchivos(ArchivoControl::$carpetaUnica . "/", ".txt");
         rmdir($archivoControl::$carpetaUnica);
+    }
+
+    private function ValidarArchivo(string $nombreSinExtension): bool
+    {
+        return in_array($nombreSinExtension, $this->tablas);
     }
 
     private function FormatearLinea(array $lnExp, string $nombreSinExtension): array

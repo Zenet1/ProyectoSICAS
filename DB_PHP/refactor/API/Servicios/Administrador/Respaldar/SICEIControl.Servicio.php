@@ -30,6 +30,7 @@ class SICEIControl
     private function VerificarDatosRespaldo()
     {
         if (sizeof($this->archivosPrinc) > intval($_POST["numArchivos"])) {
+            $this->EliminarDatos();
             exit("Cantidad de archivos incorrectos");
         }
 
@@ -37,6 +38,7 @@ class SICEIControl
 
         foreach ($this->archivosPrinc as $archivo) {
             if (!in_array($archivo, $archivosSubidos)) {
+                $this->EliminarDatos();
                 exit("Algun archivo principal falta o el nombre no es posible reconocerlo");
             }
 
@@ -68,6 +70,12 @@ class SICEIControl
             RecuperarPersonal($this->conexion);
         }
 
+        $this->EliminarDatos();
+    }
+
+
+    private function EliminarDatos()
+    {
         foreach (scandir($this->archivos::$carpetaUnica) as $archivo) {
             if (is_file($this->archivos::$carpetaUnica . "/" . $archivo) && strpos($archivo, ".txt") !== false) {
                 unlink($this->archivos::$carpetaUnica . "/" . $archivo);
