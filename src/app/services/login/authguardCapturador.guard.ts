@@ -21,18 +21,7 @@ export class AuthguardGuardCapturador implements CanActivate  {
     if (this.servicioLogin.isLoggedIn() && (this.servicioLogin.getRol() == "Capturador")) {
       return true;
     } else {
-      if(this.servicioLogin.isLoggedIn()){
-        switch(this.servicioLogin.getRol()) { 
-          case "Alumno": { 
-            return this.router.navigateByUrl('inicio-alumno');
-          }
-          case "Administrador":{
-            return this.router.navigateByUrl('inicio-administrador');
-          }
-        } 
-      } else {
-        return this.router.navigateByUrl('login');
-      }
+      return this.router.navigateByUrl('login');
     }
   }
 }

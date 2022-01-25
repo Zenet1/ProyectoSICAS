@@ -12,20 +12,24 @@
                         <div class="col-md-6 mb-3">
                             <strong class="mb-0">Tipo de estadística:</strong>
                             <div class="form-check">
-                                <input  id="asistenciaAlumnos" class="form-check-input" type="radio" name="tipo" formControlName="tipo" value="asistenciasalumnos" required>
+                                <input  id="asistenciaAlumnos" class="form-check-input" type="radio" name="tipo" formControlName="tipo" value="asistenciasalumnos" (change)="eleccionTipo($event.target.value)" required>
                                 <label class="form-check-label" for="asistenciaAlumnos">Asistencia de Alumnos</label>
                             </div>
                             <div class="form-check">
-                                <input  id="asistenciaPersonal" class="form-check-input" type="radio" name="tipo" formControlName="tipo" value="asistenciapersonal" required>
+                                <input  id="asistenciaPersonal" class="form-check-input" type="radio" name="tipo" formControlName="tipo" value="asistenciapersonal" (change)="eleccionTipo($event.target.value)" required>
                                 <label class="form-check-label" for="asistenciaPersonal">Asistencia de Personal</label>
                             </div>
                             <div class="form-check">
-                                <input id="incidentes" class="form-check-input" type="radio" name="tipo"  formControlName="tipo" value="incidentes">
-                                <label class="form-check-label" for="incidentes">Casos COVID</label>
+                                <input  id="asistenciaProfesores" class="form-check-input" type="radio" name="tipo" formControlName="tipo" value="asistenciaprofesores" (change)="eleccionTipo($event.target.value)" required>
+                                <label class="form-check-label" for="asistenciaProfesores">Asistencia de Profesores</label>
+                            </div>
+                            <div class="form-check">
+                                <input id="incidentes" class="form-check-input" type="radio" name="tipo"  formControlName="tipo" value="incidentes" (change)="eleccionTipo($event.target.value)" required>
+                                <label class="form-check-label" for="incidentes">Casos COVID Alumnos</label>
                             </div>
                         </div>
         
-                        <div class="col-md-6 mb-3">
+                        <div *ngIf="!bandera" class="col-md-6 mb-3">
                             <strong class="mb-0">Género:</strong>
                             <div class="form-check">
                                 <input  id="hombres" class="form-check-input" type="radio" name="genero" formControlName="genero" value="Masculino" required>
@@ -51,9 +55,9 @@
                             <input id="fechaFin" formControlName="fechaFin" type="date" class="form-control" required>
                         </div>
         
-                        <div class="mb-3">
+                        <div *ngIf="!bandera" class="mb-3">
                             <label for="programa" class="form-label">Programa:</label>
-                            <select id="programa" class="form-select" formControlName="programa" required>
+                            <select id="programa" class="form-select" formControlName="NombrePlan" required>
                                 <option value="todos">Todos</option>
                                 <ng-container *ngFor="let programa of programas, let i = index">
                                     <option [value]="programa.NombrePlan">{{programa.NombrePlan}}</option>
