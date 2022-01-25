@@ -7,7 +7,7 @@ class ArchivoControl
     public function __construct(Fechas $fechaObj, bool $crearCapeta = true)
     {
         $carpetaRaiz = "./backups/";
-        self::$carpetaUnica = $carpetaRaiz . $fechaObj->FechaAct() . "-" . $fechaObj->HrAct("i");
+        self::$carpetaUnica = $carpetaRaiz . $fechaObj->FechaAct() . "-" . $fechaObj->HrAct("i-s");
         mkdir(self::$carpetaUnica);
     }
 
@@ -21,7 +21,7 @@ class ArchivoControl
     public function MoverArchivos(int $CANTARCHIVOS)
     {
         for ($i = 0; $i < $CANTARCHIVOS; $i++) {
-            $direccion = "./docs/" . $_FILES["archivo" . $i]["name"];
+            $direccion = "./"  . self::$carpetaUnica . "/" . $_FILES["archivo" . $i]["name"];
             move_uploaded_file($_FILES["archivo" . $i]["tmp_name"], $direccion);
         }
     }
@@ -59,12 +59,5 @@ class ArchivoControl
         header('Content-Disposition: attachment; filename="' . basename($nombreArchivo . ".zip") . '"');
         header('Content-Length: ' . filesize($nombreArchivo));
         readfile($nombreArchivo);
-    }
-
-    function __destruct()
-    {
-        if (is_dir(self::$carpetaUnica)) {
-            rmdir(self::$carpetaUnica);
-        }
     }
 }

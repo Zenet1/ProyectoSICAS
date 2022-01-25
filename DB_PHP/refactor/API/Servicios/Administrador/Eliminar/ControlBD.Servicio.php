@@ -19,7 +19,7 @@ class ControlBD
         }
     }
 
-    function Respaldar(ArchivoControl $archivoControl, Fechas $fecha)
+    public function Respaldar(ArchivoControl $archivoControl, Fechas $fecha)
     {
         $tablas = array("externos", "reservacionesalumnos", "reservacionesexternos", "asistenciasalumnos", "asistenciasexternos", "incidentes");
         foreach ($tablas as $tabla) {
@@ -28,6 +28,7 @@ class ControlBD
         $archivoControl->descargarArchivos("zipRespaldo", ArchivoControl::$carpetaUnica . "/", ".txt");
         $archivoControl->EliminarArchivos(ArchivoControl::$carpetaUnica ."/", ".txt");
         $archivoControl->EliminarArchivos(ArchivoControl::$carpetaUnica ."/", ".zip");
+        rmdir($archivoControl::$carpetaUnica);
     }
 
     private function RespaldarTablas(string $tabla, string $Query, array $variables = null)
@@ -66,6 +67,7 @@ class ControlBD
             $this->objQuery->ejecutarConsulta($query, $datos);
         }
         $archivoControl->EliminarArchivos(ArchivoControl::$carpetaUnica ."/", ".txt");
+        rmdir($archivoControl::$carpetaUnica);
     }
 
     private function FormatearLinea(array $lnExp, string $nombreSinExtension): array

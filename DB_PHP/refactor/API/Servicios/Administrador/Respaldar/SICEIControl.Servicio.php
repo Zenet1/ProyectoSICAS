@@ -33,7 +33,7 @@ class SICEIControl
             exit("Cantidad de archivos incorrectos");
         }
 
-        $archivosSubidos = scandir("./docs/");
+        $archivosSubidos = scandir("./" . $this->archivos::$carpetaUnica . "/");
 
         foreach ($this->archivosPrinc as $archivo) {
             if (!in_array($archivo, $archivosSubidos)) {
@@ -52,26 +52,27 @@ class SICEIControl
         $this->archivos->MoverArchivos(intval($_POST["numArchivos"]));
         $this->VerificarDatosRespaldo();
 
-        RecuperarUsuariosAlumnos($this->conexion);
-        RecuperarEdificiosLicenciatura($this->conexion);
-        RecuperarSalones($this->conexion);
-        RecuperarPlanEstudio($this->conexion);
-        RecuperarAsignaturas($this->conexion);
-        RecuperarProfesores($this->conexion);
-        RecuperarAlumnos($this->conexion);
-        RecuperarGrupos($this->conexion);
-        RecuperarCargasAcademicas($this->conexion);
-        RecuperarHorarios($this->conexion);
-        InsertarPorcentaje($this->conexion);
+        //RecuperarUsuariosAlumnos($this->conexion);
+        //RecuperarEdificiosLicenciatura($this->conexion);
+        //RecuperarSalones($this->conexion);
+        //RecuperarPlanEstudio($this->conexion);
+        //RecuperarAsignaturas($this->conexion);
+        //RecuperarProfesores($this->conexion);
+        //RecuperarAlumnos($this->conexion);
+        //RecuperarGrupos($this->conexion);
+        //RecuperarCargasAcademicas($this->conexion);
+        //RecuperarHorarios($this->conexion);
+        //InsertarPorcentaje($this->conexion);
 
         if ($this->personal) {
             RecuperarPersonal($this->conexion);
         }
 
-        foreach (scandir('docs/') as $archivo) {
-            if (is_file('docs/' . $archivo) && strpos($archivo, ".txt") !== false) {
-                unlink("docs/" . $archivo);
+        foreach (scandir($this->archivos::$carpetaUnica) as $archivo) {
+            if (is_file($this->archivos::$carpetaUnica . "/" . $archivo) && strpos($archivo, ".txt") !== false) {
+                unlink($this->archivos::$carpetaUnica . "/" . $archivo);
             }
         }
+        rmdir($this->archivos::$carpetaUnica);
     }
 }
