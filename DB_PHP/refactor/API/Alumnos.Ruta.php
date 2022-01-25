@@ -29,9 +29,7 @@ switch ($datos->accion) {
         $ReservacionesControl->obtenerMateriasDisponibles();
         break;
     case "insertarReservas":
-        $ReservacionesControl->insertarReservasAlumno((array)$datos->contenido);
-        break;
-    case "enviarQRAlumno":
-        $AlumnosControl->EnviarQRCorreo(new CorreoManejador(), new GeneradorQr());
+        $materias = $ReservacionesControl->insertarReservasAlumno((array)$datos->contenido);
+        $AlumnosControl->EnviarQRCorreo($materias, new CorreoManejador(), new GeneradorQr());
         break;
 }

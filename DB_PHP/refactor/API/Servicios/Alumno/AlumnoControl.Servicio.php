@@ -10,7 +10,7 @@ class AlumnoControl
         $this->objFecha = $objFecha;
     }
 
-    public function EnviarQRCorreo(CorreoManejador $correo, GeneradorQr $qr)
+    public function EnviarQRCorreo(array $Materias, CorreoManejador $correo, GeneradorQr $qr)
     {
         $nombreImagen = "a" . $_SESSION["IDAlumno"];
         $contenido = $_SESSION["Conexion"] . "," . "a," . $_SESSION["IDAlumno"] . "," . $this->GenerarContenidoQR();
@@ -23,7 +23,13 @@ class AlumnoControl
         $mensaje = "Estimado " .  $_SESSION["Nombre"] . " el siguiente correo contiene su clave unica QR para accerder";
         $mensaje .= " a su entidad educativa correspondiente, este codigo es unicamente valido en la fecha ";
         $mensaje .= $this->objFecha->FechaSig("d-m-Y") . ". Se le exhorta que guarde la imagen para evitar algun problema";
-        $mensaje .= ".";
+        $mensaje .= ". Las materias listadas son las que alcanzo un cupo disponible<ul>";
+        $materiasCorreo = "";
+        foreach ($Materias as $MATERIA) {
+            $materiasCorreo .= "<li>" . $MATERIA->NombreAsignatura . "</li>";
+        }
+        $mensaje .= $materiasCorreo . "</ul>";
+
         $imagenCodigo = "img/" . $nombreImagen . ".png";
         $correo->setArchivo(true);
 

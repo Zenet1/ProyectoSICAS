@@ -39,14 +39,17 @@ class ReservaControl
         echo json_encode($gruposValidados);
     }
 
-    public function insertarReservasAlumno(array $contenido)
+    public function insertarReservasAlumno(array $contenido): array
     {
+        $materias = array();
         foreach ($contenido as $MATERIA) {
             if ($this->ValidarCupo((array)$MATERIA)) {
                 $incognitas = array("idc" => $MATERIA->IDCarga, "fchR" => $this->objFecha->FechaSig(), "hrI" => $MATERIA->HoraInicioHorario, "hrF" => $MATERIA->HoraFinHorario, "fchA" => $this->objFecha->FechaAct(), "hrA" => $this->objFecha->HrAct());
                 $this->objQuery->ejecutarConsulta($this->objResQuery->InsertarReservacion(), $incognitas);
+                $materias[] = $MATERIA;
             }
         }
+        return $materias;
     }
 
     private function ValidarCupo(array $asignatura): bool
