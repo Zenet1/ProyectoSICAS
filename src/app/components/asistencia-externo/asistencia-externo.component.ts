@@ -17,15 +17,16 @@ export class AsistenciaExternoComponent implements OnInit {
   constructor(private servicioExterno:ExternoService, private servicioCookie:CookieService, private formBuilder:FormBuilder, private router:Router) { }
 
   ngOnInit(): void {
-    /*if(!this.servicioCookie.checkCookie("cuestionarioExterno")){
+    if(!this.servicioCookie.checkCookie("cuestionarioContestado")){
       this.router.navigateByUrl('login');
-    }*/
-    this.formularioAsistenciaExterno = this.formBuilder.group({
-        oficinas: this.formBuilder.array([]),
-        fechaAsistencia:[""],
-      }
-    );
-    this.obtenerOficinas();
+    } else {
+      this.formularioAsistenciaExterno = this.formBuilder.group({
+          oficinas: this.formBuilder.array([]),
+          fechaAsistencia:[""],
+        }
+      );
+      this.obtenerOficinas();
+    }
   }
 
   obtenerOficinas(){
@@ -37,7 +38,7 @@ export class AsistenciaExternoComponent implements OnInit {
     );
   }
 
-  get oficinas(){
+  get oficinasForm(){
     return this.formularioAsistenciaExterno.get('oficinas') as FormArray;
   }
 
@@ -50,14 +51,14 @@ export class AsistenciaExternoComponent implements OnInit {
       const preguntaFormGroup = this.formBuilder.group({
         respuesta:['']
       });
-      this.oficinas.push(preguntaFormGroup);
+      this.oficinasForm.push(preguntaFormGroup);
     }
   }
 
   enviarAsistencia(){
     var oficinasSeleccionadas: Array<any> = [];
-    for (let index = 0; index < this.oficinas.length; index++) {
-      if(this.oficinas.controls[index].get("respuesta").value == true){
+    for (let index = 0; index < this.oficinasForm.length; index++) {
+      if(this.oficinasForm.controls[index].get("respuesta").value == true){
         oficinasSeleccionadas.push(this.listaOficinas[index].IDOficina);
       }
     }

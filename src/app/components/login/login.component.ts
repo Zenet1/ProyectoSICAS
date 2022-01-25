@@ -36,6 +36,14 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl('inicio-capturador');
           break;
         }
+        case "Profesor":{
+          this.router.navigateByUrl('inicio-personal');
+          break;
+        }
+        case "Personal":{
+          this.router.navigateByUrl('inicio-personal');
+          break;
+        }
         default:{
           this.router.navigateByUrl('login');
         }
@@ -73,6 +81,14 @@ export class LoginComponent implements OnInit {
             }
             case "Capturador":{
               location.href = '/inicio-capturador';
+              break;
+            }
+            case "Profesor":{
+              location.href = '/inicio-personal';
+              break;
+            }
+            case "Personal":{
+              location.href = '/inicio-personal';
               break;
             }
           } 

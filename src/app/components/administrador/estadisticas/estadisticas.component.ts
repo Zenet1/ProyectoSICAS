@@ -12,6 +12,7 @@ export class EstadisticasComponent implements OnInit {
   programas:any;
   estadisticas:any;
   siEstadisticasObtenidas:boolean = false;
+  bandera:boolean = false;
   // options
   animations: boolean = false;
   showXAxis: boolean = true;
@@ -43,7 +44,7 @@ export class EstadisticasComponent implements OnInit {
       genero:[""],
       fechaInicio:[""],
       fechaFin:[""],
-      programa:[""]
+      NombrePlan:[""]
     });
     this.obtenerProgramas();
   }
@@ -70,10 +71,17 @@ export class EstadisticasComponent implements OnInit {
     }
   }
 
+  eleccionTipo(event){
+    if((event == "asistenciapersonal" || (event == "asistenciaprofesores"))){
+      this.bandera = true;
+    } else {
+      this.bandera = false;
+    }
+  }
+
   obtenerProgramas(){
     this.servicioAdmin.obtenerProgramas().subscribe(
       respuesta=>{
-        console.log(respuesta);
         this.programas = respuesta;
       }
     );

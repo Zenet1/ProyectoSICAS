@@ -40,16 +40,20 @@ export class CuestionarioComponent implements OnInit {
           this.obtenerPreguntas();
           break;
         }
+        case "Profesor":{
+          this.obtenerPreguntas();
+          break;
+        }
+        case "Personal":{
+          this.obtenerPreguntas();
+          break;
+        }
       }
     } else {
       if(!this.servicioCookie.checkCookie("registroExterno")){
         this.router.navigateByUrl('login');
       } else {
         this.obtenerPreguntas();
-        for(let index = 0; index<this.pregPrimarias.length; index++){
-          this.banderas.push(false);
-        }
-        
       }
     }
   }
@@ -61,6 +65,9 @@ export class CuestionarioComponent implements OnInit {
         this.pregSecundarias = respuesta.secundarias;
         this.agregarCamposPreguntas(this.pregPrimarias.length, this.preguntasForm);
         this.agregarCamposPreguntas(this.pregSecundarias.length, this.pregSecundariasForm);
+        for(let index = 0; index<this.pregPrimarias.length; index++){
+          this.banderas.push(false);
+        }
       }
     );
   }
@@ -88,7 +95,6 @@ export class CuestionarioComponent implements OnInit {
     } else {
       this.banderas[i] = false;
     }
-
     this.cd.detectChanges();
   }
 
@@ -122,18 +128,24 @@ export class CuestionarioComponent implements OnInit {
             this.router.navigateByUrl('login');
           }
         );
-        
       } else {
+        this.servicioCookie.setCookie("cuestionarioContestado", "si");
         if(this.estaLogueado){
           switch(this.servicioLogin.getRol()){
             case "Alumno": {
-              this.servicioCookie.setCookie("cuestionarioAlumno", "si");
               this.router.navigateByUrl('asistencia-alumno');
+              break;
+            }
+            case "Profesor": {
+              this.router.navigateByUrl('asistencia-personal');
+              break;
+            }
+            case "Personal": {
+              this.router.navigateByUrl('asistencia-personal');
               break;
             }
           }
         } else {
-          this.servicioCookie.setCookie("cuestionarioExterno", "si");
           this.router.navigateByUrl('asistencia-externo');
         }
       }

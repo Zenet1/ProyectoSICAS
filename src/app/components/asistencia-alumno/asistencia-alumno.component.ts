@@ -11,12 +11,11 @@ import { CookieService } from 'src/app/services/cookie/cookie.service';
 })
 export class AsistenciaAlumnoComponent implements OnInit {
   clases:any;
-  formularioAsistenciaAlumno:FormGroup;
-
-  constructor(private servicioAlumno:AlumnoService, private servicioCookie:CookieService, private formBuilder:FormBuilder, private router:Router) { }
+ 
+  constructor(private servicioAlumno:AlumnoService, private servicioCookie:CookieService, private router:Router) { }
 
   ngOnInit(): void {
-    if(!this.servicioCookie.checkCookie("cuestionarioAlumno")){
+    if(!this.servicioCookie.checkCookie("cuestionarioContestado")){
       this.router.navigateByUrl('inicio-alumno');
     } else {
       this.servicioAlumno.combrobarReservacion().subscribe(
@@ -49,25 +48,14 @@ export class AsistenciaAlumnoComponent implements OnInit {
     if (window.confirm("Si está seguro que desea asistir, confirme para finalizar")){
       this.servicioAlumno.enviarAsistencia(this.clases).subscribe(
         respuesta=>{
-          this.enviarQR();
+          alert('Se ha registrado tu reserva sastisfactoriamente y se ha enviado un código QR a tu correo, que deberás presentar para acceder a la facultad');
+          this.router.navigateByUrl('inicio-alumno');
         },
         error=>{
           alert('Ha ocurrido un error al registrar tu reserva, intenténtalo de nuevo');
         }
       );
     }
-  }
-
-  enviarQR(){
-    this.servicioAlumno.enviarCorreo().subscribe(
-      respuesta=>{
-        alert('Se ha registrado tu reserva sastisfactoriamente y se ha enviado un código QR a tu correo, que deberás presentar para acceder a la facultad');
-        this.router.navigateByUrl('inicio-alumno');
-      },
-      error=>{
-        alert('Ha ocurrido un error al enviar el QR, intenténtalo de nuevo');
-      }
-    );
   }
 
   cancelar(){

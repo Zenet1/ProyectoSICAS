@@ -1,6 +1,6 @@
 import { RouterModule, Routes } from "@angular/router";
 
-import { AuthguardGuard } from "./services/login/authguard.guard";
+import { AuthguardGuardAlumno } from "./services/login/authguardAlumno.guard";
 import { AuthguardGuardAdmin } from "./services/login/authguardAdmin.guard";
 import { AuthguardGuardCapturador } from "./services/login/authguardCapturador.guard";
 import { AuthguardGuardCuestionario } from "./services/cuestionario/authguardCuestionario.guard";
@@ -24,6 +24,9 @@ import { RegistroUsuariosComponent } from "./components/administrador/registro-u
 import { LoginUsuariosComponent } from "./components/login-usuarios/login-usuarios.component";
 import { AulasComponent } from "./components/administrador/aulas/aulas.component";
 import { CapturaPreguntasComponent } from "./components/administrador/captura-preguntas/captura-preguntas.component";
+import { AuthguardGuardPersonal } from "./services/login/authguardPersonal.guard";
+import { InicioPersonalComponent } from "./components/inicio-personal/inicio-personal.component";
+import { AsistenciaPersonalComponent } from "./components/asistencia-personal/asistencia-personal.component";
 
 const app_routes: Routes = [
     { path: 'login', component: LoginComponent},
@@ -31,10 +34,12 @@ const app_routes: Routes = [
     { path: 'escaneo', component: ScannerComponent, canActivate: [AuthguardGuardCapturador]},
     { path: 'registro-externo', component: RegistroExternoComponent},
     { path: 'cuestionario', component: CuestionarioComponent},
-    { path: 'asistencia-alumno', component: AsistenciaAlumnoComponent, canActivate: [AuthguardGuard]},
+    { path: 'asistencia-alumno', component: AsistenciaAlumnoComponent, canActivate: [AuthguardGuardAlumno]},
+    { path: 'asistencia-personal', component: AsistenciaPersonalComponent, canActivate: [AuthguardGuardPersonal]},
     { path: 'asistencia-externo', component: AsistenciaExternoComponent},
-    { path: 'inicio-alumno', component: InicioAlumnoComponent, canActivate: [AuthguardGuard]},
-    { path: 'inicio-capturador', component: InicioCapturadorComponent},
+    { path: 'inicio-alumno', component: InicioAlumnoComponent, canActivate: [AuthguardGuardAlumno]},
+    { path: 'inicio-personal', component: InicioPersonalComponent, canActivate: [AuthguardGuardPersonal]},
+    { path: 'inicio-capturador', component: InicioCapturadorComponent, canActivate: [AuthguardGuardCapturador]},
     { path: 'inicio-administrador', component: InicioAdministradorComponent, canActivate:[AuthguardGuardAdmin], children:[
         { path: 'alerta', component: AlertaComponent},
         { path: 'oficinas', component: OficinasExternoComponent},

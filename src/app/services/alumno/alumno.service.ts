@@ -6,17 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AlumnoService {
-
-  constructor(private clienteHttp: HttpClient) { }
   API_Alumnos: string = '/ProyectoSICAS/DB_PHP/refactor/API/Alumnos.Ruta.php';
+  
+  constructor(private clienteHttp: HttpClient) { }
 
   enviarAsistencia(datosClases:any):Observable<any>{
     let datos = JSON.stringify({accion: "insertarReservas", contenido: datosClases});
-    return this.clienteHttp.post<any>(this.API_Alumnos, datos);
-  }
-
-  enviarCorreo():Observable<any>{
-    let datos = JSON.stringify({accion:"enviarQRAlumno"});
     return this.clienteHttp.post<any>(this.API_Alumnos, datos);
   }
 

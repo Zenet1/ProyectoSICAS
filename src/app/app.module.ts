@@ -32,6 +32,8 @@ import { RegistroUsuariosComponent } from './components/administrador/registro-u
 import { LoginUsuariosComponent } from './components/login-usuarios/login-usuarios.component';
 import { AulasComponent } from './components/administrador/aulas/aulas.component';
 import { CapturaPreguntasComponent } from './components/administrador/captura-preguntas/captura-preguntas.component';
+import { InicioPersonalComponent } from './components/inicio-personal/inicio-personal.component';
+import { AsistenciaPersonalComponent } from './components/asistencia-personal/asistencia-personal.component';
 
 
 @NgModule({
@@ -56,7 +58,9 @@ import { CapturaPreguntasComponent } from './components/administrador/captura-pr
     RegistroUsuariosComponent,
     LoginUsuariosComponent,
     AulasComponent,
-    CapturaPreguntasComponent
+    CapturaPreguntasComponent,
+    InicioPersonalComponent,
+    AsistenciaPersonalComponent,
   ],
   imports: [
     BrowserModule,
