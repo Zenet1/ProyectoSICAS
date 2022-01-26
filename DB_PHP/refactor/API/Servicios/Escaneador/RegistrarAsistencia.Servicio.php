@@ -63,6 +63,12 @@ class RegistrarAsistencia
             case "e":
                 $esValido = true;
                 break;
+            case "pro":
+                $esValido = true;
+                break;
+            case "per":
+                $esValido = true;
+                break;
         }
         return $esValido;
     }
@@ -75,6 +81,12 @@ class RegistrarAsistencia
                 break;
             case "e":
                 return array($this->regQuery->recuperarQuery("SELECTResEx"), $this->regQuery->recuperarQuery("INSERTAsisEx"));
+            case "pro":
+                return array($this->regQuery->recuperarQuery("SELECTResPer"), $this->regQuery->recuperarQuery("INSERTAsisPer"));
+                break;
+            case "per":
+                return array($this->regQuery->recuperarQuery("SELECTResPro"), $this->regQuery->recuperarQuery("INSERTAsisPer"));
+                break;
         }
     }
 
