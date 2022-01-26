@@ -5,7 +5,7 @@ class Conexion
     private PDO $conexion;
     private static $ObjConexion;
 
-    public static function ConexionInstacia(string $cabecera = "DSN")
+    public static function ConexionInstacia(string $cabecera = "CAMPUS")
     {
         if (!self::$ObjConexion instanceof self) {
             self::$ObjConexion = new self($cabecera);
@@ -24,7 +24,7 @@ class Conexion
         }
     }
 
-    public static function ReconfigurarConexion(string $cabecera = "DSN")
+    public static function ReconfigurarConexion(string $cabecera = "CAMPUS")
     {
         if (!self::$ObjConexion instanceof self) {
             self::$ObjConexion = new self($cabecera);

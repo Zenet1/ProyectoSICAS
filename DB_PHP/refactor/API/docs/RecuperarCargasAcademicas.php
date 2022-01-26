@@ -1,9 +1,9 @@
 <?php
-function RecuperarCargasAcademicas(string $carpeta,PDO $Conexion)
+function RecuperarCargasAcademicas(string $carpeta, PDO $Conexion)
 {
     $archivo = file("$carpeta/AlumnosCargaDeAsignaturas.txt");
     $saltado = false;
-    
+
     //Querys
     $sql_recuperarIDAlumno = "SELECT IDAlumno FROM alumnos WHERE Matricula = ?";
 
@@ -26,13 +26,17 @@ function RecuperarCargasAcademicas(string $carpeta,PDO $Conexion)
     $obj_insertarCargaAcademica = $Conexion->prepare($sql_insertarCargaAcademica);
 
     foreach ($archivo as $linea) {
+        $data = explode("|",  utf8_encode(trim($linea)));
+
         if (!$saltado) {
             $saltado = true;
             continue;
         }
 
-        $data = explode("|",  utf8_encode($linea));
-        
+        if (sizeof($data) === 1) {
+            continue;
+        }
+
         $obj_recuperarIDAlumno->execute(array($data[0]));
         $IDAlumno = $obj_recuperarIDAlumno->fetch(PDO::FETCH_ASSOC);
 

@@ -32,7 +32,7 @@ export class AsistenciaPersonalComponent implements OnInit {
 
   enviarAsistencia(){
     if (window.confirm("Si está seguro que desea asistir, confirme para finalizar")){
-      this.servicioPersonal.enviarAsistencia(this.servicioLogin.getUsuario()).subscribe(
+      this.servicioPersonal.enviarAsistencia(this.servicioLogin.getUsuario(),this.servicioLogin.getRol()).subscribe(
         respuesta=>{
           alert('Se ha registrado tu reserva sastisfactoriamente y se ha enviado un código QR a tu correo, que deberás presentar para acceder a la facultad');
           this.router.navigateByUrl('inicio-personal');

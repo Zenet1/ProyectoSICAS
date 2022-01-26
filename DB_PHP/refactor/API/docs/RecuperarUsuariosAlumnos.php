@@ -12,12 +12,17 @@ function RecuperarUsuariosAlumnos(string $carpeta,PDO $Conexion)
     $sql_introducir_cuenta = "INSERT INTO usuarios (Cuenta, IDRol) SELECT :cue,:idr FROM DUAL WHERE NOT EXISTS(SELECT Cuenta FROM usuarios WHERE Cuenta=:cue) LIMIT 1";
 
     foreach ($archivo as $linea) {
+        $datos = explode("|", utf8_encode(trim($linea)));
         if (!$saltado) {
             $saltado = true;
             continue;
         }
 
-        $datos = explode("|", utf8_encode($linea));
+        if (sizeof($datos) === 1) {
+            continue;
+        }
+
+        
         $estado_obj = $Conexion->prepare($sql_introducir_cuenta);
         $estado_obj->execute(array("cue" => "a" . $datos[0], "idr" => 1));
     }

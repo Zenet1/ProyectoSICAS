@@ -8,12 +8,17 @@ function RecuperarPlanEstudio(string $carpeta,PDO $Conexion)
     $estado_obj = $Conexion->prepare($insertar);
 
     foreach ($archivo as $linea) {
+        $datos = explode("|", utf8_encode(trim($linea)));
+
         if (!$saltado) {
             $saltado = true;
             continue;
         }
 
-        $datos = explode("|", utf8_encode($linea));
+        if (sizeof($datos) === 1) {
+            continue;
+        }
+
         $incognitas = array("nom" => $datos[2], "sig" => $datos[3], "clv" => $datos[0], "ver" => $datos[1]);
         $estado_obj->execute($incognitas);
     }

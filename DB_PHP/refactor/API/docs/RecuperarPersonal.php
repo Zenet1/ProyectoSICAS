@@ -16,13 +16,17 @@ function RecuperarPersonal(string $carpeta, PDO $Conexion)
     $objRecuperar = $Conexion->prepare($sql_recuperarIDUsu);
 
     foreach ($archivo as $linea) {
-        $data = explode("|", $linea);
+        $data = explode("|", trim($linea));
 
         if (!$saltado) {
             $saltado = true;
             continue;
         }
 
+        if (sizeof($data) === 1) {
+            continue;
+        }
+        
         if ($data[2] === "" || $data[3] === "" || $data[4] === "") {
             continue;
         }

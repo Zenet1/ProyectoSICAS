@@ -1,6 +1,6 @@
 <?php
 
-function RecuperarAlumnos(string $carpeta,PDO $Conexion)
+function RecuperarAlumnos(string $carpeta, PDO $Conexion)
 {
     $archivo = file("$carpeta/AlumnosInscripcionEnPeriodoCurso.txt");
     $saltado = false;
@@ -15,11 +15,17 @@ function RecuperarAlumnos(string $carpeta,PDO $Conexion)
     $recuperarID_obj = $Conexion->prepare($recuperar_id);
 
     foreach ($archivo as $linea) {
+        $datos_archivo = explode("|", utf8_encode(trim($linea)));
+
+        if (sizeof($datos_archivo) === 1) {
+            continue;
+        }
+
         if (!$saltado) {
             $saltado = true;
             continue;
         }
-        $datos_archivo = explode("|", utf8_encode($linea));
+
         $recuperarID_obj->execute(array("a" . $datos_archivo[0]));
         $IDUsuario = $recuperarID_obj->fetch(PDO::FETCH_ASSOC);
         $recuperarPlan_obj->execute(array($datos_archivo[6], $datos_archivo[7]));

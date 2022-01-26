@@ -21,12 +21,18 @@ function RecuperarGrupos(string $carpeta,PDO $Conexion)
     $grupos = array();
 
     foreach ($archivo as $linea) {
+        $data = explode("|", utf8_decode(trim($linea)));
+
         if (!$saltado) {
             $saltado = true;
             continue;
         }
 
-        $data = explode("|", utf8_decode($linea));
+        if (sizeof($data) === 1) {
+            continue;
+        }
+
+        
         $obj_recuperarIDPlanAsig->execute(array($data[1], $data[2]));
         $IDPlan = $obj_recuperarIDPlanAsig->fetch(PDO::FETCH_ASSOC);
 
