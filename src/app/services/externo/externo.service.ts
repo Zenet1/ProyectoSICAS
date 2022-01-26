@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
 })
 
 export class ExternoService {
-  API_Administrador:string = '/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php';
+  API_Oficinas:string = '/ProyectoSICAS/DB_PHP/refactor/API/Oficinas.Ruta.php';
+  API_RegistroExterno:string = '/ProyectoSICAS/DB_PHP/refactor/API/RegistroExternos.Ruta.php';
   API_Externo:string = '/ProyectoSICAS/DB_PHP/refactor/API/Externos.Ruta.php';
 
   constructor(private clienteHttp: HttpClient) { }
@@ -24,11 +25,11 @@ export class ExternoService {
 
   obtenerOficinas(){
     let datos = JSON.stringify({accion:"recuperarOficinas"});
-    return this.clienteHttp.post<any>(this.API_Administrador, datos);
+    return this.clienteHttp.post<any>(this.API_Oficinas, datos);
   }
 
   guardarExterno(datosExterno:any):Observable<any>{
-    let datos = JSON.stringify({accion: "registroExterno", contenido: datosExterno});
-    return this.clienteHttp.post(this.API_Externo, datos);
+    let datos = JSON.stringify({contenido: datosExterno});
+    return this.clienteHttp.post(this.API_RegistroExterno, datos);
   }
 }
