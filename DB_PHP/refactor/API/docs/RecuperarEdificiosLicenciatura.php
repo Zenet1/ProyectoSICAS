@@ -1,8 +1,8 @@
 <?php
 
-function RecuperarEdificiosLicenciatura(PDO $Conexion)
+function RecuperarEdificiosLicenciatura(string $carpeta,PDO $Conexion)
 {
-    $archivo = file("docs/HorariosSesionesGrupo.txt");
+    $archivo = file("$carpeta/HorariosSesionesGrupo.txt");
     $saltado = false;
 
     $sqlInsert = "INSERT INTO edificios (NombreEdificio) SELECT :nome FROM DUAL WHERE NOT EXISTS (SELECT NombreEdificio FROM edificios WHERE NombreEdificio = :nome) LIMIT 1";

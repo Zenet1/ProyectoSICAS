@@ -1,8 +1,8 @@
 <?php
 
-function RecuperarPersonal(PDO $Conexion)
+function RecuperarPersonal(string $carpeta, PDO $Conexion)
 {
-    $archivo = file("docs/administrativos.txt");
+    $archivo = file("$carpeta/administrativos.txt");
     $saltado = false;
 
     $sql_insertarUsuario = "INSERT INTO usuarios (Cuenta,IDRol) SELECT :cnt,:idr FROM DUAL WHERE NOT EXISTS (SELECT Cuenta FROM usuarios WHERE Cuenta=:cnt) LIMIT 1";
@@ -27,9 +27,9 @@ function RecuperarPersonal(PDO $Conexion)
             continue;
         }
 
-        $incognitasUsuario = array("cnt" => $data[4], "idr" => 4);
+        $incognitasUsuario = array("cnt" => trim($data[4]), "idr" => 4);
         $objInsertusu->execute($incognitasUsuario);
-        $objRecuperar->execute(array("cnt" => $data[4]));
+        $objRecuperar->execute(array("cnt" => trim($data[4])));
         $idusuario = $objRecuperar->fetch(PDO::FETCH_ASSOC);
 
         $incognitasPer = array("idu" => $idusuario["IDUsuario"], "nom" => $data[0], "ape" => $data[1], "cor" => $data[2], "clp" => $data[3]);

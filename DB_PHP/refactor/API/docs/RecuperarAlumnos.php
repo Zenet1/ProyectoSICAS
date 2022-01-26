@@ -1,8 +1,8 @@
 <?php
 
-function RecuperarAlumnos(PDO $Conexion)
+function RecuperarAlumnos(string $carpeta,PDO $Conexion)
 {
-    $archivo = file("docs/AlumnosInscripcionEnPeriodoCurso.txt");
+    $archivo = file("$carpeta/AlumnosInscripcionEnPeriodoCurso.txt");
     $saltado = false;
 
     $insertar = "INSERT INTO alumnos (Matricula, NombreAlumno, ApellidoPaternoAlumno, ApellidoMaternoAlumno, IDPlanEstudio, CorreoAlumno, Genero, IDUsuario) SELECT ?,?,?,?,?,?,?,? FROM DUAL WHERE NOT EXISTS(SELECT Matricula FROM alumnos WHERE Matricula=?) LIMIT 1";

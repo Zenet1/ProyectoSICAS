@@ -1,8 +1,8 @@
 <?php
-function RecuperarAsignaturas(PDO $Conexion)
+function RecuperarAsignaturas(string $carpeta, PDO $Conexion)
 {
     try {
-        $archivo = file("docs/AsignaturasALasQueSeInscribieronAlumnos.txt");
+        $archivo = file("$carpeta/AsignaturasALasQueSeInscribieronAlumnos.txt");
         $saltado = false;
         $insertar = "INSERT INTO asignaturas (ClaveAsignatura, NombreAsignatura, IDPlanEstudio) SELECT :clv,:nom,:idp FROM DUAL WHERE NOT EXISTS (SELECT ClaveAsignatura, NombreAsignatura, IDPlanEstudio FROM asignaturas WHERE ClaveAsignatura=:clv AND NombreAsignatura=:nom AND IDPlanEstudio=:idp) LIMIT 1";
         $recuperar = "SELECT IDPlanEstudio FROM planesdeestudio WHERE ClavePlan=? AND VersionPlan=?";

@@ -1,8 +1,8 @@
 <?php
 
-function RecuperarHorarios(PDO $Conexion)
+function RecuperarHorarios(string $carpeta,PDO $Conexion)
 {
-    $archivo = file("docs/HorariosSesionesGrupo.txt");
+    $archivo = file("$carpeta/HorariosSesionesGrupo.txt");
     $saltado = false;
 
     $sqlInsert = "INSERT INTO horarios (IDGrupo, Dia, HoraInicioHorario, HoraFinHorario, IDSalon) SELECT :idG, :dia, :hri, :hrf, :ids FROM DUAL WHERE NOT EXISTS (SELECT IDGrupo, Dia FROM horarios WHERE IDGrupo=:idG AND Dia=:dia) LIMIT 1";

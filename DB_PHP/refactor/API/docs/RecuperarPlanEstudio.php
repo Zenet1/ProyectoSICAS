@@ -1,8 +1,8 @@
 <?php
 
-function RecuperarPlanEstudio(PDO $Conexion)
+function RecuperarPlanEstudio(string $carpeta,PDO $Conexion)
 {
-    $archivo = file("docs/PlanesDeEstudios.txt");
+    $archivo = file("$carpeta/PlanesDeEstudios.txt");
     $saltado = false;
     $insertar = "INSERT INTO planesdeestudio (NombrePlan, SiglasPlan, ClavePlan, VersionPlan) SELECT :nom,:sig,:clv,:ver FROM DUAL WHERE NOT EXISTS (SELECT ClavePlan,VersionPlan FROM planesdeestudio WHERE ClavePlan = :clv AND VersionPlan = :ver) LIMIT 1";
     $estado_obj = $Conexion->prepare($insertar);

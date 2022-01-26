@@ -1,8 +1,8 @@
 <?php
 
-function RecuperarGrupos(PDO $Conexion)
+function RecuperarGrupos(string $carpeta,PDO $Conexion)
 {
-    $archivo = file("docs/AlumnosCargaDeAsignaturas.txt");
+    $archivo = file("$carpeta/AlumnosCargaDeAsignaturas.txt");
     $saltado = false;
 
     $sqlInsert = "INSERT INTO grupos (IDAsignatura, IDProfesor, ClaveGrupo, Grupo) SELECT :ida,:idP,:clG,:gP FROM DUAL WHERE NOT EXISTS (SELECT IDAsignatura, IDProfesor, ClaveGrupo, Grupo FROM grupos WHERE IDProfesor=:idP AND ClaveGrupo=:clG AND Grupo=:gP AND IDAsignatura=:ida)LIMIT 1";

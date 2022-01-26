@@ -4,9 +4,9 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 header('Content-Type: text/html; charset=UTF-8');
 header('Content-Type: text/html; charset=UTF-8');
 
-function RecuperarUsuariosAlumnos($Conexion)
+function RecuperarUsuariosAlumnos(string $carpeta,PDO $Conexion)
 {
-    $archivo = file("docs/AlumnosInscripcionEnPeriodoCurso.txt");
+    $archivo = file("$carpeta/AlumnosInscripcionEnPeriodoCurso.txt");
 
     $saltado = false;
     $sql_introducir_cuenta = "INSERT INTO usuarios (Cuenta, IDRol) SELECT :cue,:idr FROM DUAL WHERE NOT EXISTS(SELECT Cuenta FROM usuarios WHERE Cuenta=:cue) LIMIT 1";

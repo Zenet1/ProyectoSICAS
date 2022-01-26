@@ -54,20 +54,20 @@ class SICEIControl
         $this->archivos->MoverArchivos(intval($_POST["numArchivos"]));
         $this->VerificarDatosRespaldo();
 
-        //RecuperarUsuariosAlumnos($this->conexion);
-        //RecuperarEdificiosLicenciatura($this->conexion);
-        //RecuperarSalones($this->conexion);
-        //RecuperarPlanEstudio($this->conexion);
-        //RecuperarAsignaturas($this->conexion);
-        //RecuperarProfesores($this->conexion);
-        //RecuperarAlumnos($this->conexion);
-        //RecuperarGrupos($this->conexion);
-        //RecuperarCargasAcademicas($this->conexion);
-        //RecuperarHorarios($this->conexion);
-        //InsertarPorcentaje($this->conexion);
+        RecuperarUsuariosAlumnos($this->archivos::$carpetaUnica, $this->conexion);
+        RecuperarEdificiosLicenciatura($this->archivos::$carpetaUnica, $this->conexion);
+        RecuperarSalones($this->archivos::$carpetaUnica, $this->conexion);
+        RecuperarPlanEstudio($this->archivos::$carpetaUnica, $this->conexion);
+        RecuperarAsignaturas($this->archivos::$carpetaUnica, $this->conexion);
+        RecuperarProfesores($this->archivos::$carpetaUnica, $this->conexion);
+        RecuperarAlumnos($this->archivos::$carpetaUnica, $this->conexion);
+        RecuperarGrupos($this->archivos::$carpetaUnica, $this->conexion);
+        RecuperarCargasAcademicas($this->archivos::$carpetaUnica, $this->conexion);
+        RecuperarHorarios($this->archivos::$carpetaUnica, $this->conexion);
+        InsertarPorcentaje($this->archivos::$carpetaUnica, $this->conexion);
 
         if ($this->personal) {
-            RecuperarPersonal($this->conexion);
+            RecuperarPersonal($this->archivos::$carpetaUnica, $this->conexion);
         }
 
         $this->EliminarDatos();

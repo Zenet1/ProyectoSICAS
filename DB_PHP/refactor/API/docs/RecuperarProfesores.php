@@ -1,8 +1,8 @@
 <?php
 
-function RecuperarProfesores(PDO $Conexion)
+function RecuperarProfesores(string $carpeta,PDO $Conexion)
 {
-    $archivo = file("docs/ProfesoresConAlumnosInscritos.txt");
+    $archivo = file("$carpeta/ProfesoresConAlumnosInscritos.txt");
     $saltado = false;
 
     $sqlInsert = "INSERT INTO academicos (ClaveProfesor, NombreProfesor, ApellidoPaternoProfesor, ApellidoMaternoProfesor, GradoAcademico,CorreoProfesor,IDUsuario) SELECT ?,?,?,?,?,?,? FROM DUAL WHERE NOT EXISTS(SELECT ClaveProfesor FROM academicos WHERE ClaveProfesor=?) LIMIT 1";

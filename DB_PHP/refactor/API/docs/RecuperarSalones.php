@@ -1,9 +1,9 @@
 <?php
 
 
-function RecuperarSalones(PDO $Conexion)
+function RecuperarSalones(string $carpeta,PDO $Conexion)
 {
-    $archivo = file("docs/HorariosSesionesGrupo.txt");
+    $archivo = file("$carpeta/HorariosSesionesGrupo.txt");
     $saltado = false;
 
     $sqlInsert = "INSERT INTO salones (IDEdificio, NombreSalon, Capacidad) SELECT :ide,:nom,:cap FROM DUAL WHERE NOT EXISTS (SELECT IDEdificio, NombreSalon FROM salones WHERE IDEdificio = :ide AND NombreSalon = :nom) LIMIT 1";

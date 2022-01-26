@@ -1,7 +1,7 @@
 <?php
-function RecuperarCargasAcademicas(PDO $Conexion)
+function RecuperarCargasAcademicas(string $carpeta,PDO $Conexion)
 {
-    $archivo = file("docs/AlumnosCargaDeAsignaturas.txt");
+    $archivo = file("$carpeta/AlumnosCargaDeAsignaturas.txt");
     $saltado = false;
     
     //Querys
