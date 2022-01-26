@@ -21,7 +21,7 @@ export class CapacidadFacultadComponent implements OnInit {
   }
 
   guardarCapacidad(){
-    this.servicioAdmin.guardarCapacidadFacultdad(this.formularioCapacidad.value).subscribe(
+    this.servicioAdmin.guardarCapacidadFacultad(this.formularioCapacidad.value).subscribe(
       respuesta=>{
         this.capacidadActual = this.obtenerCapacidadActual();
         this.formularioCapacidad.reset();

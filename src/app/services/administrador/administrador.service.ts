@@ -27,7 +27,7 @@ export class AdministradorService {
     return this.clienteHttp.post<any>(this.API_Administrador, datos);
   }
 
-  guardarCapacidadFacultdad(datosCapacidad:FormGroup){
+  guardarCapacidadFacultad(datosCapacidad:FormGroup){
     let datos = JSON.stringify({accion:"actualizarPorcentaje", contenido: datosCapacidad});
     return this.clienteHttp.post<any>(this.API_Administrador, datos);
   }
