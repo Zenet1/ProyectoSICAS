@@ -10,9 +10,13 @@ function RecuperarAsignaturas(string $carpeta, PDO $Conexion)
         $recuperar_obj = $Conexion->prepare($recuperar);
 
         foreach ($archivo as $linea) {
-            $datos = explode("|", $linea);
+            $datos = explode("|", trim($linea));
             if (!$saltado) {
                 $saltado = true;
+                continue;
+            }
+
+            if (sizeof($datos) === 1) {
                 continue;
             }
 

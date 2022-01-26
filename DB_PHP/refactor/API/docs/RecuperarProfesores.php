@@ -1,6 +1,6 @@
 <?php
 
-function RecuperarProfesores(string $carpeta,PDO $Conexion)
+function RecuperarProfesores(string $carpeta, PDO $Conexion)
 {
     $archivo = file("$carpeta/ProfesoresConAlumnosInscritos.txt");
     $saltado = false;
@@ -16,11 +16,16 @@ function RecuperarProfesores(string $carpeta,PDO $Conexion)
     $objIDusu = $Conexion->prepare($sqlIDUsu);
 
     foreach ($archivo as $linea) {
+        $data = explode("|", utf8_encode(trim($linea)));
+
         if (!$saltado) {
             $saltado = true;
             continue;
         }
-        $data = explode("|", utf8_encode($linea));
+
+        if (sizeof($data) === 1) {
+            continue;
+        }
 
         $objusuario->execute(array("cnt" => $data[0], "idr" => 5));
         $objIDusu->execute(array($data[0]));

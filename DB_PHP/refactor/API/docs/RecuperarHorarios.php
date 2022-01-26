@@ -30,15 +30,19 @@ function RecuperarHorarios(string $carpeta,PDO $Conexion)
 
     $obj_insert = $Conexion->prepare($sqlInsert);
 
-    $horarios = array();
-
     foreach ($archivo as $linea) {
+        $data = explode("|", utf8_encode(trim($linea)));
+
         if (!$saltado) {
             $saltado = true;
             continue;
         }
 
-        $data = explode("|", utf8_encode($linea));
+        
+        if (sizeof($data) === 1) {
+            continue;
+        }
+        
         $obj_recuperarEdificio->execute(array($data[9]));
         $IDEdificio = $obj_recuperarEdificio->fetch(PDO::FETCH_ASSOC);
 

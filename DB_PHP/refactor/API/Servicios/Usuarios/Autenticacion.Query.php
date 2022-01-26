@@ -13,9 +13,9 @@ class AutentcacionQuery
 
         $this->SELECTDatosAl = "SELECT IDAlumno,NombreAlumno,ApellidoPaternoAlumno,ApellidoMaternoAlumno,Matricula,CorreoAlumno FROM alumnos WHERE IDUsuario=:idu";
 
-        $this->SELECTProfesor = "SELECT IDProfesor AS ID,CorreoProfesor AS CORREO FROM academicos WHERE IDUsuario=:idu";
+        $this->SELECTProfesor = "SELECT IDProfesor AS ID,CorreoProfesor AS CORREO,NombreProfesor AS NOMBRE,ApellidoPaternoProfesor AS APP FROM academicos WHERE IDUsuario=:idu";
 
-        $this->SELECTPersonal = "SELECT CorreoPersonal AS CORREO, IDPersonal AS ID FROM personal WHERE IDUsuario=:idu";
+        $this->SELECTPersonal = "SELECT CorreoPersonal AS CORREO, IDPersonal AS ID,Nombres AS NOMBRE,ApellidoPaterno AS APP FROM personal WHERE IDUsuario=:idu";
     }
 
     public function VerificarLocal(): string

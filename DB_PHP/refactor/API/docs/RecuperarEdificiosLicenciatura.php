@@ -1,6 +1,6 @@
 <?php
 
-function RecuperarEdificiosLicenciatura(string $carpeta,PDO $Conexion)
+function RecuperarEdificiosLicenciatura(string $carpeta, PDO $Conexion)
 {
     $archivo = file("$carpeta/HorariosSesionesGrupo.txt");
     $saltado = false;
@@ -11,11 +11,16 @@ function RecuperarEdificiosLicenciatura(string $carpeta,PDO $Conexion)
     $edificios = array();
 
     foreach ($archivo as $linea) {
+        $data = explode("|", utf8_encode(trim($linea)));
+
         if (!$saltado) {
             $saltado = true;
             continue;
         }
-        $data = explode("|", utf8_encode($linea));
+
+        if (sizeof($data) === 1) {
+            continue;
+        }
 
         if (!isset($edificios[$data[9]]) && $data[9] != "" && strpos($data[9], "Edificio") !== false) {
             $edificios[$data[9]] = "si";

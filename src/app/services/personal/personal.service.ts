@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PersonalService {
-  API_Personal: string = '';
+  API_Personal: string = '/ProyectoSICAS/DB_PHP/refactor/API/Personal.Ruta.php';
 
   constructor(private clienteHttp: HttpClient) { }
   
-  enviarAsistencia(datosPersonal:any):Observable<any>{
-    let datos = JSON.stringify({accion: "insertarReservaPersonal", contenido: datosPersonal});
+  enviarAsistencia(usuario:any,rol:any):Observable<any>{
+    let datos = JSON.stringify({accion: "insertarReservaPersonal", contenido: {usuario,rol}});
     return this.clienteHttp.post<any>(this.API_Personal, datos);
   }
 

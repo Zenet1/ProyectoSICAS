@@ -1,7 +1,7 @@
 <?php
 
 
-function RecuperarSalones(string $carpeta,PDO $Conexion)
+function RecuperarSalones(string $carpeta, PDO $Conexion)
 {
     $archivo = file("$carpeta/HorariosSesionesGrupo.txt");
     $saltado = false;
@@ -16,12 +16,17 @@ function RecuperarSalones(string $carpeta,PDO $Conexion)
     $salones = array();
 
     foreach ($archivo as $linea) {
+        $data = explode("|", utf8_encode(trim($linea)));
+
         if (!$saltado) {
             $saltado = true;
             continue;
         }
 
-        $data = explode("|", utf8_encode($linea));
+        if (sizeof($data) === 1) {
+            continue;
+        }
+
         $obj_recuperar->execute(array($data[9]));
         $ID = $obj_recuperar->fetch(PDO::FETCH_ASSOC);
 
