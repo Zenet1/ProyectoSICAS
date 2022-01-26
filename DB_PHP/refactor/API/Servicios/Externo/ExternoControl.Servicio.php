@@ -37,7 +37,7 @@ class ExternoControl{
         $mensaje = "Estimado " .  $nombreExterno . " el siguiente correo contiene su clave unica QR para acceder";
         $mensaje .= " a su entidad educativa correspondiente, este codigo es unicamente valido en la fecha " . $fechaReservada . ".\n";
         
-        $mensaje = "Usted ha podido realizar reservaciones con éxito a las siguientes oficinas:<br>";
+        $mensaje .= "Usted ha podido realizar reservaciones con éxito a las siguientes oficinas:<br>";
         $oficinasRecuperadas = $this->recuperarOficinasReservadas($listaOficinas);
         $mensaje .= $oficinasRecuperadas . "<br>";
 
