@@ -24,6 +24,6 @@ class ReservaQuery
 
     public function RecuperarID(string $tabla): string
     {
-        return "SELECT IDReserva FROM $tabla WHERE IDPersonal=:idp AND FechaReserva=:fchR";
+        return "SELECT IDReserva FROM $tabla WHERE IDPersonal=:idp AND FechaActual=:fchR";
     }
 }

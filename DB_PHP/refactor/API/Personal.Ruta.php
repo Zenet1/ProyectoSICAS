@@ -22,5 +22,6 @@ switch ($datos->accion) {
         $PersonalControl->InsertarReserva((array) $datos->contenido);
         break;
     case "validacionReservaPersonal":
+        $PersonalControl->validarReservaNoExistente((array) $datos->contenido);
         break;
 }

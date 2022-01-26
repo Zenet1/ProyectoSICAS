@@ -4,6 +4,7 @@ include_once("ReservaPersonal.Query.php");
 class ReservaPersonal
 {
     private Query $objQuery;
+    private ReservaQuery $objRes;
     private Fechas $fecha;
     private CorreoManejador $correo;
     private GeneradorQr $qr;
@@ -14,15 +15,15 @@ class ReservaPersonal
         $this->fecha = $fecha;
         $this->correo = $correo;
         $this->qr = $qr;
+        $this->objRes = new ReservaQuery();
     }
 
     public function InsertarReserva(array $contenido)
     {
-        $Queries = new ReservaQuery();
 
         $incogInser = array("idp" => $_SESSION["ID"], "fchA" => $this->fecha->FechaAct(), "hrA" => $this->fecha->HrAct(), "fchR" => $this->fecha->FechaSig());
 
-        $incogSelect = array("idp" => $_SESSION["ID"], "fchR" => $this->fecha->FechaSig());
+        $incogSelect = array("idp" => $_SESSION["ID"], "fchR" => $this->fecha->FechaAct());
 
         $resultado = "";
 
@@ -30,16 +31,16 @@ class ReservaPersonal
         $contenidoQr = "";
 
         if ($contenido["rol"] === "Personal") {
-            $this->objQuery->ejecutarConsulta($Queries->InsertarReservaPer(), $incogInser);
-            $resultado = $this->objQuery->ejecutarConsulta($Queries->RecuperarID("reservacionespersonal"), $incogSelect);
+            $this->objQuery->ejecutarConsulta($this->objRes->InsertarReservaPer(), $incogInser);
+            $resultado = $this->objQuery->ejecutarConsulta($this->objRes->RecuperarID("reservacionespersonal"), $incogSelect);
 
             $NombreImagen = "per" . $_SESSION["ID"];
             $contenidoQr = $_SESSION["Conexion"] . "," . "per" . "," . $_SESSION["ID"] . "," . $resultado[0]["IDReserva"];
         }
 
         if ($contenido["rol"] === "Profesor") {
-            $this->objQuery->ejecutarConsulta($Queries->InsertarReservaPro(), $incogInser);
-            $resultado = $this->objQuery->ejecutarConsulta($Queries->RecuperarID("reservacionesacademicos"), $incogSelect);
+            $this->objQuery->ejecutarConsulta($this->objRes->InsertarReservaPro(), $incogInser);
+            $resultado = $this->objQuery->ejecutarConsulta($this->objRes->RecuperarID("reservacionesacademicos"), $incogSelect);
 
             $NombreImagen = "pro" . $_SESSION["ID"];
             $contenidoQr = $_SESSION["Conexion"] . "," . "pro" . "," . $_SESSION["ID"] . "," . $resultado[0]["IDReserva"];
@@ -60,5 +61,25 @@ class ReservaPersonal
         unlink("img/" . $NombreImagen . ".png");
     }
 
-    
+    public function validarReservaNoExistente(array $contenido)
+    {
+        $Respuesta = "Aceptado";
+        $incognitas = array("idp" => $_SESSION["ID"], "fchR" => $this->objFecha->FechaAct());
+        $sql = "";
+
+        if ($contenido["rol"] === "Personal") {
+            $sql = $this->objRes->RecuperarID("reservacionespersonal");
+        }
+
+        if ($contenido["rol"] === "Profesor") {
+            $sql = $this->objRes->RecuperarID("reservacionesacademicos");
+        }
+
+        $Reservaciones = $this->objQuery->ejecutarConsulta($sql, $incognitas);
+
+        if (sizeof($Reservaciones) > 0) {
+            $Respuesta = "Rechazado";
+        }
+        echo json_encode($Respuesta);
+    }
 }
