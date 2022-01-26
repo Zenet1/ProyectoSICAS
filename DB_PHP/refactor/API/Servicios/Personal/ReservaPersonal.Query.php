@@ -2,23 +2,30 @@
 
 class ReservaQuery
 {
-    private string $INSERTReserva;
+    private string $INSERTReservaPer;
+    private string $INSERTReservaPro;
     private string $SELECTIDReserva;
 
     public function __construct()
     {
-        $this->INSERTReserva = "INSERT INTO reservacionespersonal (FechaReserva,HoraActual,FechaActual,IDPersonalRes) SELECT :fchR,:hrA,:fchA,:idp FROM DUAL WHERE NOT EXISTS (SELECT IDPersonalRes,FechaReserva FROM reservacionespersonal WHERE IDPersonalRes=:idp AND FechaReserva=:fchR) LIMIT 1";
+        $this->INSERTReservaPer = "INSERT INTO reservacionespersonal (FechaReserva,HoraActual,FechaActual,IDPersonalRes) SELECT :fchR,:hrA,:fchA,:idp FROM DUAL WHERE NOT EXISTS (SELECT IDPersonalRes,FechaReserva FROM reservacionespersonal WHERE IDPersonalRes=:idp AND FechaReserva=:fchR) LIMIT 1";
 
-        $this->SELECTIDReserva = "SELECT IDReservaPersonal FROM reservacionespersonal WHERE IDPersonalRes=:idp AND FechaReserva=:fchR";
+        $this->INSERTReservaPro = "INSERT INTO reservacionesacademicos (FechaReserva,HoraActual,FechaActual,IDPersonalRes) SELECT :fchR,:hrA,:fchA,:idp FROM DUAL WHERE NOT EXISTS (SELECT IDPersonalRes,FechaReserva FROM reservacionespersonal WHERE IDPersonalRes=:idp AND FechaReserva=:fchR) LIMIT 1";
+
     }
 
-    public function InsertarReserva(): string
+    public function InsertarReservaPer(): string
     {
-        return $this->INSERTReserva;
+        return $this->INSERTReservaPer;
     }
 
-    public function RecuperarID(): string
+    public function InsertarReservaPro(): string
     {
-        return $this->SELECTIDReserva;
+        return $this->INSERTReservaPro;
+    }
+
+    public function RecuperarID(string $tabla): string
+    {
+        return "SELECT IDReservaPersonal FROM $tabla WHERE IDPersonalRes=:idp AND FechaReserva=:fchR";
     }
 }
