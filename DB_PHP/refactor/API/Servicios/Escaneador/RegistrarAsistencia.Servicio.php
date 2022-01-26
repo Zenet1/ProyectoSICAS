@@ -85,7 +85,7 @@ class RegistrarAsistencia
                 return array($this->regQuery->recuperarQuery("SELECTResPer"), $this->regQuery->recuperarQuery("INSERTAsisPer"));
                 break;
             case "per":
-                return array($this->regQuery->recuperarQuery("SELECTResPro"), $this->regQuery->recuperarQuery("INSERTAsisPer"));
+                return array($this->regQuery->recuperarQuery("SELECTResPro"), $this->regQuery->recuperarQuery("INSERTAsisPro"));
                 break;
         }
     }

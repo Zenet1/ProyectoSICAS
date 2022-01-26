@@ -24,21 +24,25 @@ class ReservaPersonal
 
         $incogSelect = array("idp" => $_SESSION["ID"], "fchR" => $this->fecha->FechaSig());
 
-        $this->objQuery->ejecutarConsulta($Queries->InsertarReserva(), $incogInser);
-
-        $resultado = $this->objQuery->ejecutarConsulta($Queries->RecuperarID(), $incogSelect);
+        $resultado = "";
 
         $NombreImagen = "";
         $contenidoQr = "";
 
         if ($contenido["rol"] === "Personal") {
+            $this->objQuery->ejecutarConsulta($Queries->InsertarReservaPer(), $incogInser);
+            $resultado = $this->objQuery->ejecutarConsulta($Queries->RecuperarID("reservacionespersonal"), $incogSelect);
+
             $NombreImagen = "per" . $_SESSION["ID"];
-            $contenidoQr = $_SESSION["Conexion"] . "," . "per" . "," . $_SESSION["ID"] . "," . $resultado[0]["IDReservaPersonal"];
+            $contenidoQr = $_SESSION["Conexion"] . "," . "per" . "," . $_SESSION["ID"] . "," . $resultado[0]["IDReserva"];
         }
 
         if ($contenido["rol"] === "Profesor") {
+            $this->objQuery->ejecutarConsulta($Queries->InsertarReservaPro(), $incogInser);
+            $resultado = $this->objQuery->ejecutarConsulta($Queries->RecuperarID("reservacionesacademicos"), $incogSelect);
+
             $NombreImagen = "pro" . $_SESSION["ID"];
-            $contenidoQr = $_SESSION["Conexion"] . "," . "pro" . "," . $_SESSION["ID"] . "," . $resultado[0]["IDReservaPersonal"];
+            $contenidoQr = $_SESSION["Conexion"] . "," . "pro" . "," . $_SESSION["ID"] . "," . $resultado[0]["IDReserva"];
         }
 
         $this->qr->setNombrePng($NombreImagen);
@@ -55,4 +59,6 @@ class ReservaPersonal
         $this->correo->EnviarCorreo($destinatario, $asunto, $mensaje, "img/" . $NombreImagen . ".png");
         unlink("img/" . $NombreImagen . ".png");
     }
+
+    
 }
