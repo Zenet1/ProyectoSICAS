@@ -15,8 +15,8 @@ export class PersonalService {
     return this.clienteHttp.post<any>(this.API_Personal, datos);
   }
 
-  combrobarReservacion(){
-    let datos = JSON.stringify({accion: "validacionReservaPersonal"});
+  combrobarReservacion(rol:any){
+    let datos = JSON.stringify({accion: "validacionReservaPersonal", contenido: rol});
     return this.clienteHttp.post(this.API_Personal, datos);
   }
 }
