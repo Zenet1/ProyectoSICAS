@@ -72,7 +72,7 @@ export class EstadisticasComponent implements OnInit {
   }
 
   eleccionTipo(event){
-    if((event == "asistenciapersonal" || (event == "asistenciaprofesores"))){
+    if(event == "asistenciapersonal"){
       this.bandera = true;
     } else {
       this.bandera = false;

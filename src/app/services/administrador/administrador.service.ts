@@ -102,7 +102,7 @@ export class AdministradorService {
 
   obtenerEstadisticas(filtros:any){
     let tipo = filtros.tipo;
-    if((tipo == "asistenciapersonal") || (tipo == "asistenciaprofesores")){
+    if(tipo == "asistenciapersonal"){
       var datos = JSON.stringify({accion:"recuperarEstadisticaPersonal", contenido: filtros});
     } else {
       var datos = JSON.stringify({accion:"recuperarEstadisticaAlumno", contenido: filtros});
