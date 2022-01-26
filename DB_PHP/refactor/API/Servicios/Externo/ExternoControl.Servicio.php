@@ -12,16 +12,14 @@ class ExternoControl{
 
     public function enviarQRExterno(array $IDOficinas, string $fechaReservada) : void
     {
-        session_start();
         if($this->sesionActivaExterno()){
-            
             $objCorreo = new CorreoManejador();
             $datosSesion = $this->recuperarVariablesSesion();
             $datosDestinatario = array($datosSesion["correoExterno"] => $datosSesion["nombreExterno"]);
 
             $contenidoCorreo = $this->generarContenidoCorreo($datosSesion["nombreExterno"], $datosSesion["IDExterno"], $IDOficinas, $datosSesion["fechaReservada"]);
 
-            $nombreQR = $this->generarQRExterno($datosSesion["IDExterno"], $IDOficinas, $datosSesion["fechaReservada"], $datosSesion["fechaCuandoSeReservo"], $datosSesion["horaCuandoSeReservo"]);
+            $nombreQR = $this->generarQRExterno($datosSesion["IDExterno"], $datosSesion["siglasFacultad"], $IDOficinas, $datosSesion["fechaReservada"], $datosSesion["fechaCuandoSeReservo"], $datosSesion["horaCuandoSeReservo"]);
             $ubicacionQR = "img/" . $nombreQR .".png";
 
             $objCorreo->setArchivo(true);
@@ -41,7 +39,7 @@ class ExternoControl{
         
         $mensaje = "Usted ha podido realizar reservaciones con éxito a las siguientes oficinas:<br>";
         $oficinasRecuperadas = $this->recuperarOficinasReservadas($listaOficinas);
-        $mensaje .= $oficinasRecuperadas;
+        $mensaje .= $oficinasRecuperadas . "<br>";
 
         $mensaje .= "Se le exhorta que guarde la imagen para evitar algun problema.";
 
@@ -69,10 +67,10 @@ class ExternoControl{
         return $nombreOficina[0]["NombreOficina"];
     }
 
-    private function generarQRExterno(string $IDExterno, array $listaIDOficinas, string $fechaReservada, string $fechaExterno, string $horaExterno) : string
+    private function generarQRExterno(string $IDExterno, string $siglasFacultad, array $listaIDOficinas, string $fechaReservada, string $fechaExterno, string $horaExterno) : string
     {
         $nombreQRExterno = "e" . $IDExterno;
-        $contenidoQRExterno = $this->generarContenidoQR($IDExterno, $listaIDOficinas, $fechaReservada, $fechaExterno, $horaExterno,);
+        $contenidoQRExterno = $this->generarContenidoQR($IDExterno, $siglasFacultad, $listaIDOficinas, $fechaReservada, $fechaExterno, $horaExterno,);
 
         $QR = new GeneradorQr();
         $QR->setNombrePng($nombreQRExterno);
@@ -81,9 +79,10 @@ class ExternoControl{
         return $nombreQRExterno;
     }
 
-    private function generarContenidoQR(string $IDExterno, array $listaIDOficinas, string $fechaReservada, string $fechaExterno, string $horaExterno) : string
+    private function generarContenidoQR(string $IDExterno, string $siglasFacultad, array $listaIDOficinas, string $fechaReservada, string $fechaExterno, string $horaExterno) : string
     {
         $ContenidoQR = "e," . $IDExterno;
+        $ContenidoQR .= "," . $siglasFacultad;
 
         foreach($listaIDOficinas as $IDOficina){
             $sql_recuperarIDReserva = "SELECT IDReservaExterno FROM reservacionesexternos 
@@ -102,13 +101,14 @@ class ExternoControl{
         $fechaCuandoSeReservo = $_SESSION['FechaActual'];
         $horaCuandoSeReservo = $_SESSION['HoraActual'];
         $fechaReservada = $_SESSION["FechaReservada"];
+        $siglasFacultad = $_SESSION["Conexion"];
 
-        return (array("IDExterno" => $IDExterno, "correoExterno" => $correoExterno, "nombreExterno" => $nombreExterno, "fechaReservada" => $fechaReservada, "fechaCuandoSeReservo" => $fechaCuandoSeReservo, "horaCuandoSeReservo" => $horaCuandoSeReservo));
+        return (array("IDExterno" => $IDExterno, "correoExterno" => $correoExterno, "nombreExterno" => $nombreExterno, "fechaReservada" => $fechaReservada, "fechaCuandoSeReservo" => $fechaCuandoSeReservo, "horaCuandoSeReservo" => $horaCuandoSeReservo, "siglasFacultad" => $siglasFacultad));
     }
 
     private function sesionActivaExterno() : bool
     {
-        return (isset($_SESSION["IDExterno"]) && isset($_SESSION['Nombre']) && isset($_SESSION['ApellidosExterno']) && isset($_SESSION['Empresa']) && isset($_SESSION['Correo']) && isset($_SESSION['FechaActual']) && isset($_SESSION['HoraActual']));
+        return (isset($_SESSION["IDExterno"]) && isset($_SESSION["Nombre"]) && isset($_SESSION["ApellidosExterno"]) && isset($_SESSION["Empresa"]) && isset($_SESSION["Correo"]) && isset($_SESSION["FechaActual"]) && isset($_SESSION["HoraActual"]) && isset($_SESSION["Conexion"]));
     }
 }
 

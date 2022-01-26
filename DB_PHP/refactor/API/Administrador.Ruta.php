@@ -20,8 +20,6 @@ include_once("Servicios/Administrador/Restaurar/RestaurarBD.Servicio.php");
 include_once("Servicios/Administrador/Respaldar/SICEIControl.Servicio.php");
 include_once("Servicios/Administrador/Alertar.Servicio.php");
 include_once("Servicios/Administrador/Estadisticas.Servicio.php");
-include_once("Servicios/Administrador/Edificio.Servicio.php");
-include_once("Servicios/Administrador/Oficina.Servicio.php");
 include_once("Servicios/Administrador/Pregunta.Servicio.php");
 include_once("../Clases/Conexion.Class.php");
 include_once("../Clases/Query.Class.php");
@@ -51,8 +49,6 @@ $SalonesControl = new Salones($QueryObj);
 $BDControl = new ControlBD($QueryObj);
 $EstadisticaControl = new EstadisticaControl($QueryObj);
 $NUsuarios = new InsertarUsuario($QueryObj);
-$EdificioControl = new Edificio($QueryObj);
-$OficinaControl = new Oficina($QueryObj);
 $PreguntaControl = new Pregunta($QueryObj);
 $AlertaControl = new Alertar($QueryObj, new CorreoManejador(), $Fechas);
 
@@ -98,20 +94,8 @@ switch ($accion) {
     case "eliminarPregunta":
         $PreguntaControl->eliminarPregunta((array)$datos->contenido);
         break;
-    case "recuperarEdificios":
-        $EdificioControl->recuperarEdificios();
-        break;
-    case "recuperarOficinas":
-        $OficinaControl->recuperarOficinas();
-        break;
     case "recuperarRoles":
         $RolesControl->RecuperarRoles();
-        break;
-    case "eliminarOficina":
-        $OficinaControl->eliminarOficina((string)$datos->contenido);
-        break;
-    case "agregarOficina":
-        $OficinaControl->insertarOficina((array)$datos->contenido);
         break;
     case "recuperarPlanes":
         $PlanesControl->RecuperarPlanesEstudio();

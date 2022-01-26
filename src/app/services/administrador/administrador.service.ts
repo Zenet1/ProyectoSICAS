@@ -8,6 +8,7 @@ import { FormGroup } from '@angular/forms';
 export class AdministradorService {
   
   API_Administrador:string = '/ProyectoSICAS/DB_PHP/refactor/API/Administrador.Ruta.php';
+  API_Oficinas:string = '/ProyectoSICAS/DB_PHP/refactor/API/Oficinas.Ruta.php';
 
   constructor(private clienteHttp: HttpClient) { }
 
@@ -45,22 +46,22 @@ export class AdministradorService {
 
   obtenerEdificios(){
     let datos = JSON.stringify({accion: "recuperarEdificios"});
-    return this.clienteHttp.post(this.API_Administrador, datos);
+    return this.clienteHttp.post(this.API_Oficinas, datos);
   }
 
   obtenerOficinas(){
     let datos = JSON.stringify({accion: "recuperarOficinas"});
-    return this.clienteHttp.post(this.API_Administrador, datos);
+    return this.clienteHttp.post(this.API_Oficinas, datos);
   }
 
   guardarOficina(datosOficina:any){
     let datos = JSON.stringify({accion: "agregarOficina", contenido: datosOficina});
-    return this.clienteHttp.post<any>(this.API_Administrador, datos);
+    return this.clienteHttp.post<any>(this.API_Oficinas, datos);
   }
 
   eliminarOficina(idOficina:any){
     let datos = JSON.stringify({accion: "eliminarOficina", contenido: idOficina});
-    return this.clienteHttp.post<any>(this.API_Administrador, datos);
+    return this.clienteHttp.post<any>(this.API_Oficinas, datos);
   }
 
   obtenerAulas(){

@@ -10,18 +10,8 @@ class ReservacionExterno{
         $this->objFecha = $fecha;
     }
 
-    public function registroExterno($datos)
-    {
-        session_start();
-        $_SESSION['Nombre'] = "$datos->nombre";
-        $_SESSION['ApellidosExterno'] = "$datos->apellidos";
-        $_SESSION['Empresa'] = "$datos->empresa";
-        $_SESSION['Correo'] = "$datos->correo";
-    }
-
     public function insertarReservaExterno($oficinas, $fechaAsistencia)
     {
-        session_start();
         $externoRegistrado = $this->insertarExterno();
         if($externoRegistrado){
             $IDExterno = $this->recuperarIDExterno();
