@@ -16,41 +16,39 @@ class Alertar
         $this->fecha = $fecha;
     }
 
-    public function Alertar(array $contenido)
+    public function alertar(array $contenido)
     {
         //print_r($contenido);
     }
 
     public function obtenerAfectados(array $contenido)
     {
-        $fechas = $this->ObtenerFechas($contenido);
+        $listaFechas = $this->obtenerFechas($contenido);
 
-        if (sizeof($fechas) === 0) {
+        if (sizeof($listaFechas) === 0) {
             exit();
         }
-
         $gruposFiltrados = array();
         $alumnosFiltrados = array();
         $profesoresFiltrados = array();
 
-        foreach ($fechas as $FECHA) {
-            $incognitas = array("mat" => $contenido["matricula"], "fch" => $FECHA["FechaAl"]);
-            $gruposFiltrados = $this->ObtenerDatosUnicos($this->objAleQ->CargasAcademicas(), $gruposFiltrados, $incognitas);
+        foreach ($listaFechas as $fecha) {
+            $incognitas = array("mat" => $contenido["matricula"], "fch" => $fecha["FechaAl"]);
+            $gruposFiltrados = $this->obtenerDatosUnicos($this->objAleQ->CargasAcademicas(), $gruposFiltrados, $incognitas);
         }
 
-        foreach ($gruposFiltrados as $GRUPO) {
-            $incognitaAl = array("mat" => $contenido["matricula"], "fch" => $GRUPO["FechaReservaAl"], "idg" => $GRUPO["IDGrupo"]);
-            $incognitaProf = array("idg" => $GRUPO["IDGrupo"]);
+        foreach ($gruposFiltrados as $grupo) {
+            $incognitaAlumno = array("mat" => $contenido["matricula"], "fch" => $grupo["FechaReservaAl"], "idg" => $grupo["IDGrupo"]);
+            $incognitaProfesor = array("idg" => $grupo["IDGrupo"]);
 
-            $profesoresFiltrados = $this->ObtenerDatosUnicos($this->objAleQ->ObtenerProf(), $profesoresFiltrados, $incognitaProf);
-
-            $alumnosFiltrados = $this->ObtenerDatosUnicos($this->objAleQ->ObtenerInvol(), $alumnosFiltrados, $incognitaAl);
+            $alumnosFiltrados = $this->obtenerDatosUnicos($this->objAleQ->ObtenerInvol(), $alumnosFiltrados, $incognitaAlumno);
+            $profesoresFiltrados = $this->obtenerDatosUnicos($this->objAleQ->ObtenerProf(), $profesoresFiltrados, $incognitaProfesor);
         }
 
         //$this->EnviarCorreo($profesoresFiltrados, $gruposFiltrados);
         //$this->EnviarCorreo($alumnosFiltrados, $gruposFiltrados);
 
-        $this->InsertarInfectados($contenido);
+        $this->insertarIncidentados($contenido["matricula"], $alumnosFiltrados, $contenido["fechaSuspension"], $contenido["fechaSospechosos"]);
 
         $datosEnviar["usuarios"] = sizeof($profesoresFiltrados) + sizeof($alumnosFiltrados);
         $datosEnviar["grupos"] = $gruposFiltrados;
@@ -58,16 +56,22 @@ class Alertar
         echo json_encode($datosEnviar);
     }
 
-    private function ObtenerDatosUnicos(string $sql, array $datosFiltrados, array $datos): array
+    private function obtenerFechas(array $contenido)
     {
-        $resultado = $this->objQuery->ejecutarConsulta($sql, $datos);
-        return $this->Filtrar($resultado, $datosFiltrados);
+        $incognitas = array("mat" => $contenido["matricula"], "fchIn" => $contenido["fechaInicio"], "fchFn" => $contenido["fechaFin"]);
+        return $this->objQuery->ejecutarConsulta($this->objAleQ->ObtenerAsistencias(), $incognitas);
     }
 
-    private function Filtrar(array $datoCrudo, array $datosFiltrados)
+    private function obtenerDatosUnicos(string $sql, array $datosFiltrados, array $datos) : array
     {
-        foreach ($datoCrudo as $DATO) {
-            if (!in_array($DATO, $datosFiltrados)) {
+        $resultado = $this->objQuery->ejecutarConsulta($sql, $datos);
+        return $this->filtrar($resultado, $datosFiltrados);
+    }
+
+    private function filtrar(array $datoCrudo, array $datosFiltrados)
+    {
+        foreach ($datoCrudo as $dato) {
+            if (!in_array($dato, $datosFiltrados)) {
                 $datosFiltrados[] = array_shift($datoCrudo);
             } else {
                 array_shift($datoCrudo);
@@ -76,7 +80,7 @@ class Alertar
         return $datosFiltrados;
     }
 
-    private function EnviarCorreo(array $datosUnicos, array $grupos)
+    private function enviarCorreo(array $datosUnicos, array $grupos)
     {
         $FormatoDestinatario = array();
 
@@ -102,15 +106,27 @@ class Alertar
         //$this->correo->EnviarCorreo($FormatoDestinatario, $asunto, $mensaje);
     }
 
-    private function ObtenerFechas(array $contenido)
-    {
-        $incognitas = array("mat" => $contenido["matricula"], "fchIn" => $contenido["fechaInicio"], "fchFn" => $contenido["fechaFin"]);
-        return $this->objQuery->ejecutarConsulta($this->objAleQ->ObtenerAsistencias(), $incognitas);
+    private function insertarIncidentados(string $matriculaAlumnoPortador, array $listaAlumnos, string $fechaSuspension, string $fechaSospechosos){
+        $this->insertarAlumnoIncidentado($matriculaAlumnoPortador, $fechaSuspension);
+
+        foreach($listaAlumnos as $alumnoSospechoso){
+            $this->insertarAlumnoIncidentado($alumnoSospechoso["Matricula"], $fechaSospechosos);
+        }
     }
 
-    private function InsertarInfectados(array $datos)
+    private function insertarAlumnoIncidentado(string $matricula, string $fechaSuspension) : void
     {
-        $incognitas = array("ida" => $datos["matricula"], "fchA" => $this->fecha->FechaAct(), "fchL" => $datos["fechaSuspension"]);
+        $IDAlumno = $this->recuperarAlumno($matricula);
+        $incognitas = array("ida" => $IDAlumno, "fchA" => $this->fecha->FechaAct(), "fchL" => $fechaSuspension);
+        
         $this->objQuery->ejecutarConsulta($this->objAleQ->AgregarIncidente(), $incognitas);
+    }
+
+    private function recuperarAlumno(string $matricula) : string
+    {
+        $sql_recuperarIDAlumno = "SELECT IDAlumno FROM alumnos WHERE Matricula = ?";
+        $IDAlumno = $this->objQuery->ejecutarConsulta($sql_recuperarIDAlumno, array($matricula));
+
+        return $IDAlumno[0]["IDAlumno"];
     }
 }
