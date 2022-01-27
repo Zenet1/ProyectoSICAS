@@ -74,7 +74,7 @@
         <div class="columna2 col-lg-7">
             <div class="wrapper-grafica">
                 <h4 class="text-center mb-0">Estadísticas</h4>
-                <div *ngIf="siEstadisticasObtenidas" class="container-grafica">
+                <div *ngIf="siEstadisticasObtenidas && (tipoEstadistica == 'alumno')" class="container-grafica">
                     <ngx-charts-bar-horizontal-2d
                         [animations]="animations"
                         [customColors]="customColors"
@@ -94,6 +94,22 @@
                         (deactivate)="onDeactivate($event)"
                         >
                     </ngx-charts-bar-horizontal-2d>
+                </div>
+                <div *ngIf="siEstadisticasObtenidas && (tipoEstadistica == 'personal')" class="container-grafica">
+                    <ngx-charts-bar-horizontal
+                        [animations]="animations"
+                        [customColors]="customColors"
+                        [schemeType]="schemeType"
+                        [results]="single"
+                        [gradient]="gradient"
+                        [xAxis]="showXAxis"
+                        [yAxis]="showYAxis"
+                        [legend]="showLegend"
+                        [showXAxisLabel]="showXAxisLabel"
+                        [showYAxisLabel]="showYAxisLabelPersonal"
+                        [xAxisLabel]="xAxisLabel"
+                        [yAxisLabel]="yAxisLabelPersonal">
+                    </ngx-charts-bar-horizontal>
                 </div>
             </div>
         </div>
