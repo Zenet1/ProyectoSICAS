@@ -9,14 +9,14 @@ import { AdministradorService } from 'src/app/services/administrador/administrad
 })
 export class GestionarSiceiComponent implements OnInit {
   formularioBDSicei:FormGroup;
-  formCargarPersonas:FormGroup;
+  formActualizarDatos:FormGroup;
   constructor(private servicioAdmin:AdministradorService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.formularioBDSicei = this.formBuilder.group({
       archivos:[""]
     });
-    this.formCargarPersonas = this.formBuilder.group({
+    this.formActualizarDatos = this.formBuilder.group({
       archivosActualizar:[""]
     })
   }
@@ -43,7 +43,7 @@ export class GestionarSiceiComponent implements OnInit {
   }
 
   actualizarDatos(){
-    this.servicioAdmin.actualizarDatos(this.formCargarPersonas.value).subscribe(
+    this.servicioAdmin.actualizarDatos(this.formActualizarDatos.value).subscribe(
       respuesta=>{
         alert("Se realizó la carga de los datos correctamente");
       },
