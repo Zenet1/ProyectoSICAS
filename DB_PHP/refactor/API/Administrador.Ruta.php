@@ -76,6 +76,7 @@ switch ($accion) {
         $EstadisticaControl->EstadisticasAlumno((array) $datos->contenido);
         break;
     case "recuperarEstadisticaPersonal":
+        $EstadisticaControl->EstadisticasPersonal((array) $datos->contenido);
         break;
     case "alertaCOVID":
         $AlertaControl->Alertar((array) $datos->contenido);

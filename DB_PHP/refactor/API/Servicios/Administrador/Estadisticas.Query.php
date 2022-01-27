@@ -11,11 +11,16 @@ class EstadisticaQuery
         $this->plan = " AND PLE.NombrePlan=";
     }
 
-    public function ObtenerQuery(string $nombreTabla): string
+    public function ObtenerPersonal(string $tabla)
+    {
+        return "SELECT IDAsistencia FROM $tabla WHERE FechaAsistencia>=:fchI AND FechaAsistencia<=:fchF";
+    }
+
+    public function ObtenerAlumnos(string $nombreTabla): string
     {
         return "SELECT PLE.NombrePlan,PLE.SiglasPlan,ALM.Genero FROM $nombreTabla AS GEN INNER JOIN alumnos AS ALM ON ALM.IDAlumno=GEN.IDAlumno INNER JOIN planesdeestudio AS PLE ON PLE.IDPlanEstudio=ALM.IDPlanEstudio WHERE GEN.FechaAl>=:fchIn AND GEN.FechaAl<=:fchFn";
     }
-    
+
     public function ObtenerGenero(string $genero): string
     {
         return ($genero !== "todos" ? $this->genero . "'$genero' " : "");

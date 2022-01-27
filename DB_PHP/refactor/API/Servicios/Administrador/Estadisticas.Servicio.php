@@ -14,7 +14,7 @@ class EstadisticaControl
 
     public function EstadisticasAlumno(array $contenido)
     {
-        $queryCompleta = $this->objEstic->ObtenerQuery($contenido["tipo"]);
+        $queryCompleta = $this->objEstic->ObtenerAlumnos($contenido["tipo"]);
         $queryCompleta .= $this->objEstic->ObtenerGenero($contenido["genero"]);
         $queryCompleta .= $this->objEstic->ObtenerPlan($contenido["NombrePlan"]);
 
@@ -50,14 +50,14 @@ class EstadisticaControl
         $datosFiltrados[$Siglas][] = array("name" => $Genero, "value" => $contGen);
         if (sizeof($datosModificados) === 0) {
             $datos["tipo"] = "alumno";
-            $datos["estadisticas"] = $this->FormatoGrafica($datosFiltrados);
+            $datos["estadisticas"] = $this->FormatoGraficaMultiple($datosFiltrados);
             echo json_encode($datos);
         } else {
             $this->FiltradoRecursivo($datosModificados, $datosFiltrados);
         }
     }
 
-    private function FormatoGrafica(array $datos): array
+    private function FormatoGraficaMultiple(array $datos): array
     {
         $array_adaptada = array();
         foreach ($datos as $clave => $valor) {
@@ -66,7 +66,21 @@ class EstadisticaControl
         return $array_adaptada;
     }
 
-    public function EstadisticasPersonal()
+    public function EstadisticasPersonal(array $datos)
     {
+        $sqlPersonal = $this->objEstic->ObtenerPersonal("asistenciaspersonal");
+        $sqlProfesor = $this->objEstic->ObtenerPersonal("asistenciasacademicos");
+        $incognitas = array("fchI" => $datos["fechaInicio"], "fchF" => $datos["fechaFin"]);
+
+        $resPer = $this->objQuery->ejecutarConsulta($sqlPersonal, $incognitas);
+        $resPro = $this->objQuery->ejecutarConsulta($sqlProfesor, $incognitas);
+
+        $datosEst[] = array("name" => "Personal", "value" => sizeof($resPer));
+        $datosEst[] = array("name" => "Profesor", "value" => sizeof($resPro));
+
+        $Formato["tipo"] = "personal";
+        $Formato["estadisticas"] = $datosEst;
+
+        echo json_encode($Formato);
     }
 }
