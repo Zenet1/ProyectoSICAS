@@ -29,10 +29,12 @@ function RecuperarProfesores(string $carpeta, PDO $Conexion)
 
         if ($data[6] !== "null") {
             $objusuario->execute(array("cnt" => $data[6], "idr" => 5));
+            $objIDusu->execute(array($data[6]));
+            $resultado = $objIDusu->fetch(PDO::FETCH_ASSOC);
+        } else {
+            $resultado = 0;
         }
 
-        $objIDusu->execute(array($data[0]));
-        $resultado = $objIDusu->fetch(PDO::FETCH_ASSOC);
         $objInsert->execute(array($data[0], $data[1], $data[2], $data[3], $data[4], $data[5], $resultado["IDUsuario"], $data[0]));
     }
 }
