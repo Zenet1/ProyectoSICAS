@@ -26,9 +26,9 @@ export class GestionarSiceiComponent implements OnInit {
     this.formularioBDSicei.get('archivos').setValue(archivo);
   }
 
-  archivosActualizar(event){
+  archivosActualizarSelecccionados(event){
     const archivo = event.target.files;
-    this.formularioBDSicei.get('archivosActualizar').setValue(archivo);
+    this.formActualizarDatos.get('archivosActualizar').setValue(archivo);
   }
 
   subirBDSicei(){
