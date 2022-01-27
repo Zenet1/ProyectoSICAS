@@ -5,30 +5,50 @@
             <p>Gestión de datos</p>
         </div>
     </div>
-    <div class="wrapper-formulario mb-3">
-        <div class="container-formulario">
-            <form [formGroup]="formularioBDSicei" (ngSubmit)="subirBDSicei()" ngNativeValidate>
-                <div class="mb-3">
-                    <label for="archivos" class="form-label">Seleccione los archivos con los datos del SICEI:</label>
-                    <input id="archivos" name="archivos" accept=".txt" (change)="archivosSeleccionados($event)" class="form-control" type="file" multiple required>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="wrapper-formulario mb-3">
+                <div class="container-formulario">
+                    <form [formGroup]="formularioBDSicei" (ngSubmit)="subirBDSicei()" ngNativeValidate>
+                        <div class="mb-3">
+                            <label for="archivos" class="form-label">Cargue los siguentes archivos para almacenar los datos:</label>
+                            <ul>
+                                <li>AlumnosCargaDeAsignaturas.txt</li>
+                                <li>AlumnosInscripcionEnPeriodoCurso.txt</li>
+                                <li>AsignaturasALasQueSeInscribieronAlumnos.txt</li>
+                                <li>HorariosSesionesGrupo.txt</li>
+                                <li>PlanesDeEstudios.txt</li>
+                                <li>ProfesoresConAlumnosInscritos.txt</li>
+                                <li>administrativos.txt (opcional)</li>
+                            </ul>
+                            <input id="archivos" name="archivos" accept=".txt" (change)="archivosSeleccionados($event)" class="form-control" type="file" multiple required>
+                        </div>
+                        <div class="container-botones">
+                            <button type="submit" class="btn btn-success">Cargar</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="container-botones">
-                    <button type="submit" class="btn btn-success">Migrar</button>
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
-    <div class="wrapper-formulario">
-        <div class="container-formulario">
-            <form [formGroup]="formCargarPersonas" (ngSubmit)="subirPersonas()" ngNativeValidate>
-                <div class="mb-3">
-                    <label for="archivosPersonas" class="form-label">Seleccione los archivos con los datos de las personas pertenecientes a la facultad:</label>
-                    <input id="archivosPersonas" name="archivosPersonas" accept=".txt" (change)="archivosPersonas($event)" class="form-control" type="file" multiple required>
+        <div class="col-lg-6">
+            <div class="wrapper-formulario">
+                <div class="container-formulario">
+                    <form [formGroup]="formCargarPersonas" (ngSubmit)="subirPersonas()" ngNativeValidate>
+                        <div class="mb-3">
+                            <label for="archivosPersonas" class="form-label">Cargue los siguientes archivos para actualizar los datos:</label>
+                            <ul>
+                                <li>AlumnosInscripcionEnPeriodoCurso.txt</li>
+                                <li>ProfesoresConAlumnosInscritos.txt</li>
+                                <li>administrativos.txt (opcional)</li>
+                            </ul>
+                            <input id="archivosPersonas" name="archivosPersonas" accept=".txt" (change)="archivosPersonas($event)" class="form-control" type="file" multiple required>
+                        </div>
+                        <div class="container-botones">
+                            <button type="submit" class="btn btn-warning">Actualizar</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="container-botones">
-                    <button type="submit" class="btn btn-success">Cargar</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

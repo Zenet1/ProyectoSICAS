@@ -23,10 +23,10 @@
 
 @media (min-width:600px){ 
    .container-formulario{
-       width: 400px;
+       width: 500px;
    }
 }
 
 @media (min-width:1024px) { 
-
+    
 }
