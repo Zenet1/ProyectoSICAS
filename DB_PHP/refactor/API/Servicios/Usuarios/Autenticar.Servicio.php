@@ -1,6 +1,7 @@
 <?php
 session_start();
 include_once("Autenticacion.Query.php");
+include_once("ldap_php_plano.php");
 
 class Autenticar
 {
@@ -26,6 +27,13 @@ class Autenticar
             exit();
         }
         exit("Sin cuenta valida");
+    }
+
+    private function ValidarINET(string $cuenta, string $contraseña)
+    {
+        if(validar_ldap($cuenta, $contraseña) === 1){
+            
+        }
     }
 
     private function ObtenerDatosPorRol(array $datos)

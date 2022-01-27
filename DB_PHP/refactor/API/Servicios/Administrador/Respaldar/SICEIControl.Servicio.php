@@ -28,6 +28,22 @@ class SICEIControl
         $this->archivosPrinc = array("AlumnosCargaDeAsignaturas.txt", "AlumnosInscripcionEnPeriodoCurso.txt", "AsignaturasALasQueSeInscribieronAlumnos.txt", "HorariosSesionesGrupo.txt", "PlanesDeEstudios.txt", "ProfesoresConAlumnosInscritos.txt");
     }
 
+    private function VerificarDatosActualizar()
+    {
+        $archivosSubidos = scandir("./" . $this->archivos::$carpetaUnica . "/");
+
+        foreach ($this->archivosPrinc as $archivo) {
+            if (!in_array($archivo, $archivosSubidos)) {
+                $this->EliminarDatos();
+                exit("Algun archivo principal falta o el nombre no es posible reconocerlo");
+            }
+
+            if (in_array("administrativos.txt", $archivosSubidos)) {
+                $this->personal = true;
+            }
+        }
+    }
+
     private function VerificarDatosRespaldo()
     {
         if (sizeof($this->archivosPrinc) > intval($_POST["numArchivos"])) {
@@ -52,7 +68,6 @@ class SICEIControl
     public function RestaurarSICEI()
     {
         $this->archivos->MoverArchivos(intval($_POST["numArchivos"]));
-        print_r(intval($_POST["numArchivos"]));
         $this->VerificarDatosRespaldo();
 
         RecuperarUsuariosAlumnos($this->archivos::$carpetaUnica, $this->conexion);
@@ -70,14 +85,17 @@ class SICEIControl
         if ($this->personal) {
             RecuperarPersonal($this->archivos::$carpetaUnica, $this->conexion);
         }
-
         $this->EliminarDatos();
     }
 
     public function ActualizarDatos()
     {
         $this->archivos->MoverArchivos(intval($_POST["numArchivos"]));
-        print_r($_POST["numArchivos"]);
+
+        
+        ActualizarAcademicos($this->archivos::$carpetaUnica, $this->conexion);
+
+        $this->EliminarDatos();
     }
 
     private function EliminarDatos()

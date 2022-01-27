@@ -1,12 +1,12 @@
 <?php
 
-function RecuperarGrupos(string $carpeta,PDO $Conexion)
+function RecuperarGrupos(string $carpeta, PDO $Conexion)
 {
     $archivo = file("$carpeta/AlumnosCargaDeAsignaturas.txt");
     $saltado = false;
 
     $sqlInsert = "INSERT INTO grupos (IDAsignatura, IDProfesor, ClaveGrupo, Grupo) SELECT :ida,:idP,:clG,:gP FROM DUAL WHERE NOT EXISTS (SELECT IDAsignatura, IDProfesor, ClaveGrupo, Grupo FROM grupos WHERE IDProfesor=:idP AND ClaveGrupo=:clG AND Grupo=:gP AND IDAsignatura=:ida)LIMIT 1";
-    
+
     $sqlrecuperarIDPlanAsig = "SELECT IDPlanEstudio FROM planesdeestudio WHERE ClavePlan=? AND VersionPlan=?";
     $sqlrecuperarIDAsig = "SELECT IDAsignatura FROM asignaturas WHERE ClaveAsignatura=? AND IDPlanEstudio = ?";
     $sqlrecuperarIprof = "SELECT IDProfesor FROM academicos WHERE ClaveProfesor=?";
@@ -32,7 +32,6 @@ function RecuperarGrupos(string $carpeta,PDO $Conexion)
             continue;
         }
 
-        
         $obj_recuperarIDPlanAsig->execute(array($data[1], $data[2]));
         $IDPlan = $obj_recuperarIDPlanAsig->fetch(PDO::FETCH_ASSOC);
 
@@ -41,7 +40,9 @@ function RecuperarGrupos(string $carpeta,PDO $Conexion)
 
         $IDasig = $obj_recuperarAsig->fetch(PDO::FETCH_ASSOC);
         $IDprof = $obj_recuperarIprof->fetch(PDO::FETCH_ASSOC);
+
         $incognitas = array("ida" => $IDasig["IDAsignatura"], "idP" => $IDprof["IDProfesor"], "clG" => $data[5], "gP" => $data[6]);
+        
         $obj_insert->execute($incognitas);
     }
 }
