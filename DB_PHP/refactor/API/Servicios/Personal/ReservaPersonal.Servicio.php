@@ -55,7 +55,7 @@ class ReservaPersonal
         $mensaje .= $this->fecha->FechaSig() . " en su correspondiente facultad, se le exhorta a guardar la imagen";
         $mensaje .= "para evitar cualquier contratiempo";
 
-        $destinatario = array($_SESSION["Correo"] => $_SESSION["NombrePersonal"]);
+        $destinatario = array($_SESSION["Correo"] => $_SESSION["Nombre"]);
 
         $this->correo->EnviarCorreo($destinatario, $asunto, $mensaje, "img/" . $NombreImagen . ".png");
         unlink("img/" . $NombreImagen . ".png");
