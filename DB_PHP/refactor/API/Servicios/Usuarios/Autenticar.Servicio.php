@@ -65,7 +65,7 @@ class Autenticar
 
         $nombreCompleto = $resultado[0]["NOMBRE"] . " " . $resultado[0]["APP"];
         $_SESSION["Correo"] = $resultado[0]["CORREO"];
-        $_SESSION["NombrePersonal"] = $nombreCompleto;
+        $_SESSION["Nombre"] = $nombreCompleto;
         $_SESSION["ID"] = $resultado[0]["ID"];
     }
 }

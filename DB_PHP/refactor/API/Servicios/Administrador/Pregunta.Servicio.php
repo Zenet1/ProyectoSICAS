@@ -17,7 +17,7 @@ class Pregunta
         echo json_encode($preguntas);
     }
 
-    function eliminarPregunta(array $contenido)
+    public function eliminarPregunta(array $contenido)
     {
         $sql_eliminarPregunta = "DELETE FROM preguntas WHERE IDPregunta=:pgr or Enlace=:pgr";
         $this->objQuery->ejecutarConsulta($sql_eliminarPregunta, array("pgr" => $contenido[0]));
