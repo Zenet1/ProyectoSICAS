@@ -51,8 +51,8 @@ class SICEIControl
 
     public function RestaurarSICEI()
     {
-
         $this->archivos->MoverArchivos(intval($_POST["numArchivos"]));
+        print_r(intval($_POST["numArchivos"]));
         $this->VerificarDatosRespaldo();
 
         RecuperarUsuariosAlumnos($this->archivos::$carpetaUnica, $this->conexion);
