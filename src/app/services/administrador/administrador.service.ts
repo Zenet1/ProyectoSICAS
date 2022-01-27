@@ -44,12 +44,12 @@ export class AdministradorService {
     return this.clienteHttp.post<any>(this.API_Administrador, formData);
   }
 
-  subirPersonal(datos:any){
+  actualizarDatos(datos:any){
     const formData = new FormData();
     let numArchivos:number = 0;
-    for (let index = 0; index < datos.archivos.length; index++) {
+    for (let index = 0; index < datos.archivosActualizar.length; index++) {
       numArchivos++;
-      formData.append('archivo' + [index], datos.archivos[index]);
+      formData.append('archivo' + [index], datos.archivosActualizar[index]);
     }
     formData.append('numArchivos', numArchivos + "");
     formData.append('accion', "actualizarSICEI");

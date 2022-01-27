@@ -17,7 +17,7 @@ export class GestionarSiceiComponent implements OnInit {
       archivos:[""]
     });
     this.formCargarPersonas = this.formBuilder.group({
-      archivos:[""]
+      archivosActualizar:[""]
     })
   }
 
@@ -26,9 +26,9 @@ export class GestionarSiceiComponent implements OnInit {
     this.formularioBDSicei.get('archivos').setValue(archivo);
   }
 
-  archivosPersonas(event){
+  archivosActualizar(event){
     const archivo = event.target.files;
-    this.formularioBDSicei.get('archivos').setValue(archivo);
+    this.formularioBDSicei.get('archivosActualizar').setValue(archivo);
   }
 
   subirBDSicei(){
@@ -42,8 +42,8 @@ export class GestionarSiceiComponent implements OnInit {
     );
   }
 
-  subirPersonas(){
-    this.servicioAdmin.subirPersonal(this.formCargarPersonas.value).subscribe(
+  actualizarDatos(){
+    this.servicioAdmin.actualizarDatos(this.formCargarPersonas.value).subscribe(
       respuesta=>{
         alert("Se realizó la carga de los datos correctamente");
       },
