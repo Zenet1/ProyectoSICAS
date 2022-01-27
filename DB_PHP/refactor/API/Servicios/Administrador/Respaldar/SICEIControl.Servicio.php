@@ -11,6 +11,7 @@ include_once("./docs/RecuperarPlanEstudio.php");
 include_once("./docs/RecuperarProfesores.php");
 include_once("./docs/RecuperarSalones.php");
 include_once("./docs/RecuperarUsuariosAlumnos.php");
+include_once("./docs/ActualizarAcademicos.php");
 
 class SICEIControl
 {
@@ -73,6 +74,11 @@ class SICEIControl
         $this->EliminarDatos();
     }
 
+    public function ActualizarDatos()
+    {
+        $this->archivos->MoverArchivos(intval($_POST["numArchivos"]));
+        print_r($_POST["numArchivos"]);
+    }
 
     private function EliminarDatos()
     {
