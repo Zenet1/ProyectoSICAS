@@ -17,7 +17,7 @@ export class AsistenciaPersonalComponent implements OnInit {
     if(!this.servicioCookie.checkCookie("cuestionarioContestado")){
       this.router.navigateByUrl('inicio-personal');
     } else {
-      this.servicioPersonal.combrobarReservacion().subscribe(
+      this.servicioPersonal.combrobarReservacion(this.servicioLogin.getRol()).subscribe(
         respuesta=>{
           if(respuesta == "Rechazado"){
             

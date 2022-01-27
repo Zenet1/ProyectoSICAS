@@ -9,16 +9,16 @@ import { AdministradorService } from 'src/app/services/administrador/administrad
 })
 export class GestionarSiceiComponent implements OnInit {
   formularioBDSicei:FormGroup;
+  formCargarPersonas:FormGroup;
   constructor(private servicioAdmin:AdministradorService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.formularioBDSicei = this.formBuilder.group({
       archivos:[""]
     });
-  }
-
-  get archivos(){
-    return this.formularioBDSicei.get('archivos') as FormArray;
+    this.formCargarPersonas = this.formBuilder.group({
+      archivos:[""]
+    })
   }
 
   archivosSeleccionados(event){
@@ -26,13 +26,29 @@ export class GestionarSiceiComponent implements OnInit {
     this.formularioBDSicei.get('archivos').setValue(archivo);
   }
 
+  archivosPersonas(event){
+    const archivo = event.target.files;
+    this.formularioBDSicei.get('archivos').setValue(archivo);
+  }
+
   subirBDSicei(){
     this.servicioAdmin.subirBDSicei(this.formularioBDSicei.value).subscribe(
       respuesta=>{
-        alert("Se realizó la migración de los registros de SICEI correctamente");
+        alert("Se realizó la migración de los datos del SICEI correctamente");
       },
       error=>{
-        alert("Ocurrió un error al intentar migrar los registros de SICEI");
+        alert("Ocurrió un error al intentar migrar los datos del SICEI");
+      }
+    );
+  }
+
+  subirPersonas(){
+    this.servicioAdmin.subirPersonal(this.formCargarPersonas.value).subscribe(
+      respuesta=>{
+        alert("Se realizó la carga de los datos correctamente");
+      },
+      error=>{
+        alert("Ocurrió un error al intentar subir los datos");
       }
     );
   }

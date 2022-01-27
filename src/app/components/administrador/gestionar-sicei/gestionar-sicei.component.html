@@ -2,19 +2,31 @@
 
     <div class="wrapper-descripcion">
         <div class="descripcion">
-            <p>Selecciona los archivos con la base de datos del SICEI</p>
+            <p>Gestión de datos</p>
         </div>
     </div>
-
-    <div class="wrapper-formulario">
+    <div class="wrapper-formulario mb-3">
         <div class="container-formulario">
             <form [formGroup]="formularioBDSicei" (ngSubmit)="subirBDSicei()" ngNativeValidate>
                 <div class="mb-3">
-                    <label for="archivos" class="form-label">Seleccione los archivos:</label>
+                    <label for="archivos" class="form-label">Seleccione los archivos con los datos del SICEI:</label>
                     <input id="archivos" name="archivos" accept=".txt" (change)="archivosSeleccionados($event)" class="form-control" type="file" multiple required>
                 </div>
                 <div class="container-botones">
                     <button type="submit" class="btn btn-success">Migrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="wrapper-formulario">
+        <div class="container-formulario">
+            <form [formGroup]="formCargarPersonas" (ngSubmit)="subirPersonas()" ngNativeValidate>
+                <div class="mb-3">
+                    <label for="archivosPersonas" class="form-label">Seleccione los archivos con los datos de las personas pertenecientes a la facultad:</label>
+                    <input id="archivosPersonas" name="archivosPersonas" accept=".txt" (change)="archivosPersonas($event)" class="form-control" type="file" multiple required>
+                </div>
+                <div class="container-botones">
+                    <button type="submit" class="btn btn-success">Cargar</button>
                 </div>
             </form>
         </div>

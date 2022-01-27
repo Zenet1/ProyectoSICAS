@@ -44,6 +44,18 @@ export class AdministradorService {
     return this.clienteHttp.post<any>(this.API_Administrador, formData);
   }
 
+  subirPersonal(datos:any){
+    const formData = new FormData();
+    let numArchivos:number = 0;
+    for (let index = 0; index < datos.archivos.length; index++) {
+      numArchivos++;
+      formData.append('archivo' + [index], datos.archivos[index]);
+    }
+    formData.append('numArchivos', numArchivos + "");
+    formData.append('accion', "subirPersonas");
+    return this.clienteHttp.post<any>(this.API_Administrador, formData);
+  }
+
   obtenerEdificios(){
     let datos = JSON.stringify({accion: "recuperarEdificios"});
     return this.clienteHttp.post(this.API_Oficinas, datos);
