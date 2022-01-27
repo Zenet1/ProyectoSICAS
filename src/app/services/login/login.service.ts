@@ -32,23 +32,23 @@ export class LoginService {
   }
 
   getUsuario(){
-    return JSON.parse(localStorage.getItem('usuario')).Cuenta;
+    return JSON.parse(sessionStorage.getItem('usuario')).Cuenta;
   }
 
   getRol(){
-    return JSON.parse(localStorage.getItem('usuario')).Rol;
+    return JSON.parse(sessionStorage.getItem('usuario')).Rol;
   }
   
   setToken(token:string) {
-    localStorage.setItem('usuario', token);
+    sessionStorage.setItem('usuario', token);
   }
   
   getToken() {
-    return localStorage.getItem('usuario');
+    return sessionStorage.getItem('usuario');
   }
   
   deleteToken() {
-    localStorage.removeItem('usuario');
+    sessionStorage.removeItem('usuario');
   }
   
   isLoggedIn() {
