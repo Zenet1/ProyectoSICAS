@@ -11,18 +11,22 @@ export class EstadisticasComponent implements OnInit {
   formEstadisticas:FormGroup;
   programas:any;
   estadisticas:any;
+  tipoEstadistica:string;
   siEstadisticasObtenidas:boolean = false;
   bandera:boolean = false;
   // options
   animations: boolean = false;
   showXAxis: boolean = true;
+  showYAxisLabel: boolean = true;
   showYAxis: boolean = true;
+  showXAxisLabel: boolean = true;
+  showYAxisLabelPersonal: boolean = false;
   gradient: boolean = false;
   showLegend: boolean = true;
   legendPosition: string = 'below';
-  showXAxisLabel: boolean = true;
+  
   yAxisLabel: string = 'Licenciatura';
-  showYAxisLabel: boolean = true;
+  
   xAxisLabel = 'Cantidad';
   customColors = [
     {
@@ -33,7 +37,13 @@ export class EstadisticasComponent implements OnInit {
       name: "Femenino",
       value: '#1C72EB'
     }
-];
+  ];
+  customColorsPersonal = [
+    {
+      name: "Personal",
+      value: '#1C72EB'
+    }
+  ];
   schemeType: string = 'ordinal';
 
   constructor(private servicioAdmin:AdministradorService, private formBuilder:FormBuilder) { }
@@ -56,8 +66,9 @@ export class EstadisticasComponent implements OnInit {
       this.servicioAdmin.obtenerEstadisticas(this.formEstadisticas.value).subscribe(
         respuesta=>{
           if(respuesta.length > 0){
-            this.estadisticas = respuesta;
             this.siEstadisticasObtenidas = true;
+            this.estadisticas = respuesta.estadisticas;
+            this.tipoEstadistica = respuesta.tipo;
           } else {
             alert("No se encontraron estadísticas con los filtros seleccionados")
           }
