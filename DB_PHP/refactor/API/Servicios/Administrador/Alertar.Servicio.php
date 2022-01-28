@@ -18,7 +18,7 @@ class Alertar
 
     public function Alertar(array $contenido)
     {
-        print_r($contenido);
+        //print_r($contenido);
     }
 
     public function obtenerAfectados(array $contenido)

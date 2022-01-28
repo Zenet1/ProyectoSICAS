@@ -10,7 +10,7 @@ class Roles
     }
 
     public function RecuperarRoles(){
-        $sql_SELECTRoles = "SELECT IDRol,Rol FROM roles WHERE IDRol > 1";
+        $sql_SELECTRoles = "SELECT IDRol,Rol FROM roles WHERE IDRol > 1 AND IDRol < 4";
         $roles = $this->objQuery->ejecutarConsulta($sql_SELECTRoles, array());
         echo json_encode($roles);
     }
