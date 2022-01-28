@@ -75,14 +75,6 @@ export class LoginComponent implements OnInit {
               location.href = '#/inicio-alumno';
               break; 
             } 
-            case "Administrador": { 
-              location.href = '#/inicio-administrador';
-              break; 
-            }
-            case "Capturador":{
-              location.href = '#/inicio-capturador';
-              break;
-            }
             case "Profesor":{
               location.href = '#/inicio-personal';
               break;
