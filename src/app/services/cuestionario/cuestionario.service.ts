@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class CuestionarioService {
 
-  API_Preguntas:string = '/ProyectoSICAS/DB_PHP/refactor/API/Cuestionario.Ruta.php';
+  API_Preguntas:string = '/DB_PHP/API/Cuestionario.Ruta.php';
 
   constructor(private clienteHttp: HttpClient) { }
 

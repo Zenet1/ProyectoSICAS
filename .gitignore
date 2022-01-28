@@ -47,8 +47,8 @@ Thumbs.db
 
 # ENVIRAMENT
 /DB_PHP/.env
-/DB_PHP/refactor/Clases/.env
-/DB_PHP/refactor/Clases/vendor
+/DB_PHP/Clases/.env
+/DB_PHP/Clases/vendor
 # vendor
 /DB_PHP/vendor/
 /DB_PHP/composer.lock
@@ -56,6 +56,6 @@ Thumbs.db
 
 /proxy.conf.json
 *.png
-DB_PHP/refactor/API/img/
+DB_PHP/API/img/
 
-/DB_PHP/refactor/Clases/vendor
+/DB_PHP/Clases/vendor
