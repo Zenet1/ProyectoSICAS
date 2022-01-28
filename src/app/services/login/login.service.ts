@@ -15,10 +15,11 @@ export class LoginService {
 
   constructor(private httpClient:HttpClient) { }
 
-  public iniciarSesion(datos:FormGroup) {
+  public iniciarSesion(datosCuenta:FormGroup, accionRol:any) {
+    let datos = JSON.stringify({accion:accionRol, cuenta:datosCuenta});
     return this.httpClient.post<any>(this.API, datos).pipe(map(Users => {
       let token = JSON.stringify(Users);
-      if(Users!=null){
+      if(Users != null){
         this.setToken(token);
         this.getLoggedInName.emit(true);
         return Users;
