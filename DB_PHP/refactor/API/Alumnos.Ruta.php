@@ -32,4 +32,7 @@ switch ($datos->accion) {
         $materias = $ReservacionesControl->insertarReservasAlumno((array)$datos->contenido);
         $AlumnosControl->EnviarQRCorreo($materias, new CorreoManejador(), new GeneradorQr());
         break;
+    case "comprobarSuspension":
+        $AlumnosControl->ChecarIncidente();
+        break;
 }
