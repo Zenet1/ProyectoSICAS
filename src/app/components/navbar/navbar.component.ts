@@ -17,6 +17,6 @@ export class NavbarComponent implements OnInit {
 
   cerrarSesion(){
     this.servicioLogin.deleteToken();
-    location.href = '#/login';
+    location.href = '/login';
   }
 }

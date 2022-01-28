@@ -44,11 +44,11 @@ export class LoginUsuariosComponent implements OnInit {
         if(respuesta!=null){
           switch(respuesta["Rol"]) { 
             case "Administrador": { 
-              location.href = '#/inicio-administrador';
+              location.href = '/inicio-administrador';
               break; 
             }
             case "Capturador":{
-              location.href = '#/inicio-capturador';
+              location.href = '/inicio-capturador';
               break;
             }
           } 
