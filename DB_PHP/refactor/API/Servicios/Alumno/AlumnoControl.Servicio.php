@@ -20,7 +20,7 @@ class AlumnoControl
 
         $destinatario = array($_SESSION["Correo"] => $_SESSION["Nombre"]);
         $asunto = "Clave QR para acceso";
-        $mensaje = "Estimado " .  $_SESSION["Nombre"] . " el siguiente correo contiene su clave unica QR para accerder";
+        $mensaje = "Estimado " .  $_SESSION["Nombre"] . " el siguiente correo contiene su clave unica QR para acceder";
         $mensaje .= " a su entidad educativa correspondiente, este codigo es unicamente valido en la fecha ";
         $mensaje .= $this->objFecha->FechaSig("d-m-Y") . ". Se le exhorta que guarde la imagen para evitar algun problema";
         $mensaje .= ". Las materias listadas son las que alcanzo un cupo disponible<ul>";

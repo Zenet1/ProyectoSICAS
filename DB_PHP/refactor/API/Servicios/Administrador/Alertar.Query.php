@@ -12,7 +12,7 @@ class AlertaQuery
     {
         $this->SELECTValidarAsis = "SELECT ASISAL.FechaAl FROM asistenciasalumnos AS ASISAL INNER JOIN alumnos AS ALM ON ALM.IDAlumno=ASISAL.IDAlumno WHERE ALM.Matricula=:mat AND ASISAL.FechaAl>=:fchIn AND ASISAL.FechaAl<=:fchFn";
 
-        $this->SELECTCargas = "SELECT CGAC.IDGrupo,RSAL.FechaReservaAl, ASIG.NombreAsignatura FROM reservacionesalumnos AS RSAL INNER JOIN cargaacademica AS CGAC ON CGAC.IDCarga=RSAL.IDCarga INNER JOIN alumnos AS ALM ON ALM.IDAlumno=CGAC.IDAlumno INNER JOIN grupos AS GPS ON GPS.IDGrupo=CGAC.IDGrupo INNER JOIN asignaturas AS ASIG ON ASIG.IDAsignatura=GPS.IDAsignatura WHERE ALM.Matricula=:mat AND RSAL.FechaReservaAl=:fch";
+        $this->SELECTCargas = "SELECT CGAC.IDGrupo,RSAL.FechaReservaAl, ASIG.NombreAsignatura,GPS.Grupo FROM reservacionesalumnos AS RSAL INNER JOIN cargaacademica AS CGAC ON CGAC.IDCarga=RSAL.IDCarga INNER JOIN alumnos AS ALM ON ALM.IDAlumno=CGAC.IDAlumno INNER JOIN grupos AS GPS ON GPS.IDGrupo=CGAC.IDGrupo INNER JOIN asignaturas AS ASIG ON ASIG.IDAsignatura=GPS.IDAsignatura WHERE ALM.Matricula=:mat AND RSAL.FechaReservaAl=:fch";
 
         $this->SELECTInvol = "SELECT ALM.IDAlumno,ALM.CorreoAlumno AS CORREO,ALM.NombreAlumno AS NOMBRE,ALM.ApellidoPaternoAlumno AS APELLIDOP,ALM.ApellidoMaternoAlumno AS APELLIDOM FROM cargaacademica AS CGAC INNER JOIN asistenciasalumnos AS ASAL ON ASAL.IDAlumno=CGAC.IDAlumno INNER JOIN alumnos AS ALM ON ALM.IDAlumno=CGAC.IDAlumno WHERE CGAC.IDGrupo=:idg AND ASAL.FechaAl=:fch AND ALM.Matricula!=:mat";
 

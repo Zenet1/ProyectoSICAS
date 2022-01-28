@@ -8,15 +8,10 @@ header("Content-Type: application/json; charset=UTF-8 ");
 
 include_once("Servicios/Administrador/Actualizar/ActualizarPorcentaje.Servicio.php");
 include_once("Servicios/Administrador/Actualizar/ActualizarSalones.Servicio.php");
-include_once("Servicios/Administrador/Insertar/InsertarOficina.Servicio.php");
-include_once("Servicios/Administrador/Insertar/InsertarIncidente.Servicio.php");
 include_once("Servicios/Administrador/Insertar/InsertarUsuario.Servicio.php");
 include_once("Servicios/Administrador/Eliminar/ControlBD.Servicio.php");
 include_once("Servicios/Administrador/Recuperar/Roles.Servicio.php");
 include_once("Servicios/Administrador/Recuperar/RecuperarPlanes.Servicio.php");
-include_once("Servicios/Administrador/Recuperar/RecuperarPorcentaje.Servicio.php");
-include_once("Servicios/Administrador/Recuperar/RecuperarSalones.Servicio.php");
-include_once("Servicios/Administrador/Restaurar/RestaurarBD.Servicio.php");
 include_once("Servicios/Administrador/Respaldar/SICEIControl.Servicio.php");
 include_once("Servicios/Administrador/Alertar.Servicio.php");
 include_once("Servicios/Administrador/Estadisticas.Servicio.php");
