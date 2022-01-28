@@ -72,23 +72,23 @@ export class LoginComponent implements OnInit {
         if(respuesta!=null){
           switch(respuesta["Rol"]) { 
             case "Alumno": { 
-              location.href = '/inicio-alumno';
+              location.href = '#/inicio-alumno';
               break; 
             } 
             case "Administrador": { 
-              location.href = '/inicio-administrador';
+              location.href = '#/inicio-administrador';
               break; 
             }
             case "Capturador":{
-              location.href = '/inicio-capturador';
+              location.href = '#/inicio-capturador';
               break;
             }
             case "Profesor":{
-              location.href = '/inicio-personal';
+              location.href = '#/inicio-personal';
               break;
             }
             case "Personal":{
-              location.href = '/inicio-personal';
+              location.href = '#/inicio-personal';
               break;
             }
           } 

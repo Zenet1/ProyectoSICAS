@@ -55,7 +55,7 @@ export class ScannerComponent implements OnInit {
   }
 
   cancelar(){
-    location.href = '/inicio-capturador';
+    location.href = '#/inicio-capturador';
     //this.router.navigateByUrl('inicio-capturador');
   }
 
