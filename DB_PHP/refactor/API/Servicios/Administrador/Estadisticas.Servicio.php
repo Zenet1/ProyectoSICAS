@@ -21,7 +21,7 @@ class EstadisticaControl
         try {
             $incognitas = array("fchIn" => $contenido["fechaInicio"], "fchFn" => $contenido["fechaFin"]);
             $datosCrudos = $this->objQuery->ejecutarConsulta($queryCompleta, $incognitas);
-            if(sizeof($datosCrudos) !== 0){
+            if (sizeof($datosCrudos) !== 0) {
                 $this->FiltradoRecursivo($datosCrudos, array());
             } else {
                 throw new Exception();
@@ -49,7 +49,9 @@ class EstadisticaControl
 
         $datosFiltrados[$Siglas][] = array("name" => $Genero, "value" => $contGen);
         if (sizeof($datosModificados) === 0) {
-            print_r(json_encode($this->FormatoGrafica($datosFiltrados)));
+            $datos["tipo"] = "alumno";
+            $datos["estadisticas"] = $this->FormatoGrafica($datosFiltrados);
+            echo json_encode($datos);
         } else {
             $this->FiltradoRecursivo($datosModificados, $datosFiltrados);
         }
@@ -64,7 +66,7 @@ class EstadisticaControl
         return $array_adaptada;
     }
 
-    public function EstadisticasPersonal(array $contenido)
+    public function EstadisticasPersonal()
     {
     }
 }
