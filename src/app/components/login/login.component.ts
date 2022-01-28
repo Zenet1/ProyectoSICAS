@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit {
   }
 
   iniciarSesion(){
-    this.servicioLogin.iniciarSesion(this.formularioIniciarSesion.value).subscribe(
+    this.servicioLogin.iniciarSesion(this.formularioIniciarSesion.value, "validarINET").subscribe(
       respuesta => {
         if(respuesta!=null){
           switch(respuesta["Rol"]) { 

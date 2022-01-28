@@ -56,7 +56,7 @@ export class LoginUsuariosComponent implements OnInit {
 
 
   iniciarSesion(){
-    this.servicioLogin.iniciarSesion(this.formularioIniciarSesion.value).subscribe(
+    this.servicioLogin.iniciarSesion(this.formularioIniciarSesion.value, "validarSICAS").subscribe(
       respuesta => {
         if(respuesta!=null){
           switch(respuesta["Rol"]) { 
@@ -78,5 +78,4 @@ export class LoginUsuariosComponent implements OnInit {
       }
     );
   }
-
 }
