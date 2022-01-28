@@ -47,13 +47,15 @@ class ControlBD
             fwrite($archivo, $columna["COLUMN_NAME"] . (++$indice_final < sizeof($nombreColumnas) ? "|" : ""));
         }
         fwrite($archivo, "\n");
+        
+        $indice_salto = 0;
 
         foreach ($datosTabla as $dato) {
             $indice_final = 0;
             foreach ($nombreColumnas as $columna) {
                 fwrite($archivo, $dato[$columna["COLUMN_NAME"]] . (++$indice_final < sizeof($dato) ? "|" : ""));
             }
-            fwrite($archivo, "\n");
+            fwrite($archivo, (++$indice_salto < sizeof($datosTabla) ? "\n" : ""));
         }
         fclose($archivo);
     }
@@ -70,8 +72,19 @@ class ControlBD
             exit();
         }
 
+        $esPrimeraLinea = true;
         foreach ($archivo as $LINEA) {
+            
+            if($esPrimeraLinea){
+                $esPrimeraLinea = false;
+                continue;
+            }
             $lnExp = explode("|", $LINEA);
+            
+            if(sizeof($lnExp) < 1){
+                continue;
+            }
+
             $datos = $this->FormatearLinea($lnExp, $nombreSinExtension);
             $query = $this->queries->ObtenerQueryRestaurar($nombreSinExtension);
             $this->objQuery->ejecutarConsulta($query, $datos);

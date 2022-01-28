@@ -1,0 +1,2 @@
+IDAsistencia|FechaAsistencia|HoraAsistencia|IDAcademico
+1|2022-01-27|17:23:13|77

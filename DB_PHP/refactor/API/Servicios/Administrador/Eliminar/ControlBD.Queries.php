@@ -33,9 +33,9 @@ class ControlBDQueries
 
         $this->queriesRestaurar["asistenciasexternos"] = "INSERT INTO asistenciasexternos (IDExterno, FechaExterno, HoraIngresoEx, HoraSalidaEx, LugarEntradaEx) SELECT :ide,:fce,:hrIE,:hrSE,:lgenE FROM DUAL WHERE NOT EXISTS (SELECT IDExterno, FechaExterno FROM asistenciasexternos WHERE IDExterno=:ide AND FechaExterno=:fce) LIMIT 1";
 
-        $this->queriesRestaurar["asistenciasacademicos"] = "INSERT INTO asistenciasacademicos (FechaAsistencia, HoraAsistencia, IDAcademico) SELECT :fcA,:hrA,:ida, FROM DUAL WHERE NOT EXISTS (SELECT IDAcademico, FechaAsistencia FROM asistenciasacademicos WHERE IDAcademico=:ida AND FechaAsistencia=:fcA) LIMIT 1";
+        $this->queriesRestaurar["asistenciasacademicos"] = "INSERT INTO asistenciasacademicos (FechaAsistencia, HoraAsistencia, IDAcademico) SELECT :fcA,:hrA,:ida FROM DUAL WHERE NOT EXISTS (SELECT IDAcademico, FechaAsistencia FROM asistenciasacademicos WHERE IDAcademico=:ida AND FechaAsistencia=:fcA) LIMIT 1";
 
-        $this->queriesRestaurar["asistenciaspersonal"] = "INSERT INTO asistenciaspersonal (FechaAsistencia, HoraAsistencia, IDPersonal) SELECT :fcA,:hrA,:idp, FROM DUAL WHERE NOT EXISTS (SELECT IDPersonal, FechaAsistencia FROM asistenciaspersonal WHERE IDPersonal=:idp AND FechaAsistencia=:fcA) LIMIT 1";
+        $this->queriesRestaurar["asistenciaspersonal"] = "INSERT INTO asistenciaspersonal (FechaAsistencia, HoraAsistencia, IDPersonal) SELECT :fcA,:hrA,:idp FROM DUAL WHERE NOT EXISTS (SELECT IDPersonal, FechaAsistencia FROM asistenciaspersonal WHERE IDPersonal=:idp AND FechaAsistencia=:fcA) LIMIT 1";
 
         $this->queriesRestaurar["incidentes"] = "INSERT INTO incidentes (IDAlumno, FechaAl, FechaLimiteSuspension) SELECT :ida,:fca,:fcLS FROM DUAL WHERE NOT EXISTS (SELECT IDAlumno, FechaAl, FechaLimiteSuspension FROM incidentes WHERE IDAlumno=:ida AND FechaAl=:fca AND FechaLimiteSuspension=:fcLS) LIMIT 1";
 
@@ -68,6 +68,6 @@ class ControlBDQueries
 
     public function RecupColumQuery(string $tabla): string
     {
-        return "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$tabla'";
+        return "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = Database() AND TABLE_NAME = '$tabla'";
     }
 }
