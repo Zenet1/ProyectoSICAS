@@ -34,14 +34,14 @@ class ExternoControl{
     private function generarContenidoCorreo(string $nombreExterno, string $IDExterno, array $listaOficinas, string $fechaReservada) : array
     {
         $asunto = "Clave QR para acceso";
-        $mensaje = "Estimado " .  $nombreExterno . " el siguiente correo contiene su clave unica QR para acceder";
-        $mensaje .= " a su entidad educativa correspondiente, este codigo es unicamente valido en la fecha " . $fechaReservada . ".\n";
+        $mensaje = "Estimado " .  $nombreExterno . ", el siguiente correo electrónico contiene su clave única (QR) para acceder";
+        $mensaje .= " a su entidad educativa correspondiente, este código es únicamente válido en la fecha " . $fechaReservada . ".\n";
         
-        $mensaje .= "Usted ha podido realizar reservaciones con éxito a las siguientes oficinas:<br>";
+        $mensaje .= "<br>Usted ha podido realizar reservaciones con éxito a las siguientes oficinas:<br><br>";
         $oficinasRecuperadas = $this->recuperarOficinasReservadas($listaOficinas);
-        $mensaje .= $oficinasRecuperadas . "<br>";
+        $mensaje .= $oficinasRecuperadas . "<br><br>";
 
-        $mensaje .= "Se le exhorta que guarde la imagen para evitar algun problema.";
+        $mensaje .= "Se le exhorta que guarde la imagen QR para el registro de su asistencia.";
 
         return array($asunto, $mensaje);
     }
@@ -81,8 +81,8 @@ class ExternoControl{
 
     private function generarContenidoQR(string $IDExterno, string $siglasFacultad, array $listaIDOficinas, string $fechaReservada, string $fechaExterno, string $horaExterno) : string
     {
-        $ContenidoQR = "e," . $IDExterno;
-        $ContenidoQR .= "," . $siglasFacultad;
+        $ContenidoQR = $siglasFacultad;
+        $ContenidoQR .= ",e," . $IDExterno;
 
         foreach($listaIDOficinas as $IDOficina){
             $sql_recuperarIDReserva = "SELECT IDReservaExterno FROM reservacionesexternos 
