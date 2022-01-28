@@ -31,7 +31,7 @@ class Autenticar
 
     public function ValidarCuentaINET(array $contenido)
     {
-        if (validar_ldap($contenido["usuarios"], $contenido["contrasena"]) === 1) {
+        if (validar_ldap($contenido["usuario"], $contenido["contrasena"]) === 1) {
             $this->ActualizarDatos($contenido);
             $this->ValidarCuenta($contenido);
         } else {
