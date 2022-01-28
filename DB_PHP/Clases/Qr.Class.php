@@ -1,5 +1,5 @@
 <?php
-include '../../phpqrcode/qrlib.php';
+include '../phpqrcode/qrlib.php';
 
 class GeneradorQr
 {

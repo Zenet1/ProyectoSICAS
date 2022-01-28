@@ -1,5 +1,4 @@
 <?php
-
 class ArchivoControl
 {
     public static string $carpetaUnica;
