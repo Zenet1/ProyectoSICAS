@@ -65,10 +65,11 @@ export class EstadisticasComponent implements OnInit {
     if(validacionPeriodo){
       this.servicioAdmin.obtenerEstadisticas(this.formEstadisticas.value).subscribe(
         respuesta=>{
-          if(respuesta.length > 0){
+          if(respuesta.estadisticas.length > 0){
             this.siEstadisticasObtenidas = true;
             this.estadisticas = respuesta.estadisticas;
             this.tipoEstadistica = respuesta.tipo;
+            console.log(this.tipoEstadistica);
           } else {
             alert("No se encontraron estadísticas con los filtros seleccionados")
           }

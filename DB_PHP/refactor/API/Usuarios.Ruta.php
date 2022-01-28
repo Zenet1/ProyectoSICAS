@@ -8,17 +8,15 @@ include_once("Servicios/Usuarios/Autenticar.Servicio.php");
 $jsonUsuario = file_get_contents('php://input');
 $datos = (array) json_decode($jsonUsuario);
 
-Conexion::ReconfigurarConexion($datos["facultad"]);
+Conexion::ReconfigurarConexion($datos["cuenta"]->facultad);
 $QueryControl = new Query();
 $UsuariosControl = new Autenticar($QueryControl);
 
-
-
 switch ($datos["accion"]) {
     case "validarINET":
-        $UsuariosControl->ValidarCuentaINET($datos);
+        $UsuariosControl->ValidarCuentaINET((array) $datos["cuenta"]);
         break;
     case "validarSICAS":
-        $UsuariosControl->ValidarCuenta($datos);
+        $UsuariosControl->ValidarCuenta((array) $datos["cuenta"]);
         break;
 }
