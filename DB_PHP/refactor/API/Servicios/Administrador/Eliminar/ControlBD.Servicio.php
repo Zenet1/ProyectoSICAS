@@ -9,7 +9,7 @@ class ControlBD
 
     public function __construct(Query $objQuery)
     {
-        $this->tablas = array("externos", "reservacionesalumnos", "reservacionesexternos", "asistenciasalumnos", "asistenciasexternos", "incidentes");
+        $this->tablas = array("externos", "reservacionesalumnos", "reservacionesexternos", "reservacionesacademicos", "reservacionespersonal","asistenciasalumnos", "asistenciasexternos", "asistenciasacademicos", "asistenciaspersonal","incidentes");
         $this->queries = new ControlBDQueries();
         $this->objQuery = $objQuery;
     }
@@ -36,6 +36,9 @@ class ControlBD
     {
         $archivo = fopen(ArchivoControl::$carpetaUnica . "/" . $tabla . ".txt", "w");
         $nombreColumnas = $this->objQuery->ejecutarConsulta($this->queries->RecupColumQuery($tabla), array());
+        echo "<br><br>";
+        print_r($nombreColumnas);
+        echo "<br><br>";
         $datosTabla = $this->objQuery->ejecutarConsulta($Query, $variables);
 
         $indice_final = 0;
@@ -95,11 +98,23 @@ class ControlBD
             case "reservacionesexternos":
                 $datosRestaurar = array("ide" => $lnExp[1], "ido" => $lnExp[2], "fcRE" => $lnExp[3], "fce" => $lnExp[4], "hre" => $lnExp[5]);
                 break;
+            case "reservacionesacademicos":
+                $datosRestaurar = array("fcR" => $lnExp[1], "hr" => $lnExp[2], "idp" => $lnExp[3], "fc" => $lnExp[4]);
+                break;
+            case "reservacionespersonal":
+                $datosRestaurar = array("fcR" => $lnExp[1], "hr" => $lnExp[2], "fc" => $lnExp[3], "idp" => $lnExp[4]);
+                break;
             case "asistenciasalumnos":
                 $datosRestaurar = array("ida" => $lnExp[1], "fca" =>  $lnExp[2], "hri" => $lnExp[3]);
                 break;
             case "asistenciasexternos":
                 $datosRestaurar = array("ide" => $lnExp[1], "fce" => $lnExp[2], "hrIE" => $lnExp[3], "hrSE" => $lnExp[4], "lgenE" =>  $lnExp[5]);
+                break;
+            case "asistenciasacademicos":
+                $datosRestaurar = array("fcA" => $lnExp[1], "hrA" => $lnExp[2], "ida" => $lnExp[3]);
+                break;
+            case "asistenciaspersonal":
+                $datosRestaurar = array("fcA" => $lnExp[1], "hrA" => $lnExp[2], "idp" => $lnExp[3]);
                 break;
             case "incidentes":
                 $datosRestaurar = array("ida" => $lnExp[1], "fca" => $lnExp[2], "fcLS" => $lnExp[3]);
