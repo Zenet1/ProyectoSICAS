@@ -7,8 +7,8 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class LoginService {
-  API: string = '/DB_PHP/API/Usuarios.Ruta.php';
-  API_Facultades:string = '/DB_PHP/API/Servicios/Facultades.Servicio.php';
+  API: string = '/ProyectoSICAS/DB_PHP/API/Usuarios.Ruta.php';
+  API_Facultades:string = '/ProyectoSICAS/DB_PHP/API/Servicios/Facultades.Servicio.php';
   redirectUrl: string;
 
   @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();

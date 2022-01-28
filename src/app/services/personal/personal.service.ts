@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PersonalService {
-  API_Personal: string = '/DB_PHP/API/Personal.Ruta.php';
+  API_Personal: string = '/ProyectoSICAS/DB_PHP/API/Personal.Ruta.php';
 
   constructor(private clienteHttp: HttpClient) { }
   

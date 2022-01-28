@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class AdministradorService {
   
-  API_Administrador:string = '/DB_PHP/API/Administrador.Ruta.php';
+  API_Administrador:string = '/ProyectoSICAS/DB_PHP/API/Administrador.Ruta.php';
   API_Oficinas:string = '/DB_PHP/API/Oficinas.Ruta.php';
 
   constructor(private clienteHttp: HttpClient) { }
