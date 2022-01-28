@@ -33,7 +33,8 @@ function ActualizarAcademicos(string $carpeta, PDO $conexion)
 
         $objBuscarACAD->execute(array($datos[0]));
         $IDUsuario = $objBuscarACAD->fetch(PDO::FETCH_ASSOC);
-
+        
+        //INSERTA UNA NUEVA CUENTA
         if ($datos[6] !== "null" && intval($IDUsuario["IDUsuario"]) === 0) {
             $objInsertar->execute(array("cnt" => $datos[6], "rol" => 5));
             $objBuscarUSu->execute(array($datos[6]));

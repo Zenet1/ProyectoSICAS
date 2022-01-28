@@ -12,6 +12,7 @@ include_once("./docs/RecuperarProfesores.php");
 include_once("./docs/RecuperarSalones.php");
 include_once("./docs/RecuperarUsuariosAlumnos.php");
 include_once("./docs/ActualizarAcademicos.php");
+include_once("./docs/ActualizarPersonal.php");
 
 class SICEIControl
 {
@@ -26,22 +27,6 @@ class SICEIControl
         $this->conexion = $conexion;
         $this->archivos = $archivos;
         $this->archivosPrinc = array("AlumnosCargaDeAsignaturas.txt", "AlumnosInscripcionEnPeriodoCurso.txt", "AsignaturasALasQueSeInscribieronAlumnos.txt", "HorariosSesionesGrupo.txt", "PlanesDeEstudios.txt", "ProfesoresConAlumnosInscritos.txt");
-    }
-
-    private function VerificarDatosActualizar()
-    {
-        $archivosSubidos = scandir("./" . $this->archivos::$carpetaUnica . "/");
-
-        foreach ($this->archivosPrinc as $archivo) {
-            if (!in_array($archivo, $archivosSubidos)) {
-                $this->EliminarDatos();
-                exit("Algun archivo principal falta o el nombre no es posible reconocerlo");
-            }
-
-            if (in_array("administrativos.txt", $archivosSubidos)) {
-                $this->personal = true;
-            }
-        }
     }
 
     private function VerificarDatosRespaldo()
@@ -91,9 +76,18 @@ class SICEIControl
     public function ActualizarDatos()
     {
         $this->archivos->MoverArchivos(intval($_POST["numArchivos"]));
+        $archivosSubidos = scandir("./" . $this->archivos::$carpetaUnica . "/");
 
-        
-        ActualizarAcademicos($this->archivos::$carpetaUnica, $this->conexion);
+        foreach ($archivosSubidos as $archivo) {
+            switch (basename($archivo, ".txt")) {
+                case "academicos":
+                    ActualizarPersonal($this->archivos::$carpetaUnica, $this->conexion);
+                    break;
+                case "ProfesoresConAlumnosInscritos":
+                    ActualizarAcademicos($this->archivos::$carpetaUnica, $this->conexion);
+                    break;
+            }
+        }
 
         $this->EliminarDatos();
     }
