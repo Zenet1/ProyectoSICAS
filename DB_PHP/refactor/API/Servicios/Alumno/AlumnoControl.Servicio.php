@@ -37,14 +37,19 @@ class AlumnoControl
         unlink($imagenCodigo);
     }
 
+    public function ChecarIncidente()
+    {
+        $sqla = "";
+    }
+
     private function GenerarContenidoQR(): string
     {
         $qrContenido = "";
 
-        $IDReservaciones = "SELECT RSV.IDReservaAlumno FROM reservacionesalumnos AS RSV INNER JOIN cargaacademica AS CGAC ON RSV.IDCarga=CGAC.IDCarga WHERE CGAC.IDAlumno=:ida AND RSV.FechaAlumno=:fchA";
+        $sqlIDReservacion = "SELECT RSV.IDReservaAlumno FROM reservacionesalumnos AS RSV INNER JOIN cargaacademica AS CGAC ON RSV.IDCarga=CGAC.IDCarga WHERE CGAC.IDAlumno=:ida AND RSV.FechaAlumno=:fchA";
         $incognitas = array("ida" => $_SESSION["IDAlumno"], "fchA" => $this->objFecha->FechaAct());
 
-        $resultado = $this->objQuery->ejecutarConsulta($IDReservaciones, $incognitas);
+        $resultado = $this->objQuery->ejecutarConsulta($sqlIDReservacion, $incognitas);
         $contIDs = 0;
 
         foreach ($resultado as $IDReserva) {
