@@ -6,6 +6,7 @@ class AutentcacionQuery
     private string $SELECTProfesor;
     private string $SELECTPersonal;
     private string $SELECTDatosAl;
+    private string $UPDATECuenta;
 
     public function __construct()
     {
@@ -14,6 +15,8 @@ class AutentcacionQuery
         $this->SELECTDatosAl = "SELECT IDAlumno,NombreAlumno,ApellidoPaternoAlumno,ApellidoMaternoAlumno,Matricula,CorreoAlumno FROM alumnos WHERE IDUsuario=:idu";
 
         $this->SELECTProfesor = "SELECT IDProfesor AS ID,CorreoProfesor AS CORREO,NombreProfesor AS NOMBRE,ApellidoPaternoProfesor AS APP FROM academicos WHERE IDUsuario=:idu";
+
+        $this->UPDATECuenta = "UPDATE usuarios SET Contraseña=? WHERE Cuenta=?";
 
         $this->SELECTPersonal = "SELECT CorreoPersonal AS CORREO, IDPersonal AS ID,Nombres AS NOMBRE,ApellidoPaterno AS APP FROM personal WHERE IDUsuario=:idu";
     }
@@ -36,5 +39,10 @@ class AutentcacionQuery
     public function DatosPersonal(): string
     {
         return $this->SELECTPersonal;
+    }
+
+    public function ActualizarCuenta(): string
+    {
+        return $this->UPDATECuenta;
     }
 }

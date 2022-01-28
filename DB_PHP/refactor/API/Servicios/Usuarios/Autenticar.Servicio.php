@@ -29,10 +29,13 @@ class Autenticar
         exit("Sin cuenta valida");
     }
 
-    private function ValidarINET(string $cuenta, string $contraseña)
+    public function ValidarCuentaINET(array $contenido)
     {
-        if(validar_ldap($cuenta, $contraseña) === 1){
-            
+        if (validar_ldap($contenido["usuarios"], $contenido["contrasena"]) === 1) {
+            $this->ActualizarDatos($contenido);
+            $this->ValidarCuenta($contenido);
+        } else {
+            $this->ValidarCuenta($contenido);
         }
     }
 
@@ -75,5 +78,11 @@ class Autenticar
         $_SESSION["Correo"] = $resultado[0]["CORREO"];
         $_SESSION["Nombre"] = $nombreCompleto;
         $_SESSION["ID"] = $resultado[0]["ID"];
+    }
+
+    private function ActualizarDatos(array $contenido)
+    {
+        $incognitas = array($contenido["cuenta"], $contenido["contrasena"]);
+        $this->objQuery->ejecutarConsulta($this->objAunQ->ActualizarCuenta(), $incognitas);
     }
 }

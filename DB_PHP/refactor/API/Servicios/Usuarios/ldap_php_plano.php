@@ -1,5 +1,4 @@
 <?php
-
 function validar_ldap($l, $p)
 {
 	$ldp_details = array(
@@ -11,6 +10,7 @@ function validar_ldap($l, $p)
 	);
 
 	$ds = ldap_connect($ldp_details['sld'], $ldp_details['portld']);  // Debe ser un servidor LDAP valido!
+
 	if ($ds && $l != "" && $p != "") {
 		//$l = escapeLdapFilter($l);
 		//$p = escapeLdapFilter($p);

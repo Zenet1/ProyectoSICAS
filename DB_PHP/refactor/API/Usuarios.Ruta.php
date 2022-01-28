@@ -12,4 +12,13 @@ Conexion::ReconfigurarConexion($datos["facultad"]);
 $QueryControl = new Query();
 $UsuariosControl = new Autenticar($QueryControl);
 
-$UsuariosControl->ValidarCuenta($datos);
+
+
+switch ($datos["accion"]) {
+    case "validarINET":
+        $UsuariosControl->ValidarCuentaINET($datos);
+        break;
+    case "validarSICAS":
+        $UsuariosControl->ValidarCuenta($datos);
+        break;
+}
