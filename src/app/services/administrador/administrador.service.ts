@@ -52,7 +52,7 @@ export class AdministradorService {
       formData.append('archivo' + [index], datos.archivos[index]);
     }
     formData.append('numArchivos', numArchivos + "");
-    formData.append('accion', "subirPersonas");
+    formData.append('accion', "actualizarSICEI");
     return this.clienteHttp.post<any>(this.API_Administrador, formData);
   }
 

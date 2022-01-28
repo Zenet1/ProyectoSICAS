@@ -102,4 +102,6 @@ switch ($accion) {
         $SICEIControl = new SICEIControl($Conexion->getConexion(), new ArchivoControl($Fechas, false));
         $SICEIControl->RestaurarSICEI();
         break;
+    case "actualizarSICEI":
+        break;
 }
