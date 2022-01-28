@@ -37,7 +37,7 @@ export class AlertaComponent implements OnInit {
           respuesta=>{
             this.siAlertaEnviada = true;
             this.gruposAfectados = respuesta.grupos;
-            this.numAfectados = respuesta.usuarios.length;
+            this.numAfectados = respuesta.usuarios; 
             this.servicioAdmin.alertar(this.gruposAfectados, this.numAfectados).subscribe(
               respuesta=>{
                 alert("Se ha alertado a los alumnos correctamente");
