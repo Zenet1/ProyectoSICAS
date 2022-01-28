@@ -34,7 +34,7 @@ import { AulasComponent } from './components/administrador/aulas/aulas.component
 import { CapturaPreguntasComponent } from './components/administrador/captura-preguntas/captura-preguntas.component';
 import { InicioPersonalComponent } from './components/inicio-personal/inicio-personal.component';
 import { AsistenciaPersonalComponent } from './components/asistencia-personal/asistencia-personal.component';
-
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -73,7 +73,7 @@ import { AsistenciaPersonalComponent } from './components/asistencia-personal/as
     ZXingScannerModule,
     NgxChartsModule
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
