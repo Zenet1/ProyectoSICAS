@@ -32,10 +32,18 @@ export class LoginUsuariosComponent implements OnInit {
           this.router.navigateByUrl('inicio-capturador');
           break;
         }
+        case "Profesor":{
+          this.router.navigateByUrl('inicio-personal');
+          break;
+        }
+        case "Personal":{
+          this.router.navigateByUrl('inicio-personal');
+          break;
+        }
         default:{
           this.router.navigateByUrl('login');
         }
-      } 
+      }
     } else {
       this.formularioIniciarSesion = this.formBuilder.group({
         usuario:[""],
@@ -53,7 +61,6 @@ export class LoginUsuariosComponent implements OnInit {
       }
     );
   }
-
 
   iniciarSesion(){
     this.servicioLogin.iniciarSesion(this.formularioIniciarSesion.value, "validarSICAS").subscribe(
