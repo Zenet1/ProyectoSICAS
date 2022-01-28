@@ -18,10 +18,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.estaLogueado = this.servicioLogin.isLoggedIn();
-    this.servicioCookie.deleteCookie("registroExterno");
-    this.servicioCookie.deleteCookie("cuestionarioAlumno");
-    this.servicioCookie.deleteCookie("cuestionarioExterno");
-
+    this.servicioCookie.deleteCookie("cuestionarioContestado");
     if(this.estaLogueado){
       switch(this.servicioLogin.getRol()) { 
         case "Alumno": { 

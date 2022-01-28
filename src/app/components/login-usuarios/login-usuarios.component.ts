@@ -19,31 +19,7 @@ export class LoginUsuariosComponent implements OnInit {
   ngOnInit(): void {
     this.estaLogueado = this.servicioLogin.isLoggedIn();
     if(this.estaLogueado){
-      switch(this.servicioLogin.getRol()) { 
-        case "Alumno": { 
-          this.router.navigateByUrl('inicio-alumno');
-          break; 
-        } 
-        case "Administrador": { 
-          this.router.navigateByUrl('inicio-administrador');
-          break; 
-        }
-        case "Capturador":{
-          this.router.navigateByUrl('inicio-capturador');
-          break;
-        }
-        case "Profesor":{
-          this.router.navigateByUrl('inicio-personal');
-          break;
-        }
-        case "Personal":{
-          this.router.navigateByUrl('inicio-personal');
-          break;
-        }
-        default:{
-          this.router.navigateByUrl('login');
-        }
-      }
+      this.router.navigateByUrl('login');
     } else {
       this.formularioIniciarSesion = this.formBuilder.group({
         usuario:[""],
