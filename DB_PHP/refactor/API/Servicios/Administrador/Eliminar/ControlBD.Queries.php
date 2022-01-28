@@ -21,7 +21,7 @@ class ControlBDQueries
 
         $this->queriesRestaurar["externos"] = "INSERT INTO externos (IDExterno, NombreExterno, ApellidosExterno, Empresa, CorreoExterno) SELECT :ide,:nme,:ape,:ame,:emp FROM DUAL WHERE NOT EXISTS (SELECT IDExterno FROM externos WHERE IDExterno=:ide) LIMIT 1";
 
-        $this->queriesRestaurar["reservacionesalumnos"] = "INSERT INTO reservacionesalumnos (IDCarga, FechaReservaAl,HoraInicioReservaAl, HoraFinReservaAl, FechaAlumno, HoraAlumno) SELECT :idc,:fcRA,:hri,:hrf,:fca,:hra FROM DUAL WHERE NOT EXISTS (SELECT IDCarga, FechaReservaAl FROM reservacionesalumnos WHERE IDCarga=:idc AND FechaReservaAl=:fcRA LIMIT 1";
+        $this->queriesRestaurar["reservacionesalumnos"] = "INSERT INTO reservacionesalumnos (IDCarga, FechaReservaAl,HoraInicioReservaAl, HoraFinReservaAl, FechaAlumno, HoraAlumno) SELECT :idc,:fcRA,:hri,:hrf,:fca,:hra FROM DUAL WHERE NOT EXISTS (SELECT IDCarga, FechaReservaAl FROM reservacionesalumnos WHERE IDCarga=:idc AND FechaReservaAl=:fcRA) LIMIT 1";
 
         $this->queriesRestaurar["reservacionesexternos"] = "INSERT INTO reservacionesexternos (IDExterno, IDOficina, FechaReservaExterno, FechaExterno, HoraExterno) SELECT :ide,:ido,:fcRE,:fce,:hre FROM DUAL WHERE NOT EXISTS (SELECT IDExterno, FechaReservaExterno FROM reservacionesexternos WHERE IDExterno=:ide AND FechaReservaExterno=:fcRE) LIMIT 1";
 
