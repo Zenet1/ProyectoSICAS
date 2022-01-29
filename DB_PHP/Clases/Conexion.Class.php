@@ -26,9 +26,7 @@ class Conexion
 
     public static function ReconfigurarConexion(string $cabecera = "CAMPUS")
     {
-        if (!self::$ObjConexion instanceof self) {
-            self::$ObjConexion = new self($cabecera);
-        }
+        self::$ObjConexion = new self($cabecera);
     }
 
     public function getConexion(): PDO

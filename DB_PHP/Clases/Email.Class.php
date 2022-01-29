@@ -16,13 +16,13 @@ class CorreoManejador
         $this->isArchivo = false;
         $this->mail = new PHPMailer(true);
         try {
-            $this->mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+            //$this->mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
             $this->mail->isSMTP();                                            //Send using SMTP
             $this->mail->Host = "smtp.office365.com";                     //Set the SMTP server to send through
             $this->mail->SMTPAuth = true;                                   //Enable SMTP authentication
             $this->mail->Username = $_ENV['EMAILACCOUNT'];                     //SMTP username
             $this->mail->Password = $_ENV['EMAILACCOUNTPASSWORD'];                             //SMTP password
-            $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+            $this->mail->SMTPSecure = "STARTTLS";            //Enable implicit TLS encryption
             $this->mail->Port = $_ENV['EMAILPORT'];                             //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
             $this->mail->CharSet = 'UTF-8';
         } catch (Exception $e) {
