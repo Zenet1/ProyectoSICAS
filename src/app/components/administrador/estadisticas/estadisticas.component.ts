@@ -69,7 +69,6 @@ export class EstadisticasComponent implements OnInit {
             this.siEstadisticasObtenidas = true;
             this.estadisticas = respuesta.estadisticas;
             this.tipoEstadistica = respuesta.tipo;
-            console.log(this.tipoEstadistica);
           } else {
             alert("No se encontraron estadísticas con los filtros seleccionados")
           }

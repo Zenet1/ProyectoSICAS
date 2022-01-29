@@ -20,9 +20,7 @@ export class LoginService {
   public iniciarSesion(datosCuenta:FormGroup, accionRol:any) {
     var datos = JSON.stringify({accion:accionRol, cuenta:datosCuenta});
     this.httpClient.post<any>(this.API, datos).subscribe(Users => {
-      console.log(Users);
       if(Users != null && Users != "Sin cuenta valida"){
-        console.log(Users);
         var token = JSON.stringify(Users);
         if(Users.Rol == "Alumno"){
           var accion = JSON.stringify({accion:"comprobarSuspension"});
