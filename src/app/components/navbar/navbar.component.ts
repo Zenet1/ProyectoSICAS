@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { FrontEndService } from 'src/app/services/front-end/front-end.service';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
@@ -10,17 +8,12 @@ import { LoginService } from 'src/app/services/login/login.service';
 })
 export class NavbarComponent implements OnInit {
   estaLogueado:boolean;
-  constructor(private servicioLogin:LoginService, private servicioFront:FrontEndService) { }
+  constructor(private servicioLogin:LoginService, private cd:ChangeDetectorRef) { }
   public localBool = false;
 
   ngOnInit(): void {
-    //this.estaLogueado = this.servicioLogin.isLoggedIn();
-    this.servicioFront.toggleMenu(this.servicioLogin.isLoggedIn());
-    this.servicioFront.menuActive.subscribe(value => this.estaLogueado = value);
-  }
-
-  ComponentToggleMenu() {
-    this.servicioFront.toggleMenu(!this.localBool);
+    this.estaLogueado = this.servicioLogin.isLoggedIn();
+    this.cd.detectChanges();
   }
 
   cerrarSesion(){
