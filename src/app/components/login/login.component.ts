@@ -64,30 +64,6 @@ export class LoginComponent implements OnInit {
   }
 
   iniciarSesion(){
-    this.servicioLogin.iniciarSesion(this.formularioIniciarSesion.value, "validarINET").subscribe(
-      respuesta => {
-        if(respuesta!=null){
-          switch(respuesta["Rol"]) { 
-            case "Alumno": { 
-              location.href = '/inicio-alumno';
-              break; 
-            } 
-            case "Profesor":{
-              location.href = '/inicio-personal';
-              break;
-            }
-            case "Personal":{
-              location.href = '/inicio-personal';
-              break;
-            }
-          } 
-        } else {
-          alert("Usuario o contraseña incorrectos");
-        }
-      },
-      error => {
-        alert("Usuario o contraseña incorrectos");
-      }
-    );
+    this.servicioLogin.iniciarSesion(this.formularioIniciarSesion.value, "validarINET");
   }
 }

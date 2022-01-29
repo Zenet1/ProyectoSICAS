@@ -39,7 +39,7 @@ class AlumnoControl
 
     public function ChecarIncidente()
     {
-        $sqla = "SELECT FechaLimiteSuspencion FROM incidentes WHERE IDAlumno=? AND FechaLimiteSuspencion > ?";
+        $sqla = "SELECT FechaLimiteSuspension FROM incidentes WHERE IDAlumno=? AND FechaLimiteSuspension > ?";
         $incognitas = array($_SESSION["IDAlumno"], $this->objFecha->FechaAct());
         $resultado = $this->objQuery->ejecutarConsulta($sqla, $incognitas);
         echo json_encode($resultado);

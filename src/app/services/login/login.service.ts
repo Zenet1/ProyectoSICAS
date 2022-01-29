@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 })
 export class LoginService {
   API: string = '/ProyectoSICAS/DB_PHP/API/Usuarios.Ruta.php';
+  API_Alumnos: string = '/ProyectoSICAS/DB_PHP/API/Alumnos.Ruta.php';
   API_Facultades:string = '/ProyectoSICAS/DB_PHP/API/Servicios/Facultades.Servicio.php';
   redirectUrl: string;
 
@@ -16,15 +17,49 @@ export class LoginService {
   constructor(private httpClient:HttpClient) { }
 
   public iniciarSesion(datosCuenta:FormGroup, accionRol:any) {
-    let datos = JSON.stringify({accion:accionRol, cuenta:datosCuenta});
-    return this.httpClient.post<any>(this.API, datos).pipe(map(Users => {
-      let token = JSON.stringify(Users);
+    var datos = JSON.stringify({accion:accionRol, cuenta:datosCuenta});
+    this.httpClient.post<any>(this.API, datos).subscribe(Users => {
+      var token = JSON.stringify(Users);
       if(Users != null){
-        this.setToken(token);
-        this.getLoggedInName.emit(true);
-        return Users;
+        if(Users.Rol == "Alumno"){
+          var accion = JSON.stringify({accion:"comprobarSuspension"});
+          this.httpClient.post<any>(this.API_Alumnos, accion).subscribe(
+            respuesta=>{
+              if(respuesta.length != 0){
+                alert("Actualmente no puedes asistir a la facultad debido a que te encuentras suspendido");
+              } else {
+                this.setToken(token);
+                this.getLoggedInName.emit(true);
+                location.href = '/inicio-alumno';
+              }
+            }
+          );
+        } else {
+          this.setToken(token);
+          this.getLoggedInName.emit(true);
+          switch(Users.Rol) { 
+            case "Profesor":{
+              location.href = '/inicio-personal';
+              break;
+            }
+            case "Personal":{
+              location.href = '/inicio-personal';
+              break;
+            }
+            case "Administrador": { 
+              location.href = '/inicio-administrador';
+              break; 
+            }
+            case "Capturador":{
+              location.href = '/inicio-capturador';
+              break;
+            }
+          } 
+        }
+      } else {
+        alert("Usuario o contraseña incorrectos");
       }
-    }));
+    });
   }
 
   obtenerFacultades(){
