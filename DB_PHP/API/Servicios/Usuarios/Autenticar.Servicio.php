@@ -26,19 +26,18 @@ class Autenticar
             echo json_encode($CuentaUsuario);
             exit();
         }
-        exit("Sin cuenta valida");
+        echo json_encode("Sin cuenta valida");
+        exit();
     }
 
     public function ValidarCuentaINET(array $contenido)
     {
-        /*if (validar_ldap($contenido["usuario"], $contenido["contrasena"]) === 1) {
+        if (validar_ldap($contenido["usuario"], $contenido["contrasena"]) === 1) {
             $this->ActualizarDatos($contenido);
             $this->ValidarCuenta($contenido);
         } else {
             $this->ValidarCuenta($contenido);
         }
-*/
-        $this->ValidarCuenta($contenido);
     }
 
     private function ObtenerDatosPorRol(array $datos)
