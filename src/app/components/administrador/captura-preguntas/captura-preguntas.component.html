@@ -6,18 +6,18 @@
     <div class="row">
         <div class="wrapper-formulario col-lg-5">
             <div class="container-formulario">
-                <p class="text-center">Redacte la pregunta de forma que las respuestas sean "si" o "no"</p>
+                <p class="text-center">Redacte la pregunta de forma que las opciones de respuesta sean "si" o "no"</p>
                 <form [formGroup]="formPregunta" (ngSubmit)="guardarPregunta()" ngNativeValidate>
 
                     <div class="container-campo">
                         <label class="form-label">Tipo de pregunta:</label>
                         <div class="form-check">
                             <input  id="primaria" class="form-check-input" type="radio" name="tipo" (change)="cambioTipo($event.target.value)" formControlName="tipo" value="primaria" required>
-                            <label class="form-check-label" for="primaria">Primaria</label>
+                            <label class="form-check-label" for="primaria">Principal</label>
                         </div>
                         <div class="form-check">
                             <input id="secundaria" class="form-check-input" type="radio" name="tipo" (change)="cambioTipo($event.target.value)" formControlName="tipo" value="secundaria">
-                            <label class="form-check-label" for="secundaria">Secundaria</label>
+                            <label class="form-check-label" for="secundaria">Derivada</label>
                         </div>
                     </div>
                     
@@ -39,7 +39,7 @@
                     </div>
 
                     <div *ngIf="esSecundaria" class="container-campo">
-                        <label for="preguntaEnlace" class="form-label">Seleccioné la pregunta a la que se enlazará:</label>
+                        <label for="preguntaEnlace" class="form-label">Seleccioné la pregunta de la que se deriva:</label>
                         <select id="preguntaEnlace" class="form-select" formControlName="preguntaEnlace" required>
                             <ng-container *ngFor="let pregunta of preguntas">
                                 <option *ngIf="pregunta.Enlace == null" [value]="pregunta.IDPregunta">{{pregunta.Pregunta}}</option>

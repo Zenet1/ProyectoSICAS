@@ -1,7 +1,7 @@
 <div class="container-fluid" *ngIf="!estaLogueado"> 
     <div class="container-descripcion mb-3 row g-0">
         <h3>¡Bienvenido!</h3>
-        <p>Inicia sesión como administrador o capturador de asistencia</p>
+        <p>Inicia sesión para escanear QR de asistencia o gestionar</p>
     </div>
     <div class="wrapper-formulario row g-0 mb-3">
         <div class="container-formulario">
@@ -27,7 +27,13 @@
                 </div>
 
                 <div class="container-boton">
-                    <button type="submit" class="btn btn-iniciar-sesion">Ingresar</button>
+                    
+                </div>
+                <div class="container-boton">
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-iniciar-sesion">Ingresar</button>
+                        <button type="button" (click)="cancelar()" class="btn btn-danger">Cancelar</button>
+                    </div>
                 </div>
             </form>
         </div>

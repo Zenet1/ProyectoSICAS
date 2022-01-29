@@ -51,4 +51,8 @@ export class LoginUsuariosComponent implements OnInit {
     this.trimForm();
     this.servicioLogin.iniciarSesion(this.formLogin.value, "validarSICAS");
   }
+
+  cancelar(){
+    this.router.navigateByUrl('login');
+  }
 }
