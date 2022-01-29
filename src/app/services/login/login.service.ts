@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -14,12 +15,13 @@ export class LoginService {
 
   @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient:HttpClient, private router:Router) { }
 
   public iniciarSesion(datosCuenta:FormGroup, accionRol:any) {
     var datos = JSON.stringify({accion:accionRol, cuenta:datosCuenta});
     this.httpClient.post<any>(this.API, datos).subscribe(Users => {
-      if(Users != null && Users != 'Sin cuenta valida'){
+      console.log(Users);
+      if(Users != null && Users != "Sin cuenta valida"){
         var token = JSON.stringify(Users);
         if(Users.Rol == "Alumno"){
           var accion = JSON.stringify({accion:"comprobarSuspension"});
@@ -30,7 +32,10 @@ export class LoginService {
               } else {
                 this.setToken(token);
                 this.getLoggedInName.emit(true);
-                location.href = '#/inicio-alumno';
+                this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                  this.router.navigate(['inicio-alumno']);
+                }); 
+                //location.href = '#/inicio-alumno';
               }
             }
           );
@@ -39,19 +44,31 @@ export class LoginService {
           this.getLoggedInName.emit(true);
           switch(Users.Rol) { 
             case "Profesor":{
-              location.href = '#/inicio-personal';
+              this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                this.router.navigate(['inicio-personal']);
+              }); 
+              //location.href = '#/inicio-personal';
               break;
             }
             case "Personal":{
-              location.href = '#/inicio-personal';
+              this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                this.router.navigate(['inicio-personal']);
+              }); 
+              //location.href = '#/inicio-personal';
               break;
             }
             case "Administrador": { 
-              location.href = '#/inicio-administrador';
+              this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                this.router.navigate(['inicio-administrador']);
+              }); 
+              //location.href = '#/inicio-administrador';
               break; 
             }
             case "Capturador":{
-              location.href = '#/inicio-capturador';
+              this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                this.router.navigate(['inicio-capturador']);
+              }); 
+              //location.href = '#/inicio-capturador';
               break;
             }
           } 

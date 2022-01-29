@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
@@ -8,12 +9,15 @@ import { LoginService } from 'src/app/services/login/login.service';
 })
 export class NavbarComponent implements OnInit {
   estaLogueado:boolean;
-  constructor(private servicioLogin:LoginService, private cd:ChangeDetectorRef) { }
-  public localBool = false;
+  constructor(private servicioLogin:LoginService, private router:Router) { }
 
   ngOnInit(): void {
-    this.estaLogueado = this.servicioLogin.isLoggedIn();
-    this.cd.detectChanges();
+    //this.estaLogueado = this.servicioLogin.isLoggedIn();
+    this.router.events.subscribe(event => {
+      if (event.constructor.name === "NavigationEnd") {
+       this.estaLogueado = this.servicioLogin.isLoggedIn();
+      }
+    })
   }
 
   cerrarSesion(){
