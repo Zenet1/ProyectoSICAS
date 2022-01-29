@@ -20,7 +20,8 @@ class Conexion
             $this->conexion = new PDO($_ENV[$cabecera], $_ENV['USERNAME'],  $_ENV['PASSWORD']);
             $this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $e) {
-            error_log("Error al iniciar la conexion");
+            echo $e->getMessage();
+            error_log("Error al iniciar la conexion" . $e->getMessage());
         }
     }
 
