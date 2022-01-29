@@ -40,6 +40,10 @@ export class EstadisticasComponent implements OnInit {
   ];
   customColorsPersonal = [
     {
+      name: "Profesor",
+      value: '#F01018'
+    },
+    {
       name: "Personal",
       value: '#1C72EB'
     }
