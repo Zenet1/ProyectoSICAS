@@ -25,7 +25,6 @@ export class LoginService {
           var accion = JSON.stringify({accion:"comprobarSuspension"});
           this.httpClient.post<any>(this.API_Alumnos, accion).subscribe(
             respuesta=>{
-              console.log(respuesta.length);
               if(respuesta.length != 0){
                 alert("Actualmente no puedes asistir a la facultad debido a que te encuentras suspendido");
               } else {
