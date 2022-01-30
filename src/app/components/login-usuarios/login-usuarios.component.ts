@@ -39,26 +39,6 @@ export class LoginUsuariosComponent implements OnInit {
   }
 
   iniciarSesion(){
-    this.servicioLogin.iniciarSesion(this.formularioIniciarSesion.value, "validarSICAS").subscribe(
-      respuesta => {
-        if(respuesta!=null){
-          switch(respuesta["Rol"]) { 
-            case "Administrador": { 
-              location.href = '/inicio-administrador';
-              break; 
-            }
-            case "Capturador":{
-              location.href = '/inicio-capturador';
-              break;
-            }
-          } 
-        } else {
-          alert("Usuario o contraseña incorrectos");
-        }
-      },
-      error => {
-        alert("Usuario o contraseña incorrectos");
-      }
-    );
+    this.servicioLogin.iniciarSesion(this.formularioIniciarSesion.value, "validarSICAS");
   }
 }
