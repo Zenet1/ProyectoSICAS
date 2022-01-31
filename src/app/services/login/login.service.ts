@@ -26,6 +26,7 @@ export class LoginService {
           this.httpClient.post<any>(this.API_Alumnos, accion).subscribe(
             respuesta=>{
               if(respuesta.length != 0){
+                delete window.alert;
                 alert("Actualmente no puedes asistir a la facultad debido a que te encuentras suspendido");
               } else {
                 this.setToken(token);
@@ -57,6 +58,7 @@ export class LoginService {
           } 
         }
       } else {
+        delete window.alert;
         alert("Usuario o contraseña incorrectos");
       }
     });
