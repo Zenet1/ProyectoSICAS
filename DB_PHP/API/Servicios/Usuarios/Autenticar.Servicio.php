@@ -26,7 +26,8 @@ class Autenticar
             echo json_encode($CuentaUsuario);
             exit();
         }
-        exit("Sin cuenta valida");
+        echo json_encode("Sin cuenta valida");
+        exit();
     }
 
     public function ValidarCuentaINET(array $contenido)
