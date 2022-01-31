@@ -9,15 +9,10 @@ import { LoginService } from 'src/app/services/login/login.service';
 })
 export class NavbarComponent implements OnInit {
   estaLogueado:boolean;
-  constructor(private servicioLogin:LoginService, private router:Router) { }
+  constructor(private servicioLogin:LoginService) { }
 
   ngOnInit(): void {
-    //this.estaLogueado = this.servicioLogin.isLoggedIn();
-    this.router.events.subscribe(event => {
-      if (event.constructor.name === "NavigationEnd") {
-       this.estaLogueado = this.servicioLogin.isLoggedIn();
-      }
-    })
+    this.estaLogueado = this.servicioLogin.isLoggedIn();
   }
 
   cerrarSesion(){
