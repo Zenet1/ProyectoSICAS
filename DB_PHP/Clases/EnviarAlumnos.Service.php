@@ -26,17 +26,15 @@ foreach ($resultado as $FACULTAD) {
     $fechahoy = $fechas->FechaAct();
 
     foreach ($profesoresCrudos as $profesor) {
-        /*
+        
         $obj_datosAlumnos->execute(array($profesor["IDGrupo"], $fechahoy));
-        //$alumnosCrudos = $obj_datosAlumnos->fetchAll(PDO::FETCH_ASSOC);
+        $alumnosCrudos = $obj_datosAlumnos->fetchAll(PDO::FETCH_ASSOC);
         $listaAlumnos = "";
         foreach ($alumnosCrudos as $alumno) {
             $listaAlumnos .= "<li>" . $alumno["ApellidoPaternoAlumno"];
             $listaAlumnos .= " " . $alumno["ApellidoMaternoAlumno"];
             $listaAlumnos .= " " .  $alumno["NombreAlumno"] . "</li>";
         }
-        */
-        $listaAlumnos = "";
         $nombreCompleto = "";
         $nombreCompleto .= $profesor["NombreProfesor"];
         $nombreCompleto .= " " . $profesor["ApellidoPaternoProfesor"];
@@ -45,6 +43,6 @@ foreach ($resultado as $FACULTAD) {
         $asunto = "Lista de alumnos. Asignatura: " . $profesor["NombreAsignatura"];
         $mensaje = "Estimado " . $profesor["GradoAcademico"] . " " . $nombreCompleto . ", a continuacion se le compartirá una lista de los estudiantes que han hecho una reservacion para la fecha " . $fechahoy . " en la asignatura " . $profesor["NombreAsignatura"] . " Plan de estudio: " . $profesor["NombrePlan"] . ".\n<ol>" . $listaAlumnos . "</ol>";
         echo $mensaje;
-        //$correo->EnviarCorreo(array($profesor["CorreoProfesor"] => $nombreProfesor), $asunto, $mensaje);
+        $correo->EnviarCorreo(array($profesor["CorreoProfesor"] => $nombreProfesor), $asunto, $mensaje);
     }
 }

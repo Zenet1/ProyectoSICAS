@@ -18,7 +18,7 @@ class CorreoManejador
         try {
             //$this->mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
             $this->mail->isSMTP();                                            //Send using SMTP
-            $this->mail->Host = "smtp.office365.com";                     //Set the SMTP server to send through
+            $this->mail->Host = $_ENV['HOSTEMAIL'];                     //Set the SMTP server to send through
             $this->mail->SMTPAuth = true;                                   //Enable SMTP authentication
             $this->mail->Username = $_ENV['EMAILACCOUNT'];                     //SMTP username
             $this->mail->Password = $_ENV['EMAILACCOUNTPASSWORD'];                             //SMTP password
