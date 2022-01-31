@@ -30,7 +30,7 @@ export class LoginService {
               } else {
                 this.setToken(token);
                 this.getLoggedInName.emit(true);
-                location.href = '/inicio-alumno';
+                location.href = '#/inicio-alumno';
               }
             }
           );
@@ -39,19 +39,19 @@ export class LoginService {
           this.getLoggedInName.emit(true);
           switch(Users.Rol) { 
             case "Profesor":{
-              location.href = '/inicio-personal';
+              location.href = '#/inicio-personal';
               break;
             }
             case "Personal":{
-              location.href = '/inicio-personal';
+              location.href = '#/inicio-personal';
               break;
             }
             case "Administrador": { 
-              location.href = '/inicio-administrador';
+              location.href = '#/inicio-administrador';
               break; 
             }
             case "Capturador":{
-              location.href = '/inicio-capturador';
+              location.href = '#/inicio-capturador';
               break;
             }
           } 

@@ -73,7 +73,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     ZXingScannerModule,
     NgxChartsModule
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
