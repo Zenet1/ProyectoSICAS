@@ -19,14 +19,13 @@ export class LoginService {
   public iniciarSesion(datosCuenta:FormGroup, accionRol:any) {
     var datos = JSON.stringify({accion:accionRol, cuenta:datosCuenta});
     this.httpClient.post<any>(this.API, datos).subscribe(Users => {
-      var token = JSON.stringify(Users);
-      if(Users != null){
+      if(Users != null && Users != 'Sin cuenta valida'){
+        var token = JSON.stringify(Users);
         if(Users.Rol == "Alumno"){
           var accion = JSON.stringify({accion:"comprobarSuspension"});
           this.httpClient.post<any>(this.API_Alumnos, accion).subscribe(
             respuesta=>{
               if(respuesta.length != 0){
-                delete window.alert;
                 alert("Actualmente no puedes asistir a la facultad debido a que te encuentras suspendido");
               } else {
                 this.setToken(token);
@@ -58,7 +57,6 @@ export class LoginService {
           } 
         }
       } else {
-        delete window.alert;
         alert("Usuario o contraseña incorrectos");
       }
     });
