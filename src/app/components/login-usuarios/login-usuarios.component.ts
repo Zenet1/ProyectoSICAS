@@ -11,7 +11,7 @@ import { LoginService } from 'src/app/services/login/login.service';
 })
 export class LoginUsuariosComponent implements OnInit {
   estaLogueado:boolean;
-  formularioIniciarSesion:FormGroup;
+  formLogin:FormGroup;
   facultades:any;
 
   constructor(private servicioLogin:LoginService, private servicioCookie:CookieService, private formBuilder:FormBuilder, private router:Router) { }
@@ -21,13 +21,22 @@ export class LoginUsuariosComponent implements OnInit {
     if(this.estaLogueado){
       this.router.navigateByUrl('login');
     } else {
-      this.formularioIniciarSesion = this.formBuilder.group({
+      this.formLogin = this.formBuilder.group({
         usuario:[""],
         contrasena:[""],
         facultad:[""]
       });
       this.obtenerFacultades();
     }
+  }
+
+  trimCampo(campo:any, valor:any){
+    var textoTrim = valor.trim();
+    campo.setValue(textoTrim);
+  }
+
+  trimForm(){
+    this.trimCampo(this.formLogin.controls["usuario"],this.formLogin.controls["usuario"].value);
   }
 
   obtenerFacultades(){
@@ -39,6 +48,7 @@ export class LoginUsuariosComponent implements OnInit {
   }
 
   iniciarSesion(){
-    this.servicioLogin.iniciarSesion(this.formularioIniciarSesion.value, "validarSICAS");
+    this.trimForm();
+    this.servicioLogin.iniciarSesion(this.formLogin.value, "validarSICAS");
   }
 }

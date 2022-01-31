@@ -9,13 +9,13 @@ import { AdministradorService } from 'src/app/services/administrador/administrad
 })
 export class RegistroUsuariosComponent implements OnInit {
   
-  formularioRegistrarUsuario:FormGroup;
+  formRegistro:FormGroup;
   roles:any;
 
   constructor(private servicioAdmin:AdministradorService, private formBuilder:FormBuilder) { }
 
   ngOnInit(): void {
-    this.formularioRegistrarUsuario = this.formBuilder.group({
+    this.formRegistro = this.formBuilder.group({
       nombre:[""],
       apellidoPaterno: [""],
       apellidoMaterno: [""],
@@ -24,6 +24,18 @@ export class RegistroUsuariosComponent implements OnInit {
       rol:[""]
     });
     this.obtenerRoles();
+  }
+
+  trimCampo(campo:any, valor:any){
+    var textoTrim = valor.trim();
+    campo.setValue(textoTrim);
+  }
+
+  trimForm(){
+    this.trimCampo(this.formRegistro.controls["nombre"],this.formRegistro.controls["nombre"].value);
+    this.trimCampo(this.formRegistro.controls["apellidoPaterno"],this.formRegistro.controls["apellidoPaterno"].value);
+    this.trimCampo(this.formRegistro.controls["apellidoMaterno"],this.formRegistro.controls["apellidoMaterno"].value);
+    this.trimCampo(this.formRegistro.controls["usuario"],this.formRegistro.controls["usuario"].value);
   }
 
   obtenerRoles(){
@@ -35,10 +47,11 @@ export class RegistroUsuariosComponent implements OnInit {
   }
 
   registrarUsuario(){
-    this.servicioAdmin.registrarUsuario(this.formularioRegistrarUsuario.value).subscribe(
+    this.trimForm();
+    this.servicioAdmin.registrarUsuario(this.formRegistro.value).subscribe(
       respuesta=>{
         alert("Se registró el usuario correctamente");
-        this.formularioRegistrarUsuario.reset();
+        this.formRegistro.reset();
       },
       error=>{
         alert("Ocurrió un error al intentar registrar el usuario");

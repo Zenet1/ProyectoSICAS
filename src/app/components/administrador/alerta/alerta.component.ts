@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AdministradorService } from 'src/app/services/administrador/administrador.service';
 
 @Component({
@@ -27,7 +27,17 @@ export class AlertaComponent implements OnInit {
     );
   }
 
+  trimCampo(campo:any, valor:any){
+    var textoTrim = valor.trim();
+    campo.setValue(textoTrim);
+  }
+
+  trimForm(){
+    this.trimCampo(this.formularioAlerta.controls["matricula"],this.formularioAlerta.controls["matricula"].value);
+  }
+
   alertar(){
+    this.trimForm();
     this.siAlertaEnviada = false;
     let validacionPeriodo:boolean = this.formularioAlerta.controls['fechaFin'].value >= this.formularioAlerta.controls['fechaInicio'].value;
     let validacionSuspension:boolean = (this.formularioAlerta.controls['fechaSuspension'].value > this.formularioAlerta.controls['fechaFin'].value) && (this.formularioAlerta.controls['fechaSospechosos'].value > this.formularioAlerta.controls['fechaFin'].value);

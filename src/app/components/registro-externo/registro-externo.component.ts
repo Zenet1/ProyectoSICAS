@@ -12,13 +12,13 @@ import { LoginService } from 'src/app/services/login/login.service';
 })
 export class RegistroExternoComponent implements OnInit {
 
-  formularioRegistro:FormGroup;
+  formExterno:FormGroup;
   facultades:any;
 
   constructor(private servicioExterno:ExternoService, private servicioLogin:LoginService, private servicioCookie:CookieService, private formBuilder:FormBuilder, private router:Router) { }
 
   ngOnInit(): void {
-    this.formularioRegistro = this.formBuilder.group({
+    this.formExterno = this.formBuilder.group({
         nombre: [""],
         apellidos: [""],
         empresa: [""],
@@ -27,6 +27,18 @@ export class RegistroExternoComponent implements OnInit {
       }
     );
     this.obtenerFacultades();
+  }
+
+  trimCampo(campo:any, valor:any){
+    var textoTrim = valor.trim();
+    campo.setValue(textoTrim);
+  }
+
+  trimForm(){
+    this.trimCampo(this.formExterno.controls["nombre"],this.formExterno.controls["nombre"].value);
+    this.trimCampo(this.formExterno.controls["apellidos"],this.formExterno.controls["apellidos"].value);
+    this.trimCampo(this.formExterno.controls["empresa"],this.formExterno.controls["empresa"].value);
+    this.trimCampo(this.formExterno.controls["correo"],this.formExterno.controls["correo"].value);
   }
 
   obtenerFacultades(){
@@ -39,7 +51,8 @@ export class RegistroExternoComponent implements OnInit {
 
   registrarse(){
     if (window.confirm("Si está seguro de sus respuestas, confirme para continuar")) {
-      this.servicioExterno.guardarExterno(this.formularioRegistro.value).subscribe(
+      this.trimForm();
+      this.servicioExterno.guardarExterno(this.formExterno.value).subscribe(
         respuesta=>{
           this.servicioCookie.setCookie("registroExterno","si");
           this.router.navigateByUrl('cuestionario');

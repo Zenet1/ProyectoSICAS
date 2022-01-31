@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
@@ -8,11 +7,11 @@ import { LoginService } from 'src/app/services/login/login.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  estaLogueado:boolean;
-  constructor(private servicioLogin:LoginService) { }
+  
+  constructor(public servicioLogin:LoginService) { }
 
   ngOnInit(): void {
-    this.estaLogueado = this.servicioLogin.isLoggedIn();
+    
   }
 
   cerrarSesion(){
