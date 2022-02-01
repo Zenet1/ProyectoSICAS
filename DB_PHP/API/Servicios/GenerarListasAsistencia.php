@@ -1,7 +1,7 @@
 <?php
-include_once 'Conexion.Class.php';
-include_once 'Email.Class.php';
-include_once("Fechas.Class.php");
+session_start();
+include_once '../../Clases/Conexion.Class.php';
+include_once("../../Clases/Fechas.Class.php");
 
 $conexion = Conexion::ConexionInstacia();
 $pdoConexion = $conexion->getConexion();
@@ -23,7 +23,6 @@ foreach ($resultado as $FACULTAD) {
 
     $obj_datosProfesores->execute();
     $profesoresCrudos = $obj_datosProfesores->fetchAll(PDO::FETCH_ASSOC);
-    $correo = new CorreoManejador();
     $fechahoy = $fechas->FechaAct();
     $asunto = "";
     $mensaje = "";
@@ -50,8 +49,8 @@ foreach ($resultado as $FACULTAD) {
         $asunto = "Lista de alumnos. Asignatura: " . $profesor["NombreAsignatura"];
         $mensaje = "Estimado " . $profesor["GradoAcademico"] . " " . $nombreCompleto . ", a continuacion se le compartirá una lista de los estudiantes que han hecho una reservacion para la fecha " . $fechahoy . " en la asignatura " . $profesor["NombreAsignatura"] . " Plan de estudio: " . $profesor["NombrePlan"] . ".\n<ol>" . $listaAlumnos . "</ol>";
 
-        $Destinatarios[] = array($profesor["CorreoProfesor"] => $nombreCompleto);
+        $Destinatarios[] = array("correo" => $profesor["CorreoProfesor"], "nombre" => $nombreCompleto, "mensaje" => $mensaje, "asunto" => $asunto);
     }
 
-    $correo->EnviarCorreoProfesores($Destinatarios, $asunto, $mensaje);
+    $_SESSION["CorreosLista"] = $Destinatarios;
 }

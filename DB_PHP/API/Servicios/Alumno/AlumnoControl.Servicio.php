@@ -31,10 +31,12 @@ class AlumnoControl
         $mensaje .= $materiasCorreo . "</ul>";
 
         $imagenCodigo = "img/" . $nombreImagen . ".png";
-        $correo->setArchivo(true);
 
-        $correo->EnviarCorreo($destinatario, $asunto, $mensaje, $imagenCodigo);
-        unlink($imagenCodigo);
+        
+        //$correo->setArchivo(true);
+
+        //$correo->EnviarCorreo($destinatario, $asunto, $mensaje, $imagenCodigo);
+        //unlink($imagenCodigo);
     }
 
     public function ChecarIncidente()
