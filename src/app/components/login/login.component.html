@@ -1,7 +1,6 @@
 <div class="container-fluid" *ngIf="!estaLogueado"> 
     <div class="container-descripcion row g-0">
-        <h3>¡Bienvenido!</h3>
-        <p>Inicia sesión con tu cuenta INET</p>
+        <h3>Bienvenido</h3>
     </div>
     <div class="wrapper-formulario row g-0 mb-3">
         <div class="container-formulario">
@@ -41,16 +40,6 @@
             </p>
             <div class="container-boton">
                 <button type="button" [routerLink]="['/registro-externo']" class="btn btn-externo">Registrarse</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="wrapper-cuadro row g-0 m-3">
-        <div class="container-cuadro ">
-            <h4>Otros usuarios</h4>
-            <p>Iniciar sesión para escanear QR de asistencia o gestionar</p>
-            <div class="container-boton">
-                <button type="button" [routerLink]="['/login-usuarios']" class="btn btn-externo">Ir al Login</button>
             </div>
         </div>
     </div>

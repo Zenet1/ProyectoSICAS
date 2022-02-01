@@ -3,7 +3,6 @@ import { RouterModule, Routes } from "@angular/router";
 import { AuthguardGuardAlumno } from "./services/login/authguardAlumno.guard";
 import { AuthguardGuardAdmin } from "./services/login/authguardAdmin.guard";
 import { AuthguardGuardCapturador } from "./services/login/authguardCapturador.guard";
-import { AuthguardGuardCuestionario } from "./services/cuestionario/authguardCuestionario.guard";
 
 import { LoginComponent } from './components/login/login.component';
 import { RegistroExternoComponent } from "./components/registro-externo/registro-externo.component";
@@ -21,7 +20,6 @@ import { CapacidadFacultadComponent } from "./components/administrador/capacidad
 import { GestionarSiceiComponent } from "./components/administrador/gestionar-sicei/gestionar-sicei.component";
 import { EstadisticasComponent } from "./components/administrador/estadisticas/estadisticas.component";
 import { RegistroUsuariosComponent } from "./components/administrador/registro-usuarios/registro-usuarios.component";
-import { LoginUsuariosComponent } from "./components/login-usuarios/login-usuarios.component";
 import { AulasComponent } from "./components/administrador/aulas/aulas.component";
 import { CapturaPreguntasComponent } from "./components/administrador/captura-preguntas/captura-preguntas.component";
 import { AuthguardGuardPersonal } from "./services/login/authguardPersonal.guard";
@@ -30,7 +28,6 @@ import { AsistenciaPersonalComponent } from "./components/asistencia-personal/as
 
 const app_routes: Routes = [
     { path: 'login', component: LoginComponent},
-    { path: 'login-usuarios', component:LoginUsuariosComponent},
     { path: 'escaneo', component: ScannerComponent, canActivate: [AuthguardGuardCapturador]},
     { path: 'registro-externo', component: RegistroExternoComponent},
     { path: 'cuestionario', component: CuestionarioComponent},

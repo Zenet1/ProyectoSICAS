@@ -69,7 +69,7 @@ export class EstadisticasComponent implements OnInit {
     if(validacionPeriodo){
       this.servicioAdmin.obtenerEstadisticas(this.formEstadisticas.value).subscribe(
         respuesta=>{
-          if(respuesta.estadisticas.length > 0){
+          if(typeof(respuesta) !== null && respuesta.estadisticas.length > 0){
             this.siEstadisticasObtenidas = true;
             this.estadisticas = respuesta.estadisticas;
             this.tipoEstadistica = respuesta.tipo;

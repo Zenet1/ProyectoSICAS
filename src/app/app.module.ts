@@ -29,7 +29,6 @@ import { CapacidadFacultadComponent } from './components/administrador/capacidad
 import { GestionarSiceiComponent } from './components/administrador/gestionar-sicei/gestionar-sicei.component';
 import { EstadisticasComponent } from './components/administrador/estadisticas/estadisticas.component';
 import { RegistroUsuariosComponent } from './components/administrador/registro-usuarios/registro-usuarios.component';
-import { LoginUsuariosComponent } from './components/login-usuarios/login-usuarios.component';
 import { AulasComponent } from './components/administrador/aulas/aulas.component';
 import { CapturaPreguntasComponent } from './components/administrador/captura-preguntas/captura-preguntas.component';
 import { InicioPersonalComponent } from './components/inicio-personal/inicio-personal.component';
@@ -56,7 +55,6 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     GestionarSiceiComponent,
     EstadisticasComponent,
     RegistroUsuariosComponent,
-    LoginUsuariosComponent,
     AulasComponent,
     CapturaPreguntasComponent,
     InicioPersonalComponent,

@@ -27,4 +27,5 @@ function RecuperarEdificiosLicenciatura(string $carpeta, PDO $Conexion)
             $obj_insert->execute(array("nome" => $data[9]));
         }
     }
+    $obj_insert->execute(array("nome" => "N/A"));
 }
