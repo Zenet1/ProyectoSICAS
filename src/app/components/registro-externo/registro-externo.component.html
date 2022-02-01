@@ -5,7 +5,7 @@
     <div class="wrapper-formulario row g-0 mb-3">
         <div class="container-formulario">
             <h4 class="text-center">Registro</h4>
-            <form [formGroup]="formularioRegistro" (ngSubmit)="registrarse()" ngNativeValidate>
+            <form [formGroup]="formExterno" (ngSubmit)="registrarse()" ngNativeValidate>
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre(s):</label>
                     <input id="nombre" type="text" class="form-control" formControlName="nombre" required>

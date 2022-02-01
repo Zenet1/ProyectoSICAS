@@ -98,13 +98,14 @@
                 <div *ngIf="siEstadisticasObtenidas && (tipoEstadistica == 'personal')" class="container-grafica">
                     <ngx-charts-bar-horizontal
                         [animations]="animations"
-                        [customColors]="customColors"
+                        [customColors]="customColorsPersonal"
                         [schemeType]="schemeType"
                         [results]="estadisticas"
                         [gradient]="gradient"
                         [xAxis]="showXAxis"
                         [yAxis]="showYAxis"
                         [legend]="showLegend"
+                        [legendPosition]="legendPosition"
                         [showXAxisLabel]="showXAxisLabel"
                         [showYAxisLabel]="showYAxisLabelPersonal"
                         [xAxisLabel]="xAxisLabel"

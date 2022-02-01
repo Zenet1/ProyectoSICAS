@@ -24,6 +24,15 @@ export class CapturaPreguntasComponent implements OnInit {
     this.obtenerPreguntas();
   }
 
+  trimCampo(campo:any, valor:any){
+    var textoTrim = valor.trim();
+    campo.setValue(textoTrim);
+  }
+
+  trimForm(){
+    this.trimCampo(this.formPregunta.controls["pregunta"],this.formPregunta.controls["pregunta"].value);
+  }
+
   obtenerPreguntas(){
     this.servicioAdmin.obtenerPreguntas().subscribe(
       respuesta=>{
@@ -41,6 +50,7 @@ export class CapturaPreguntasComponent implements OnInit {
   }
 
   guardarPregunta(){
+    this.trimForm();
     this.servicioAdmin.guardarPreguntas(this.formPregunta.value).subscribe(
       respuesta=>{
         this.obtenerPreguntas();

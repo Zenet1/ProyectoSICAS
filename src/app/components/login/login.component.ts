@@ -11,7 +11,7 @@ import { LoginService } from 'src/app/services/login/login.service';
 })
 export class LoginComponent implements OnInit {
   estaLogueado: Boolean;
-  formularioIniciarSesion:FormGroup;
+  formLogin:FormGroup;
   facultades:any;
 
   constructor(private servicioLogin:LoginService, private servicioCookie:CookieService, private formBuilder:FormBuilder, private router:Router) { }
@@ -46,13 +46,22 @@ export class LoginComponent implements OnInit {
         }
       } 
     } else {
-      this.formularioIniciarSesion = this.formBuilder.group({
+      this.formLogin = this.formBuilder.group({
         usuario: [""],
         contrasena: [""],
         facultad:[""]
       });
     this.obtenerFacultades();
     }
+  }
+
+  trimCampo(campo:any, valor:any){
+    var textoTrim = valor.trim();
+    campo.setValue(textoTrim);
+  }
+
+  trimForm(){
+    this.trimCampo(this.formLogin.controls["usuario"],this.formLogin.controls["usuario"].value);
   }
 
   obtenerFacultades(){
@@ -64,6 +73,7 @@ export class LoginComponent implements OnInit {
   }
 
   iniciarSesion(){
-    this.servicioLogin.iniciarSesion(this.formularioIniciarSesion.value, "validarINET");
+    this.trimForm();
+    this.servicioLogin.iniciarSesion(this.formLogin.value, "validarINET");
   }
 }

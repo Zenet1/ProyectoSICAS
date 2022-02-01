@@ -13,13 +13,13 @@
                         <div class="mb-3">
                             <label for="archivos" class="form-label">Cargue los siguentes archivos para almacenar los datos:</label>
                             <ul>
-                                <li>AlumnosCargaDeAsignaturas.txt</li>
-                                <li>AlumnosInscripcionEnPeriodoCurso.txt</li>
-                                <li>AsignaturasALasQueSeInscribieronAlumnos.txt</li>
-                                <li>HorariosSesionesGrupo.txt</li>
-                                <li>PlanesDeEstudios.txt</li>
-                                <li>ProfesoresConAlumnosInscritos.txt</li>
-                                <li>administrativos.txt (opcional)</li>
+                                <li class="break">AlumnosCargaDeAsignaturas.txt</li>
+                                <li class="break">AlumnosInscripcionEnPeriodoCurso.txt</li>
+                                <li class="break">AsignaturasALasQueSeInscribieronAlumnos.txt</li>
+                                <li class="break">HorariosSesionesGrupo.txt</li>
+                                <li class="break">PlanesDeEstudios.txt</li>
+                                <li class="break">ProfesoresConAlumnosInscritos.txt</li>
+                                <li class="break">administrativos.txt (opcional)</li>
                             </ul>
                             <input id="archivos" name="archivos" accept=".txt" (change)="archivosSeleccionados($event)" class="form-control" type="file" multiple required>
                         </div>
@@ -37,9 +37,9 @@
                         <div class="mb-3">
                             <label for="archivosActualizar" class="form-label">Cargue los siguientes archivos para actualizar los datos:</label>
                             <ul>
-                                <li>AlumnosInscripcionEnPeriodoCurso.txt</li>
-                                <li>ProfesoresConAlumnosInscritos.txt</li>
-                                <li>administrativos.txt (opcional)</li>
+                                <li class="break">AlumnosInscripcionEnPeriodoCurso.txt</li>
+                                <li class="break">ProfesoresConAlumnosInscritos.txt</li>
+                                <li class="break">administrativos.txt (opcional)</li>
                             </ul>
                             <input id="archivosActualizar" name="archivosActualizar" accept=".txt" (change)="archivosActualizarSelecccionados($event)" class="form-control" type="file" multiple required>
                         </div>

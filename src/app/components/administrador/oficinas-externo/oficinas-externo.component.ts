@@ -8,22 +8,31 @@ import { AdministradorService } from 'src/app/services/administrador/administrad
   styleUrls: ['./oficinas-externo.component.css']
 })
 export class OficinasExternoComponent implements OnInit {
-  formularioOficina:FormGroup;
+  formOficina:FormGroup;
   oficinas:any;
   edificios:any;
 
   constructor(private servicioAdmin:AdministradorService, private formBuilder:FormBuilder) { }
 
   ngOnInit(): void {
-    this.formularioOficina = this.formBuilder.group({
+    this.formOficina = this.formBuilder.group({
         oficina: [""],
         departamento:[""],
         edificio:[""]
       }
     );
-
     this.obtenerEdificios();
     this.obtenerOficinas();
+  }
+
+  trimCampo(campo:any, valor:any){
+    var textoTrim = valor.trim();
+    campo.setValue(textoTrim);
+  }
+
+  trimForm(){
+    this.trimCampo(this.formOficina.controls["oficina"],this.formOficina.controls["oficina"].value);
+    this.trimCampo(this.formOficina.controls["departamento"],this.formOficina.controls["departamento"].value);
   }
 
   obtenerOficinas(){
@@ -43,10 +52,11 @@ export class OficinasExternoComponent implements OnInit {
   }
 
   guardarOficina(){
-    this.servicioAdmin.guardarOficina(this.formularioOficina.value).subscribe(
+    this.trimForm();
+    this.servicioAdmin.guardarOficina(this.formOficina.value).subscribe(
       respuesta=>{
         this.oficinas = this.obtenerOficinas();
-        this.formularioOficina.reset();
+        this.formOficina.reset();
       }
     );
   }

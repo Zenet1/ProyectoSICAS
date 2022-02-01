@@ -40,6 +40,10 @@ export class EstadisticasComponent implements OnInit {
   ];
   customColorsPersonal = [
     {
+      name: "Profesor",
+      value: '#F01018'
+    },
+    {
       name: "Personal",
       value: '#1C72EB'
     }
@@ -69,7 +73,6 @@ export class EstadisticasComponent implements OnInit {
             this.siEstadisticasObtenidas = true;
             this.estadisticas = respuesta.estadisticas;
             this.tipoEstadistica = respuesta.tipo;
-            console.log(this.tipoEstadistica);
           } else {
             alert("No se encontraron estadísticas con los filtros seleccionados")
           }

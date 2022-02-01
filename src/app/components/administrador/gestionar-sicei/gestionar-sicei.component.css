@@ -21,6 +21,10 @@
     align-items: center;
 }
 
+.break{
+    word-break: break-all;
+}
+
 @media (min-width:600px){ 
    .container-formulario{
        width: 500px;

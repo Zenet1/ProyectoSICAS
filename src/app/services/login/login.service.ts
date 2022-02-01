@@ -20,7 +20,6 @@ export class LoginService {
   public iniciarSesion(datosCuenta:FormGroup, accionRol:any) {
     var datos = JSON.stringify({accion:accionRol, cuenta:datosCuenta});
     this.httpClient.post<any>(this.API, datos).subscribe(Users => {
-      console.log(Users);
       if(Users != null && Users != "Sin cuenta valida"){
         var token = JSON.stringify(Users);
         if(Users.Rol == "Alumno"){
@@ -32,10 +31,7 @@ export class LoginService {
               } else {
                 this.setToken(token);
                 this.getLoggedInName.emit(true);
-                this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                  this.router.navigate(['inicio-alumno']);
-                }); 
-                //location.href = '#/inicio-alumno';
+                location.href = '#/inicio-alumno';
               }
             }
           );
@@ -44,31 +40,19 @@ export class LoginService {
           this.getLoggedInName.emit(true);
           switch(Users.Rol) { 
             case "Profesor":{
-              this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                this.router.navigate(['inicio-personal']);
-              }); 
-              //location.href = '#/inicio-personal';
+              location.href = '#/inicio-personal';
               break;
             }
             case "Personal":{
-              this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                this.router.navigate(['inicio-personal']);
-              }); 
-              //location.href = '#/inicio-personal';
+              location.href = '#/inicio-personal';
               break;
             }
             case "Administrador": { 
-              this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                this.router.navigate(['inicio-administrador']);
-              }); 
-              //location.href = '#/inicio-administrador';
+              location.href = '#/inicio-administrador';
               break; 
             }
             case "Capturador":{
-              this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                this.router.navigate(['inicio-capturador']);
-              }); 
-              //location.href = '#/inicio-capturador';
+              location.href = '#/inicio-capturador';
               break;
             }
           } 
