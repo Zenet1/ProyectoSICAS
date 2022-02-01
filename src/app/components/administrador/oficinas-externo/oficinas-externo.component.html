@@ -21,6 +21,7 @@
                     <div class="container-campo">
                         <label for="edificio" class="form-label">Edificio</label>
                         <select id="edificio" class="form-select" formControlName="edificio" required>
+                            <option value="N/A">N/A</option>
                             <ng-container *ngFor="let edificio of edificios">
                                 <option [value]="edificio.NombreEdificio">{{edificio.NombreEdificio}}</option>
                             </ng-container>
