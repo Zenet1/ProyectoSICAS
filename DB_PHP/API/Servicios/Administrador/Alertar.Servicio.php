@@ -45,8 +45,8 @@ class Alertar
             $profesoresFiltrados = $this->obtenerDatosUnicos($this->objAleQ->ObtenerProf(), $profesoresFiltrados, $incognitaProfesor);
         }
 
-        //$this->EnviarCorreo($profesoresFiltrados, $gruposFiltrados);
-        //$this->EnviarCorreo($alumnosFiltrados, $gruposFiltrados);
+        $this->EnviarCorreo($profesoresFiltrados, $gruposFiltrados);
+        $this->EnviarCorreo($alumnosFiltrados, $gruposFiltrados);
 
         $this->insertarIncidentados($contenido["matricula"], $alumnosFiltrados, $contenido["fechaSuspension"], $contenido["fechaSospechosos"]);
 
@@ -85,8 +85,9 @@ class Alertar
         $FormatoDestinatario = array();
 
         $asunto = "Posible contagio";
-        $mensaje = "Buen dia, el objetivo de este correo es informarle que se a notificado un caso de COVID 19";
-        $mensaje .= ", y debido que se ha detectado que has estado presente en uno de los siguientes asignaturas <ul>";
+        $mensaje = "Buen día, el objetivo de este correo es informarle que se ha notificado un caso de COVID 19,";
+        $mensaje .= " y se ha determinado que puede estar en riesgo de contagio, ";
+        $mensaje .= "debido que se ha detectado que has estado presente en una de las siguientes asignaturas: <ul>";
         $gruposAfectados = "";
 
         foreach ($grupos as $GRUPO) {
@@ -94,16 +95,16 @@ class Alertar
         }
 
         $mensaje .= $gruposAfectados . "</ul>";
-        $mensaje .= "Por lo que se recomienda monitorear tu salud por un posible contagio.";
+        $mensaje .= "Se recomienda monitorear su salud por un posible contagio.";
 
         foreach ($datosUnicos as $DATO) {
             $NombreCompleto = $DATO["NOMBRE"] . " ";
             $NombreCompleto .= $DATO["APELLIDOP"] . " ";
             $NombreCompleto .= $DATO["APELLIDOM"];
-            $FormatoDestinatario[trim($DATO["CORREO"])] = trim($NombreCompleto);
         }
 
-        //$this->correo->EnviarCorreo($FormatoDestinatario, $asunto, $mensaje);
+        $datosCorreo = array("asunto" => $asunto, "mensaje" => $mensaje, "nombre" => trim($NombreCompleto), "correo" => trim($DATO["CORREO"]));
+        array_push($_SESSION["CorreosRA"], $datosCorreo);
     }
 
     private function insertarIncidentados(string $matriculaAlumnoPortador, array $listaAlumnos, string $fechaSuspension, string $fechaSospechosos){

@@ -34,11 +34,6 @@ class AlumnoControl
         $datosQr = array("nombreQr" => $imagenCodigo, "contenidoQr" => $contenido, "mensaje" => $mensaje, "correo" => $_SESSION["Correo"], "nombre" => $_SESSION["Nombre"], "asunto" => $asunto);
 
         array_push($_SESSION["CorreosQR"], $datosQr);
-
-        //$correo->setArchivo(true);
-
-        //$correo->EnviarCorreo($destinatario, $asunto, $mensaje, $imagenCodigo);
-        //unlink($imagenCodigo);
     }
 
     public function ChecarIncidente()
