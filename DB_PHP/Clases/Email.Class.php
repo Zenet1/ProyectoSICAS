@@ -30,6 +30,26 @@ class CorreoManejador
         }
     }
 
+    public function EnviarCorreoProfesores(array $destinatarios, string $asunto, string $mensaje)
+    {
+        try {
+            $this->mail->setFrom($_ENV['EMAILACCOUNT'], 'SICAS');
+            $this->mail->addAddress($_ENV['EMAILACCOUNT'], 'SICAS');
+
+            foreach ($destinatarios as  $destinario) {
+                foreach ($destinario as $correo => $nombre) {
+                    $this->mail->addCC($correo, $nombre);
+                }
+            }
+
+            $this->mail->isHTML(true);
+            $this->mail->Subject = $asunto;
+            $this->mail->Body = $mensaje;
+        } catch (Exception $e) {
+        }
+    }
+
+
     public function EnviarCorreo(array $destinatarios, string $asunto, string $mensaje, $archivo = NULL)
     {
         try {
@@ -37,6 +57,7 @@ class CorreoManejador
             $this->mail->addAddress($_ENV['EMAILACCOUNT'], 'SICAS');
 
             foreach ($destinatarios as $correo => $nombre) {
+                print_r($nombre);
                 if ($correo !== "null") {
                     $this->mail->addCC($correo, $nombre);
                 }
@@ -49,8 +70,6 @@ class CorreoManejador
             $this->mail->isHTML(true);
             $this->mail->Subject = $asunto;
             $this->mail->Body = $mensaje;
-
-            $this->mail->send();
         } catch (Exception $e) {
         }
     }

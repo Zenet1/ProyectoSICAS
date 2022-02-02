@@ -1,7 +1,7 @@
 <?php
-include_once 'Conexion.Class.php';
-include_once 'Email.Class.php';
-include_once("Fechas.Class.php");
+session_start();
+include_once '../../Clases/Conexion.Class.php';
+include_once("../../Clases/Fechas.Class.php");
 
 $conexion = Conexion::ConexionInstacia();
 $pdoConexion = $conexion->getConexion();
@@ -11,6 +11,7 @@ $sqlRecFacs = "SELECT SiglasFacultad from Facultades";
 $objFacultades = $pdoConexion->prepare($sqlRecFacs);
 $objFacultades->execute();
 $resultado = $objFacultades->fetchAll(PDO::FETCH_ASSOC);
+$Destinatarios = array();
 
 foreach ($resultado as $FACULTAD) {
     Conexion::ReconfigurarConexion($FACULTAD["SiglasFacultad"]);
@@ -22,14 +23,19 @@ foreach ($resultado as $FACULTAD) {
 
     $obj_datosProfesores->execute();
     $profesoresCrudos = $obj_datosProfesores->fetchAll(PDO::FETCH_ASSOC);
-    $correo = new CorreoManejador();
     $fechahoy = $fechas->FechaAct();
+    $asunto = "";
+    $mensaje = "";
+
+    if (sizeof($profesoresCrudos) === 0) {
+        continue;
+    }
 
     foreach ($profesoresCrudos as $profesor) {
-        
         $obj_datosAlumnos->execute(array($profesor["IDGrupo"], $fechahoy));
         $alumnosCrudos = $obj_datosAlumnos->fetchAll(PDO::FETCH_ASSOC);
         $listaAlumnos = "";
+
         foreach ($alumnosCrudos as $alumno) {
             $listaAlumnos .= "<li>" . $alumno["ApellidoPaternoAlumno"];
             $listaAlumnos .= " " . $alumno["ApellidoMaternoAlumno"];
@@ -42,7 +48,9 @@ foreach ($resultado as $FACULTAD) {
 
         $asunto = "Lista de alumnos. Asignatura: " . $profesor["NombreAsignatura"];
         $mensaje = "Estimado " . $profesor["GradoAcademico"] . " " . $nombreCompleto . ", a continuacion se le compartirá una lista de los estudiantes que han hecho una reservacion para la fecha " . $fechahoy . " en la asignatura " . $profesor["NombreAsignatura"] . " Plan de estudio: " . $profesor["NombrePlan"] . ".\n<ol>" . $listaAlumnos . "</ol>";
-        echo $mensaje;
-        $correo->EnviarCorreo(array($profesor["CorreoProfesor"] => $nombreProfesor), $asunto, $mensaje);
+
+        $Destinatarios[] = array("correo" => $profesor["CorreoProfesor"], "nombre" => $nombreCompleto, "mensaje" => $mensaje, "asunto" => $asunto);
     }
+
+    $_SESSION["CorreosLista"] = $Destinatarios;
 }

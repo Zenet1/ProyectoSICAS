@@ -26,7 +26,6 @@ class ReservaPersonal
         $incogSelect = array("idp" => $_SESSION["ID"], "fchR" => $this->fecha->FechaAct());
 
         $resultado = "";
-
         $NombreImagen = "";
         $contenidoQr = "";
 
@@ -46,19 +45,14 @@ class ReservaPersonal
             $contenidoQr = $_SESSION["Conexion"] . "," . "pro" . "," . $_SESSION["ID"] . "," . $resultado[0]["IDReserva"];
         }
 
-        $this->qr->setNombrePng($NombreImagen);
-        $this->qr->GenerarImagen($contenidoQr);
-        $this->correo->setArchivo(true);
-
         $asunto = "Codigo QR Asistencia";
         $mensaje = "A continuacion se le envia el codigo QR valido unicamente en fecha ";
         $mensaje .= $this->fecha->FechaSig() . " en su correspondiente facultad, se le exhorta a guardar la imagen";
         $mensaje .= "para evitar cualquier contratiempo";
 
-        $destinatario = array($_SESSION["Correo"] => $_SESSION["Nombre"]);
+        $datosQr = array("nombreQr" => "img/" . $NombreImagen . ".png", "contenidoQr" => $contenidoQr, "mensaje" => $mensaje, "correo" => $_SESSION["Correo"], "nombre" => $_SESSION["Nombre"], "asunto" => $asunto);
 
-        $this->correo->EnviarCorreo($destinatario, $asunto, $mensaje, "img/" . $NombreImagen . ".png");
-        unlink("img/" . $NombreImagen . ".png");
+        array_push($_SESSION["CorreosQR"], $datosQr);
     }
 
     public function validarReservaNoExistente(array $contenido)
