@@ -31,7 +31,7 @@ class AlumnoControl
 
         $imagenCodigo = "img/" . $nombreImagen . ".png";
 
-        $datosQr = array("nombreQr" => $imagenCodigo, "contenidoQr" => $contenido, "mensaje" => $mensaje, "norreo" => $_SESSION["Correo"], "nombre" => $_SESSION["Nombre"], "asunto" => $asunto);
+        $datosQr = array("nombreQr" => $imagenCodigo, "contenidoQr" => $contenido, "mensaje" => $mensaje, "correo" => $_SESSION["Correo"], "nombre" => $_SESSION["Nombre"], "asunto" => $asunto);
 
         array_push($_SESSION["CorreosQR"], $datosQr);
 
