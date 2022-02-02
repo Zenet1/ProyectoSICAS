@@ -18,7 +18,6 @@ class AlumnoControl
         $qr->setNombrePng($nombreImagen);
         $qr->GenerarImagen($contenido);
 
-        $destinatario = array($_SESSION["Correo"] => $_SESSION["Nombre"]);
         $asunto = "Clave QR para acceso";
         $mensaje = "Estimado " .  $_SESSION["Nombre"] . " el siguiente correo contiene su clave unica QR para acceder";
         $mensaje .= " a su entidad educativa correspondiente, este codigo es unicamente valido en la fecha ";
@@ -32,7 +31,10 @@ class AlumnoControl
 
         $imagenCodigo = "img/" . $nombreImagen . ".png";
 
-        
+        $datosQr = array("nombreQr" => $imagenCodigo, "contenidoQr" => $contenido, "mensaje" => $mensaje, "norreo" => $_SESSION["Correo"], "nombre" => $_SESSION["Nombre"], "asunto" => $asunto);
+
+        array_push($_SESSION["CorreosQR"], $datosQr);
+
         //$correo->setArchivo(true);
 
         //$correo->EnviarCorreo($destinatario, $asunto, $mensaje, $imagenCodigo);

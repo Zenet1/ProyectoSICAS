@@ -19,10 +19,10 @@ foreach ($_SESSION["CorreosLista"] as $datos) {
     $mensaje  = $datos["mensaje"];
     $asunto = $datos["asunto"];
 
-    //Añadir la funcion de enviar correo al profesor
+    $CorreoControl->EnviarCorreo($destinatario, $asunto, $mensaje);
 
     array_shift($_SESSION["CorreosLista"]);
-    
+
     if (++$contElimanos > $limActualizado) {
         break;
     }
