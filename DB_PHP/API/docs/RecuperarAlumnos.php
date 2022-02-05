@@ -17,7 +17,7 @@ function RecuperarAlumnos(string $carpeta, PDO $Conexion)
     foreach ($archivo as $linea) {
         $datos_archivo = explode("|", utf8_encode(trim($linea)));
 
-        if (sizeof($datos_archivo) === 1) {
+        if (sizeof($datos_archivo) === 0) {
             continue;
         }
 

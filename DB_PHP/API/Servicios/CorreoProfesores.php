@@ -19,7 +19,7 @@ foreach ($_SESSION["CorreosLista"] as $datos) {
     $mensaje  = $datos["mensaje"];
     $asunto = $datos["asunto"];
 
-    $CorreoControl->EnviarCorreo($destinatario, $asunto, $mensaje);
+    //$CorreoControl->EnviarCorreo($destinatario, $asunto, $mensaje);
 
     array_shift($_SESSION["CorreosLista"]);
 
