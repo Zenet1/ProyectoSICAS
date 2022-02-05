@@ -6,15 +6,11 @@ class ReservaPersonal
     private Query $objQuery;
     private ReservaQuery $objRes;
     private Fechas $fecha;
-    private CorreoManejador $correo;
-    private GeneradorQr $qr;
 
-    public function __construct(Query $objQuery, Fechas $fecha, CorreoManejador $correo, GeneradorQr $qr)
+    public function __construct(Query $objQuery, Fechas $fecha)
     {
         $this->objQuery = $objQuery;
         $this->fecha = $fecha;
-        $this->correo = $correo;
-        $this->qr = $qr;
         $this->objRes = new ReservaQuery();
     }
 
@@ -58,7 +54,7 @@ class ReservaPersonal
     public function validarReservaNoExistente(array $contenido)
     {
         $Respuesta = "Aceptado";
-        $incognitas = array("idp" => $_SESSION["ID"], "fchR" => $this->objFecha->FechaAct());
+        $incognitas = array("idp" => $_SESSION["ID"], "fchR" => $this->fecha->FechaAct());
         $sql = "";
 
         if ($contenido["rol"] === "Personal") {

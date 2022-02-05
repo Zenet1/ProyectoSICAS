@@ -20,11 +20,9 @@ export class AsistenciaPersonalComponent implements OnInit {
       this.servicioPersonal.combrobarReservacion(this.servicioLogin.getRol()).subscribe(
         respuesta=>{
           if(respuesta == "Rechazado"){
-            
-          } else if (respuesta == "Rechazado"){
             alert("Ya tiene una reservación para mañana");
             this.router.navigateByUrl("inicio-personal");
-          }
+          } 
         }
       );
     }

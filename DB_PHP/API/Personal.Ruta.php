@@ -3,16 +3,13 @@ session_start();
 
 include_once("Servicios/Personal/ReservaPersonal.Servicio.php");
 include_once("../Clases/Query.Class.php");
-include_once("../Clases/Fechas.Class.php");
-include_once("../Clases/Email.Class.php");
-include_once("../Clases/Qr.Class.php");
 include_once("../Clases/Conexion.Class.php");
+include_once("../Clases/Fechas.Class.php");
 
 Conexion::ReconfigurarConexion($_SESSION["Conexion"]);
 $QueryObj = new Query();
-$Correo = new CorreoManejador();
 
-$PersonalControl = new ReservaPersonal($QueryObj, Fechas::ObtenerInstancia(), $Correo, new GeneradorQr());
+$PersonalControl = new ReservaPersonal($QueryObj, Fechas::ObtenerInstancia());
 
 $json = file_get_contents('php://input');
 $datos = json_decode($json);
