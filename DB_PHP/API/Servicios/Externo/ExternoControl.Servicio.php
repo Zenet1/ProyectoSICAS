@@ -21,16 +21,11 @@ class ExternoControl
             $contenidoCorreo = $this->generarContenidoCorreo($datosSesion["nombreExterno"], $datosSesion["IDExterno"], $IDOficinas, $datosSesion["fechaReservada"]);
 
             $nombreQR = $this->generarQRExterno($datosSesion["IDExterno"], $datosSesion["siglasFacultad"], $IDOficinas, $datosSesion["fechaReservada"], $datosSesion["fechaCuandoSeReservo"], $datosSesion["horaCuandoSeReservo"]);
-            $ubicacionQR = "img/" . $nombreQR[0] . ".png";
+            $ubicacionQR = "../img/" . $nombreQR[0] . ".png";
 
             $datosQr = array("nombreQr" => $ubicacionQR, "contenidoQr" => $nombreQR[1], "mensaje" => $contenidoCorreo[1], "correo" => $_SESSION["Correo"], "nombre" => $_SESSION["Nombre"], "asunto" => $contenidoCorreo[0]);
 
             array_push($_SESSION["CorreosQR"], $datosQr);
-
-            //$objCorreo->setArchivo(true);
-            //$objCorreo->EnviarCorreo($datosDestinatario, $contenidoCorreo[0], $contenidoCorreo[1], $ubicacionQR);
-
-            //unlink($ubicacionQR);
         } else {
             echo "ERROR: Sesión no activa";
         }
@@ -76,10 +71,6 @@ class ExternoControl
     {
         $nombreQRExterno = "e" . $IDExterno;
         $contenidoQRExterno = $this->generarContenidoQR($IDExterno, $siglasFacultad, $listaIDOficinas, $fechaReservada, $fechaExterno, $horaExterno,);
-
-        //$QR = new GeneradorQr();
-        //$QR->setNombrePng($nombreQRExterno);
-        //$QR->GenerarImagen($contenidoQRExterno);
 
         return array($nombreQRExterno, $contenidoQRExterno);
     }

@@ -36,9 +36,6 @@ class ControlBD
     {
         $archivo = fopen(ArchivoControl::$carpetaUnica . "/" . $tabla . ".txt", "w");
         $nombreColumnas = $this->objQuery->ejecutarConsulta($this->queries->RecupColumQuery($tabla), array());
-        echo "<br><br>";
-        print_r($nombreColumnas);
-        echo "<br><br>";
         $datosTabla = $this->objQuery->ejecutarConsulta($Query, $variables);
 
         $indice_final = 0;

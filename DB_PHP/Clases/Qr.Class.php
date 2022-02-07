@@ -1,5 +1,5 @@
 <?php
-include '../phpqrcode/qrlib.php';
+require("phpqrcode/qrlib.php");
 
 class GeneradorQr
 {
@@ -13,7 +13,7 @@ class GeneradorQr
         $this->ecc = 'Q';
         $this->pixel_Size = 10;
         $this->frame_Size = 5;
-        $this->path = 'img/';
+        $this->path = '../img/';
         $this->file;
     }
 

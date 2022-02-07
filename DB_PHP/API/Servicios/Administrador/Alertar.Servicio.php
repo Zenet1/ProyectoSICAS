@@ -82,7 +82,6 @@ class Alertar
 
     private function enviarCorreo(array $datosUnicos, array $grupos)
     {
-        $FormatoDestinatario = array();
 
         $asunto = "Posible contagio";
         $mensaje = "Buen día, el objetivo de este correo es informarle que se ha notificado un caso de COVID 19,";

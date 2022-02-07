@@ -1,8 +1,4 @@
 <?php
-if(!isset($_SESSION["CorreosQR"])){
-    $_SESSION["CorreosQR"] = array();
-}
-
 include_once("./docs/RecuperarAlumnos.php");
 include_once("./docs/RecuperarAsignaturas.php");
 include_once("./docs/RecuperarCargasAcademicas.php");

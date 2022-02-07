@@ -1,4 +1,5 @@
 <?php
+session_start();
 class AlumnoControl
 {
     private Query $objQuery;
@@ -10,13 +11,12 @@ class AlumnoControl
         $this->objFecha = $objFecha;
     }
 
-    public function EnviarQRCorreo(array $Materias, CorreoManejador $correo, GeneradorQr $qr)
+    public function EnviarQRCorreo(array $Materias, Conexion $conexion)
     {
+        $sql_insertar = "INSERT INTO correos (correo,nombre,asunto,mensaje,contenidoQR,nombreQR,TipoCorreo)SELECT :cor,:nom,:asu,:mes,:con,:noq,:tip FROM DUAL WHERE NOT EXISTS (SELECT correo,TipoCorreo FROM correos WHERE correo=:cor AND TipoCorreo=:tip) LIMIT 1";
+
         $nombreImagen = "a" . $_SESSION["IDAlumno"];
         $contenido = $_SESSION["Conexion"] . "," . "a," . $_SESSION["IDAlumno"] . "," . $this->GenerarContenidoQR();
-
-        $qr->setNombrePng($nombreImagen);
-        $qr->GenerarImagen($contenido);
 
         $asunto = "Clave QR para acceso";
         $mensaje = "Estimado " .  $_SESSION["Nombre"] . " el siguiente correo contiene su clave unica QR para acceder";
@@ -29,11 +29,15 @@ class AlumnoControl
         }
         $mensaje .= $materiasCorreo . "</ul>";
 
-        $imagenCodigo = "img/" . $nombreImagen . ".png";
+        $imagenCodigo = "../img/" . $nombreImagen . ".png";
 
-        $datosQr = array("nombreQr" => $imagenCodigo, "contenidoQr" => $contenido, "mensaje" => $mensaje, "correo" => $_SESSION["Correo"], "nombre" => $_SESSION["Nombre"], "asunto" => $asunto);
+        $datosQr = array("noq" => $imagenCodigo, "con" => $contenido, "mes" => $mensaje, "cor" => $_SESSION["Correo"], "nom" => $_SESSION["Nombre"], "asu" => $asunto, "tip" => "PAAE");
 
-        array_push($_SESSION["CorreosQR"], $datosQr);
+        $conexion::ReconfigurarConexion("CAMPUS");
+        $conexion::ConexionInstacia("CAMPUS");
+        $PDO = $conexion->getConexion();
+        $objInsert = $PDO->prepare($sql_insertar);
+        $objInsert->execute($datosQr);
     }
 
     public function ChecarIncidente()

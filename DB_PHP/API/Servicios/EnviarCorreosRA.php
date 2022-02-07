@@ -1,8 +1,12 @@
 <?php
 session_start();
-include_once("../Clases/Email.Class.php");
-
+$EmailPath = realpath(dirname(__FILE__, 3) . "/Clases/Email.Class.php");
+include_once($EmailPath);
 $CorreoControl = new CorreoManejador();
+
+if (!isset($_SESSION["CorreosRA"])) {
+    $_SESSION["CorreosRA"] = array();
+}
 
 $limCorreos = 15;
 $contElimanos = 0;
@@ -11,6 +15,7 @@ $cantCorreosSobrantes = $cantCorreos - $limCorreos;
 $limActualizado = ($cantCorreosSobrantes  >= $limCorreos ? $limCorreos : $cantCorreos);
 
 if ($cantCorreos <= 0) {
+    session_write_close();
     exit();
 }
 
@@ -27,3 +32,4 @@ foreach ($_SESSION["CorreosRA"] as $datos) {
         break;
     }
 }
+session_write_close();

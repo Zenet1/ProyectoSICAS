@@ -46,8 +46,8 @@ class ReservaPersonal
         $mensaje .= $this->fecha->FechaSig() . " en su correspondiente facultad, se le exhorta a guardar la imagen";
         $mensaje .= "para evitar cualquier contratiempo";
 
-        $datosQr = array("nombreQr" => "img/" . $NombreImagen . ".png", "contenidoQr" => $contenidoQr, "mensaje" => $mensaje, "correo" => $_SESSION["Correo"], "nombre" => $_SESSION["Nombre"], "asunto" => $asunto);
-
+        $datosQr = array("nombreQr" => "../img/" . $NombreImagen . ".png", "contenidoQr" => $contenidoQr, "mensaje" => $mensaje, "correo" => $_SESSION["Correo"], "nombre" => $_SESSION["Nombre"], "asunto" => $asunto);
+        error_log("Error pichula");
         array_push($_SESSION["CorreosQR"], $datosQr);
     }
 
@@ -57,11 +57,11 @@ class ReservaPersonal
         $incognitas = array("idp" => $_SESSION["ID"], "fchR" => $this->fecha->FechaAct());
         $sql = "";
 
-        if ($contenido["rol"] === "Personal") {
+        if ($contenido[0] === "Personal") {
             $sql = $this->objRes->RecuperarID("reservacionespersonal");
         }
 
-        if ($contenido["rol"] === "Profesor") {
+        if ($contenido[0] === "Profesor") {
             $sql = $this->objRes->RecuperarID("reservacionesacademicos");
         }
 

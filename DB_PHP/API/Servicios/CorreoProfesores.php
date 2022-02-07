@@ -1,10 +1,12 @@
 <?php
 session_start();
-include_once("../../Clases/Email.Class.php");
+$EmailPath = realpath(dirname(__FILE__,3)."/Clases/Email.Class.php");
+include_once($EmailPath);
 
 $CorreoControl = new CorreoManejador();
 
 if (!isset($_SESSION["CorreosLista"])) {
+    session_write_close();
     exit();
 }
 
@@ -19,7 +21,7 @@ foreach ($_SESSION["CorreosLista"] as $datos) {
     $mensaje  = $datos["mensaje"];
     $asunto = $datos["asunto"];
 
-    $CorreoControl->EnviarCorreo($destinatario, $asunto, $mensaje);
+    //$CorreoControl->EnviarCorreo($destinatario, $asunto, $mensaje);
 
     array_shift($_SESSION["CorreosLista"]);
 
@@ -31,3 +33,4 @@ foreach ($_SESSION["CorreosLista"] as $datos) {
 if ($cantCorreosSobrantes <= 0) {
     unset($_SESSION["CorreosLista"]);
 }
+session_write_close();
