@@ -49,7 +49,7 @@ class ReservaPersonal
 
         $imagenCodigo = dirname(__FILE__, 3) . "/img/" . $NombreImagen . ".png";
 
-        $datosQr = array("nombreQr" => $imagenCodigo, "contenidoQr" => $contenidoQr, "mensaje" => $mensaje, "correo" => $_SESSION["Correo"], "nombre" => $_SESSION["Nombre"], "asunto" => $asunto, "TipoCorreo" => "PAAE");
+        $datosQr = array("noq" => $imagenCodigo, "con" => $contenidoQr, "mes" => $mensaje, "cor" => $_SESSION["Correo"], "nom" => $_SESSION["Nombre"], "asunto" => $asunto, "tip" => "PAAE");
 
         $qr->setNombrePng(basename($NombreImagen, ".png"));
         $qr->GenerarImagen($contenidoQr);
