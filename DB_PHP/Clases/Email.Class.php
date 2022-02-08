@@ -37,7 +37,6 @@ class CorreoManejador
             $this->mail->addAddress($_ENV['EMAILACCOUNT'], 'SICAS');
 
             foreach ($destinatarios as $correo => $nombre) {
-                print_r($nombre);
                 if ($correo !== "null") {
                     $this->mail->addCC($correo, $nombre);
                 }
@@ -52,6 +51,7 @@ class CorreoManejador
             $this->mail->Body = $mensaje;
             $this->mail->send();
         } catch (Exception $e) {
+            error_log($e->getMessage());
         }
     }
 

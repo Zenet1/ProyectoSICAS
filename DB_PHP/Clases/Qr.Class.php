@@ -9,20 +9,23 @@ class GeneradorQr
     private $path;
     private $file;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->ecc = 'Q';
         $this->pixel_Size = 10;
         $this->frame_Size = 5;
-        $this->path = '../img/';
+        $this->path = realpath(dirname(__FILE__, 2) . "/API/img/");
         $this->file;
     }
 
-    public function GenerarImagen(string $contenido): void {
+    public function GenerarImagen(string $contenido): void
+    {
         QRcode::png($contenido,  $this->file, $this->ecc, $this->pixel_Size, $this->frame_Size);
+        error_log("SE GENEREA");
     }
 
-    public function setNombrePng(string $nombre) : void
+    public function setNombrePng(string $nombre): void
     {
-        $this->file = $this->path . $nombre . ".png";
+        $this->file = $this->path . "/" . $nombre . ".png";
     }
 }

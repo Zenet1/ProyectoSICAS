@@ -11,7 +11,7 @@ class AlumnoControl
         $this->objFecha = $objFecha;
     }
 
-    public function EnviarQRCorreo(array $Materias, Conexion $conexion)
+    public function EnviarQRCorreo(array $Materias, GeneradorQr $qr, Conexion $conexion)
     {
         $sql_insertar = "INSERT INTO correos (correo,nombre,asunto,mensaje,contenidoQR,nombreQR,TipoCorreo)SELECT :cor,:nom,:asu,:mes,:con,:noq,:tip FROM DUAL WHERE NOT EXISTS (SELECT correo,TipoCorreo FROM correos WHERE correo=:cor AND TipoCorreo=:tip) LIMIT 1";
 
@@ -29,9 +29,12 @@ class AlumnoControl
         }
         $mensaje .= $materiasCorreo . "</ul>";
 
-        $imagenCodigo = "../img/" . $nombreImagen . ".png";
+        $imagenCodigo = dirname(__FILE__, 3) . "/img/" . $nombreImagen . ".png";
 
         $datosQr = array("noq" => $imagenCodigo, "con" => $contenido, "mes" => $mensaje, "cor" => $_SESSION["Correo"], "nom" => $_SESSION["Nombre"], "asu" => $asunto, "tip" => "PAAE");
+
+        $qr->setNombrePng(basename($nombreImagen, ".png"));
+        $qr->GenerarImagen($contenido);
 
         $conexion::ReconfigurarConexion("CAMPUS");
         $conexion::ConexionInstacia("CAMPUS");

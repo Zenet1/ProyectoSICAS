@@ -16,6 +16,7 @@ $datos = json_decode($json);
 
 Conexion::ReconfigurarConexion($_SESSION["Conexion"]);
 $Fechas = Fechas::ObtenerInstancia();
+$QrControl = new GeneradorQr();
 $Query = new Query();
 
 $ReservacionesControl = new ReservaControl($Query, $Fechas);
@@ -31,7 +32,7 @@ switch ($datos->accion) {
     case "insertarReservas":
         $materias = $ReservacionesControl->insertarReservasAlumno((array)$datos->contenido);
         Conexion::ReconfigurarConexion("CAMPUS");
-        $AlumnosControl->EnviarQRCorreo($materias, Conexion::ConexionInstacia("CAMPUS"));
+        $AlumnosControl->EnviarQRCorreo($materias, $QrControl, Conexion::ConexionInstacia("CAMPUS"));
         break;
     case "comprobarSuspension":
         $AlumnosControl->ChecarIncidente();

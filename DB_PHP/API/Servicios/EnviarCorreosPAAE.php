@@ -1,48 +1,51 @@
 <?php
-session_start();
 $EmailPath = realpath(dirname(__FILE__, 3) . "/Clases/Email.Class.php");
 $QrPath = realpath(dirname(__FILE__, 3) . "/Clases/Qr.Class.php");
+$QueryPath = realpath(dirname(__FILE__, 3) . "/Clases/Query.Class.php");
+
 include_once($EmailPath);
+include_once($QueryPath);
 include_once($QrPath);
 
+$QueryControl = new Query();
 $CorreoControl = new CorreoManejador();
 $QrControl = new GeneradorQr();
 
-function EnviarCorreos(CorreoManejador $CorreoControl, GeneradorQr $QrControl)
-{
-    $limCorreos = 10;
-    $contElimanos = 0;
-    $cantCorreos = sizeof($_SESSION["CorreosQR"]);
-    $cantCorreosSobrantes = $cantCorreos - $limCorreos;
-    $limActualizado = ($cantCorreosSobrantes >= $limCorreos ? $limCorreos : $cantCorreos);
+$sqlRecuperarCorreos = "SELECT * FROM correos WHERE TipoCorreo='PAAE'";
+$sqlCantidadCorreos = "SELECT COUNT(IDCorreo) AS CANT FROM correos WHERE TipoCorreo='PAAE'";
+$sqlEliminarCorreo = "DELETE FROM correos WHERE IDCorreo=:idc";
 
-    if ($cantCorreos <= 0) {
-        session_write_close();
-        exit();
-    }
+$ResultCant = $QueryControl->ejecutarConsulta($sqlCantidadCorreos, array());
 
-    foreach ($_SESSION["CorreosQR"] as $datos) {
-        $destinatario = array($datos["correo"] => $datos["nombre"]);
-        $mensaje  = $datos["mensaje"];
-        $asunto = $datos["asunto"];
-        $contenidoQR = $datos["contenidoQr"];
-        $direccionQr = $datos["nombreQr"];
+$limCorreos = 10;
+$contElimanos = 0;
+$cantCorreos = intval($ResultCant[0]["CANT"]);
+$cantCorreosSobrantes = $cantCorreos - $limCorreos;
+$limActualizado = ($cantCorreosSobrantes >= $limCorreos ? $limCorreos : $cantCorreos);
 
-        $QrControl->setNombrePng(basename($direccionQr, ".png"));
-        $QrControl->GenerarImagen($contenidoQR);
-
-        $CorreoControl->setArchivo(true);
-        $CorreoControl->EnviarCorreo($destinatario, $asunto, $mensaje, $direccionQr);
-        //unlink($direccionQr);
-
-        array_shift($_SESSION["CorreosQR"]);
-
-        if (++$contElimanos > $limActualizado) {
-            break;
-        }
-    }
+if ($cantCorreos <= 0) {
+    exit();
 }
 
-EnviarCorreos($CorreoControl, $QrControl);
+$Correos = $QueryControl->ejecutarConsulta($sqlRecuperarCorreos, array());
 
-session_write_close();
+foreach ($Correos as $datos) {
+    $destinatario = array($datos["correo"] => $datos["nombre"]);
+    $mensaje  = $datos["mensaje"];
+    $asunto = $datos["asunto"];
+    $contenidoQR = $datos["contenidoQR"];
+    $direccionQr = $datos["nombreQR"];
+
+    $QrControl->setNombrePng(basename($direccionQr, ".png"));
+    $QrControl->GenerarImagen($contenidoQR);
+
+    $CorreoControl->setArchivo(true);
+    $CorreoControl->EnviarCorreo($destinatario, $asunto, $mensaje, $direccionQr);
+    unlink($direccionQr);
+
+    $QueryControl->ejecutarConsulta($sqlEliminarCorreo, array("idc" => $datos["IDCorreo"]));
+
+    if (++$contElimanos > $limActualizado) {
+        break;
+    }
+}
