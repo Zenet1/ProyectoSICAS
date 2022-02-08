@@ -20,6 +20,7 @@ switch ($datos->accion) {
         $PreguntaControl->FiltrarPreguntas();
         break;
     case "enviarCorreo":
-        $CuestionarioControl->EnviarRechazo();
+        Conexion::ReconfigurarConexion("CAMPUS");
+        $CuestionarioControl->EnviarRechazo(Conexion::ConexionInstacia("CAMPUS"));
         break;
 }
