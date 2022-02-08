@@ -10,7 +10,7 @@ include_once($QrPath);
 $QueryControl = new Query();
 $CorreoControl = new CorreoManejador();
 
-$sqlRecuperarCorreos = "SELECT * FROM correos WHERE TipoCorreo='PAAE'";
+
 $sqlCantidadCorreos = "SELECT COUNT(IDCorreo) AS CANT FROM correos WHERE TipoCorreo='PAAE'";
 $sqlEliminarCorreo = "DELETE FROM correos WHERE IDCorreo=:idc";
 
@@ -21,6 +21,8 @@ $contElimanos = 0;
 $cantCorreos = intval($ResultCant[0]["CANT"]);
 $cantCorreosSobrantes = $cantCorreos - $limCorreos;
 $limActualizado = ($cantCorreosSobrantes >= $limCorreos ? $limCorreos : $cantCorreos);
+
+$sqlRecuperarCorreos = "SELECT * FROM correos WHERE TipoCorreo='PAAE' LIMIT $limActualizado";
 
 if ($cantCorreos <= 0) {
     exit();
