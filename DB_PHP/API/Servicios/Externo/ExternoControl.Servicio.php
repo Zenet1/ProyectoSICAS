@@ -14,6 +14,8 @@ class ExternoControl
     public function enviarQRExterno(array $IDOficinas, string $fechaReservada): void
     {
         if ($this->sesionActivaExterno()) {
+            $sql_insertar = "INSERT INTO correos (correo,nombre,asunto,mensaje,contenidoQR,nombreQR,TipoCorreo)SELECT :cor,:nom,:asu,:mes,:con,:noq,:tip FROM DUAL WHERE NOT EXISTS (SELECT correo,TipoCorreo FROM correos WHERE correo=:cor AND TipoCorreo=:tip) LIMIT 1";
+
             $objCorreo = new CorreoManejador();
             $datosSesion = $this->recuperarVariablesSesion();
             $datosDestinatario = array($datosSesion["correoExterno"] => $datosSesion["nombreExterno"]);
@@ -23,11 +25,14 @@ class ExternoControl
             $nombreQR = $this->generarQRExterno($datosSesion["IDExterno"], $datosSesion["siglasFacultad"], $IDOficinas, $datosSesion["fechaReservada"], $datosSesion["fechaCuandoSeReservo"], $datosSesion["horaCuandoSeReservo"]);
             $ubicacionQR = "../img/" . $nombreQR[0] . ".png";
 
-            $datosQr = array("nombreQr" => $ubicacionQR, "contenidoQr" => $nombreQR[1], "mensaje" => $contenidoCorreo[1], "correo" => $_SESSION["Correo"], "nombre" => $_SESSION["Nombre"], "asunto" => $contenidoCorreo[0]);
+            $datosQr = array("noq" => $ubicacionQR, "con" => $nombreQR[1], "mes" => $contenidoCorreo[1], "cor" => $_SESSION["Correo"], "nom" => $_SESSION["Nombre"], "asu" => $contenidoCorreo[0], "tip"=> "PAAE");
 
-            array_push($_SESSION["CorreosQR"], $datosQr);
-        } else {
-            echo "ERROR: Sesión no activa";
+            $conexion::ReconfigurarConexion("CAMPUS");
+            $conexion::ConexionInstacia("CAMPUS");
+            $PDO = $conexion->getConexion();
+            $objInsert = $PDO->prepare($sql_insertar);
+            $objInsert->execute($datosQr);
+
         }
     }
 

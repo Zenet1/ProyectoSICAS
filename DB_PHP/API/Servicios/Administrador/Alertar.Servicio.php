@@ -82,6 +82,7 @@ class Alertar
 
     private function enviarCorreo(array $datosUnicos, array $grupos)
     {
+        $sql_insertar = "INSERT INTO correos (correo,nombre,asunto,mensaje,TipoCorreo)SELECT :cor,:nom,:asu,:mes,:tip FROM DUAL WHERE NOT EXISTS (SELECT correo,TipoCorreo FROM correos WHERE correo=:cor AND TipoCorreo=:tip) LIMIT 1";
 
         $asunto = "Posible contagio";
         $mensaje = "Buen día, el objetivo de este correo es informarle que se ha notificado un caso de COVID 19,";
@@ -102,8 +103,18 @@ class Alertar
             $NombreCompleto .= $DATO["APELLIDOM"];
         }
 
+        /*
         $datosCorreo = array("asunto" => $asunto, "mensaje" => $mensaje, "nombre" => trim($NombreCompleto), "correo" => trim($DATO["CORREO"]));
         array_push($_SESSION["CorreosRA"], $datosCorreo);
+        */
+
+        $datosQr = array("mes" => $mensaje, "cor" => trim($DATO["CORREO"]), "nom" => trim($NombreCompleto), "asu" => $asunto, "tip"=> "RA");
+        
+        $conexion::ReconfigurarConexion("CAMPUS");
+        $conexion::ConexionInstacia("CAMPUS");
+        $PDO = $conexion->getConexion();
+        $objInsert = $PDO->prepare($sql_insertar);
+        $objInsert->execute($datosQr);
     }
 
     private function insertarIncidentados(string $matriculaAlumnoPortador, array $listaAlumnos, string $fechaSuspension, string $fechaSospechosos){
