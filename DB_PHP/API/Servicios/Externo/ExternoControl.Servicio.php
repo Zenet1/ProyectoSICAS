@@ -11,7 +11,7 @@ class ExternoControl
         $this->objFecha = $fecha;
     }
 
-    public function enviarQRExterno(array $IDOficinas, string $fechaReservada): void
+    public function enviarQRExterno(array $IDOficinas, string $fechaReservada, GeneradorQr $qr, Conexion $conexion): void
     {
         if ($this->sesionActivaExterno()) {
             $sql_insertar = "INSERT INTO correos (correo,nombre,asunto,mensaje,contenidoQR,nombreQR,TipoCorreo)SELECT :cor,:nom,:asu,:mes,:con,:noq,:tip FROM DUAL WHERE NOT EXISTS (SELECT correo,TipoCorreo FROM correos WHERE correo=:cor AND TipoCorreo=:tip) LIMIT 1";
@@ -20,10 +20,11 @@ class ExternoControl
             $datosSesion = $this->recuperarVariablesSesion();
             $datosDestinatario = array($datosSesion["correoExterno"] => $datosSesion["nombreExterno"]);
 
-            $contenidoCorreo = $this->generarContenidoCorreo($datosSesion["nombreExterno"], $datosSesion["IDExterno"], $IDOficinas, $datosSesion["fechaReservada"]);
+            $contenidoCorreo = $this->generarContenidoCorreo($datosSesion["nombreExterno"], $IDOficinas, $datosSesion["fechaReservada"]);
 
             $nombreQR = $this->generarQRExterno($datosSesion["IDExterno"], $datosSesion["siglasFacultad"], $IDOficinas, $datosSesion["fechaReservada"], $datosSesion["fechaCuandoSeReservo"], $datosSesion["horaCuandoSeReservo"]);
-            $ubicacionQR = "../img/" . $nombreQR[0] . ".png";
+            
+            $ubicacionQR = dirname(__FILE__, 3) . "/img/" . $nombreQR[0] . ".png";
 
             $datosQr = array("noq" => $ubicacionQR, "con" => $nombreQR[1], "mes" => $contenidoCorreo[1], "cor" => $_SESSION["Correo"], "nom" => $_SESSION["Nombre"], "asu" => $contenidoCorreo[0], "tip"=> "PAAE");
 
@@ -36,7 +37,7 @@ class ExternoControl
         }
     }
 
-    private function generarContenidoCorreo(string $nombreExterno, string $IDExterno, array $listaOficinas, string $fechaReservada): array
+    private function generarContenidoCorreo(string $nombreExterno, array $listaOficinas, string $fechaReservada): array
     {
         $asunto = "Clave QR para acceso";
         $mensaje = "Estimado " .  $nombreExterno . ", el siguiente correo electrónico contiene su clave única (QR) para acceder";
@@ -72,10 +73,13 @@ class ExternoControl
         return $nombreOficina[0]["NombreOficina"];
     }
 
-    private function generarQRExterno(string $IDExterno, string $siglasFacultad, array $listaIDOficinas, string $fechaReservada, string $fechaExterno, string $horaExterno): array
+    private function generarQRExterno(string $IDExterno, string $siglasFacultad, array $listaIDOficinas, string $fechaReservada, string $fechaExterno, string $horaExterno, GeneradorQr $qr): array
     {
         $nombreQRExterno = "e" . $IDExterno;
         $contenidoQRExterno = $this->generarContenidoQR($IDExterno, $siglasFacultad, $listaIDOficinas, $fechaReservada, $fechaExterno, $horaExterno,);
+
+        $qr->setNombrePng(basename($nombreQRExterno, ".png"));
+        $qr->GenerarImagen($ContenidoQRExterno);
 
         return array($nombreQRExterno, $contenidoQRExterno);
     }
