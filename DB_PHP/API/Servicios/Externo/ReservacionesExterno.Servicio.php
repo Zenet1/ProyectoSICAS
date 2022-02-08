@@ -29,7 +29,7 @@ class ReservacionExterno{
         WHERE NOT EXISTS (SELECT IDExterno FROM externos WHERE NombreExterno = ? AND ApellidosExterno = ? AND Empresa = ? AND CorreoExterno = ?) LIMIT 1";
 
         if($this->sesionActivaExterno()){
-            $this->objQuery->ejecutarConsulta($sql_insertarExterno, array($_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo'], $_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo']));
+            $this->objQuery->ejecutarConsulta($sql_insertarExterno, array($_SESSION['Nombre'], $_SESSION['ApellidosExterno'], $_SESSION['Empresa'], $_SESSION['Correo'], $_SESSION['Nombre'], $_SESSION['ApellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo']));
         }else{
             $operacionRealizada = false;
         }
