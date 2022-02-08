@@ -10,7 +10,7 @@ include_once("../Clases/Conexion.Class.php");
 Conexion::ReconfigurarConexion($_SESSION["Conexion"]);
 $QueryObj = new Query();
 $PreguntaControl = new Pregunta($QueryObj);
-$CuestionarioControl = new CuestionarioControl(new CorreoManejador());
+$CuestionarioControl = new CuestionarioControl($QueryObj);
 
 $json = file_get_contents('php://input');
 $datos = json_decode($json);
