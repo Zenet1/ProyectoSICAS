@@ -14,8 +14,9 @@ class ReservaPersonal
         $this->objRes = new ReservaQuery();
     }
 
-    public function InsertarReserva(array $contenido)
+    public function InsertarReserva(array $contenido, GeneradorQr $qr, Conexion $conexion)
     {
+        $sql_insertar = "INSERT INTO correos (correo,nombre,asunto,mensaje,contenidoQR,nombreQR,TipoCorreo)SELECT :cor,:nom,:asu,:mes,:con,:noq,:tip FROM DUAL WHERE NOT EXISTS (SELECT correo,TipoCorreo FROM correos WHERE correo=:cor AND TipoCorreo=:tip) LIMIT 1";
 
         $incogInser = array("idp" => $_SESSION["ID"], "fchA" => $this->fecha->FechaAct(), "hrA" => $this->fecha->HrAct(), "fchR" => $this->fecha->FechaSig());
 
@@ -46,9 +47,18 @@ class ReservaPersonal
         $mensaje .= $this->fecha->FechaSig() . " en su correspondiente facultad, se le exhorta a guardar la imagen";
         $mensaje .= "para evitar cualquier contratiempo";
 
-        $datosQr = array("nombreQr" => "../img/" . $NombreImagen . ".png", "contenidoQr" => $contenidoQr, "mensaje" => $mensaje, "correo" => $_SESSION["Correo"], "nombre" => $_SESSION["Nombre"], "asunto" => $asunto);
-        error_log("Error pichula");
-        array_push($_SESSION["CorreosQR"], $datosQr);
+        $imagenCodigo = dirname(__FILE__, 3) . "/img/" . $NombreImagen . ".png";
+
+        $datosQr = array("nombreQr" => $imagenCodigo, "contenidoQr" => $contenidoQr, "mensaje" => $mensaje, "correo" => $_SESSION["Correo"], "nombre" => $_SESSION["Nombre"], "asunto" => $asunto, "TipoCorreo" => "PAAE");
+
+        $qr->setNombrePng(basename($NombreImagen, ".png"));
+        $qr->GenerarImagen($contenidoQr);
+
+        $conexion::ReconfigurarConexion("CAMPUS");
+        $conexion::ConexionInstacia("CAMPUS");
+        $PDO = $conexion->getConexion();
+        $objInsert = $PDO->prepare($sql_insertar);
+        $objInsert->execute($datosQr);
     }
 
     public function validarReservaNoExistente(array $contenido)

@@ -9,7 +9,6 @@ include_once($QrPath);
 
 $QueryControl = new Query();
 $CorreoControl = new CorreoManejador();
-$QrControl = new GeneradorQr();
 
 $sqlRecuperarCorreos = "SELECT * FROM correos WHERE TipoCorreo='PAAE'";
 $sqlCantidadCorreos = "SELECT COUNT(IDCorreo) AS CANT FROM correos WHERE TipoCorreo='PAAE'";
@@ -35,9 +34,6 @@ foreach ($Correos as $datos) {
     $asunto = $datos["asunto"];
     $contenidoQR = $datos["contenidoQR"];
     $direccionQr = $datos["nombreQR"];
-
-    $QrControl->setNombrePng(basename($direccionQr, ".png"));
-    $QrControl->GenerarImagen($contenidoQR);
 
     $CorreoControl->setArchivo(true);
     $CorreoControl->EnviarCorreo($destinatario, $asunto, $mensaje, $direccionQr);
