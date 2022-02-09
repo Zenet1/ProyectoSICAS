@@ -7,7 +7,7 @@ $conexion = Conexion::ConexionInstacia();
 $pdoConexion = $conexion->getConexion();
 $fechas = Fechas::ObtenerInstancia();
 
-$sqlRecFacs = "SELECT SiglasFacultad from Facultades";
+$sqlRecFacs = "SELECT SiglasFacultad from facultades";
 $objFacultades = $pdoConexion->prepare($sqlRecFacs);
 $objFacultades->execute();
 $resultado = $objFacultades->fetchAll(PDO::FETCH_ASSOC);
