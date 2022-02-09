@@ -1,36 +1,42 @@
 <?php
 session_start();
 $EmailPath = realpath(dirname(__FILE__,3)."/Clases/Email.Class.php");
+$QueryPath = realpath(dirname(__FILE__, 3) . "/Clases/Query.Class.php");
 include_once($EmailPath);
+include_once($QueryPath);
 
 $CorreoControl = new CorreoManejador();
+$QueryControl = new Query();
 
-if (!isset($_SESSION["CorreosLista"])) {
-    session_write_close();
-    exit();
-}
+$sqlCantidadCorreos = "SELECT COUNT(IDCorreo) AS CANT FROM correos WHERE TipoCorreo='Lista'";
+$sqlEliminarCorreo = "DELETE FROM correos WHERE IDCorreo=:idc";
+
+$ResultCant = $QueryControl->ejecutarConsulta($sqlCantidadCorreos, array());
 
 $limCorreos = 15;
 $contElimanos = 0;
-$cantCorreos = sizeof($_SESSION["CorreosLista"]);
+$cantCorreos = intval($ResultCant[0]["CANT"]);
 $cantCorreosSobrantes = $cantCorreos - $limCorreos;
 $limActualizado = ($cantCorreosSobrantes  >= $limCorreos ? $limCorreos : $cantCorreos);
 
-foreach ($_SESSION["CorreosLista"] as $datos) {
+$sqlRecuperarCorreos = "SELECT * FROM correos WHERE TipoCorreo='PAAE' LIMIT $limActualizado";
+
+if($cantCorreos <= 0){
+    exit();
+}
+
+$Correos = $QueryControl->ejecutarConsulta($sqlRecuperarCorreos, array());
+
+foreach ($Correos as $datos) {
     $destinatario = array($datos["correo"] => $datos["nombre"]);
     $mensaje  = $datos["mensaje"];
     $asunto = $datos["asunto"];
 
     //$CorreoControl->EnviarCorreo($destinatario, $asunto, $mensaje);
 
-    array_shift($_SESSION["CorreosLista"]);
+    $QueryControl->ejecutarConsulta($sqlEliminarCorreo, array("idc" => $datos["IDCorreo"]));
 
     if (++$contElimanos > $limActualizado) {
         break;
     }
 }
-
-if ($cantCorreosSobrantes <= 0) {
-    unset($_SESSION["CorreosLista"]);
-}
-session_write_close();
