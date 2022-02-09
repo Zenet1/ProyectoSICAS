@@ -16,8 +16,6 @@ class ReservacionExterno{
         if($externoRegistrado){
             $IDExterno = $this->recuperarIDExterno();
             $this->insertarReservacion($oficinas, $IDExterno["IDExterno"], $fechaAsistencia);
-        }else{
-            echo "No se tiene una sesión iniciada";
         }
     }
 
@@ -29,7 +27,7 @@ class ReservacionExterno{
         WHERE NOT EXISTS (SELECT IDExterno FROM externos WHERE NombreExterno = ? AND ApellidosExterno = ? AND Empresa = ? AND CorreoExterno = ?) LIMIT 1";
 
         if($this->sesionActivaExterno()){
-            $this->objQuery->ejecutarConsulta($sql_insertarExterno, array($_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo'], $_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo']));
+            $this->objQuery->ejecutarConsulta($sql_insertarExterno, array($_SESSION['Nombre'], $_SESSION['ApellidosExterno'], $_SESSION['Empresa'], $_SESSION['Correo'], $_SESSION['Nombre'], $_SESSION['ApellidosExterno'], $_SESSION['Empresa'], $_SESSION['Correo']));
         }else{
             $operacionRealizada = false;
         }
@@ -45,7 +43,7 @@ class ReservacionExterno{
     {
         $sql_recuperarIDExterno = "SELECT IDExterno FROM externos WHERE NombreExterno = ? AND ApellidosExterno = ? AND Empresa = ? AND CorreoExterno = ?";
 
-        $IDExternoRecuperado = $this->objQuery->ejecutarConsulta($sql_recuperarIDExterno, array($_SESSION['Nombre'], $_SESSION['apellidosExterno'], $_SESSION['empresa'], $_SESSION['Correo']));
+        $IDExternoRecuperado = $this->objQuery->ejecutarConsulta($sql_recuperarIDExterno, array($_SESSION['Nombre'], $_SESSION['ApellidosExterno'], $_SESSION['Empresa'], $_SESSION['Correo']));
 
         return $IDExternoRecuperado[0];
     }

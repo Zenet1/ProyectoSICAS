@@ -14,6 +14,7 @@ $datos = json_decode($json);
 session_start();
 Conexion::ReconfigurarConexion($_SESSION["Conexion"]);
 $QueryObj = new Query();
+$QrControl = new GeneradorQr();
 $Fechas = Fechas::ObtenerInstancia();
 
 $ExternoControl = new ExternoControl($QueryObj, $Fechas);
@@ -24,6 +25,6 @@ switch ($datos->accion) {
         $ReservacionExterno->insertarReservaExterno($datos->oficinas, $datos->fecha);
         break;
     case "enviarQRExterno":
-        $ExternoControl->enviarQRExterno($datos->oficinas, $datos->fecha);
+        $ExternoControl->enviarQRExterno($datos->oficinas, $datos->fecha, $QrControl, Conexion::ConexionInstacia("CAMPUS"));
         break;
 }
