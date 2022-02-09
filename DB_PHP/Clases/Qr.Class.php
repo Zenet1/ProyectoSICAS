@@ -21,7 +21,7 @@ class GeneradorQr
     public function GenerarImagen(string $contenido): void
     {
         QRcode::png($contenido,  $this->file, $this->ecc, $this->pixel_Size, $this->frame_Size);
-        error_log("SE GENEREA");
+        error_log("SE GENERA");
     }
 
     public function setNombrePng(string $nombre): void
