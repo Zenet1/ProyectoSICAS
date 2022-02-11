@@ -21,7 +21,7 @@ class Alertar
         //print_r($contenido);
     }
 
-    public function obtenerAfectados(array $contenido)
+    public function obtenerAfectados(array $contenido, Conexion $conexion)
     {
         $listaFechas = $this->obtenerFechas($contenido);
 
@@ -45,8 +45,8 @@ class Alertar
             $profesoresFiltrados = $this->obtenerDatosUnicos($this->objAleQ->ObtenerProf(), $profesoresFiltrados, $incognitaProfesor);
         }
 
-        $this->EnviarCorreo($profesoresFiltrados, $gruposFiltrados);
-        $this->EnviarCorreo($alumnosFiltrados, $gruposFiltrados);
+        $this->EnviarCorreo($profesoresFiltrados, $gruposFiltrados, $conexion);
+        $this->EnviarCorreo($alumnosFiltrados, $gruposFiltrados, $conexion);
 
         $this->insertarIncidentados($contenido["matricula"], $alumnosFiltrados, $contenido["fechaSuspension"], $contenido["fechaSospechosos"]);
 
@@ -80,7 +80,7 @@ class Alertar
         return $datosFiltrados;
     }
 
-    private function enviarCorreo(array $datosUnicos, array $grupos)
+    private function enviarCorreo(array $datosUnicos, array $grupos, Conexion $conexion)
     {
         $sql_insertar = "INSERT INTO correos (correo,nombre,asunto,mensaje,TipoCorreo)SELECT :cor,:nom,:asu,:mes,:tip FROM DUAL WHERE NOT EXISTS (SELECT correo,TipoCorreo FROM correos WHERE correo=:cor AND TipoCorreo=:tip) LIMIT 1";
 
@@ -102,11 +102,6 @@ class Alertar
             $NombreCompleto .= $DATO["APELLIDOP"] . " ";
             $NombreCompleto .= $DATO["APELLIDOM"];
         }
-
-        /*
-        $datosCorreo = array("asunto" => $asunto, "mensaje" => $mensaje, "nombre" => trim($NombreCompleto), "correo" => trim($DATO["CORREO"]));
-        array_push($_SESSION["CorreosRA"], $datosCorreo);
-        */
 
         $datosQr = array("mes" => $mensaje, "cor" => trim($DATO["CORREO"]), "nom" => trim($NombreCompleto), "asu" => $asunto, "tip"=> "RA");
         

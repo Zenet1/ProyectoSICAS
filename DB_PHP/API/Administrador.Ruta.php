@@ -97,7 +97,8 @@ switch ($accion) {
         $PlanesControl->RecuperarPlanesEstudio();
         break;
     case "obtenerAfectados":
-        $AlertaControl->obtenerAfectados((array) $datos->contenido);
+        Conexion::ReconfigurarConexion("CAMPUS");
+        $AlertaControl->obtenerAfectados((array) $datos->contenido, Conexion::ConexionInstacia("CAMPUS"));
         break;
     case "restaurarSICEI":
         $SICEIControl = new SICEIControl($Conexion->getConexion(), new ArchivoControl($Fechas, false));
