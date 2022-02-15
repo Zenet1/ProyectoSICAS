@@ -5,7 +5,8 @@ class ArchivoControl
 
     public function __construct(Fechas $fechaObj, bool $crearCapeta = true)
     {
-        $carpetaRaiz = "./backups/";
+        $carpetaRaiz = realpath(dirname(__FILE__, 2) . "/API/backups/") . "/";
+        error_log($carpetaRaiz);
         self::$carpetaUnica = $carpetaRaiz . $fechaObj->FechaAct() . "-" . $fechaObj->HrAct("i-s");
         mkdir(self::$carpetaUnica);
     }

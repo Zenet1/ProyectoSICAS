@@ -19,7 +19,7 @@ $cantCorreos = intval($ResultCant[0]["CANT"]);
 $cantCorreosSobrantes = $cantCorreos - $limCorreos;
 $limActualizado = ($cantCorreosSobrantes  >= $limCorreos ? $limCorreos : $cantCorreos);
 
-$sqlRecuperarCorreos = "SELECT * FROM correos WHERE TipoCorreo='PAAE' LIMIT $limActualizado";
+$sqlRecuperarCorreos = "SELECT * FROM correos WHERE TipoCorreo='Lista' LIMIT $limActualizado";
 
 if($cantCorreos <= 0){
     exit();
