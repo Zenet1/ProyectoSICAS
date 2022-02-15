@@ -36,7 +36,7 @@ class SICEIControl
             exit("Cantidad de archivos incorrectos");
         }
 
-        $archivosSubidos = scandir("./" . $this->archivos::$carpetaUnica . "/");
+        $archivosSubidos = scandir($this->archivos::$carpetaUnica . "/");   
 
         foreach ($this->archivosPrinc as $archivo) {
             if (!in_array($archivo, $archivosSubidos)) {
@@ -76,7 +76,7 @@ class SICEIControl
     public function ActualizarDatos()
     {
         $this->archivos->MoverArchivos(intval($_POST["numArchivos"]));
-        $archivosSubidos = scandir("./" . $this->archivos::$carpetaUnica . "/");
+        $archivosSubidos = scandir($this->archivos::$carpetaUnica . "/");
 
         foreach ($archivosSubidos as $archivo) {
             switch (basename($archivo, ".txt")) {

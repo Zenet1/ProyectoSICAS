@@ -21,7 +21,7 @@ class ArchivoControl
     public function MoverArchivos(int $CANTARCHIVOS)
     {
         for ($i = 0; $i < $CANTARCHIVOS; $i++) {
-            $direccion = "./"  . self::$carpetaUnica . "/" . $_FILES["archivo" . $i]["name"];
+            $direccion = self::$carpetaUnica . "/" . $_FILES["archivo" . $i]["name"];
             move_uploaded_file($_FILES["archivo" . $i]["tmp_name"], $direccion);
         }
     }
