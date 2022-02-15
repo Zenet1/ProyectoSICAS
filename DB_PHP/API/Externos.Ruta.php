@@ -28,4 +28,7 @@ switch ($datos->accion) {
         Conexion::ReconfigurarConexion("CAMPUS");
         $ExternoControl->enviarQRExterno($datos->oficinas, $datos->fecha, $QrControl, Conexion::ConexionInstacia("CAMPUS"));
         break;
+    case "FechaActual":
+        echo $Fechas->FechaAct();
+        break;
 }
