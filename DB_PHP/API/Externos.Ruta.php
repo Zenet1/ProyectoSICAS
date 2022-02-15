@@ -25,6 +25,7 @@ switch ($datos->accion) {
         $ReservacionExterno->insertarReservaExterno($datos->oficinas, $datos->fecha);
         break;
     case "enviarQRExterno":
+        Conexion::ReconfigurarConexion("CAMPUS");
         $ExternoControl->enviarQRExterno($datos->oficinas, $datos->fecha, $QrControl, Conexion::ConexionInstacia("CAMPUS"));
         break;
 }

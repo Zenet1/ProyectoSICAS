@@ -22,7 +22,7 @@ class ExternoControl
 
             $contenidoCorreo = $this->generarContenidoCorreo($datosSesion["nombreExterno"], $IDOficinas, $datosSesion["fechaReservada"]);
 
-            $nombreQR = $this->generarQRExterno($datosSesion["IDExterno"], $datosSesion["siglasFacultad"], $IDOficinas, $datosSesion["fechaReservada"], $datosSesion["fechaCuandoSeReservo"], $datosSesion["horaCuandoSeReservo"]);
+            $nombreQR = $this->generarQRExterno($datosSesion["IDExterno"], $datosSesion["siglasFacultad"], $IDOficinas, $datosSesion["fechaReservada"], $datosSesion["fechaCuandoSeReservo"], $datosSesion["horaCuandoSeReservo"], $qr);
             
             $ubicacionQR = dirname(__FILE__, 3) . "/img/" . $nombreQR[0] . ".png";
 
@@ -33,7 +33,6 @@ class ExternoControl
             $PDO = $conexion->getConexion();
             $objInsert = $PDO->prepare($sql_insertar);
             $objInsert->execute($datosQr);
-
         }
     }
 
@@ -76,10 +75,10 @@ class ExternoControl
     private function generarQRExterno(string $IDExterno, string $siglasFacultad, array $listaIDOficinas, string $fechaReservada, string $fechaExterno, string $horaExterno, GeneradorQr $qr): array
     {
         $nombreQRExterno = "e" . $IDExterno;
-        $contenidoQRExterno = $this->generarContenidoQR($IDExterno, $siglasFacultad, $listaIDOficinas, $fechaReservada, $fechaExterno, $horaExterno,);
+        $contenidoQRExterno = $this->generarContenidoQR($IDExterno, $siglasFacultad, $listaIDOficinas, $fechaReservada, $fechaExterno, $horaExterno);
 
         $qr->setNombrePng(basename($nombreQRExterno, ".png"));
-        $qr->GenerarImagen($ContenidoQRExterno);
+        $qr->GenerarImagen($contenidoQRExterno);
 
         return array($nombreQRExterno, $contenidoQRExterno);
     }

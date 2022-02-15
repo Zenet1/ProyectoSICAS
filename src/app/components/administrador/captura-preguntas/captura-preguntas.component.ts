@@ -66,7 +66,7 @@ export class CapturaPreguntasComponent implements OnInit {
     if (window.confirm("¿Desea eliminar la pregunta?")) {
       this.servicioAdmin.eliminarPregunta(id).subscribe(
         respuesta=>{
-          this.preguntas.splice(index,1);
+          this.obtenerPreguntas();
         },
         error=>{
           alert("Ocurrió un error al eliminar la pregunta");
