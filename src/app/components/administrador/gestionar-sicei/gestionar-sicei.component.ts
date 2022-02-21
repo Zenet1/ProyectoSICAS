@@ -52,4 +52,15 @@ export class GestionarSiceiComponent implements OnInit {
       }
     );
   }
+
+  eliminarDatos(){
+    this.servicioAdmin.eliminarDatos().subscribe(
+      respuesta=>{
+        alert("Se eliminaron los datos correctamente");
+      },
+      error=>{
+        alert("Ocurrió un error al intentar eliminar los datos");
+      }
+    );
+  }
 }

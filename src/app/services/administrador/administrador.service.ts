@@ -56,6 +56,11 @@ export class AdministradorService {
     return this.clienteHttp.post<any>(this.API_Administrador, formData);
   }
 
+  eliminarDatos(){
+    let datos = JSON.stringify({accion:"eliminarSICEI"});
+    return this.clienteHttp.post<any>(this.API_Administrador, datos);
+  }
+
   obtenerEdificios(){
     let datos = JSON.stringify({accion: "recuperarEdificios"});
     return this.clienteHttp.post(this.API_Oficinas, datos);

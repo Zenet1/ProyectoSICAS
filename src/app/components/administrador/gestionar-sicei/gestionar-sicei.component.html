@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="col-lg-6">
-            <div class="wrapper-formulario">
+            <div class="wrapper-formulario mb-3">
                 <div class="container-formulario">
                     <form [formGroup]="formActualizarDatos" (ngSubmit)="actualizarDatos()" ngNativeValidate>
                         <div class="mb-3">
@@ -46,6 +46,13 @@
                             <button type="submit" class="btn btn-warning">Actualizar</button>
                         </div>
                     </form>
+                </div>
+            </div>
+
+            <div class="wrapper-formulario">
+                <div class="container-accion">
+                    <p class="form-label">Eliminar datos: </p>
+                    <button (click)="eliminarDatos()" type="button" class="btn btn-danger">Eliminar</button>
                 </div>
             </div>
         </div>
