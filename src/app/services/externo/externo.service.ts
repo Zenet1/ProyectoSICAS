@@ -30,6 +30,11 @@ export class ExternoService {
 
   guardarExterno(datosExterno:any):Observable<any>{
     let datos = JSON.stringify({contenido: datosExterno});
-    return this.clienteHttp.post(this.API_RegistroExterno, datos);
+    return this.clienteHttp.post<any>(this.API_RegistroExterno, datos);
+  }
+
+  fechaActual(){
+    let datos = JSON.stringify({accion:"FechaActual"});
+    return this.clienteHttp.post<any>(this.API_Externo, datos);
   }
 }

@@ -56,33 +56,38 @@ export class AsistenciaExternoComponent implements OnInit {
   }
 
   enviarAsistencia(){
-    var fechaSelect = this.formularioAsistenciaExterno.get('fechaAsistencia').value;
-    var fechaActual = this.datepipe.transform((new Date), 'yyyy-MM-dd');
-    var validacionFecha = fechaSelect >= fechaActual;
-    var oficinasSeleccionadas: Array<any> = [];
-    for (let index = 0; index < this.oficinasForm.length; index++) {
-      if(this.oficinasForm.controls[index].get("respuesta").value == true){
-        oficinasSeleccionadas.push(this.listaOficinas[index].IDOficina);
-      }
-    }
-    if(oficinasSeleccionadas.length > 0){
-      if(validacionFecha){
-        if (window.confirm("Si está seguro que desea asistir, confirme para finalizar")){
-          this.servicioExterno.enviarAsistencia(oficinasSeleccionadas, this.fechaAsistencia.value).subscribe(
-            respuesta=>{
-              this.enviarQR(oficinasSeleccionadas, this.fechaAsistencia.value);
-            },
-            error=>{
-              alert('Ha ocurrido un error al registrar tu reserva, intenténtalo de nuevo');
-            }
-          );
+    this.servicioExterno.fechaActual().subscribe(
+      respuesta=>{
+        var fecha:string = respuesta;
+        var fechaSelect = this.formularioAsistenciaExterno.get('fechaAsistencia').value;
+        var fechaActual = this.datepipe.transform(fecha, 'yyyy-MM-dd');
+        var validacionFecha = fechaSelect >= fechaActual;
+        var oficinasSeleccionadas: Array<any> = [];
+        for (let index = 0; index < this.oficinasForm.length; index++) {
+          if(this.oficinasForm.controls[index].get("respuesta").value == true){
+            oficinasSeleccionadas.push(this.listaOficinas[index].IDOficina);
+          }
         }
-      } else {
-        alert("No es posible realizar una reservación en el pasado");
+        if(oficinasSeleccionadas.length > 0){
+          if(validacionFecha){
+            if (window.confirm("Si está seguro que desea asistir, confirme para finalizar")){
+              this.servicioExterno.enviarAsistencia(oficinasSeleccionadas, this.fechaAsistencia.value).subscribe(
+                respuesta=>{
+                  this.enviarQR(oficinasSeleccionadas, this.fechaAsistencia.value);
+                },
+                error=>{
+                  alert('Ha ocurrido un error al registrar tu reserva, intenténtalo de nuevo');
+                }
+              );
+            }
+          } else {
+            alert("No es posible realizar una reservación en el pasado");
+          }
+        } else {
+          alert("Selecciona al menos una oficina");
+        }
       }
-    } else {
-      alert("Selecciona al menos una oficina");
-    }
+    );
   }
 
   enviarQR(oficinasSeleccionadas, fechaAsistencia){

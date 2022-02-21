@@ -29,6 +29,6 @@ switch ($datos->accion) {
         $ExternoControl->enviarQRExterno($datos->oficinas, $datos->fecha, $QrControl, Conexion::ConexionInstacia("CAMPUS"));
         break;
     case "FechaActual":
-        echo $Fechas->FechaAct();
+        echo json_encode($Fechas->FechaAct());
         break;
 }
