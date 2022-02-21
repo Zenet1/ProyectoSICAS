@@ -29,6 +29,25 @@ class SICEIControl
         $this->archivosPrinc = array("AlumnosCargaDeAsignaturas.txt", "AlumnosInscripcionEnPeriodoCurso.txt", "AsignaturasALasQueSeInscribieronAlumnos.txt", "HorariosSesionesGrupo.txt", "PlanesDeEstudios.txt", "ProfesoresConAlumnosInscritos.txt");
     }
 
+    public function TruncarTablas(){
+        $sqlTruncar = 
+        "TRUNCATE `academicos`;
+        TRUNCATE `alumnos`;
+        TRUNCATE `asignaturas`;
+        TRUNCATE `cargaacademica`;
+        TRUNCATE `edificios`;
+        TRUNCATE `grupos`;
+        TRUNCATE `horarios`;
+        TRUNCATE `oficinas`;
+        TRUNCATE `personal`;
+        TRUNCATE `planesdeestudio`;
+        TRUNCATE `salones`;";
+
+        $objTruncar = $this->conexion->prepare($sqlTruncar);
+        $objTruncar->execute();
+
+    }
+
     private function VerificarDatosRespaldo()
     {
         if (sizeof($this->archivosPrinc) > intval($_POST["numArchivos"])) {
