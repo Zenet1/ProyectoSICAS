@@ -42,14 +42,11 @@ class SICEIControl
         TRUNCATE `oficinas`;
         TRUNCATE `personal`;
         TRUNCATE `planesdeestudio`;
-        TRUNCATE `salones`;";
-
-        $sqlEliminar = "DELETE FROM usuarios WHERE IDRol != 3 OR IDRol != 2";
+        TRUNCATE `salones`;
+        DELETE FROM usuarios WHERE IDRol = 1 OR IDRol = 4 OR IDRol = 5";
 
         $objTruncar = $this->conexion->prepare($sqlTruncar);
-        $objEliminar = $this->conexion->prepare($sqlEliminar);
         $objTruncar->execute();
-        $objEliminar->execute();
     }
 
     private function VerificarDatosRespaldo()
