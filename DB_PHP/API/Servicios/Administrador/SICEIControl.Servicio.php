@@ -29,9 +29,10 @@ class SICEIControl
         $this->archivosPrinc = array("AlumnosCargaDeAsignaturas.txt", "AlumnosInscripcionEnPeriodoCurso.txt", "AsignaturasALasQueSeInscribieronAlumnos.txt", "HorariosSesionesGrupo.txt", "PlanesDeEstudios.txt", "ProfesoresConAlumnosInscritos.txt");
     }
 
-    public function TruncarTablas(){
-        $sqlTruncar = 
-        "TRUNCATE `academicos`;
+    public function TruncarTablas()
+    {
+        $sqlTruncar =
+            "TRUNCATE `academicos`;
         TRUNCATE `alumnos`;
         TRUNCATE `asignaturas`;
         TRUNCATE `cargaacademica`;
@@ -43,9 +44,12 @@ class SICEIControl
         TRUNCATE `planesdeestudio`;
         TRUNCATE `salones`;";
 
-        $objTruncar = $this->conexion->prepare($sqlTruncar);
-        $objTruncar->execute();
+        $sqlEliminar = "DELETE FROM usuarios WHERE IDRol != 3 OR IDRol != 2";
 
+        $objTruncar = $this->conexion->prepare($sqlTruncar);
+        $objEliminar = $this->conexion->prepare($sqlEliminar);
+        $objTruncar->execute();
+        $objEliminar->execute();
     }
 
     private function VerificarDatosRespaldo()
@@ -55,7 +59,7 @@ class SICEIControl
             exit("Cantidad de archivos incorrectos");
         }
 
-        $archivosSubidos = scandir($this->archivos::$carpetaUnica . "/");   
+        $archivosSubidos = scandir($this->archivos::$carpetaUnica . "/");
 
         foreach ($this->archivosPrinc as $archivo) {
             if (!in_array($archivo, $archivosSubidos)) {
