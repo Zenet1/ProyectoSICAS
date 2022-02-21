@@ -108,4 +108,8 @@ switch ($accion) {
         $SICEIControl = new SICEIControl($Conexion->getConexion(), new ArchivoControl($Fechas, false));
         $SICEIControl->ActualizarDatos();
         break;
+    case "eliminarSICEI":
+        $SICEIControl = new SICEIControl($Conexion->getConexion(), new ArchivoControl($Fechas, false));
+        $SICEIControl->TruncarTablas();
+        break;
 }
